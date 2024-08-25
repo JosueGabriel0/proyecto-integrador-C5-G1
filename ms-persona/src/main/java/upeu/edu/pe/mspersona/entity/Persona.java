@@ -2,7 +2,9 @@ package upeu.edu.pe.mspersona.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,7 +27,7 @@ public class Persona {
     private String estado;
     private String pais;
     private String categoria;
-    private Date fecha_nacimiento;
+    private fecha_nacimiento;
     private LocalDateTime fecha_creacion;
     private LocalDateTime fecha_modificacion;
 
