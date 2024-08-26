@@ -1,6 +1,6 @@
 spring:
 application:
-name: ms-persona-service
+name: ms-estudiante-service
 profiles:
 active: development
 config:
