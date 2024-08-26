@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c9911023-a529-4467-b627-30d5337dd08e" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2kveBCd2UypJuc152eEVtzI2wFC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.ms-persona [clean].executor": "Run",
+    "Maven.ms-persona [compile].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.MsPersonaApplication.executor": "Run",
+    "git-widget-placeholder": "config-server",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Documentos/Universidad UPeU 5 ciclo/Desarrollo de aplicaciones distribuidas/Nuevo/PROYECTO-INTEGRADOR-C5-G1/Gestion Academica",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MsPersonaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="ms-persona" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="upeu.edu.pe.mspersona.MsPersonaApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="upeu.edu.pe.mspersona.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MsPersonaApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c9911023-a529-4467-b627-30d5337dd08e" name="Changes" comment="" />
+      <created>1724168341814</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724168341814</updated>
+      <workItem from="1724168342911" duration="19061000" />
+      <workItem from="1724253915853" duration="24000" />
+      <workItem from="1724254057840" duration="3207000" />
+      <workItem from="1724257789877" duration="2003000" />
+      <workItem from="1724273355664" duration="2707000" />
+      <workItem from="1724345438758" duration="541000" />
+      <workItem from="1724351810331" duration="77000" />
+      <workItem from="1724351903890" duration="15000" />
+      <workItem from="1724351937895" duration="1943000" />
+      <workItem from="1724359672422" duration="31000" />
+      <workItem from="1724360621251" duration="830000" />
+      <workItem from="1724367478680" duration="1925000" />
+      <workItem from="1724431888974" duration="7045000" />
+      <workItem from="1724450650871" duration="80000" />
+      <workItem from="1724608233299" duration="2232000" />
+      <workItem from="1724612220930" duration="27000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
