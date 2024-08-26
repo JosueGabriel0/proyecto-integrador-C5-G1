@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>ms-catalogo</artifactId>
+	<artifactId>ms-estudiante</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ms-catalogo</name>
-	<description>ms-catalogo</description>
+	<name>ms-estudiante</name>
+	<description>ms-estudiante</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -68,8 +68,10 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.33</version>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
