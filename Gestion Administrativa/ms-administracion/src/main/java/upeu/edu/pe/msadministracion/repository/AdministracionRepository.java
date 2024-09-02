@@ -1,2 +1,4 @@
-package upeu.edu.pe.msadministracion.repository;public interface AdministracionRepository {
+package upeu.edu.pe.msadministracion.repository;
+
+public interface AdministracionRepository {
 }

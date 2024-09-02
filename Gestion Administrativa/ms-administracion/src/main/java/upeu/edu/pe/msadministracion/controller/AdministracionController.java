@@ -1,2 +1,4 @@
-package upeu.edu.pe.msadministracion.controller;public class AdministracionController {
+package upeu.edu.pe.msadministracion.controller;
+
+public class AdministracionController {
 }
