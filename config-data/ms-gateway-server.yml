@@ -1,0 +1,35 @@
+server:
+  port: 9090
+
+
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://localhost:8090/eureka
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+  instance:
+    #hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enable: true
+      routes:
+        - id: ms-persona-service
+          uri: lb://ms-persona-service
+          predicates:
+            - Path=/persona/**
+          filters:
+            - AuthFilter
+        - id: ms-estudiante-service
+          uri: lb://ms-estudiante-service
+          predicates:
+            - Path=/estudiante/**
+        - id: ms-docente-service
+          uri: lb://ms-docente-service
+          predicates:
+            - Path=/docente/**
