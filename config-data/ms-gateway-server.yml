@@ -23,11 +23,18 @@ spring:
           uri: lb://ms-persona-service
           predicates:
             - Path=/persona/**
+
         - id: ms-estudiante-service
           uri: lb://ms-estudiante-service
           predicates:
             - Path=/estudiante/**
+
         - id: ms-docente-service
           uri: lb://ms-docente-service
           predicates:
             - Path=/docente/**
+
+        - id: ms-planificacionAcademica-service
+          uri: lb://ms-planificacionAcademica-service
+          predicates:
+            - Path=/planificacionAcademica/**
