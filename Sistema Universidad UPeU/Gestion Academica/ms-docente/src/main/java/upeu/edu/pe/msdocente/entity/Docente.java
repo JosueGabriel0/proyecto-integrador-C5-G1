@@ -20,10 +20,23 @@ public class Docente {
     private String departamento;
     private String tituloAcatemico;
     private String especialidad;
+
+    @ElementCollection
+    private List<String> cursosImpartidos;
+
+    // Historial Académico del Estudiante
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RegistroLaboral> historialLaboral;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoLaboral estadoLaboral;
+
+    @Enumerated(EnumType.STRING)
+    private TipoDocente tipoDocente;
+
     private LocalDate fechaContratacion;
     private String tipoContrato;
     private String salario;
-    private String cursosAsignados;
     private String horario;
 
     @ElementCollection

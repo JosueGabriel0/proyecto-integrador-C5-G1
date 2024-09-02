@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ public class PlanificacionAcademica {
     private String nombrePlanEstudio;
     private String codigoPlanEstudio;
     private String versionPlanEstudio;
-    private LocalDate fechaCreacion;
-    private LocalDate fechaModificacion;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaModificacion;
 
     @Enumerated(EnumType.STRING)
     private EstadoPlanificacion estado; //Activo, Inactivo o En revision
@@ -46,4 +47,15 @@ public class PlanificacionAcademica {
 
     @OneToMany(mappedBy = "planificacionAcademica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FechaImportante> fechasImportantes;
+
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacion = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacion = java.time.LocalDateTime.now();
+    }
 }

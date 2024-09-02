@@ -21,17 +21,25 @@ public class Estudiante {
     private int cicloActual;
     private double promedioGeneral;
     private LocalDate fechaIngreso;
-    private String estado;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoEstudiante estado;
+
     private String tipoEstudiante;
     private String beca;
+    private String numeroMatricula;
+
+    //Referencia a otro microservicio
+    private Long carreraId;
 
     @ElementCollection
     @CollectionTable(name = "asignaturas_matriculas", joinColumns = @JoinColumn(name = "docente_id"))
     @Column(name = "asignaturas")
     private List<String> asignaturasMatriculadas = new ArrayList<String>();
 
-    private String historialAcademico;
+    @Lob
     private String horario;
+
     private String consejeroAcademico;
     private String fechaGraduacion;
 
@@ -39,6 +47,10 @@ public class Estudiante {
     @CollectionTable(name = "practicas_realizadas", joinColumns = @JoinColumn(name = "docente_id"))
     @Column(name = "practicas")
     private List<String> practicasRealizadas = new ArrayList<String>();
+
+    // Historial Académico del Estudiante
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RegistroAcademico> historialAcademico;
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
