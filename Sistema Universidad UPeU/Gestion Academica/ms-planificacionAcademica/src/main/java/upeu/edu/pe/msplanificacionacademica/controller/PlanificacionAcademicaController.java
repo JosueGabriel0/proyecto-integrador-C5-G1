@@ -9,7 +9,7 @@ import upeu.edu.pe.msplanificacionacademica.service.PlanificacionAcademicaServic
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/planificacionAcademica")
 public class PlanificacionAcademicaController {
     @Autowired
     private PlanificacionAcademicaService planificacionAcademicaService;
