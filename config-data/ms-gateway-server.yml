@@ -5,11 +5,9 @@ server:
 eureka:
   client:
     serviceUrl:
-      #defaultZone: http://localhost:8090/eureka
-      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+      defaultZone: http://localhost:8090/eureka
   instance:
-    #hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: localhost
 
 
 spring:
@@ -23,8 +21,6 @@ spring:
           uri: lb://ms-persona-service
           predicates:
             - Path=/persona/**
-          filters:
-            - AuthFilter
         - id: ms-estudiante-service
           uri: lb://ms-estudiante-service
           predicates:
