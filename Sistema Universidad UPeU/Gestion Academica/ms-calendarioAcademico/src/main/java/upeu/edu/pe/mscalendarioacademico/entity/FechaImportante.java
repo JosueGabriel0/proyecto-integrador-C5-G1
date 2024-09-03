@@ -13,10 +13,12 @@ public class FechaImportante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFechaImportante;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "calendarioAcademico_id")
+    private CalendarioAcademico calendarioAcademico;
+
     private String descripcion;
 
-    @Column(nullable = false)
     private LocalDate fecha;
 
     // Relación con la entidad Planificación Académica

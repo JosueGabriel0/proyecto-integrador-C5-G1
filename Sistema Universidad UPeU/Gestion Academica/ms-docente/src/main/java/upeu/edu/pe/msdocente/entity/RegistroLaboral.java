@@ -15,7 +15,7 @@ public class RegistroLaboral {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "estudiante_id")
+    @JoinColumn(name = "docente_id")
     private Docente docente;
 
     private String puesto;
