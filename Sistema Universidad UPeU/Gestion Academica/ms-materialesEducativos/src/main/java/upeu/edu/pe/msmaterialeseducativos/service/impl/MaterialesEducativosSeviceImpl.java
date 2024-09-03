@@ -9,7 +9,7 @@ import upeu.edu.pe.msmaterialeseducativos.service.MaterialesEducativosService;
 import java.util.List;
 
 @Service
-public class MterialesEducativosSeviceImpl implements MaterialesEducativosService {
+public class MaterialesEducativosSeviceImpl implements MaterialesEducativosService {
     @Autowired
     private MaterialesEducativosRepository materialesEducativosRepository;
 
