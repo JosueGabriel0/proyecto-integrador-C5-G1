@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-estudiante-service
+    name: ms-service/ms-estudiante-service
   profiles:
     active: development
   config:
