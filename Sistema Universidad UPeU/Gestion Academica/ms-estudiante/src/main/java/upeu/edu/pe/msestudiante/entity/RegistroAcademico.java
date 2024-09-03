@@ -18,15 +18,11 @@ public class RegistroAcademico {
     @JoinColumn(name = "estudiante_id")
     private Estudiante estudiante;
 
-    @Column(nullable = false)
     private Long cursoId;  // Referencia a otro microservicio
 
-    @Column(nullable = false)
     private String nombreCurso;
 
-    @Column(nullable = false)
     private Double calificacion;
 
-    @Column(nullable = false)
     private LocalDate fechaFinalizacion;
 }
