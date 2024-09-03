@@ -25,7 +25,7 @@ public class Docente {
     private List<String> cursosImpartidos;
 
     // Historial Académico del Estudiante
-    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RegistroLaboral> historialLaboral;
 
     @Enumerated(EnumType.STRING)
