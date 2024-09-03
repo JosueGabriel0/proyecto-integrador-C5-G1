@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8088
 springdoc:
   api-docs:
     enabled: true
@@ -13,12 +13,14 @@ spring:
     show-sql: true
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ms-estudiante
+    url: jdbc:mysql://localhost:3306/ms-planificacionacademica
     username: root
     password: 1234
 
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8090/eureka
   instance:

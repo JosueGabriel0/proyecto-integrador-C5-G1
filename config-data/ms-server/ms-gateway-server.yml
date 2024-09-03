@@ -19,6 +19,7 @@ spring:
         locator:
           enable: true
       routes:
+
         - id: ms-persona-service
           uri: lb://ms-persona-service
           predicates:
@@ -34,7 +35,32 @@ spring:
           predicates:
             - Path=/docente/**
 
+        - id: ms-curso-service
+          uri: lb://ms-curso-service
+          predicates:
+            - Path=/curso/**
+
+        - id: ms-carrera-service
+          uri: lb://ms-carrera-service
+          predicates:
+            - Path=/carrera/**
+
         - id: ms-planificacionAcademica-service
           uri: lb://ms-planificacionAcademica-service
           predicates:
             - Path=/planificacionAcademica/**
+
+        - id: ms-calendarioAcademico-service
+          uri: lb://ms-calendarioAcademico-service
+          predicates:
+            - Path=/calendarioAcademico/**
+
+        - id: ms-evaluacionAcademica-service
+          uri: lb://ms-evaluacionAcademica-service
+          predicates:
+            - Path=/evaluacionAcademica/**
+
+        - id: ms-materialesEducativos-service
+          uri: lb://ms-materialesEducativos-service
+          predicates:
+            - Path=/materialesEducativos/**

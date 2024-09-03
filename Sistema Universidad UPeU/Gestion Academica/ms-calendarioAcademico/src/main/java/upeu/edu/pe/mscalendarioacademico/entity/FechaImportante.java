@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
+
 public class FechaImportante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,18 +22,5 @@ public class FechaImportante {
     // Relación con la entidad Planificación Académica
     @ManyToOne
     @JoinColumn(name = "planificacion_academica_id")
-    private CalendarioAcademico calendarioAcademico;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
-
-    @PrePersist
-    public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
-    }
+    private CalendarioAcademico planificacionAcademica;
 }
