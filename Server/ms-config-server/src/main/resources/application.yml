@@ -8,7 +8,7 @@ spring:
       server:
         git:
           uri: https://github.com/JosueGabriel0/PROYECTO-INTEGRADOR-C5-G1.git
-          searchPaths: config-data/ms-server, config-data/ms-service
+          searchPaths: Server/config-data/ms-server, Server/config-data/ms-service
           #username:
           #password:
           default-label: config-server
