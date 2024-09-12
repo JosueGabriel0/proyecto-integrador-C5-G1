@@ -1,9 +1,13 @@
 package upeu.edu.pe.msdocente.controller;
 
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.msdocente.dto.Curso;
 import upeu.edu.pe.msdocente.entity.Docente;
+import upeu.edu.pe.msdocente.feign.CursoFeign;
 import upeu.edu.pe.msdocente.service.DocenteService;
 
 import java.util.List;
@@ -14,10 +18,56 @@ import java.util.List;
 public class DocenteController {
     @Autowired
     private DocenteService docenteService;
+    @Autowired
+    private CursoFeign cursoFeign;
 
     @PostMapping
-    public ResponseEntity<Docente> guardarDocenteResponseEntity(@RequestBody Docente docente){
-        return ResponseEntity.ok(docenteService.guardarDocente(docente));
+    public ResponseEntity<?> guardarDocenteResponseEntity(@RequestBody Docente docente){
+        try {
+            // Verificar si el curso existe
+            ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getCursoId());
+            if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso");
+            }
+                Curso curso = cursoResponse.getBody();
+
+
+
+            // Verificar si cada producto en los detalles existe antes de procesarlos
+            /*
+            for (PedidoDetalle pedidoDetalle : pedido.getDetalle()) {
+                ResponseEntity<Producto> productoResponse = productoFeign.listarProductoDtoPorId(pedidoDetalle.getProductoId());
+                if (productoResponse.getStatusCode() == HttpStatus.NOT_FOUND || productoResponse.getBody() == null) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto");
+                }
+                    Producto producto = productoResponse.getBody();
+                    // Asignar el producto al detalle
+                    pedidoDetalle.setProducto(producto);
+
+            }
+
+            // Asignar los detalles actualizados
+            pedido.setDetalle(pedido.getDetalle());
+            */
+
+            // Asignar el curso al docente
+            docente.setCurso(curso);
+
+            // Guardar el pedido si todas las validaciones pasaron
+            Docente cursoGuardado = docenteService.guardarDocente(docente);
+
+            // Retornar respuesta exitosa
+            return ResponseEntity.status(HttpStatus.CREATED).body(cursoGuardado);
+
+        } catch (FeignException e) {
+            // Imprimir los detalles del error que Feign está arrojando
+            String errorMensaje = "Error al comunicarse con otro servicio: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMensaje);
+
+        } catch (Exception e) {
+            // Manejo de cualquier otro error inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor: " + e.getMessage());
+        }
     }
 
     @GetMapping

@@ -2,6 +2,7 @@ package upeu.edu.pe.msdocente.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.msdocente.dto.Curso;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,6 +60,9 @@ public class Docente {
     private List<String> logrosAcademicos = new ArrayList<String>();
 
     private LocalDate fechaJubilacion;
+    private long cursoId;
+    @Transient
+    private Curso curso;
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
