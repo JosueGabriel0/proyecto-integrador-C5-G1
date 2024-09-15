@@ -2,9 +2,6 @@ package upeu.edu.pe.mspersona.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.mspersona.dto.Docente;
-import upeu.edu.pe.mspersona.dto.Estudiante;
-import upeu.edu.pe.mspersona.dto.Postulante;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,10 +13,6 @@ public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private long idDocente;
-    private long idEstudiante;
-    private long idPostulante;
 
     private String nombres;
     private String apellido_paterno;
@@ -46,15 +39,6 @@ public class Persona {
     private String contactoEmergenciaCiudad;
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
-
-    @Transient
-    private Docente docente;
-
-    @Transient
-    private Estudiante estudiante;
-
-    @Transient
-    private Postulante postulante;
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
