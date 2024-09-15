@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import upeu.edu.pe.msestudiante.config.ModelMapperConfig;
 import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.EstudianteRequest;
 import upeu.edu.pe.msestudiante.dto.Persona;
@@ -28,11 +29,6 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Autowired
     private CursoFeign cursoFeign;
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
 
     @Autowired
     private ModelMapper modelMapper;
