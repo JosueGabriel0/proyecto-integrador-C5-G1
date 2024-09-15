@@ -22,12 +22,7 @@ public class Docente {
     private String tituloAcatemico;
     private String especialidad;
 
-    @ElementCollection
-    private List<String> cursosImpartidos;
 
-    // Historial Académico del Estudiante
-    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<RegistroLaboral> historialLaboral;
 
     @Enumerated(EnumType.STRING)
     private EstadoLaboral estadoLaboral;
