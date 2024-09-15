@@ -15,9 +15,6 @@ public class RegistroLaboral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "docente_id")
-    private Docente docente;
 
     private String puesto;
     private String departamento;
