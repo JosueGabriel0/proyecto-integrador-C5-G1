@@ -27,7 +27,7 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Curso> listarCursoPorIdResponseEntity(Long id){
+    public ResponseEntity<Curso> listarCursoPorIdResponseEntity(@PathVariable(required = true) Long id){
         return ResponseEntity.ok(cursoService.listarCursosPorId(id));
     }
 
