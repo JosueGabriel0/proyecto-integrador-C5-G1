@@ -3,6 +3,7 @@ package upeu.edu.pe.msestudiante;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -18,6 +19,11 @@ public class MsEstudianteApplication {
 		SpringApplication.run(MsEstudianteApplication.class, args);
 	}
 
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+	
 	@Bean
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI().info(new Info()
