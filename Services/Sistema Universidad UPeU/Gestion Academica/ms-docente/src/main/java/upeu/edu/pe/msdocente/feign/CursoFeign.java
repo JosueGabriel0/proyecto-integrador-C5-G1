@@ -15,5 +15,5 @@ public interface CursoFeign {
     public ResponseEntity<Curso> listarCursoDtoPorId(@PathVariable(required = true) Long id);
 
     @GetMapping
-    public ResponseEntity<List<Curso>> listarCursos();
+    public ResponseEntity<List<Curso>> listarCursosDto();
 }
