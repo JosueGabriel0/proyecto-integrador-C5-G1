@@ -23,7 +23,7 @@ public class MsEstudianteApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
+
 	@Bean
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI().info(new Info()
