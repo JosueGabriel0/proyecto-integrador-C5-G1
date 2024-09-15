@@ -20,7 +20,6 @@ public class Estudiante {
 
     private long idPersona;
     private String matricula;
-    private String carrera;
     private int cicloActual;
     private double promedioGeneral;
     private LocalDate fechaIngreso;
