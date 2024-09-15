@@ -29,7 +29,7 @@ public class DocenteController {
     public ResponseEntity<?> guardarDocenteResponseEntity(@RequestBody Docente docente){
         try {
             // Verificar si el curso existe
-            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(docente.getIdPersona());
             if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
             }
