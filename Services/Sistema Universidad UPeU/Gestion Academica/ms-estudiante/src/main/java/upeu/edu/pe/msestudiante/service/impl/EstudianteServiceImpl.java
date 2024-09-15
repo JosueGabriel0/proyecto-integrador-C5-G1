@@ -2,8 +2,10 @@ package upeu.edu.pe.msestudiante.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.Persona;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
+import upeu.edu.pe.msestudiante.feign.CursoFeign;
 import upeu.edu.pe.msestudiante.feign.PersonaFeign;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import upeu.edu.pe.msestudiante.service.EstudianteService;
@@ -20,6 +22,9 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Autowired
     private PersonaFeign personaFeign;
 
+    @Autowired
+    private CursoFeign cursoFeign;
+
     @Override
     public Estudiante guardarEstudiante(Estudiante estudiante) {
         return estudianteRepository.save(estudiante);
@@ -35,18 +40,27 @@ public class EstudianteServiceImpl implements EstudianteService {
             estudiante.setPersona(persona);
         });
 
+        // Recorremos cada docente y asignamos el curso y detalles
+        estudiantes.forEach(estudiante -> {
+            Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdPersona()).getBody();
+            estudiante.setCurso(curso);
+        });
+
         return estudiantes;
     }
 
     @Override
     public Estudiante buscarEstudiantePorId(Long id) {
-        Estudiante docente = estudianteRepository.findById(id).get();
+        Estudiante estudiante = estudianteRepository.findById(id).get();
 
-        Persona persona = personaFeign.listarPersonaDtoPorId(docente.getIdPersona()).getBody();
+        Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
 
-        docente.setPersona(persona);
+        Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();
 
-        return docente;
+        estudiante.setPersona(persona);
+        estudiante.setCurso(curso);
+
+        return estudiante;
     }
 
     @Override

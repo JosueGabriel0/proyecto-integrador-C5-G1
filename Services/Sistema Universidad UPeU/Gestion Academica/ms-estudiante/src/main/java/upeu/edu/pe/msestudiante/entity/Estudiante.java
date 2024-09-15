@@ -2,6 +2,7 @@ package upeu.edu.pe.msestudiante.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.Persona;
 
 import java.time.LocalDate;
@@ -54,8 +55,13 @@ public class Estudiante {
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RegistroAcademico> historialAcademico;
 
+    private long idCurso;
+
     @Transient
     private Persona persona;
+
+    @Transient
+    private Curso curso;
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;

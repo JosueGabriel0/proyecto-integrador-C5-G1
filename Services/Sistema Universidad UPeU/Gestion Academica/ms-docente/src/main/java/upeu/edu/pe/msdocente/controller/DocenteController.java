@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msdocente.dto.Curso;
+import upeu.edu.pe.msdocente.dto.Persona;
 import upeu.edu.pe.msdocente.entity.Docente;
 import upeu.edu.pe.msdocente.feign.CursoFeign;
+import upeu.edu.pe.msdocente.feign.PersonaFeign;
 import upeu.edu.pe.msdocente.service.DocenteService;
 
 import java.util.List;
@@ -20,10 +22,19 @@ public class DocenteController {
     private DocenteService docenteService;
     @Autowired
     private CursoFeign cursoFeign;
+    @Autowired
+    private PersonaFeign personaFeign;
 
     @PostMapping
     public ResponseEntity<?> guardarDocenteResponseEntity(@RequestBody Docente docente){
         try {
+            // Verificar si el curso existe
+            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+            if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
+            }
+            Persona persona = personaResponse.getBody();
+
             // Verificar si el curso existe
             ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getCursoId());
             if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
@@ -51,13 +62,15 @@ public class DocenteController {
             */
 
             // Asignar el curso al docente
+            docente.setPersona(persona);
+            // Asignar el curso al docente
             docente.setCurso(curso);
 
             // Guardar el pedido si todas las validaciones pasaron
-            Docente cursoGuardado = docenteService.guardarDocente(docente);
+            Docente docenteGuardado = docenteService.guardarDocente(docente);
 
             // Retornar respuesta exitosa
-            return ResponseEntity.status(HttpStatus.CREATED).body(cursoGuardado);
+            return ResponseEntity.status(HttpStatus.CREATED).body(docenteGuardado);
 
         } catch (FeignException e) {
             // Imprimir los detalles del error que Feign está arrojando

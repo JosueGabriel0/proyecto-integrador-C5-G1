@@ -1,4 +1,4 @@
-package upeu.edu.pe.msdocente.dto;
+package upeu.edu.pe.msestudiante.dto;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-
 public class Curso {
     private long idCurso;
 
@@ -27,5 +26,4 @@ public class Curso {
     private LocalDateTime fechaCreacion;
 
     private LocalDateTime fechaModificacion;
-
 }
