@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/estudiante")
-
 public class EstudianteController {
 
     @Autowired
@@ -29,36 +28,34 @@ public class EstudianteController {
     private CursoFeign cursoFeign;
 
     @PostMapping
-    public ResponseEntity<?> guardarEstudianteResponseEntity(@RequestBody Estudiante estudiante){
+    public ResponseEntity<?> guardarEstudianteResponseEntity(@RequestBody Estudiante estudiante) {
         try {
-            // Verificar si el curso existe
+            // Verificar si la persona existe
             ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
             if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona con ID: " + estudiante.getIdPersona());
             }
             Persona persona = personaResponse.getBody();
 
             // Verificar si el curso existe
             ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso());
-            if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso");
+            if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso con ID: " + estudiante.getIdCurso());
             }
             Curso curso = cursoResponse.getBody();
 
-            // Asignar el curso al docente
+            // Asignar la persona y curso al estudiante
             estudiante.setPersona(persona);
-            // Asignar el curso al docente
             estudiante.setCurso(curso);
 
-            // Guardar el pedido si todas las validaciones pasaron
+            // Guardar el estudiante si todas las validaciones pasaron
             Estudiante estudianteGuardado = estudianteService.guardarEstudiante(estudiante);
 
             // Retornar respuesta exitosa
             return ResponseEntity.status(HttpStatus.CREATED).body(estudianteGuardado);
 
-
         } catch (FeignException e) {
-            // Imprimir los detalles del error que Feign está arrojando
+            // Capturar errores de Feign con más detalle
             String errorMensaje = "Error al comunicarse con otro servicio: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMensaje);
 
@@ -69,26 +66,27 @@ public class EstudianteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Estudiante>> listarEstudiantesResponseEntity(){
-        return  ResponseEntity.ok(estudianteService.listarEstudiantes());
+    public ResponseEntity<List<Estudiante>> listarEstudiantesResponseEntity() {
+        List<Estudiante> estudiantes = estudianteService.listarEstudiantes();
+        return ResponseEntity.ok(estudiantes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Estudiante> buscarEstudiantePorIdResponseEntity(@PathVariable(required = true) Long id){
-        return ResponseEntity.ok(estudianteService.buscarEstudiantePorId(id));
+    public ResponseEntity<Estudiante> buscarEstudiantePorIdResponseEntity(@PathVariable Long id) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorId(id);
+        return ResponseEntity.ok(estudiante);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Estudiante> editarEstudianteResponseEntity(@PathVariable(required = true) Long id, @RequestBody Estudiante estudiante){
+    public ResponseEntity<Estudiante> editarEstudianteResponseEntity(@PathVariable Long id, @RequestBody Estudiante estudiante) {
         estudiante.setIdEstudiante(id);
-        return ResponseEntity.ok(estudianteService.editarEstudiante(estudiante));
+        Estudiante estudianteActualizado = estudianteService.editarEstudiante(estudiante);
+        return ResponseEntity.ok(estudianteActualizado);
     }
 
     @DeleteMapping("/{id}")
-    public String eliminarEstudianteResponseEntity(@PathVariable(required = true) Long id){
+    public ResponseEntity<String> eliminarEstudianteResponseEntity(@PathVariable Long id) {
         estudianteService.eliminarEstudiante(id);
-        return "Estudiante Eliminado";
+        return ResponseEntity.ok("Estudiante Eliminado");
     }
-
-
 }

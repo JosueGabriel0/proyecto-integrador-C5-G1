@@ -1,11 +1,9 @@
 package upeu.edu.pe.msestudiante.service.impl;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import upeu.edu.pe.msestudiante.config.ModelMapperConfig;
 import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.EstudianteRequest;
 import upeu.edu.pe.msestudiante.dto.Persona;
@@ -18,7 +16,6 @@ import upeu.edu.pe.msestudiante.service.EstudianteService;
 import java.util.List;
 
 @Service
-
 public class EstudianteServiceImpl implements EstudianteService {
 
     @Autowired
@@ -46,11 +43,8 @@ public class EstudianteServiceImpl implements EstudianteService {
         estudiante.setIdPersona(personaCreada.getId());
 
         // 4. Guardar el estudiante en la base de datos local
-        Estudiante estudianteGuardado = estudianteRepository.save(estudiante);
-
-        return estudianteGuardado;
+        return estudianteRepository.save(estudiante);
     }
-
 
     @Override
     public Estudiante guardarEstudiante(Estudiante estudiante) {
@@ -61,15 +55,14 @@ public class EstudianteServiceImpl implements EstudianteService {
     public List<Estudiante> listarEstudiantes() {
         List<Estudiante> estudiantes = estudianteRepository.findAll();
 
-        // Recorremos cada docente y asignamos el curso y detalles
+        // Recorrer la lista de estudiantes para asignar los detalles de Persona y Curso
         estudiantes.forEach(estudiante -> {
+            // Llamar a PersonaFeign para obtener los detalles de la Persona
             Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();
             estudiante.setPersona(persona);
-        });
 
-        // Recorremos cada docente y asignamos el curso y detalles
-        estudiantes.forEach(estudiante -> {
-            Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdPersona()).getBody();
+            // Llamar a CursoFeign para obtener los detalles del Curso
+            Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
             estudiante.setCurso(curso);
         });
 
@@ -78,11 +71,12 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public Estudiante buscarEstudiantePorId(Long id) {
-        Estudiante estudiante = estudianteRepository.findById(id).get();
+        Estudiante estudiante = estudianteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
 
-        Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
-
+        // Llamar a PersonaFeign y CursoFeign para obtener los detalles
         Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();
+        Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
 
         estudiante.setPersona(persona);
         estudiante.setCurso(curso);
