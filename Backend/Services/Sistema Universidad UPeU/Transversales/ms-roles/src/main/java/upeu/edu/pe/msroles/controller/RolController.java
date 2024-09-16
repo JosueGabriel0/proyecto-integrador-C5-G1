@@ -10,37 +10,37 @@ import upeu.edu.pe.msroles.service.RolService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Rol")
+@RequestMapping("/rol")
 public class RolController {
     @Autowired
-    private RolService RolService;
+    private RolService rolService;
 
     @PostMapping
     public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol Rol){
-        return ResponseEntity.ok(RolService.guardarRol(Rol));
+        return ResponseEntity.ok(rolService.guardarRol(Rol));
     }
 
     @GetMapping
     public ResponseEntity<List<Rol>> listarRolResponseEntity(){
-        return ResponseEntity.ok(RolService.listarRol());
+        return ResponseEntity.ok(rolService.listarRol());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Rol> buscarRolPorIdResponseEntity(@PathVariable(required = true) Long id){
-        return ResponseEntity.ok(RolService.buscarRolPorId(id));
+        return ResponseEntity.ok(rolService.buscarRolPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Rol> editarRolResponseEntity(@PathVariable (required = true) Long id,@RequestBody Rol Rol){
         Rol.setId(id);
-        return ResponseEntity.ok(RolService.editarRol(Rol));
+        return ResponseEntity.ok(rolService.editarRol(Rol));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
         try {
             // Lógica para eliminar la Rol
-            RolService.eliminarRol(id);
+            rolService.eliminarRol(id);
 
             // Retornar código 200 OK con mensaje de éxito
             return ResponseEntity.ok("Rol eliminada exitosamente.");

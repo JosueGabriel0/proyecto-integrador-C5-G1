@@ -25,8 +25,8 @@ spring:
           predicates:
             - Path=/persona/**
 
-        - id: ms-usuario-service
-          uri: lb://ms-usuario-service
+        - id: ms-usuarios-service
+          uri: lb://ms-usuarios-service
           predicates:
             - Path=/usuario/**
 
@@ -34,6 +34,11 @@ spring:
           uri: lb://ms-auth-service
           predicates:
             - Path=/auth/**
+
+        - id: ms-roles-service
+          uri: lb://ms-roles-service
+          predicates:
+            - Path=/rol/**
 
         - id: ms-calendarioAcademico-service
           uri: lb://ms-calendarioAcademico-service

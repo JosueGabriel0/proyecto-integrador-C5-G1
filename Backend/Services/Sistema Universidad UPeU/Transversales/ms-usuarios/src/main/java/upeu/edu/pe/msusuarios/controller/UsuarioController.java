@@ -10,7 +10,7 @@ import upeu.edu.pe.msusuarios.service.UsuarioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Usuario")
+@RequestMapping("/usuario")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
