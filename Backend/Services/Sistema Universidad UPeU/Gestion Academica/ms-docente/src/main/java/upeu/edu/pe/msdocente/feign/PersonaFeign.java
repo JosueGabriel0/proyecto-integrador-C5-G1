@@ -18,7 +18,7 @@ public interface PersonaFeign {
     @CircuitBreaker(name = "personaListarPorIdCB", fallbackMethod = "fallBackPersonaListarPorId")
     public ResponseEntity<Persona> listarPersonaDtoPorId(@PathVariable(required = true) Long id);
 
-    default ResponseEntity<Persona> fallbackPersonaListarPorId(Long id, Exception e) {
+    default ResponseEntity<Persona> fallBackPersonaListarPorId(Long id, Exception e) {
         return ResponseEntity.ok(new Persona());
     }
 
