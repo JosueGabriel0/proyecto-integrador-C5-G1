@@ -6,7 +6,9 @@ import upeu.edu.pe.mspostulante.entity.Postulante;
 import upeu.edu.pe.mspostulante.repository.PostulanteRepository;
 import upeu.edu.pe.mspostulante.service.PostulanteService;
 
-import java.util.List;@Service
+import java.util.List;
+
+@Service
 public class PostulanteServiceImpl implements PostulanteService{
     @Autowired
     PostulanteRepository postulanteRepository;
@@ -35,5 +37,3 @@ public class PostulanteServiceImpl implements PostulanteService{
         postulanteRepository.deleteById(id);
     }
 }
-
-
