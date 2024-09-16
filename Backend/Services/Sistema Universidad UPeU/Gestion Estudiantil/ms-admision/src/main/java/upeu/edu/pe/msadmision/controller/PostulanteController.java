@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import upeu.edu.pe.mspostulante.dto.Persona;
 import upeu.edu.pe.mspostulante.entity.Postulante;
 import upeu.edu.pe.mspostulante.service.PostulanteService;
 
@@ -28,7 +27,6 @@ public class PostulanteController {
     @GetMapping("/{id}")
     public ResponseEntity<Postulante> listarPostulantes(@PathVariable(required = true) long id) {
         return ResponseEntity.status(HttpStatus.OK).body(postulanteService.buscarPostulantePorId(id));
-        public ResponseEntity<Persona> listarPersonaDtoPorId(@PathVariable(required = true) Long id);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Postulante> editarPostulante(@PathVariable(required = true) long id, @RequestBody Postulante
