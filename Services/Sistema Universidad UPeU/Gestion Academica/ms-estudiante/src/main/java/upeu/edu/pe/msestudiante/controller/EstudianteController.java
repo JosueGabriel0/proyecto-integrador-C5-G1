@@ -1,6 +1,7 @@
 package upeu.edu.pe.msestudiante.controller;
 
 import feign.FeignException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,14 +53,14 @@ public class EstudianteController {
             if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona con ID: " + estudiante.getIdPersona());
             }
-            Persona persona = personaResponse.getBody();
+            Persona persona = personaResponse.getBody();  // Extraer el cuerpo de la respuesta
 
             // Verificar si el curso existe
             ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso());
             if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso con ID: " + estudiante.getIdCurso());
             }
-            Curso curso = cursoResponse.getBody();
+            Curso curso = cursoResponse.getBody();  // Extraer el cuerpo de la respuesta
 
             // Asignar la persona y curso al estudiante
             estudiante.setPersona(persona);
@@ -82,23 +83,67 @@ public class EstudianteController {
         }
     }
 
+    // Endpoint para listar estudiantes con persona
+    @GetMapping("/con-persona")
+    public ResponseEntity<List<Estudiante>> listarEstudiantesConPersona() {
+        try {
+            List<Estudiante> estudiantes = estudianteService.listarEstudiantesConPersona();
+            return ResponseEntity.ok(estudiantes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    // Endpoint para listar solo estudiantes
     @GetMapping
-    public ResponseEntity<List<Estudiante>> listarEstudiantesResponseEntity() {
-        List<Estudiante> estudiantes = estudianteService.listarEstudiantes();
-        return ResponseEntity.ok(estudiantes);
+    public ResponseEntity<List<Estudiante>> listarEstudiantes() {
+        try {
+            List<Estudiante> estudiantes = estudianteService.listarEstudiantes();
+            return ResponseEntity.ok(estudiantes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Estudiante> buscarEstudiantePorIdResponseEntity(@PathVariable Long id) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorId(id);
+        Estudiante estudiante = estudianteService.listarEstudiantePorId(id);
         return ResponseEntity.ok(estudiante);
     }
 
+    @PutMapping("/con-persona/{id}")
+    public ResponseEntity<?> editarEstudianteConPersona(@PathVariable Long id, @RequestBody EstudianteRequest estudianteRequest) {
+        try {
+            // Actualizar el estudiante junto con los datos de la persona
+            Estudiante estudianteActualizado = estudianteService.editarEstudianteConPersona(id, estudianteRequest);
+
+            // Retornar la respuesta exitosa con el estudiante actualizado
+            return ResponseEntity.ok(estudianteActualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudiante o Persona no encontrados: " + e.getMessage());
+        } catch (FeignException e) {
+            String errorMensaje = "Error al comunicarse con el microservicio Persona: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMensaje);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el estudiante: " + e.getMessage());
+        }
+    }
+    // Endpoint para editar solo la información del estudiante
     @PutMapping("/{id}")
-    public ResponseEntity<Estudiante> editarEstudianteResponseEntity(@PathVariable Long id, @RequestBody Estudiante estudiante) {
-        estudiante.setIdEstudiante(id);
-        Estudiante estudianteActualizado = estudianteService.editarEstudiante(estudiante);
-        return ResponseEntity.ok(estudianteActualizado);
+    public ResponseEntity<?> editarSoloEstudiante(@PathVariable Long id, @RequestBody Estudiante estudiante) {
+        try {
+            // Actualizar el estudiante
+            Estudiante estudianteActualizado = estudianteService.editarSoloEstudiante(id, estudiante);
+
+            // Retornar la respuesta exitosa con el estudiante actualizado
+            return ResponseEntity.ok(estudianteActualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudiante no encontrado: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el estudiante: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -107,3 +152,5 @@ public class EstudianteController {
         return ResponseEntity.ok("Estudiante Eliminado");
     }
 }
+
+

@@ -2,10 +2,7 @@ package upeu.edu.pe.msestudiante.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msestudiante.dto.Persona;
 
 import java.util.List;
@@ -21,4 +18,7 @@ public interface PersonaFeign {
 
     @PostMapping
     public Persona crearPersonaDto(@RequestBody Persona persona);
+
+    @PutMapping("/{id}")
+    ResponseEntity<Persona> actualizarPersonaDto(@PathVariable("id") Long id, @RequestBody Persona persona);
 }

@@ -1,8 +1,10 @@
 package upeu.edu.pe.msestudiante.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.EstudianteRequest;
@@ -14,6 +16,7 @@ import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import upeu.edu.pe.msestudiante.service.EstudianteService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstudianteServiceImpl implements EstudianteService {
@@ -53,41 +56,117 @@ public class EstudianteServiceImpl implements EstudianteService {
     }
 
     @Override
-    public List<Estudiante> listarEstudiantes() {
+    public List<Estudiante> listarEstudiantesConPersona() {
+        // 1. Obtener todos los estudiantes desde la base de datos local
         List<Estudiante> estudiantes = estudianteRepository.findAll();
 
-        // Recorrer la lista de estudiantes para asignar los detalles de Persona y Curso
+        // 2. Para cada estudiante, obtener la información de Persona desde el microservicio de Persona usando Feign
         estudiantes.forEach(estudiante -> {
-            // Llamar a PersonaFeign para obtener los detalles de la Persona
-            Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();
-            estudiante.setPersona(persona);
+            // Llamada Feign para obtener la Persona por ID
+            ResponseEntity<Persona> responseEntity = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
 
-            // Llamar a CursoFeign para obtener los detalles del Curso
-            Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
-            estudiante.setCurso(curso);
+            // Verificar si la respuesta tiene éxito y la entidad Persona no es nula
+            if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
+                Persona persona = responseEntity.getBody();
+                // Establecer la información de la persona en el objeto Estudiante
+                estudiante.setPersona(persona);
+            }
         });
 
+        // 3. Retornar la lista de estudiantes con la información de persona incluida
         return estudiantes;
     }
 
     @Override
-    public Estudiante buscarEstudiantePorId(Long id) {
-        Estudiante estudiante = estudianteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
-
-        // Llamar a PersonaFeign y CursoFeign para obtener los detalles
-        Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();
-        Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
-
-        estudiante.setPersona(persona);
-        estudiante.setCurso(curso);
-
-        return estudiante;
+    public List<Estudiante> listarEstudiantes() {
+        // 1. Obtener todos los estudiantes desde la base de datos local
+        return estudianteRepository.findAll();
     }
 
     @Override
-    public Estudiante editarEstudiante(Estudiante estudiante) {
-        return estudianteRepository.save(estudiante);
+    public Estudiante listarEstudianteConPersonaPorId(Long id) {
+        // 1. Buscar el estudiante en la base de datos por su ID
+        Optional<Estudiante> estudianteOptional = estudianteRepository.findById(id);
+
+        // 2. Verificar si el estudiante existe
+        if (estudianteOptional.isPresent()) {
+            Estudiante estudiante = estudianteOptional.get();
+
+            // 3. Obtener la información de Persona del microservicio de Persona usando Feign
+            ResponseEntity<Persona> responseEntity = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+
+            // 4. Verificar si la respuesta tiene éxito y la entidad Persona no es nula
+            if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
+                Persona persona = responseEntity.getBody();
+                // 5. Asignar la persona al estudiante
+                estudiante.setPersona(persona);
+            }
+
+            // 6. Retornar el estudiante con la información de la persona
+            return estudiante;
+        } else {
+            // Si no se encuentra el estudiante, lanzar una excepción o devolver null
+            throw new EntityNotFoundException("Estudiante con ID " + id + " no encontrado");
+        }
+    }
+
+    @Override
+    public Estudiante listarEstudiantePorId(Long id) {
+        // 1. Buscar el estudiante en la base de datos por su ID
+        Optional<Estudiante> estudianteOptional = estudianteRepository.findById(id);
+
+        // 2. Verificar si el estudiante existe y devolverlo
+        return estudianteOptional.orElseThrow(() ->
+                new EntityNotFoundException("Estudiante con ID " + id + " no encontrado")
+        );
+    }
+
+    @Override
+    @Transactional
+    public Estudiante editarEstudianteConPersona(Long id, EstudianteRequest estudianteRequest) {
+        // 1. Buscar el estudiante por su ID
+        Estudiante estudianteExistente = estudianteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estudiante con ID " + id + " no encontrado"));
+
+        // 2. Actualizar la Persona asociada en el microservicio de Persona
+        ResponseEntity<Persona> responseEntity = personaFeign.actualizarPersonaDto(estudianteExistente.getIdPersona(), estudianteRequest.getPersona());
+
+        // 3. Verificar si la respuesta es exitosa (status code 200)
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // Obtener el cuerpo de la respuesta que contiene el objeto Persona actualizado
+            Persona personaActualizada = responseEntity.getBody();
+
+            // 4. Mapear los datos actualizados de estudiante
+            estudianteExistente.setMatricula(estudianteRequest.getMatricula());
+            estudianteExistente.setCicloActual(estudianteRequest.getCicloActual());
+            estudianteExistente.setPromedioGeneral(estudianteRequest.getPromedioGeneral());
+            // Otros campos del estudiante a actualizar...
+
+            // 5. Actualizar la persona en el estudiante
+            estudianteExistente.setPersona(personaActualizada);
+
+            // 6. Guardar los cambios en el repositorio
+            return estudianteRepository.save(estudianteExistente);
+        } else {
+            throw new RuntimeException("Error al actualizar la persona. Código de estado: " + responseEntity.getStatusCode());
+        }
+    }
+
+    @Override
+    @Transactional
+    public Estudiante editarSoloEstudiante(Long id, Estudiante estudianteRequest) {
+        // 1. Buscar el estudiante por su ID
+        Estudiante estudianteExistente = estudianteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estudiante con ID " + id + " no encontrado"));
+
+        // 2. Actualizar los datos del estudiante
+        estudianteExistente.setMatricula(estudianteRequest.getMatricula());
+        estudianteExistente.setCicloActual(estudianteRequest.getCicloActual());
+        estudianteExistente.setPromedioGeneral(estudianteRequest.getPromedioGeneral());
+        // Otros campos del estudiante a actualizar...
+
+        // 3. Guardar los cambios en el repositorio
+        return estudianteRepository.save(estudianteExistente);
     }
 
     @Override

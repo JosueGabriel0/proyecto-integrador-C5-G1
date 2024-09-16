@@ -11,11 +11,17 @@ public interface EstudianteService {
 
     public Estudiante guardarEstudiante(Estudiante estudiante);
 
+    public List<Estudiante> listarEstudiantesConPersona();
+
     public List<Estudiante> listarEstudiantes();
 
-    public Estudiante buscarEstudiantePorId(Long id);
+    public Estudiante listarEstudianteConPersonaPorId(Long id);
 
-    public Estudiante editarEstudiante(Estudiante estudiante);
+    public Estudiante listarEstudiantePorId(Long id);
+
+    public Estudiante editarEstudianteConPersona(Long id, EstudianteRequest estudianteRequest);
+
+    public Estudiante editarSoloEstudiante(Long id, Estudiante estudianteRequest);
 
     public void eliminarEstudiante(Long id);
 }
