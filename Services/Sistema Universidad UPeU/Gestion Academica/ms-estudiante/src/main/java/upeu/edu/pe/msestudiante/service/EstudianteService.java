@@ -23,5 +23,7 @@ public interface EstudianteService {
 
     public Estudiante editarSoloEstudiante(Long id, Estudiante estudianteRequest);
 
+    public void eliminarEstudianteConPersona(Long id);
+
     public void eliminarEstudiante(Long id);
 }

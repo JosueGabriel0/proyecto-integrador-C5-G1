@@ -164,6 +164,26 @@ public class EstudianteController {
         }
     }
 
+    @DeleteMapping("/con-persona/{id}")
+    public ResponseEntity<?> eliminarEstudianteConPersona(@PathVariable Long id) {
+        try {
+            // Llamada al servicio para eliminar el estudiante junto con la persona asociada
+            estudianteService.eliminarEstudianteConPersona(id);
+
+            // Retornar respuesta exitosa
+            return ResponseEntity.ok("Estudiante y persona asociados eliminados exitosamente.");
+        } catch (EntityNotFoundException e) {
+            // Retornar error 404 si el estudiante no se encuentra
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudiante no encontrado: " + e.getMessage());
+        } catch (RuntimeException e) {
+            // Retornar error 500 en caso de fallos en la comunicación con el microservicio de Persona
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la persona asociada: " + e.getMessage());
+        } catch (Exception e) {
+            // Manejo de cualquier otro error inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor: " + e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEstudianteResponseEntity(@PathVariable Long id) {
         estudianteService.eliminarEstudiante(id);

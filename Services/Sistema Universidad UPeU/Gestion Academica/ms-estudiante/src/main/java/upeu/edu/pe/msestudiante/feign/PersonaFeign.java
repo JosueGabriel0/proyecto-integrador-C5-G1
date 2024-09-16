@@ -21,4 +21,7 @@ public interface PersonaFeign {
 
     @PutMapping("/{id}")
     ResponseEntity<Persona> actualizarPersonaDto(@PathVariable("id") Long id, @RequestBody Persona persona);
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> eliminarPersonaDto(@PathVariable("id") Long id);
 }

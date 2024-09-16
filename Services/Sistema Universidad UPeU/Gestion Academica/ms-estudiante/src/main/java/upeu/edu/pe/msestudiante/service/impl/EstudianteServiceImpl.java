@@ -1,5 +1,6 @@
 package upeu.edu.pe.msestudiante.service.impl;
 
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -167,6 +168,28 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         // 3. Guardar los cambios en el repositorio
         return estudianteRepository.save(estudianteExistente);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarEstudianteConPersona(Long id) {
+        // 1. Buscar el estudiante por su ID
+        Estudiante estudiante = estudianteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estudiante con ID " + id + " no encontrado"));
+
+        // 2. Obtener el ID de la persona asociada
+        Long idPersona = estudiante.getIdPersona();
+
+        // 3. Eliminar el estudiante de la base de datos
+        estudianteRepository.deleteById(id);
+
+        // 4. Eliminar la persona asociada utilizando Feign
+        try {
+            personaFeign.eliminarPersonaDto(idPersona);
+        } catch (FeignException e) {
+            // Manejar errores de Feign (opcional: podrías registrar el error o tomar otra acción)
+            throw new RuntimeException("Error al eliminar la persona asociada: " + e.getMessage(), e);
+        }
     }
 
     @Override
