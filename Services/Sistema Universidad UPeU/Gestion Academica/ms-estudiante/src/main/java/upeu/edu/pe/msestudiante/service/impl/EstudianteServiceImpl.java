@@ -13,7 +13,6 @@ import upeu.edu.pe.msestudiante.feign.PersonaFeign;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import upeu.edu.pe.msestudiante.service.EstudianteService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,48 +33,17 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Override
     @Transactional
     public Estudiante crearEstudianteConPersona(EstudianteRequest estudianteRequest) {
-        // 1. Construir el objeto Persona usando los campos relevantes de EstudianteRequest
-        Persona personaParaCrear = new Persona();
-        personaParaCrear.setNombres(estudianteRequest.getNombres());
-        personaParaCrear.setApellido_paterno(estudianteRequest.getApellido_paterno());
-        personaParaCrear.setApellido_materno(estudianteRequest.getApellido_materno());
-        personaParaCrear.setFecha_nacimiento(estudianteRequest.getFecha_nacimiento());
-        personaParaCrear.setGenero(estudianteRequest.getGenero());
-        personaParaCrear.setNacionalidad(estudianteRequest.getNacionalidad());
-        personaParaCrear.setTipoDocumento(estudianteRequest.getTipoDocumento());
-        personaParaCrear.setNumeroDocumento(estudianteRequest.getNumeroDocumento());
-        personaParaCrear.setDireccion(estudianteRequest.getDireccion());
-        personaParaCrear.setCiudad(estudianteRequest.getCiudad());
-        personaParaCrear.setDepartamento(estudianteRequest.getDepartamento());
-        personaParaCrear.setPais(estudianteRequest.getPais());
-        personaParaCrear.setProvincia(estudianteRequest.getProvincia());
-        personaParaCrear.setTelefono(estudianteRequest.getTelefono());
-        personaParaCrear.setEmail(estudianteRequest.getEmail());
-        personaParaCrear.setEstadoCivil(estudianteRequest.getEstadoCivil());
-        personaParaCrear.setFotoPerfil(estudianteRequest.getFotoPerfil());
-        personaParaCrear.setTipoSangre(estudianteRequest.getTipoSangre());
-        personaParaCrear.setContactoEmergenciaNombre(estudianteRequest.getContactoEmergenciaNombre());
-        personaParaCrear.setContactoEmergenciaTelefono(estudianteRequest.getContactoEmergenciaTelefono());
-        personaParaCrear.setContactoEmergenciaEmail(estudianteRequest.getContactoEmergenciaEmail());
-        personaParaCrear.setContactoEmergenciaDireccion(estudianteRequest.getContactoEmergenciaDireccion());
-        personaParaCrear.setContactoEmergenciaCiudad(estudianteRequest.getContactoEmergenciaCiudad());
-        personaParaCrear.setContactoEmergenciaParentesco(estudianteRequest.getContactoEmergenciaParentesco());
-        personaParaCrear.setFechaRegistro(estudianteRequest.getFechaRegistro());
-        // Se puede establecer fechaCreacionPersona y fechaModificacionPersona según sea necesario
-        personaParaCrear.setFechaCreacionPersona(LocalDateTime.now());
-        personaParaCrear.setFechaModificacionPersona(LocalDateTime.now());
+        // 1. Crear Persona en el microservicio Persona usando Feign
+        Persona personaCreada = personaFeign.crearPersonaDto(estudianteRequest.getPersona());
 
-        // 2. Crear Persona en el microservicio Persona usando Feign
-        Persona personaCreada = personaFeign.crearPersonaDto(personaParaCrear);
-
-        // 3. Mapear directamente desde el DTO al objeto Estudiante
+        // 2. Mapear directamente desde el DTO al objeto Estudiante
         Estudiante estudiante = modelMapper.map(estudianteRequest, Estudiante.class);
 
-        // 4. Establecer el idPersona del estudiante (ya que esto viene de la respuesta de Persona)
+        // 3. Establecer el idPersona del estudiante (ya que esto viene de la respuesta de Persona)
         estudiante.setIdPersona(personaCreada.getId());
         estudiante.setPersona(personaCreada);
 
-        // 5. Guardar el estudiante en la base de datos local
+        // 4. Guardar el estudiante en la base de datos local
         return estudianteRepository.save(estudiante);
     }
 
