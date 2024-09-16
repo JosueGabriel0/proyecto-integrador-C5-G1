@@ -41,6 +41,9 @@ public class EstudianteRequest {
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
 
+    private LocalDateTime fechaCreacionPersona;
+    private LocalDateTime fechaModificacionPersona;
+
     //Estudiante
     private long idEstudiante;
 
@@ -60,15 +63,16 @@ public class EstudianteRequest {
     //Referencia a otro microservicio
     private Long carreraId;
 
-
-    private List<String> asignaturasMatriculadas = new ArrayList<String>();
-
+    private List<String> asignaturasMatriculadas = new ArrayList<>();
 
     private String horario;
 
     private String consejeroAcademico;
     private String fechaGraduacion;
-    private List<String> practicasRealizadas = new ArrayList<String>();
+
+    private List<String> practicasRealizadas = new ArrayList<>();
+
+    // Historial Académico del Estudiante
     private List<RegistroAcademico> historialAcademico;
 
     private long idCurso;
@@ -77,6 +81,6 @@ public class EstudianteRequest {
 
     private Curso curso;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionEstudiante;
+    private LocalDateTime fechaModificacionEstudiante;
 }

@@ -20,5 +20,5 @@ public interface PersonaFeign {
     public ResponseEntity<List<Persona>> listarPersonasDto();
 
     @PostMapping
-    Persona crearPersonaDto(@RequestBody Persona persona);
+    public Persona crearPersonaDto(@RequestBody Persona persona);
 }

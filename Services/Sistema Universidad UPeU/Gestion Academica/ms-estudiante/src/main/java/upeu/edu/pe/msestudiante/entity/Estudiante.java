@@ -62,16 +62,16 @@ public class Estudiante {
     @Transient
     private Curso curso;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionEstudiante;
+    private LocalDateTime fechaModificacionEstudiante;
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionEstudiante = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void preUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionEstudiante = java.time.LocalDateTime.now();
     }
 }

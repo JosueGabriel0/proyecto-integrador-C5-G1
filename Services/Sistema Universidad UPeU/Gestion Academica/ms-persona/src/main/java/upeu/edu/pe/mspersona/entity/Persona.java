@@ -40,18 +40,18 @@ public class Persona {
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionPersona;
+    private LocalDateTime fechaModificacionPersona;
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionPersona = java.time.LocalDateTime.now();
         fechaRegistro = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionPersona = java.time.LocalDateTime.now();
     }
 
 }

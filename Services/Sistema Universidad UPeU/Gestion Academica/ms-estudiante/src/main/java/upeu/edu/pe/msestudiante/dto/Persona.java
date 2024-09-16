@@ -35,6 +35,6 @@ public class Persona {
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionPersona;
+    private LocalDateTime fechaModificacionPersona;
 }
