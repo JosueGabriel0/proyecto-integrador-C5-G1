@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msestudiante.dto.Curso;
@@ -185,7 +186,10 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         // 4. Eliminar la persona asociada utilizando Feign
         try {
-            personaFeign.eliminarPersonaDto(idPersona);
+            ResponseEntity<String> response = personaFeign.eliminarPersonaDto(idPersona);
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new RuntimeException("Error al eliminar la persona asociada: " + response.getBody());
+            }
         } catch (FeignException e) {
             // Manejar errores de Feign (opcional: podrías registrar el error o tomar otra acción)
             throw new RuntimeException("Error al eliminar la persona asociada: " + e.getMessage(), e);
