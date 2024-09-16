@@ -1,6 +1,7 @@
 package upeu.edu.pe.msdocente.controller;
 
 import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +89,7 @@ public class DocenteController {
         return ResponseEntity.ok(docenteService.listarDocente());
     }
 
+    @CircuitBreaker(name = "docenteListarPorIdCB", fallbackMethod = "fallbackDocente")
     @GetMapping("/{id}")
     public ResponseEntity<Docente> buscarDocentePorIdResponseEntity(@PathVariable( required = true) Long id){
         return ResponseEntity.ok(docenteService.buscarDocentePorId(id));
