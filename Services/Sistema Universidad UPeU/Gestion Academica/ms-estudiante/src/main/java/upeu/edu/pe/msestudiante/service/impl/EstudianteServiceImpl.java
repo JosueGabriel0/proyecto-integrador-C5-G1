@@ -41,6 +41,7 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         // 3. Establecer el idPersona del estudiante (ya que esto viene de la respuesta de Persona)
         estudiante.setIdPersona(personaCreada.getId());
+        estudiante.setPersona(personaCreada);
 
         // 4. Guardar el estudiante en la base de datos local
         return estudianteRepository.save(estudiante);
