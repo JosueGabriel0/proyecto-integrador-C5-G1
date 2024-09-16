@@ -25,35 +25,40 @@ spring:
           predicates:
             - Path=/persona/**
 
-        - id: ms-estudiante-service
-          uri: lb://ms-estudiante-service
+        - id: ms-usuario-service
+          uri: lb://ms-usuario-service
           predicates:
-            - Path=/estudiante/**
+            - Path=/usuario/**
 
-        - id: ms-docente-service
-          uri: lb://ms-docente-service
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
           predicates:
-            - Path=/docente/**
+            - Path=/auth/**
 
-        - id: ms-curso-service
-          uri: lb://ms-curso-service
+        - id: ms-calendarioAcademico-service
+          uri: lb://ms-calendarioAcademico-service
           predicates:
-            - Path=/curso/**
+            - Path=/calendarioAcademico/**
 
         - id: ms-carrera-service
           uri: lb://ms-carrera-service
           predicates:
             - Path=/carrera/**
 
-        - id: ms-planificacionAcademica-service
-          uri: lb://ms-planificacionAcademica-service
+        - id: ms-curso-service
+          uri: lb://ms-curso-service
           predicates:
-            - Path=/planificacionAcademica/**
+            - Path=/curso/**
 
-        - id: ms-calendarioAcademico-service
-          uri: lb://ms-calendarioAcademico-service
+        - id: ms-docente-service
+          uri: lb://ms-docente-service
           predicates:
-            - Path=/calendarioAcademico/**
+            - Path=/docente/**
+
+        - id: ms-estudiante-service
+          uri: lb://ms-estudiante-service
+          predicates:
+            - Path=/estudiante/**
 
         - id: ms-evaluacionAcademica-service
           uri: lb://ms-evaluacionAcademica-service
@@ -64,3 +69,8 @@ spring:
           uri: lb://ms-materialesEducativos-service
           predicates:
             - Path=/materialesEducativos/**
+
+        - id: ms-planificacionAcademica-service
+          uri: lb://ms-planificacionAcademica-service
+          predicates:
+            - Path=/planificacionAcademica/**
