@@ -107,6 +107,24 @@ public class EstudianteController {
         }
     }
 
+    @GetMapping("/con-persona/{id}")
+    public ResponseEntity<?> listarEstudianteConPersonaPorId(@PathVariable Long id) {
+        try {
+            // Llamada al servicio para obtener el estudiante con la información de persona incluida
+            Estudiante estudiante = estudianteService.listarEstudianteConPersonaPorId(id);
+            return ResponseEntity.ok(estudiante);
+        } catch (EntityNotFoundException e) {
+            // Retornar error 404 si el estudiante no se encuentra
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudiante no encontrado: " + e.getMessage());
+        } catch (FeignException e) {
+            // Manejo de errores de comunicación con el microservicio de Persona
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comunicarse con el servicio de Persona: " + e.getMessage());
+        } catch (Exception e) {
+            // Manejo de cualquier otro error inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Estudiante> buscarEstudiantePorIdResponseEntity(@PathVariable Long id) {
         Estudiante estudiante = estudianteService.listarEstudiantePorId(id);
