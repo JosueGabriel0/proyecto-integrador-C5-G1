@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-usuarios-service
+    name: ms-roles-service
   profiles:
     active: development
   config:

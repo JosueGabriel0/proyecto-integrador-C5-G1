@@ -39,7 +39,7 @@ public class UsuarioController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
         try {
-            // Lógica para eliminar la Usuario
+            // Lógica para eliminar el Usuario
             usuarioService.eliminarUsuario(id);
 
             // Retornar código 200 OK con mensaje de éxito
