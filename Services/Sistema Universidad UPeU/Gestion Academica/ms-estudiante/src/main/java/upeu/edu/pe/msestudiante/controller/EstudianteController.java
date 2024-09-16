@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msestudiante.dto.Curso;
+import upeu.edu.pe.msestudiante.dto.EstudianteRequest;
 import upeu.edu.pe.msestudiante.dto.Persona;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
 import upeu.edu.pe.msestudiante.feign.CursoFeign;
@@ -27,7 +28,23 @@ public class EstudianteController {
     @Autowired
     private CursoFeign cursoFeign;
 
-    @PostMapping
+    // Endpoint para crear un estudiante con datos de persona
+    @PostMapping("/con-persona")
+    public ResponseEntity<?> crearEstudianteConPersona(@RequestBody EstudianteRequest estudianteRequest) {
+        try {
+            // Crear el estudiante junto con la persona
+            Estudiante estudianteGuardado = estudianteService.crearEstudianteConPersona(estudianteRequest);
+
+            // Retornar la respuesta exitosa con el estudiante creado
+            return ResponseEntity.status(HttpStatus.CREATED).body(estudianteGuardado);
+        } catch (Exception e) {
+            // Capturar cualquier error y retornar una respuesta de error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al crear el estudiante: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/solo-estudiante")
     public ResponseEntity<?> guardarEstudianteResponseEntity(@RequestBody Estudiante estudiante) {
         try {
             // Verificar si la persona existe
