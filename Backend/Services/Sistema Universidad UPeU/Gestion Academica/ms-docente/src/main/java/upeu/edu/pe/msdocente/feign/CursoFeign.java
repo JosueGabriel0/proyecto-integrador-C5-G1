@@ -18,8 +18,8 @@ public interface CursoFeign {
     public ResponseEntity<Curso> listarCursoDtoPorId(@PathVariable(required = true) Long id);
 
 
-    default ResponseEntity<Persona> fallBackCursoListarPorId(Long id, Exception e) {
-        return ResponseEntity.ok(new Persona());
+    default ResponseEntity<Curso> fallBackCursoListarPorId(Long id, Exception e) {
+        return ResponseEntity.ok(new Curso());
     }
 
     @GetMapping
