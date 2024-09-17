@@ -1,9 +1,11 @@
 package upeu.edu.pe.mspersona.dto;
 
 import jakarta.persistence.Transient;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class Usuario {
     private Long idUsuario;
 
