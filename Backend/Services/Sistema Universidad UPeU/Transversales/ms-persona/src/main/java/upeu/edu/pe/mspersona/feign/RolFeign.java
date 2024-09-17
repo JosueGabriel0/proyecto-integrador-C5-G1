@@ -1,4 +1,4 @@
-package upeu.edu.pe.mspersona.feign;
+/*package upeu.edu.pe.mspersona.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -12,3 +12,4 @@ public interface RolFeign {
     @GetMapping("/{id}")
     public ResponseEntity<Rol> listarRolDtoPorId(@PathVariable(required = true) Long id);
 }
+*/

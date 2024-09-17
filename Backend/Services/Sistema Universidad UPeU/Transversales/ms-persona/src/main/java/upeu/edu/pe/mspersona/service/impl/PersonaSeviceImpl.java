@@ -4,11 +4,11 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import upeu.edu.pe.mspersona.dto.Rol;
+//import upeu.edu.pe.mspersona.dto.Rol;
 import upeu.edu.pe.mspersona.dto.Usuario;
 import upeu.edu.pe.mspersona.entity.Persona;
 import upeu.edu.pe.mspersona.exception.ResourceNotFoundException;
-import upeu.edu.pe.mspersona.feign.RolFeign;
+//import upeu.edu.pe.mspersona.feign.RolFeign;
 import upeu.edu.pe.mspersona.feign.UsuarioFeign;
 import upeu.edu.pe.mspersona.repository.PersonaRepository;
 import upeu.edu.pe.mspersona.service.PersonaService;
@@ -20,6 +20,10 @@ public class PersonaSeviceImpl implements PersonaService {
     //INYECCION DE DEPENDENCIAS PRINCIPALES PARA PERSONA
     @Autowired
     private PersonaRepository personaRepository;
+
+    //INYECCION DE DEPENDENCIAS SECUNDARIAS PARA USUARIO CON SU ROL
+    @Autowired
+    private UsuarioFeign usuarioFeign;
 
     //METODOS PRINCIPALES DE PERSONA
     @Override
@@ -44,6 +48,48 @@ public class PersonaSeviceImpl implements PersonaService {
         });
 
         return personas;
+
+        /*
+        // Obtener todas las personas
+List<Persona> personas = personaRepository.findAll();
+
+// Recorremos cada persona y asignamos el usuario y rol
+personas.forEach(persona -> {
+    try {
+        // Obtener el usuario a través de Feign
+        ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario());
+        if (usuarioResponse.getBody() == null) {
+            // Si el usuario no existe, lanzamos una excepción
+            throw new ResourceNotFoundException("Usuario con ID " + persona.getIdUsuario() + " no encontrado");
+        }
+
+        Usuario usuario = usuarioResponse.getBody();
+
+        // Obtener el rol del usuario
+        try {
+            ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(usuario.getIdRol());
+            if (rolResponse.getBody() == null) {
+                // Si el rol no existe, lanzamos una excepción
+                throw new ResourceNotFoundException("Rol con ID " + usuario.getIdRol() + " no encontrado");
+            }
+            usuario.setRol(rolResponse.getBody());
+        } catch (FeignException e) {
+            // Manejo de error al obtener el rol a través de Feign
+            throw new RuntimeException("Error al obtener el Rol con ID " + usuario.getIdRol(), e);
+        }
+
+        // Asignamos el usuario a la persona
+        persona.setUsuario(usuario);
+
+    } catch (FeignException e) {
+        // Manejo de error al obtener el usuario a través de Feign
+        throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(), e);
+    }
+});
+
+// Retornamos la lista de personas con usuarios y roles asignados
+return personas;
+        */
     }
 
     @Override
@@ -59,6 +105,45 @@ public class PersonaSeviceImpl implements PersonaService {
         }
 
         return persona;
+        /*
+        // Obtener la persona por ID, o lanzar una excepción si no existe
+Persona persona = personaRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("La Persona con ID " + id + " no existe"));
+
+try {
+    // Obtener el usuario asociado a la persona utilizando Feign
+    ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario());
+    if (usuarioResponse.getBody() == null) {
+        throw new ResourceNotFoundException("Usuario con ID " + persona.getIdUsuario() + " no encontrado");
+    }
+
+    Usuario usuario = usuarioResponse.getBody();
+
+    // Obtener el rol asociado al usuario utilizando Feign
+    try {
+        ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(usuario.getIdRol());
+        if (rolResponse.getBody() == null) {
+            throw new ResourceNotFoundException("Rol con ID " + usuario.getIdRol() + " no encontrado");
+        }
+        // Asignar el rol al usuario
+        usuario.setRol(rolResponse.getBody());
+
+    } catch (FeignException e) {
+        // Manejo de error al obtener el rol a través de Feign
+        throw new RuntimeException("Error al obtener el Rol con ID " + usuario.getIdRol(), e);
+    }
+
+    // Asignar el usuario a la persona
+    persona.setUsuario(usuario);
+
+} catch (FeignException e) {
+    // Manejo de error al obtener el usuario a través de Feign
+    throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(), e);
+}
+
+// Retornar la persona con el usuario y rol asignados
+return persona;
+         */
     }
 
     @Override
@@ -71,7 +156,8 @@ public class PersonaSeviceImpl implements PersonaService {
         personaRepository.deleteById(id);
     }
 
-    //INYECCION DE DEPENDENCIAS SECUNDARIOS PARA USUARIO CON SU ROL
+    /*
+    //INYECCION DE DEPENDENCIAS SECUNDARIAS PARA USUARIO CON SU ROL
     @Autowired
     private UsuarioFeign usuarioFeign;
 
@@ -102,4 +188,5 @@ public class PersonaSeviceImpl implements PersonaService {
             throw new RuntimeException("Error al obtener el Rol con ID " + idRol, e);
         }
     }
+     */
 }
