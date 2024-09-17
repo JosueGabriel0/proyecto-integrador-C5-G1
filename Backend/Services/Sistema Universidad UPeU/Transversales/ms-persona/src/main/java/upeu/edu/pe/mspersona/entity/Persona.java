@@ -2,6 +2,7 @@ package upeu.edu.pe.mspersona.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mspersona.dto.Usuario;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,11 @@ public class Persona {
     private String contactoEmergenciaCiudad;
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
+
+    private long idUsuario;
+
+    @Transient
+    private Usuario usuario;
 
     private LocalDateTime fechaCreacionPersona;
     private LocalDateTime fechaModificacionPersona;
