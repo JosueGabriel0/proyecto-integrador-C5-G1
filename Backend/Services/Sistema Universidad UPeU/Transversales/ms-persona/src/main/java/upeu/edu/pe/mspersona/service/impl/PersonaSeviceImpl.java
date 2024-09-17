@@ -100,6 +100,7 @@ return personas;
             if(usuarioResponse.getBody() == null){
                 throw new ResourceNotFoundException("Usuario con ID "+persona.getIdUsuario()+" no encontrado");
             }
+            persona.setUsuario(usuarioResponse.getBody());
         }catch (FeignException e){
             throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(),e);
         }

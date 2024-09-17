@@ -12,6 +12,7 @@ import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.EstudianteRequest;
 import upeu.edu.pe.msestudiante.dto.Persona;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
+import upeu.edu.pe.msestudiante.exception.ResourceNotFoundException;
 import upeu.edu.pe.msestudiante.feign.CursoFeign;
 import upeu.edu.pe.msestudiante.feign.PersonaFeign;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
@@ -59,23 +60,20 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public List<Estudiante> listarEstudiantesConPersona() {
-        // 1. Obtener todos los estudiantes desde la base de datos local
         List<Estudiante> estudiantes = estudianteRepository.findAll();
 
-        // 2. Para cada estudiante, obtener la información de Persona desde el microservicio de Persona usando Feign
         estudiantes.forEach(estudiante -> {
-            // Llamada Feign para obtener la Persona por ID
-            ResponseEntity<Persona> responseEntity = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
-
-            // Verificar si la respuesta tiene éxito y la entidad Persona no es nula
-            if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
-                Persona persona = responseEntity.getBody();
-                // Establecer la información de la persona en el objeto Estudiante
-                estudiante.setPersona(persona);
+            try {
+            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+            if(personaResponse.getBody() == null){
+                throw new ResourceNotFoundException("La Persona con ID "+estudiante.getIdPersona()+" no existe");
+            }
+            estudiante.setPersona(personaResponse.getBody());
+            }catch (FeignException e){
+                throw new RuntimeException("Error al obtener la Persona con ID "+estudiante.getIdPersona(),e);
             }
         });
 
-        // 3. Retornar la lista de estudiantes con la información de persona incluida
         return estudiantes;
     }
 
@@ -87,29 +85,19 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public Estudiante listarEstudianteConPersonaPorId(Long id) {
-        // 1. Buscar el estudiante en la base de datos por su ID
-        Optional<Estudiante> estudianteOptional = estudianteRepository.findById(id);
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Estudiante con ID: "+id+" no existe"));
 
-        // 2. Verificar si el estudiante existe
-        if (estudianteOptional.isPresent()) {
-            Estudiante estudiante = estudianteOptional.get();
-
-            // 3. Obtener la información de Persona del microservicio de Persona usando Feign
-            ResponseEntity<Persona> responseEntity = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
-
-            // 4. Verificar si la respuesta tiene éxito y la entidad Persona no es nula
-            if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
-                Persona persona = responseEntity.getBody();
-                // 5. Asignar la persona al estudiante
-                estudiante.setPersona(persona);
+        try {
+            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+            if(personaResponse.getBody() == null){
+                throw new ResourceNotFoundException("Persona con ID "+estudiante.getIdPersona()+" no encontrado");
             }
-
-            // 6. Retornar el estudiante con la información de la persona
-            return estudiante;
-        } else {
-            // Si no se encuentra el estudiante, lanzar una excepción o devolver null
-            throw new EntityNotFoundException("Estudiante con ID " + id + " no encontrado");
+            estudiante.setPersona(personaResponse.getBody());
+        }catch(ResourceNotFoundException e){
+            throw new RuntimeException("Error al obtener la Persona con ID "+estudiante.getIdPersona(),e);
         }
+
+        return estudiante;
     }
 
     @Override
