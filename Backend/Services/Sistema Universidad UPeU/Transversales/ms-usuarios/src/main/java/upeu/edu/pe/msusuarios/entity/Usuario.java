@@ -2,6 +2,7 @@ package upeu.edu.pe.msusuarios.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.msusuarios.dto.Rol;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +20,10 @@ public class Usuario {
     private String email; // Email asociado al usuario
     private boolean enabled; // Indica si el usuario está activo o no
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles; // Roles o permisos del usuario (por ejemplo, ADMIN, USER)
+    private long idRol;
+
+    @Transient
+    private Rol rol;
 
     private LocalDateTime fechaCreacion; // Fecha de creación del usuario
     private LocalDateTime fechaModificacion; // Fecha de la última modificación
