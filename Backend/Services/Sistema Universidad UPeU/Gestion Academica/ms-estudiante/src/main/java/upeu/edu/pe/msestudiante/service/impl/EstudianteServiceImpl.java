@@ -79,8 +79,20 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public List<Estudiante> listarEstudiantes() {
-        // 1. Obtener todos los estudiantes desde la base de datos local
-        return estudianteRepository.findAll();
+        List<Estudiante> estudiantes = estudianteRepository.findAll();
+
+        estudiantes.forEach(estudiante -> {
+            try {
+                ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona());
+                if(personaResponse.getBody() == null){
+                    throw new ResourceNotFoundException("Persona con ID "+estudiante.getIdPersona()+" no encontrado");
+                }
+                estudiante.setPersona(personaResponse.getBody());
+            }catch (FeignException e){
+                throw new RuntimeException("Error al obtener la Persona con ID "+estudiante.getIdPersona(),e);
+            }
+        });
+        return estudiantes;
     }
 
     @Override

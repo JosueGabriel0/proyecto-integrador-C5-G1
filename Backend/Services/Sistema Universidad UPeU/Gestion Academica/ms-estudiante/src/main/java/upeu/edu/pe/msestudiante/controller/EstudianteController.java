@@ -98,13 +98,7 @@ public class EstudianteController {
     // Endpoint para listar solo estudiantes
     @GetMapping
     public ResponseEntity<List<Estudiante>> listarEstudiantes() {
-        try {
-            List<Estudiante> estudiantes = estudianteService.listarEstudiantes();
-            return ResponseEntity.ok(estudiantes);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
-        }
+        return ResponseEntity.ok(estudianteService.listarEstudiantes());
     }
 
     @GetMapping("/con-persona/{id}")
