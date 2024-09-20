@@ -14,12 +14,12 @@ import java.util.List;
 public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
-
+    /*
     @PostMapping
     public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcion) {
         Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcion);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcion);
-    }
+    }*/
 
     @PostMapping("/con-rol")
     public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
