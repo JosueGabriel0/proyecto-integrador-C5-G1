@@ -31,12 +31,12 @@ public class Inscripcion {
     @Transient
     private Usuario usuario;
 
-
+    /*
     //PERSONA
     private Long personaId;
     @Transient
     private Persona persona;
-    /*
+
     //ESTUDIANTE
     @Transient
     private Estudiante estudiante;
