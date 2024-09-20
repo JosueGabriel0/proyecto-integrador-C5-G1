@@ -27,6 +27,7 @@ public class InscipcionesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
     }
 
+    /*
     @GetMapping("/{id}")
     public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
         Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
@@ -50,4 +51,5 @@ public class InscipcionesController {
         Inscripcion inscripcionActualizada = inscripcionesService.eliminarInscripcion(id);
         return ResponseEntity.ok(inscripcionActualizada);
     }
+     */
 }
