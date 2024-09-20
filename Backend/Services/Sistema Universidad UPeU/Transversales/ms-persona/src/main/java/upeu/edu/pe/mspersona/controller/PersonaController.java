@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.mspersona.entity.Persona;
+import upeu.edu.pe.mspersona.exception.ResourceNotFoundException;
 import upeu.edu.pe.mspersona.service.PersonaService;
 
 import java.util.List;
@@ -22,7 +23,25 @@ public class PersonaController {
 
     @GetMapping
     public ResponseEntity<List<Persona>> listarPersonaResponseEntity(){
-        return ResponseEntity.ok(personaService.listarPersona());
+        try {
+            List<Persona> personas = personaService.listarPersona();
+            return ResponseEntity.ok(personas);
+        } catch (Exception e) {
+            // Capturamos cualquier error inesperado y devolvemos una respuesta de error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+        }
+    }
+
+    /**
+     * Manejo de la excepción ResourceNotFoundException.
+     * Devuelve un 404 si no se encuentra el recurso solicitado.
+     *
+     * @param ex Excepción capturada.
+     * @return Mensaje de error con un código de estado 404.
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @GetMapping("/{id}")

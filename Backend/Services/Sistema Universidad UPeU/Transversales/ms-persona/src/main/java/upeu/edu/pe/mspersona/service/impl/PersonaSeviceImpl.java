@@ -37,59 +37,27 @@ public class PersonaSeviceImpl implements PersonaService {
 
         personas.forEach(persona -> {
             try {
+                // Intentamos obtener el usuario correspondiente para la persona
                 ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario());
-                if(usuarioResponse.getBody() == null){
-                    throw new ResourceNotFoundException("Usuario con ID "+persona.getIdUsuario()+" no encontrado");
+
+                if(usuarioResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Usuario con ID " + persona.getIdUsuario() + " no encontrado");
                 }
+
+                // Asignamos el usuario a la persona
                 persona.setUsuario(usuarioResponse.getBody());
-            }catch (FeignException e){
-                throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(),e);
+
+            } catch (FeignException.NotFound e) {
+                // Manejo específico si el usuario no es encontrado
+                throw new ResourceNotFoundException("Usuario con ID " + persona.getIdUsuario() + " no encontrado");
+
+            } catch (FeignException e) {
+                // Otros errores de Feign, por ejemplo, problemas de conexión o timeouts
+                throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(), e);
             }
         });
 
         return personas;
-
-        /*
-        // Obtener todas las personas
-List<Persona> personas = personaRepository.findAll();
-
-// Recorremos cada persona y asignamos el usuario y rol
-personas.forEach(persona -> {
-    try {
-        // Obtener el usuario a través de Feign
-        ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario());
-        if (usuarioResponse.getBody() == null) {
-            // Si el usuario no existe, lanzamos una excepción
-            throw new ResourceNotFoundException("Usuario con ID " + persona.getIdUsuario() + " no encontrado");
-        }
-
-        Usuario usuario = usuarioResponse.getBody();
-
-        // Obtener el rol del usuario
-        try {
-            ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(usuario.getIdRol());
-            if (rolResponse.getBody() == null) {
-                // Si el rol no existe, lanzamos una excepción
-                throw new ResourceNotFoundException("Rol con ID " + usuario.getIdRol() + " no encontrado");
-            }
-            usuario.setRol(rolResponse.getBody());
-        } catch (FeignException e) {
-            // Manejo de error al obtener el rol a través de Feign
-            throw new RuntimeException("Error al obtener el Rol con ID " + usuario.getIdRol(), e);
-        }
-
-        // Asignamos el usuario a la persona
-        persona.setUsuario(usuario);
-
-    } catch (FeignException e) {
-        // Manejo de error al obtener el usuario a través de Feign
-        throw new RuntimeException("Error al obtener el Usuario con ID " + persona.getIdUsuario(), e);
-    }
-});
-
-// Retornamos la lista de personas con usuarios y roles asignados
-return personas;
-        */
     }
 
     @Override
