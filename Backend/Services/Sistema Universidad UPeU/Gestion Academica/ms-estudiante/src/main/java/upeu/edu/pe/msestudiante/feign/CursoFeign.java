@@ -12,6 +12,7 @@ import java.util.List;
 @FeignClient(name = "ms-curso-service", path = "/curso")
 public interface CursoFeign {
     @GetMapping("/{id}")
+
     public ResponseEntity<Curso> listarCursoDtoPorId(@PathVariable(required = true) Long id);
 
     @GetMapping
