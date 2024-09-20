@@ -11,18 +11,17 @@ import java.util.List;
 public interface EstudianteFeign {
 
     @PostMapping
-    public ResponseEntity<Estudiante> crearEstudianteDto(@RequestBody Estudiante Estudiante);
+    ResponseEntity<Estudiante> crearEstudianteDto(@RequestBody Estudiante estudiante);
 
     @GetMapping
-    public ResponseEntity<List<Estudiante>> listarEstudiantesDto();
+    ResponseEntity<List<Estudiante>> listarEstudiantesDto();
 
     @GetMapping("/{id}")
-    public ResponseEntity<Estudiante> listarEstudianteDtoPorId(@PathVariable(required = true) Long id);
+    ResponseEntity<Estudiante> listarEstudianteDtoPorId(@PathVariable Long id);
 
-    @PutMapping
-    public ResponseEntity<Estudiante> actualizarEstudianteDto(@PathVariable(required = true) Long EstudianteId, @RequestBody Estudiante Estudiante);
+    @PutMapping("/{id}")  // Añadir la ruta con el ID
+    ResponseEntity<Estudiante> actualizarEstudianteDto(@PathVariable Long id, @RequestBody Estudiante estudiante);
 
-    @DeleteMapping
-    public ResponseEntity<String> eliminarEstudianteDto(@PathVariable(required = true) Long id);
-
+    @DeleteMapping("/{id}")  // Añadir la ruta con el ID
+    ResponseEntity<String> eliminarEstudianteDto(@PathVariable Long id);
 }

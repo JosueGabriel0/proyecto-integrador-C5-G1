@@ -11,18 +11,17 @@ import java.util.List;
 public interface RolFeign {
 
     @PostMapping
-    public ResponseEntity<Rol> crearRolDto(@RequestBody Rol Rol);
+    ResponseEntity<Rol> crearRolDto(@RequestBody Rol rol);
 
     @GetMapping
-    public ResponseEntity<List<Rol>> listarRolesDto();
+    ResponseEntity<List<Rol>> listarRolesDto();
 
     @GetMapping("/{id}")
-    public ResponseEntity<Rol> listarRolDtoPorId(@PathVariable(required = true) Long id);
+    ResponseEntity<Rol> listarRolDtoPorId(@PathVariable Long id);
 
-    @PutMapping
-    public ResponseEntity<Rol> actualizarRolDto(@PathVariable(required = true) Long RolId, @RequestBody Rol Rol);
+    @PutMapping("/{id}")  // Añadir la ruta con el ID
+    ResponseEntity<Rol> actualizarRolDto(@PathVariable Long id, @RequestBody Rol rol);
 
-    @DeleteMapping
-    public ResponseEntity<String> eliminarRolDto(@PathVariable(required = true) Long id);
-
+    @DeleteMapping("/{id}")  // Añadir la ruta con el ID
+    ResponseEntity<String> eliminarRolDto(@PathVariable Long id);
 }
