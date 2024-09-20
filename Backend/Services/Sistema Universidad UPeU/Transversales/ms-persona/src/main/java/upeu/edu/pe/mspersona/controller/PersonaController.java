@@ -8,6 +8,7 @@ import upeu.edu.pe.mspersona.entity.Persona;
 import upeu.edu.pe.mspersona.exception.ResourceNotFoundException;
 import upeu.edu.pe.mspersona.service.PersonaService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
