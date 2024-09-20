@@ -10,3 +10,4 @@ CREATE DATABASE `ms-auth`;
 CREATE DATABASE `ms-persona`;
 CREATE DATABASE `ms-roles`;
 CREATE DATABASE `ms-usuarios`;
+CREATE DATABASE `ms-inscripciones`;
