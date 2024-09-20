@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InscripcionesService {
 
-    public Inscripcion crearInscripcion(Inscripcion inscripcionDTO);
+    //public Inscripcion crearInscripcion(Inscripcion inscripcionDTO);
 
     public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO);
 /*

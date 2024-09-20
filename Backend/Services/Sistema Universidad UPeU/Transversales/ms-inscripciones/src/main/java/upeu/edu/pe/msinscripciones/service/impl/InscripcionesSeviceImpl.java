@@ -32,7 +32,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     private EstudianteFeign estudianteFeign;
     @Autowired
     private DocenteFeign docenteFeign;
-
+    /*
     //METODOS PRINCIPALES DE INSCRIPCION
     @Override
     public Inscripcion crearInscripcion(Inscripcion inscripcionDTO) {
@@ -62,7 +62,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcion;
     }
-
+    */
     @Override
     public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = new Inscripcion();
