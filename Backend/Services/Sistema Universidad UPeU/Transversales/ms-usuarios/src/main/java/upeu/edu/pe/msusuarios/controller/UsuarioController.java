@@ -31,13 +31,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> editarUsuarioResponseEntity(@PathVariable (required = true) Long id,@RequestBody Usuario Usuario){
+    public ResponseEntity<Usuario> editarUsuarioResponseEntity(@PathVariable(required = true) Long id,@RequestBody Usuario Usuario){
         Usuario.setIdUsuario(id);
         return ResponseEntity.ok(usuarioService.editarUsuario(Usuario));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarUsuario(@PathVariable(required = true) Long id) {
         try {
             // Lógica para eliminar el Usuario
             usuarioService.eliminarUsuario(id);

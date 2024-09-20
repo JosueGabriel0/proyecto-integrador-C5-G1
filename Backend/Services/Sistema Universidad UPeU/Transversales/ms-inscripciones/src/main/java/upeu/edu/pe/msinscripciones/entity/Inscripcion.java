@@ -2,9 +2,8 @@ package upeu.edu.pe.msinscripciones.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.msinscripciones.dto.Usuario;
+import upeu.edu.pe.msinscripciones.dto.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,51 +12,46 @@ import java.time.LocalDateTime;
 public class Inscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String nombres;
-    private String apellido_paterno;
-    private String apellido_materno;
-    private LocalDate fecha_nacimiento;
-    private String genero;
-    private String nacionalidad;
-    private String tipoDocumento;
-    private String numeroDocumento;
-    private String direccion;
-    private String ciudad;
-    private String departamento;
-    private String pais;
-    private String provincia;
-    private String telefono;
-    private String email;
-    private String estadoCivil;
-    private String fotoPerfil;
-    private String tipoSangre;
-    private String contactoEmergenciaNombre;
-    private String contactoEmergenciaTelefono;
-    private String contactoEmergenciaEmail;
-    private String contactoEmergenciaDireccion;
-    private String contactoEmergenciaCiudad;
-    private String contactoEmergenciaParentesco;
-    private LocalDateTime fechaRegistro;
+    //Inscripcion
+    private String inscripcionConRol = "Sin Rol";
+    private String inscripcionTipo;
+    private Long inscripcionTipoId;
+    private LocalDateTime fechaInscripcion;
+    private LocalDateTime fechaModificacionInscripcion;
 
-    private long idUsuario;
+    //ROL
+    private Long rolId;
+    @Transient
+    private Rol rol;
 
+    //USUARIO
+    private Long usuarioId;
     @Transient
     private Usuario usuario;
 
-    private LocalDateTime fechaCreacionInscripcion;
-    private LocalDateTime fechaModificacionInscripcion;
+    //PERSONA
+    private Long personaId;
+    @Transient
+    private Persona persona;
+
+    //ESTUDIANTE
+    @Transient
+    private Estudiante estudiante;
+
+    //DOCENTE
+    @Transient
+    private Docente docente;
+
 
     @PrePersist
     public void onCreate(){
-        fechaCreacionInscripcion = java.time.LocalDateTime.now();
-        fechaRegistro = java.time.LocalDateTime.now();
+        fechaInscripcion = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
         fechaModificacionInscripcion = java.time.LocalDateTime.now();
     }
-
 }

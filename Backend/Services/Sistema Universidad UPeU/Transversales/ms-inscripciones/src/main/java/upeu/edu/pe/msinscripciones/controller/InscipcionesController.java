@@ -15,39 +15,45 @@ public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
 
+    // Método para crear una inscripción sin crear un rol (solo asignando el ID del rol)
     @PostMapping
-    public ResponseEntity<Inscripcion> guardarInscripcionResponseEntity(@RequestBody Inscripcion Inscripcion){
-        return ResponseEntity.ok(inscripcionesService.guardarInscripcion(Inscripcion));
+    public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcion) {
+        Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcion);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Inscripcion>> listarInscripcionResponseEntity(){
-        return ResponseEntity.ok(inscripcionesService.listarInscripcion());
+    // Método para crear una inscripción y crear un rol
+    @PostMapping("/con-rol")
+    public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
+        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
     }
 
+    // Método para listar una inscripción por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Inscripcion> buscarInscripcionPorIdResponseEntity(@PathVariable(required = true) Long id){
-        return ResponseEntity.ok(inscripcionesService.buscarInscripcionPorId(id));
+    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
+        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
+        return ResponseEntity.ok(inscripcion);
     }
 
+    // Método para listar todas las inscripciones
+    @GetMapping
+    public ResponseEntity<List<Inscripcion>> listarInscripciones() {
+        List<Inscripcion> inscripciones = inscripcionesService.listarInscripcion();
+        return ResponseEntity.ok(inscripciones);
+    }
+
+    // Método para editar una inscripción por ID
     @PutMapping("/{id}")
-    public ResponseEntity<Inscripcion> editarInscripcionResponseEntity(@PathVariable (required = true) Long id,@RequestBody Inscripcion Inscripcion){
-        Inscripcion.setId(id);
-        return ResponseEntity.ok(inscripcionesService.editarInscripcion(Inscripcion));
+    public ResponseEntity<Inscripcion> editarInscripcion(@PathVariable Long id, @RequestBody Inscripcion nuevaInscripcion) {
+        Inscripcion inscripcionEditada = inscripcionesService.editarInscripcion(id, nuevaInscripcion);
+        return ResponseEntity.ok(inscripcionEditada);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> eliminarInscripcion(@PathVariable Long id) {
-        try {
-            // Lógica para eliminar la Inscripcion
-            inscripcionesService.eliminarInscripcion(id);
-
-            // Retornar código 200 OK con mensaje de éxito
-            return ResponseEntity.ok("Inscripcion eliminada exitosamente.");
-        } catch (Exception e) {
-            // En caso de error, retornar un código de error y mensaje apropiado
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al eliminar la Inscripcion: " + e.getMessage());
-        }
+    // Método para eliminar los datos de usuario, persona, estudiante o docente pero no el rol
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Inscripcion> eliminarDatosInscripcion(@PathVariable Long id) {
+        Inscripcion inscripcionActualizada = inscripcionesService.eliminarInscripcion(id);
+        return ResponseEntity.ok(inscripcionActualizada);
     }
 }

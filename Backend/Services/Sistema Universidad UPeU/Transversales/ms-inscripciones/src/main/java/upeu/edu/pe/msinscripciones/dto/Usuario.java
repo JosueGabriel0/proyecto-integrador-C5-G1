@@ -1,4 +1,4 @@
-package upeu.edu.pe.mspersona.dto;
+package upeu.edu.pe.msinscripciones.dto;
 
 import jakarta.persistence.Transient;
 import lombok.Data;
