@@ -31,11 +31,12 @@ public class Inscripcion {
     @Transient
     private Usuario usuario;
 
+
     //PERSONA
     private Long personaId;
     @Transient
     private Persona persona;
-
+    /*
     //ESTUDIANTE
     @Transient
     private Estudiante estudiante;
@@ -54,4 +55,5 @@ public class Inscripcion {
     public void onUpdate(){
         fechaModificacionInscripcion = java.time.LocalDateTime.now();
     }
+     */
 }

@@ -10,7 +10,7 @@ import upeu.edu.pe.msinscripciones.service.InscripcionesService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Inscripcion")
+@RequestMapping("/inscripcion")
 public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;

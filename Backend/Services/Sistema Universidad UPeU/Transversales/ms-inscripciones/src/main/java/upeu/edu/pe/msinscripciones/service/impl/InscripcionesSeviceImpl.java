@@ -53,30 +53,11 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setPersonaId(personaResponse.getBody().getId());
 
-            // Verificar si es Estudiante o Docente
-            if (inscripcionDTO.getEstudiante() != null) {
-                // Crear Estudiante
-                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.crearEstudianteDto(inscripcionDTO.getEstudiante());
-                if (estudianteResponse.getBody() == null) {
-                    throw new RuntimeException("No se pudo crear el Estudiante.");
-                }
-                inscripcion.setInscripcionTipoId(estudianteResponse.getBody().getIdEstudiante());
-                inscripcion.setInscripcionTipo("Estudiante");
-            } else if (inscripcionDTO.getDocente() != null) {
-                // Crear Docente
-                ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(inscripcionDTO.getDocente());
-                if (docenteResponse.getBody() == null) {
-                    throw new RuntimeException("No se pudo crear el Docente.");
-                }
-                inscripcion.setInscripcionTipoId(docenteResponse.getBody().getIdDocente());
-                inscripcion.setInscripcionTipo("Docente");
-            }
-
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-        // Aquí podrías guardar la inscripción en la base de datos si fuese necesario
+// Aquí podrías guardar la inscripción en la base de datos si fuese necesario
         inscripcionesRepository.save(inscripcion);
 
         return inscripcion;
@@ -101,43 +82,17 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setUsuarioId(usuarioResponse.getBody().getIdUsuario());
 
-            // Crear Persona y asignar el ID
-            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona());
-            if (personaResponse.getBody() == null) {
-                throw new RuntimeException("No se pudo crear la Persona.");
-            }
-            inscripcion.setPersonaId(personaResponse.getBody().getId());
-
-            // Verificar si es Estudiante o Docente u otro tipo de Persona
-            if (inscripcionDTO.getEstudiante() != null) {
-                // Crear Estudiante
-                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.crearEstudianteDto(inscripcionDTO.getEstudiante());
-                if (estudianteResponse.getBody() == null) {
-                    throw new RuntimeException("No se pudo crear el Estudiante.");
-                }
-                inscripcion.setInscripcionTipoId(estudianteResponse.getBody().getIdEstudiante());
-                inscripcion.setInscripcionTipo("Estudiante");
-            } else if (inscripcionDTO.getDocente() != null) {
-                // Crear Docente
-                ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(inscripcionDTO.getDocente());
-                if (docenteResponse.getBody() == null) {
-                    throw new RuntimeException("No se pudo crear el Docente.");
-                }
-                inscripcion.setInscripcionTipoId(docenteResponse.getBody().getIdDocente());
-                inscripcion.setInscripcionTipo("Docente");
-            }
-
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-        // Guardar la inscripción en la base de datos si fuera necesario
+// Guardar la inscripción en la base de datos si fuera necesario
         inscripcion.setInscripcionConRol("Con Rol");
         inscripcionesRepository.save(inscripcion);
 
         return inscripcion;
     }
-
+/*
     @Override
     public List<Inscripcion> listarInscripcion() {
         List<Inscripcion> inscripciones = inscripcionesRepository.findAll();
@@ -371,5 +326,5 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         // Guardar cambios sin modificar el rol
         return inscripcionesRepository.save(inscripcionExistente);
     }
-
+*/
 }
