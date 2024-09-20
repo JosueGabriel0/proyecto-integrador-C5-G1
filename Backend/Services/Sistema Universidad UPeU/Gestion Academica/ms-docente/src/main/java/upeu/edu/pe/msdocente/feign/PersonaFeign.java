@@ -3,12 +3,10 @@ package upeu.edu.pe.msdocente.feign;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import upeu.edu.pe.msdocente.dto.Curso;
+import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msdocente.dto.Persona;
-import upeu.edu.pe.msdocente.entity.Docente;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @FeignClient(name = "ms-persona-service", path = "/persona")
@@ -18,12 +16,45 @@ public interface PersonaFeign {
     @CircuitBreaker(name = "personaListarPorIdCB", fallbackMethod = "fallBackPersonaListarPorId")
     public ResponseEntity<Persona> listarPersonaDtoPorId(@PathVariable(required = true) Long id);
 
+    @GetMapping
+    @CircuitBreaker(name = "personaListarTodasCB", fallbackMethod = "fallBackListarPersonas")
+    public ResponseEntity<List<Persona>> listarPersonasDto();
+
+    @PostMapping
+    @CircuitBreaker(name = "personaCrearCB", fallbackMethod = "fallBackCrearPersona")
+    public Persona crearPersonaDto(@RequestBody Persona persona);
+
+    @PutMapping("/{id}")
+    @CircuitBreaker(name = "personaActualizarCB", fallbackMethod = "fallBackActualizarPersona")
+    ResponseEntity<Persona> actualizarPersonaDto(@PathVariable("id") Long id, @RequestBody Persona persona);
+
+    @DeleteMapping("{id}")
+    @CircuitBreaker(name = "personaEliminarCB", fallbackMethod = "fallBackEliminarPersona")
+    ResponseEntity<String> eliminarPersonaDto(@PathVariable("id") Long id);
+
+
+    //Metodos default fallback
     default ResponseEntity<Persona> fallBackPersonaListarPorId(Long id, Exception e) {
         return ResponseEntity.ok(new Persona());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Persona>> listarPersonasDto();
+    default ResponseEntity<List<Persona>> fallBackListarPersonas(Exception e) {
+        // Retorna una lista vacía o cualquier valor por defecto
+        return ResponseEntity.ok(new ArrayList<>());
+    }
 
+    default Persona fallBackCrearPersona(Persona persona, Exception e) {
+        // Retorna una Persona vacía o un mensaje de error controlado
+        return new Persona();
+    }
 
+    default ResponseEntity<Persona> fallBackActualizarPersona(Long id, Persona persona, Exception e) {
+        // Retorna una Persona por defecto o un estado de error
+        return ResponseEntity.ok(new Persona());
+    }
+
+    default ResponseEntity<String> fallBackEliminarPersona(Long id, Exception e) {
+        // Retorna un mensaje controlado o indica que no se pudo eliminar
+        return ResponseEntity.ok("Error al eliminar la persona. Fallback activado.");
+    }
 }
