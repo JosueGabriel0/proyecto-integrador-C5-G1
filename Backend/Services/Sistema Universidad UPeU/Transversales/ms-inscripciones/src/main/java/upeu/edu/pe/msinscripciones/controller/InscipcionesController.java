@@ -15,25 +15,12 @@ public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
 
+    //CRUD DE INSCRIPCION
     @PostMapping
     public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
         return new ResponseEntity<>(inscripcion, HttpStatus.CREATED);
     }
-
-    @PostMapping("/con-rol")
-    public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
-        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
-    }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
-        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
-        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
-    }
-
 
     @GetMapping
     public ResponseEntity<List<Inscripcion>> listarInscripciones() {
@@ -55,6 +42,12 @@ public class InscipcionesController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
+        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Inscripcion> editarInscripcion(@PathVariable Long id, @RequestBody Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = inscripcionesService.editarInscripcion(id, inscripcionDTO);
@@ -62,8 +55,27 @@ public class InscipcionesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarDatosInscripcion(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarInscripcion(@PathVariable Long id) {
         inscripcionesService.eliminarInscripcion(id);
-        return new ResponseEntity<>("La inscripción con ID " + id + " ha sido eliminada exitosamente.", HttpStatus.OK);
+        return new ResponseEntity<>("Los datos de la inscripción con ID " + id + " fueron eliminados, excepto el rol.", HttpStatus.OK);
+    }
+
+    //CUD DE INSCRIPCION CON ROL
+    @PostMapping("/con-rol")
+    public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
+        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
+    }
+
+    @PutMapping("/con-rol/{id}")
+    public ResponseEntity<Inscripcion> editarInscripcionConRol(@PathVariable Long id, @RequestBody Inscripcion inscripcionDTO) {
+        Inscripcion inscripcion = inscripcionesService.editarInscripcionConRol(id, inscripcionDTO);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/con-rol/{id}")
+    public ResponseEntity<String> eliminarDatosInscripcionConRol(@PathVariable Long id) {
+        inscripcionesService.eliminarInscripcionConRol(id);
+        return new ResponseEntity<>("La inscripción Con Rol con ID " + id + " ha sido eliminada exitosamente.", HttpStatus.OK);
     }
 }
