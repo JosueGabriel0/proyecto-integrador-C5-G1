@@ -171,17 +171,21 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         Inscripcion inscripcion = inscripcionOpt.get();
 
         try {
-            // Editar Rol si es necesario
+            // Editar el Rol si se proporciona un nuevo rol
             if (inscripcionDTO.getRol() != null) {
                 ResponseEntity<Rol> rolResponse = rolFeign.actualizarRolDto(inscripcion.getIdRol(), inscripcionDTO.getRol());
                 if (rolResponse.getBody() != null) {
-                    inscripcion.setIdRol(rolResponse.getBody().getIdRol());
+                    Long idRolActualizado = rolResponse.getBody().getIdRol();
+                    inscripcion.setIdRol(idRolActualizado);
+
+                    // Asignar el ID del rol actualizado al Usuario
+                    inscripcionDTO.getUsuario().setIdRol(idRolActualizado);
                 } else {
                     throw new RuntimeException("No se pudo editar el Rol.");
                 }
             }
 
-            // Editar Usuario si es necesario
+            // Editar el Usuario si se proporciona un nuevo usuario
             if (inscripcionDTO.getUsuario() != null) {
                 ResponseEntity<Usuario> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcion.getIdUsuario(), inscripcionDTO.getUsuario());
                 if (usuarioResponse.getBody() != null) {
