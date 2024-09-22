@@ -29,12 +29,11 @@ public class Inscripcion {
     @Transient
     private Usuario usuario;
 
-
     //PERSONA
     private Long idPersona;
     @Transient
     private Persona persona;
-
+/*
     //ESTUDIANTE
     private Long idEstudiante;
     @Transient
@@ -44,7 +43,7 @@ public class Inscripcion {
     private Long idDocente;
     @Transient
     private Docente docente;
-
+*/
     @PrePersist
     public void onCreate(){
         fechaCreacionInscripcion = java.time.LocalDateTime.now();

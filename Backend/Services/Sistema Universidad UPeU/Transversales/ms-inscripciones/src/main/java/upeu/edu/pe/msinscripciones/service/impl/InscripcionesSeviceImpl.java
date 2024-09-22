@@ -63,6 +63,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
+            /*
             if(inscripcionDTO.getIdEstudiante() != 0){
 
                 inscripcionDTO.getEstudiante().setIdPersona(inscripcionDTO.getIdPersona());
@@ -83,7 +84,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
 
-            }
+            }*/
 
 
         } catch (FeignException e) {
@@ -94,8 +95,10 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         inscripcion.setIdRol(inscripcionDTO.getIdRol());
         inscripcion.setIdUsuario(inscripcionDTO.getIdUsuario());
         inscripcion.setIdPersona(inscripcionDTO.getIdPersona());
+        /*
         inscripcion.setIdEstudiante(inscripcionDTO.getIdEstudiante());
         inscripcion.setIdDocente(inscripcionDTO.getIdDocente());
+        */
 
         // Guardar la inscripción en la base de datos como "Sin Rol" (ya que no se crea uno nuevo, solo se asigna)
         inscripcion.setInscripcionRol("Sin Rol");
