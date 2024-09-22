@@ -73,14 +73,14 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             if (rolResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Rol.");
             }
-            inscripcion.setRolId(rolResponse.getBody().getId());
+            inscripcion.setIdRol(rolResponse.getBody().getId());
 
             // Crear Usuario y asignar el ID
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
-            inscripcion.setUsuarioId(usuarioResponse.getBody().getIdUsuario());
+            inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
@@ -99,9 +99,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         inscripciones.forEach(inscripcion -> {
             // Intentamos obtener el Rol
-            if (inscripcion.getRolId() != null) {
+            if (inscripcion.getIdRol() != null) {
                 try {
-                    ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getRolId());
+                    ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
                     if (rolResponse.getBody() != null) {
                         inscripcion.setRol(rolResponse.getBody());
                     }
@@ -111,9 +111,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
 
             // Intentamos obtener el Usuario
-            if (inscripcion.getUsuarioId() != null) {
+            if (inscripcion.getIdUsuario() != null) {
                 try {
-                    ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getUsuarioId());
+                    ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
                     if (usuarioResponse.getBody() != null) {
                         inscripcion.setUsuario(usuarioResponse.getBody());
                     }

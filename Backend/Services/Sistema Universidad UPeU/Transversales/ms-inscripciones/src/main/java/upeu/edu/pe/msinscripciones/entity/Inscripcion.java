@@ -12,43 +12,43 @@ import java.time.LocalDateTime;
 public class Inscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inscripcionId;
+    private Long idInscripcion;
 
     //Inscripcion
     private String inscripcionConRol = "Sin Rol";
-    private String inscripcionTipo;
-    private Long inscripcionTipoId;
-    private LocalDateTime fechaInscripcion;
+    private LocalDateTime fechaCreacionInscripcion;
     private LocalDateTime fechaModificacionInscripcion;
 
     //ROL
-    private Long rolId;
+    private Long idRol;
     @Transient
     private Rol rol;
 
     //USUARIO
-    private Long usuarioId;
+    private Long idUsuario;
     @Transient
     private Usuario usuario;
 
     /*
     //PERSONA
-    private Long personaId;
+    private Long idPersona;
     @Transient
     private Persona persona;
 
     //ESTUDIANTE
+    private Long idEstudiante;
     @Transient
     private Estudiante estudiante;
 
     //DOCENTE
+    private Long idDocente;
     @Transient
     private Docente docente;
 
 
     @PrePersist
     public void onCreate(){
-        fechaInscripcion = java.time.LocalDateTime.now();
+        fechaCreacionInscripcion = java.time.LocalDateTime.now();
     }
 
     @PreUpdate

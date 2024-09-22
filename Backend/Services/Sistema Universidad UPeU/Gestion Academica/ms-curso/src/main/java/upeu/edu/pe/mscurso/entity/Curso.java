@@ -28,18 +28,17 @@ public class Curso {
     @Column(name = "asignatura")
     private List<String> asignaturas = new ArrayList<>();
 
-    private LocalDateTime fechaCreacion;
-
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionCurso;
+    private LocalDateTime fechaModificacionCurso;
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionCurso = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionCurso = java.time.LocalDateTime.now();
     }
 
 }
