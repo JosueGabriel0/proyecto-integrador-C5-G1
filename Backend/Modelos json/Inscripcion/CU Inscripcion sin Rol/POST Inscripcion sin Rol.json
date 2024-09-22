@@ -8,5 +8,32 @@
     "ultimoLogin": "2024-09-22T02:53:40.759Z",
     "tokenRecuperacion": "string",
     "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
+  },
+  "persona": {
+    "nombres": "string",
+    "apellido_paterno": "string",
+    "apellido_materno": "string",
+    "fecha_nacimiento": "2024-09-22",
+    "genero": "string",
+    "nacionalidad": "string",
+    "tipoDocumento": "string",
+    "numeroDocumento": "string",
+    "direccion": "string",
+    "ciudad": "string",
+    "departamento": "string",
+    "pais": "string",
+    "provincia": "string",
+    "telefono": "string",
+    "email": "string",
+    "estadoCivil": "string",
+    "fotoPerfil": "string",
+    "tipoSangre": "string",
+    "contactoEmergenciaNombre": "string",
+    "contactoEmergenciaTelefono": "string",
+    "contactoEmergenciaEmail": "string",
+    "contactoEmergenciaDireccion": "string",
+    "contactoEmergenciaCiudad": "string",
+    "contactoEmergenciaParentesco": "string",
+    "fechaRegistro": "2024-09-22T23:48:41.923Z"
   }
 }

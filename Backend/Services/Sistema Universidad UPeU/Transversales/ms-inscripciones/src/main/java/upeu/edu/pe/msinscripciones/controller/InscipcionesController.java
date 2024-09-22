@@ -19,8 +19,8 @@ public class InscipcionesController {
     //CRUD DE INSCRIPCION
     @PostMapping
     public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcionDTO) {
-        Inscripcion inscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
-        return new ResponseEntity<>(inscripcion, HttpStatus.CREATED);
+        Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcion);
     }
 
     @PutMapping("/{id}")

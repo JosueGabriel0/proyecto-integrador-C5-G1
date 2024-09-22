@@ -39,4 +39,7 @@ public class Persona {
     private long idUsuario;
     @Transient
     private Usuario usuario;
+
+    private LocalDateTime fechaCreacionPersona;
+    private LocalDateTime fechaModificacionPersona;
 }
