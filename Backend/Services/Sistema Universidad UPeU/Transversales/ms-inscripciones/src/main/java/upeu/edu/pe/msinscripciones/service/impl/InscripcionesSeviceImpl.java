@@ -92,7 +92,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcion;
     }
-/*
+
     @Override
     public List<Inscripcion> listarInscripcion() {
         List<Inscripcion> inscripciones = inscripcionesRepository.findAll();
@@ -119,42 +119,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     }
                 } catch (FeignException e) {
                     System.out.println("Error al obtener el Usuario: " + e.getMessage());
-                }
-            }
-
-            // Intentamos obtener la Persona
-            if (inscripcion.getPersonaId() != null) {
-                try {
-                    ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getPersonaId());
-                    if (personaResponse.getBody() != null) {
-                        inscripcion.setPersona(personaResponse.getBody());
-                    }
-                } catch (FeignException e) {
-                    System.out.println("Error al obtener la Persona: " + e.getMessage());
-                }
-            }
-
-            // Intentamos obtener el Estudiante
-            if (inscripcion.getEstudiante() != null) {
-                try {
-                    ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getInscripcionTipoId());
-                    if (estudianteResponse.getBody() != null) {
-                        inscripcion.setEstudiante(estudianteResponse.getBody());
-                    }
-                } catch (FeignException e) {
-                    System.out.println("Error al obtener el Estudiante: " + e.getMessage());
-                }
-            }
-
-            // Intentamos obtener el Docente
-            if (inscripcion.getDocente() != null) {
-                try {
-                    ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getInscripcionTipoId());
-                    if (docenteResponse.getBody() != null) {
-                        inscripcion.setDocente(docenteResponse.getBody());
-                    }
-                } catch (FeignException e) {
-                    System.out.println("Error al obtener el Docente: " + e.getMessage());
                 }
             }
         });
@@ -233,7 +197,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcion;
     }
-
+/*
     @Override
     public Inscripcion editarInscripcion(Long id, Inscripcion nuevaInscripcionDTO) {
         Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);

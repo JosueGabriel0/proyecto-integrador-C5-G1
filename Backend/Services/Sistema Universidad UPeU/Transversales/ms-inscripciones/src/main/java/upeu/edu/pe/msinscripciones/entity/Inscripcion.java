@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Inscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long inscripcionId;
 
     //Inscripcion
     private String inscripcionConRol = "Sin Rol";
