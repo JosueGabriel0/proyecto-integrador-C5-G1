@@ -42,7 +42,6 @@ public class Persona {
     private LocalDateTime fechaRegistro;
 
     private long idUsuario;
-
     @Transient
     private Usuario usuario;
 

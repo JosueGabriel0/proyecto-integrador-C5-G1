@@ -20,7 +20,4 @@ public class RegistroAcademico {
     private Double calificacion;
 
     private LocalDate fechaFinalizacion;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
 }

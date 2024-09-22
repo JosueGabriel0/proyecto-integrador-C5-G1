@@ -15,7 +15,6 @@ public class Usuario {
     private boolean enabled; // Indica si el usuario está activo o no
 
     private long idRol;
-
     @Transient
     private Rol rol;
 
@@ -24,5 +23,5 @@ public class Usuario {
     private LocalDateTime ultimoLogin; // Última fecha de acceso del usuario
 
     private String tokenRecuperacion; // Token para la recuperación de contraseña
-    private LocalDateTime tokenRecuperacionExpiracion;
+    private LocalDateTime tokenRecuperacionExpiracion; // Fecha de expiración del token de recuperación
 }

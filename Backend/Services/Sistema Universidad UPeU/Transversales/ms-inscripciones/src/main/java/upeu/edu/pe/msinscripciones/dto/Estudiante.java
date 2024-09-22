@@ -27,29 +27,23 @@ public class Estudiante {
     //Referencia a otro microservicio
     private Long carreraId;
 
-
     private List<String> asignaturasMatriculadas = new ArrayList<String>();
-
 
     private String horario;
 
     private String consejeroAcademico;
     private String fechaGraduacion;
 
-
     private List<String> practicasRealizadas = new ArrayList<String>();
-
 
     private List<RegistroAcademico> historialAcademico;
 
     private long idCurso;
 
-
+    @Transient
     private Persona persona;
 
-
+    @Transient
     private Curso curso;
 
-    private LocalDateTime fechaCreacionEstudiante;
-    private LocalDateTime fechaModificacionEstudiante;
 }

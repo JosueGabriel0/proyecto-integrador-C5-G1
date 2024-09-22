@@ -43,10 +43,10 @@ public class Docente {
     private LocalDate fechaJubilacion;
     private long cursoId;
 
+    @Transient
     private Curso curso;
 
+    @Transient
     private Persona persona;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
 }

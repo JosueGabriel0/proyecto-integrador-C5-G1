@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Rol {
-    private Long id;
+    private Long idRol;
 
     @Column(nullable = false, unique = true)
     private String nombreRol;
