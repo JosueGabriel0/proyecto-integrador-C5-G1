@@ -125,7 +125,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripciones;
     }
-
+/*
     @Override
     public Inscripcion buscarInscripcionPorId(Long id) {
         Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
@@ -197,7 +197,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcion;
     }
-/*
+
     @Override
     public Inscripcion editarInscripcion(Long id, Inscripcion nuevaInscripcionDTO) {
         Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
