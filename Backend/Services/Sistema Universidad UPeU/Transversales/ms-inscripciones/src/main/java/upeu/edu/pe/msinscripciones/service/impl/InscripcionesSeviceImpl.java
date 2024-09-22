@@ -131,12 +131,16 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         Inscripcion inscripcion = new Inscripcion();
 
         try {
-            // Crear Rol y asignar el ID del rol
+            // Crear el Rol y obtener el ID
             ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
             if (rolResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Rol.");
             }
-            inscripcion.setIdRol(rolResponse.getBody().getIdRol());
+            Long idRolCreado = rolResponse.getBody().getIdRol();  // Obtener el ID del rol creado
+            inscripcion.setIdRol(idRolCreado);
+
+            // Asignar el ID del rol al Usuario antes de crear el Usuario
+            inscripcionDTO.getUsuario().setIdRol(idRolCreado);
 
             // Crear Usuario y asignar el ID
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
@@ -149,7 +153,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-// Guardar la inscripción en la base de datos si fuera necesario
+        // Guardar la inscripción en la base de datos si fuera necesario
         inscripcion.setInscripcionConRol("Con Rol");
         inscripcionesRepository.save(inscripcion);
 
