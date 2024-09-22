@@ -38,23 +38,35 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     public Inscripcion crearInscripcion(Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = new Inscripcion();
 
-    try {
-        // Crear Usuario y asignar el ID
-        ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
-        if (usuarioResponse.getBody() == null) {
-            throw new RuntimeException("No se pudo crear el Usuario.");
+        try {
+            // Verificar que el Rol existe antes de continuar
+            ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcionDTO.getIdRol());
+            if (rolResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo encontrar el Rol con ID: " + inscripcionDTO.getIdRol());
+            }
+
+            // Asignar el ID del Rol existente al Usuario
+            inscripcionDTO.getUsuario().setIdRol(inscripcionDTO.getIdRol());
+
+            // Crear Usuario y asignar el ID
+            ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
+            if (usuarioResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo crear el Usuario.");
+            }
+            inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
+
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
-        inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
 
-    } catch (FeignException e) {
-        throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
-    }
+        // Asignar el ID del Rol a la inscripción
+        inscripcion.setIdRol(inscripcionDTO.getIdRol());
 
-    // Guardar la inscripción en la base de datos como "Sin Rol"
-    inscripcion.setInscripcionConRol("Sin Rol");
-    inscripcionesRepository.save(inscripcion);
+        // Guardar la inscripción en la base de datos como "Sin Rol" (ya que no se crea uno nuevo, solo se asigna)
+        inscripcion.setInscripcionConRol("Sin Rol");
+        inscripcionesRepository.save(inscripcion);
 
-    return inscripcion;
+        return inscripcion;
     }
 
     @Override
@@ -67,9 +79,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         Inscripcion inscripcion = inscripcionOpt.get();
 
-        // No se edita el rol, pero los demás campos se actualizan
+        // No se edita el Rol, pero se actualizan los demás campos
         try {
-            // Actualizar los datos del usuario si es necesario
+            // Actualizar los datos del Usuario si es necesario
             if (inscripcionDTO.getUsuario() != null) {
                 ResponseEntity<Usuario> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcion.getIdUsuario(), inscripcionDTO.getUsuario());
                 if (usuarioResponse.getBody() != null) {
@@ -79,9 +91,15 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             }
 
-            // Actualizar otros campos de la inscripción (excepto el rol)
-            inscripcion.setFechaModificacionInscripcion(inscripcionDTO.getFechaModificacionInscripcion());
-            // Agrega aquí cualquier otro campo que quieras permitir editar
+            // Actualizar otros campos de la inscripción (excepto el Rol)
+            if (inscripcionDTO.getFechaModificacionInscripcion() != null) {
+                inscripcion.setFechaModificacionInscripcion(inscripcionDTO.getFechaModificacionInscripcion());
+            }
+
+            // Aquí puedes agregar cualquier otro campo que quieras permitir editar:
+            if (inscripcionDTO.getInscripcionConRol() != null) {
+                inscripcion.setInscripcionConRol(inscripcionDTO.getInscripcionConRol());
+            }
 
             // Guardar los cambios en la base de datos
             inscripcionesRepository.save(inscripcion);
