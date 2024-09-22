@@ -24,8 +24,6 @@ public class Usuario {
     @Transient
     private Rol rol;
 
-    private LocalDateTime fechaCreacion; // Fecha de creación del usuario
-    private LocalDateTime fechaModificacion; // Fecha de la última modificación
     private LocalDateTime ultimoLogin; // Última fecha de acceso del usuario
 
     private String tokenRecuperacion; // Token para la recuperación de contraseña
