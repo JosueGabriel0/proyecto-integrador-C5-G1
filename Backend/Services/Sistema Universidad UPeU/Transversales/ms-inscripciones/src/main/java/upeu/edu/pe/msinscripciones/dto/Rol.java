@@ -3,6 +3,8 @@ package upeu.edu.pe.msinscripciones.dto;
 import jakarta.persistence.Column;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Rol {
     private Long idRol;
@@ -12,4 +14,7 @@ public class Rol {
 
     @Column(length = 255)
     private String description;
+
+    private LocalDateTime fechaCreacionRol;
+    private LocalDateTime fechaModificacionRol;
 }

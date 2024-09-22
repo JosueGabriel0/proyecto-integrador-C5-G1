@@ -22,4 +22,7 @@ public class Usuario {
 
     private String tokenRecuperacion; // Token para la recuperación de contraseña
     private LocalDateTime tokenRecuperacionExpiracion; // Fecha de expiración del token de recuperación
+
+    private LocalDateTime fechaCreacionUsuario;
+    private LocalDateTime fechaModificacionUsuario;
 }
