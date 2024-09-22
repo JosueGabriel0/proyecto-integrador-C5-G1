@@ -122,40 +122,40 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     @Override
     public Inscripcion buscarInscripcionPorId(Long id) {
-        // Buscar la inscripción por ID
-    Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
-    if (!inscripcionOpt.isPresent()) {
-        throw new RuntimeException("Inscripción no encontrada con ID: " + id);
-    }
-
-    Inscripcion inscripcion = inscripcionOpt.get();
-
-    try {
-        // Obtener el Rol relacionado si existe
-        if (inscripcion.getIdRol() != null) {
-            ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
-            if (rolResponse.getBody() != null) {
-                inscripcion.setRol(rolResponse.getBody());
-            } else {
-                throw new RuntimeException("No se pudo obtener el Rol con ID: " + inscripcion.getIdRol());
-            }
+        // Buscar la inscripción por idInscripcion
+        Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
+        if (!inscripcionOpt.isPresent()) {
+            throw new RuntimeException("Inscripción no encontrada con ID: " + id);
         }
 
-        // Obtener el Usuario relacionado si existe
-        if (inscripcion.getIdUsuario() != null) {
-            ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
-            if (usuarioResponse.getBody() != null) {
-                inscripcion.setUsuario(usuarioResponse.getBody());
-            } else {
-                throw new RuntimeException("No se pudo obtener el Usuario con ID: " + inscripcion.getIdUsuario());
+        Inscripcion inscripcion = inscripcionOpt.get();
+
+        try {
+            // Obtener el Rol relacionado si existe
+            if (inscripcion.getIdRol() != null) {
+                ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
+                if (rolResponse.getBody() != null) {
+                    inscripcion.setRol(rolResponse.getBody());
+                } else {
+                    throw new RuntimeException("No se pudo obtener el Rol con ID: " + inscripcion.getIdRol());
+                }
             }
+
+            // Obtener el Usuario relacionado si existe
+            if (inscripcion.getIdUsuario() != null) {
+                ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
+                if (usuarioResponse.getBody() != null) {
+                    inscripcion.setUsuario(usuarioResponse.getBody());
+                } else {
+                    throw new RuntimeException("No se pudo obtener el Usuario con ID: " + inscripcion.getIdUsuario());
+                }
+            }
+
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-    } catch (FeignException e) {
-        throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
-    }
-
-    return inscripcion;
+        return inscripcion;
     }
 
     @Override
