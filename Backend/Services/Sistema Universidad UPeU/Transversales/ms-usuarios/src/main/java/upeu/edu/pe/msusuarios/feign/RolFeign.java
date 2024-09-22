@@ -12,8 +12,9 @@ public interface RolFeign {
 
     @GetMapping("/{id}")
     @CircuitBreaker(name = "rolListarPorIdCB", fallbackMethod = "fallBackRolListarPorId")
-    public ResponseEntity<Rol> listarRolDtoPorId(@PathVariable(required = true) long id);
+    public ResponseEntity<Rol> listarRolDtoPorId(@PathVariable(required = true) Long id);
 
+    //Metodos default fallback
     default ResponseEntity<Rol> fallBackRolListarPorId(Long id, Exception e) {
         return ResponseEntity.ok(new Rol());
     }
