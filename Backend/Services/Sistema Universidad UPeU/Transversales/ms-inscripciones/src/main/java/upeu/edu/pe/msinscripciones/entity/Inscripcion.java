@@ -44,7 +44,7 @@ public class Inscripcion {
     private Long idDocente;
     @Transient
     private Docente docente;
-
+    */
 
     @PrePersist
     public void onCreate(){
@@ -55,5 +55,5 @@ public class Inscripcion {
     public void onUpdate(){
         fechaModificacionInscripcion = java.time.LocalDateTime.now();
     }
-     */
+
 }
