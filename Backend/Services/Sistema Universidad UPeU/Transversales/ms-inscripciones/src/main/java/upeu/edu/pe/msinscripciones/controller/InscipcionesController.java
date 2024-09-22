@@ -14,12 +14,12 @@ import java.util.List;
 public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
-    /*
+
     @PostMapping
-    public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcion) {
-        Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcion);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcion);
-    }*/
+    public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcionDTO) {
+        Inscripcion inscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
+        return new ResponseEntity<>(inscripcion, HttpStatus.CREATED);
+    }
 
     @PostMapping("/con-rol")
     public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
@@ -27,13 +27,13 @@ public class InscipcionesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
     }
 
-    /*
+
     @GetMapping("/{id}")
     public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
         Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
-        return ResponseEntity.ok(inscripcion);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
     }
-    */
+
 
     @GetMapping
     public ResponseEntity<List<Inscripcion>> listarInscripciones() {
@@ -55,17 +55,15 @@ public class InscipcionesController {
         }
     }
 
-    /*
     @PutMapping("/{id}")
-    public ResponseEntity<Inscripcion> editarInscripcion(@PathVariable Long id, @RequestBody Inscripcion nuevaInscripcion) {
-        Inscripcion inscripcionEditada = inscripcionesService.editarInscripcion(id, nuevaInscripcion);
-        return ResponseEntity.ok(inscripcionEditada);
+    public ResponseEntity<Inscripcion> editarInscripcion(@PathVariable Long id, @RequestBody Inscripcion inscripcionDTO) {
+        Inscripcion inscripcion = inscripcionesService.editarInscripcion(id, inscripcionDTO);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Inscripcion> eliminarDatosInscripcion(@PathVariable Long id) {
-        Inscripcion inscripcionActualizada = inscripcionesService.eliminarInscripcion(id);
-        return ResponseEntity.ok(inscripcionActualizada);
+    public ResponseEntity<String> eliminarDatosInscripcion(@PathVariable Long id) {
+        inscripcionesService.eliminarInscripcion(id);
+        return new ResponseEntity<>("La inscripción con ID " + id + " ha sido eliminada exitosamente.", HttpStatus.OK);
     }
-     */
 }
