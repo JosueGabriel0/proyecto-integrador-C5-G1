@@ -20,16 +20,6 @@ spring:
           enable: true
       routes:
 
-        - id: ms-persona-service
-          uri: lb://ms-persona-service
-          predicates:
-            - Path=/persona/**
-
-        - id: ms-usuarios-service
-          uri: lb://ms-usuarios-service
-          predicates:
-            - Path=/usuario/**
-
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
@@ -39,6 +29,21 @@ spring:
           uri: lb://ms-roles-service
           predicates:
             - Path=/rol/**
+
+        - id: ms-usuarios-service
+          uri: lb://ms-usuarios-service
+          predicates:
+            - Path=/usuario/**
+
+        - id: ms-persona-service
+          uri: lb://ms-persona-service
+          predicates:
+            - Path=/persona/**
+
+        - id: ms-inscripciones-service
+          uri: lb://ms-inscripciones-service
+          predicates:
+            - Path=/inscripcion/**
 
         - id: ms-calendarioAcademico-service
           uri: lb://ms-calendarioAcademico-service

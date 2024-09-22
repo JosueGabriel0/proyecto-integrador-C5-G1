@@ -33,13 +33,29 @@ public class InscipcionesController {
         Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
         return ResponseEntity.ok(inscripcion);
     }
+    */
 
     @GetMapping
     public ResponseEntity<List<Inscripcion>> listarInscripciones() {
-        List<Inscripcion> inscripciones = inscripcionesService.listarInscripcion();
-        return ResponseEntity.ok(inscripciones);
+        try {
+            // Llamamos al servicio para obtener la lista de inscripciones
+            List<Inscripcion> inscripciones = inscripcionesService.listarInscripcion();
+
+            // Verificamos si la lista está vacía
+            if (inscripciones.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            // Retornamos la lista de inscripciones con estado HTTP 200 (OK)
+            return new ResponseEntity<>(inscripciones, HttpStatus.OK);
+
+        } catch (Exception e) {
+            // Si ocurre algún error, lo manejamos aquí
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    /*
     @PutMapping("/{id}")
     public ResponseEntity<Inscripcion> editarInscripcion(@PathVariable Long id, @RequestBody Inscripcion nuevaInscripcion) {
         Inscripcion inscripcionEditada = inscripcionesService.editarInscripcion(id, nuevaInscripcion);

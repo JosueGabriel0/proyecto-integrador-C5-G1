@@ -98,7 +98,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         List<Inscripcion> inscripciones = inscripcionesRepository.findAll();
 
         inscripciones.forEach(inscripcion -> {
-            // Intentamos obtener el Rol
+            // Intentamos obtener la Inscripcion con Rol
             if (inscripcion.getIdRol() != null) {
                 try {
                     ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
@@ -110,7 +110,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             }
 
-            // Intentamos obtener el Usuario
+            // Intentamos obtener la Inscripcion sin Rol
             if (inscripcion.getIdUsuario() != null) {
                 try {
                     ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
