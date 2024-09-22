@@ -32,7 +32,7 @@ public class RolController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Rol> editarRolResponseEntity(@PathVariable (required = true) Long id,@RequestBody Rol Rol){
-        Rol.setId(id);
+        Rol.setIdRol(id);
         return ResponseEntity.ok(rolService.editarRol(Rol));
     }
 
