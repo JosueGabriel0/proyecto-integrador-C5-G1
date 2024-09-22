@@ -1,0 +1,22 @@
+{
+  "idInscripcion": 1,
+  "inscripcionConRol": "CON_ROL",
+  "idRol": 1,
+  "rol": {
+    "idRol": 1,
+    "nombreRol": "ESTUDIANTE_ROL",
+    "description": "ROL"
+  },
+  "idUsuario": 1,
+  "usuario": {
+    "idUsuario": 1,
+    "username": "josuexd",
+    "password": "12345",
+    "email": "josuexd@gmail.com",
+    "enabled": true,
+    "idRol": 1,
+    "ultimoLogin": "2024-09-22T02:53:40.759Z",
+    "tokenRecuperacion": "string",
+    "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
+  }
+}
