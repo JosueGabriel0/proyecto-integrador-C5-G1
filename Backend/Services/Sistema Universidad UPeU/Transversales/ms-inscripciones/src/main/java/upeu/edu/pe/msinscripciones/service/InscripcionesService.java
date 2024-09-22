@@ -6,12 +6,8 @@ import java.util.List;
 
 public interface InscripcionesService {
 
-    //CRUD DE INSCRIPCION
+    //CUD DE INSCRIPCION
     public Inscripcion crearInscripcion(Inscripcion inscripcionDTO);
-
-    public List<Inscripcion> listarInscripcion();
-
-    public Inscripcion buscarInscripcionPorId(Long id);
 
     public Inscripcion editarInscripcion(Long id, Inscripcion inscripcionDTO);
 
@@ -23,4 +19,9 @@ public interface InscripcionesService {
     public Inscripcion editarInscripcionConRol(Long id, Inscripcion inscripcionDTO);
 
     public void eliminarInscripcionConRol(Long id);
+
+    //R INSCRIPCION GENERAL
+    public List<Inscripcion> listarInscripcion();
+
+    public Inscripcion buscarInscripcionPorId(Long id);
 }

@@ -1,6 +1,7 @@
 package upeu.edu.pe.msinscripciones.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+    import org.bouncycastle.jce.spec.ECNamedCurveGenParameterSpec;
+    import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,32 +21,6 @@ public class InscipcionesController {
     public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
         return new ResponseEntity<>(inscripcion, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Inscripcion>> listarInscripciones() {
-        try {
-            // Llamamos al servicio para obtener la lista de inscripciones
-            List<Inscripcion> inscripciones = inscripcionesService.listarInscripcion();
-
-            // Verificamos si la lista está vacía
-            if (inscripciones.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            // Retornamos la lista de inscripciones con estado HTTP 200 (OK)
-            return new ResponseEntity<>(inscripciones, HttpStatus.OK);
-
-        } catch (Exception e) {
-            // Si ocurre algún error, lo manejamos aquí
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
-        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
-        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -77,5 +52,32 @@ public class InscipcionesController {
     public ResponseEntity<String> eliminarDatosInscripcionConRol(@PathVariable Long id) {
         inscripcionesService.eliminarInscripcionConRol(id);
         return new ResponseEntity<>("La inscripción Con Rol con ID " + id + " ha sido eliminada exitosamente.", HttpStatus.OK);
+    }
+
+    //R INSCRIPCION GENERAL
+    @GetMapping
+    public ResponseEntity<List<Inscripcion>> listarInscripciones() {
+        try {
+            // Llamamos al servicio para obtener la lista de inscripciones
+            List<Inscripcion> inscripciones = inscripcionesService.listarInscripcion();
+
+            // Verificamos si la lista está vacía
+            if (inscripciones.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            // Retornamos la lista de inscripciones con estado HTTP 200 (OK)
+            return new ResponseEntity<>(inscripciones, HttpStatus.OK);
+
+        } catch (Exception e) {
+            // Si ocurre algún error, lo manejamos aquí
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
+        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
     }
 }
