@@ -15,7 +15,7 @@ public class Inscripcion {
     private Long idInscripcion;
 
     //Inscripcion
-    private String inscripcionConRol = "Sin Rol";
+    private String inscripcionRol;
     private LocalDateTime fechaCreacionInscripcion;
     private LocalDateTime fechaModificacionInscripcion;
 
@@ -29,7 +29,7 @@ public class Inscripcion {
     @Transient
     private Usuario usuario;
 
-    /*
+
     //PERSONA
     private Long idPersona;
     @Transient
@@ -44,7 +44,6 @@ public class Inscripcion {
     private Long idDocente;
     @Transient
     private Docente docente;
-    */
 
     @PrePersist
     public void onCreate(){

@@ -55,15 +55,50 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
 
+            inscripcionDTO.getPersona().setIdUsuario(inscripcionDTO.getIdUsuario());
+
+            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona());
+            if (personaResponse.getBody() == null){
+                throw new RuntimeException("No se pudo crear la Persona.");
+            }
+            inscripcion.setIdPersona(personaResponse.getBody().getId());
+
+            if(inscripcionDTO.getIdEstudiante() != 0){
+
+                inscripcionDTO.getEstudiante().setIdPersona(inscripcionDTO.getIdPersona());
+
+                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.crearEstudianteDto(inscripcionDTO.getEstudiante());
+                if(estudianteResponse.getBody() == null){
+                    throw new RuntimeException("No se pudo crear la Estudiante.");
+                }
+                inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
+
+            }else if(inscripcionDTO.getIdDocente() != 0){
+
+                inscripcionDTO.getDocente().setIdPersona(inscripcionDTO.getIdPersona());
+
+                ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(inscripcionDTO.getDocente());
+                if(docenteResponse.getBody() == null){
+                    throw new RuntimeException("No se pudo crear el Docente.");
+                }
+                inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
+
+            }
+
+
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
         // Asignar el ID del Rol a la inscripción
         inscripcion.setIdRol(inscripcionDTO.getIdRol());
+        inscripcion.setIdUsuario(inscripcionDTO.getIdUsuario());
+        inscripcion.setIdPersona(inscripcionDTO.getIdPersona());
+        inscripcion.setIdEstudiante(inscripcionDTO.getIdEstudiante());
+        inscripcion.setIdDocente(inscripcionDTO.getIdDocente());
 
         // Guardar la inscripción en la base de datos como "Sin Rol" (ya que no se crea uno nuevo, solo se asigna)
-        inscripcion.setInscripcionConRol("Sin Rol");
+        inscripcion.setInscripcionRol("Sin Rol");
         inscripcionesRepository.save(inscripcion);
 
         return inscripcion;
@@ -97,8 +132,8 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
 
             // Aquí puedes agregar cualquier otro campo que quieras permitir editar:
-            if (inscripcionDTO.getInscripcionConRol() != null) {
-                inscripcion.setInscripcionConRol(inscripcionDTO.getInscripcionConRol());
+            if (inscripcionDTO.getInscripcionRol() != null) {
+                inscripcion.setInscripcionRol(inscripcionDTO.getInscripcionRol());
             }
 
             // Guardar los cambios en la base de datos
@@ -172,7 +207,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         }
 
         // Guardar la inscripción en la base de datos si fuera necesario
-        inscripcion.setInscripcionConRol("Con Rol");
+        inscripcion.setInscripcionRol("Con Rol");
         inscripcionesRepository.save(inscripcion);
 
         return inscripcion;
@@ -218,7 +253,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         }
 
         // Actualizar campos propios de la inscripción si es necesario
-        inscripcion.setInscripcionConRol(inscripcionDTO.getInscripcionConRol());
+        inscripcion.setInscripcionRol(inscripcionDTO.getInscripcionRol());
 
         // Guardar los cambios en la base de datos
         return inscripcionesRepository.save(inscripcion);

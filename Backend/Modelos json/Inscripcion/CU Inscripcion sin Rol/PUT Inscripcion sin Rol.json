@@ -1,8 +1,6 @@
 {
-  "idInscripcion": 1,
-  "idUsuario": 1,
+  "idRol": 5,
   "usuario": {
-    "idUsuario": 1,
     "username": "josueGxd",
     "password": "12345",
     "email": "josueGxd@gmail.com",
