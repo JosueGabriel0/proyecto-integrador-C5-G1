@@ -10,7 +10,7 @@ import java.util.List;
 @FeignClient(name = "ms-estudiante-service", path = "/estudiante")
 public interface EstudianteFeign {
 
-    @PostMapping
+    @PostMapping("/solo-estudiante")
     ResponseEntity<Estudiante> crearEstudianteDto(@RequestBody Estudiante estudiante);
 
     @GetMapping

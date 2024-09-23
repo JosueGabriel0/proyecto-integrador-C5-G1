@@ -18,7 +18,7 @@ public class Estudiante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idEstudiante;
 
-    private long idPersona;
+
     private String matricula;
     private int cicloActual;
     private double promedioGeneral;
@@ -55,12 +55,12 @@ public class Estudiante {
     private List<RegistroAcademico> historialAcademico;
 
     private long idCurso;
-
-    @Transient
-    private Persona persona;
-
     @Transient
     private Curso curso;
+
+    private long idPersona;
+    @Transient
+    private Persona persona;
 
     private LocalDateTime fechaCreacionEstudiante;
     private LocalDateTime fechaModificacionEstudiante;

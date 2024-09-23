@@ -71,7 +71,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
             }
-            
+
             // Crear Docente y obtener el ID
             if (inscripcionDTO.getDocente() != null) {
                 Docente docente = inscripcionDTO.getDocente();

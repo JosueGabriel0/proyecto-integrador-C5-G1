@@ -12,11 +12,12 @@ import java.util.List;
 public class Estudiante {
     private long idEstudiante;
 
-    private long idPersona;
+
     private String matricula;
     private int cicloActual;
     private double promedioGeneral;
     private LocalDate fechaIngreso;
+
 
     private EstadoEstudiante estado;
 
@@ -33,17 +34,20 @@ public class Estudiante {
 
     private String consejeroAcademico;
     private String fechaGraduacion;
-
+    
     private List<String> practicasRealizadas = new ArrayList<String>();
 
+    // Historial Académico del Estudiante
     private List<RegistroAcademico> historialAcademico;
 
     private long idCurso;
-
-    @Transient
-    private Persona persona;
-
     @Transient
     private Curso curso;
 
+    private long idPersona;
+    @Transient
+    private Persona persona;
+
+    private LocalDateTime fechaCreacionEstudiante;
+    private LocalDateTime fechaModificacionEstudiante;
 }
