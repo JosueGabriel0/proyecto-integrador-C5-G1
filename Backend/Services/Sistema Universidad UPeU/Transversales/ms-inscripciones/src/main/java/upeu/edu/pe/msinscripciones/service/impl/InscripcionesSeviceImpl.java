@@ -305,6 +305,18 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     System.out.println("Error al obtener la Persona: " + e.getMessage());
                 }
             }
+
+            // Obtener el Docente si existe
+            if (inscripcion.getIdDocente() != null) {
+                try {
+                    ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
+                    if (docenteResponse.getBody() != null) {
+                        inscripcion.setDocente(docenteResponse.getBody());
+                    }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Docente: " + e.getMessage());
+                }
+            }
         });
 
         return inscripciones;
