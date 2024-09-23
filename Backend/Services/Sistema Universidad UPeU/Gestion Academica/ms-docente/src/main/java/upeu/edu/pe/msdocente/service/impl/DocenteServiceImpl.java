@@ -40,15 +40,15 @@ public class DocenteServiceImpl implements DocenteService {
         // Recorremos cada docente y asignamos el curso y detalles
         docentes.forEach(docente -> {
             try {
-                ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getCursoId());
+                ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getIdCurso());
                 if (cursoResponse.getBody() == null) {
                     // Manejar el caso en el que el curso no existe
-                    throw new ResourceNotFoundException("Curso con ID " + docente.getCursoId() + " no existe");
+                    throw new ResourceNotFoundException("Curso con ID " + docente.getIdCurso() + " no existe");
                 }
                 docente.setCurso(cursoResponse.getBody());
             } catch (FeignException e) {
                 // Manejar el error en el servidor de OpenFeign para cursos
-                throw new RuntimeException("Error al obtener el curso con ID " + docente.getCursoId(), e);
+                throw new RuntimeException("Error al obtener el curso con ID " + docente.getIdCurso(), e);
             }
         });
 
@@ -75,7 +75,7 @@ public class DocenteServiceImpl implements DocenteService {
         Docente docente = docenteRepository.findById(id).get();
 
 
-        Curso curso = cursoFeign.listarCursoDtoPorId(docente.getCursoId()).getBody();
+        Curso curso = cursoFeign.listarCursoDtoPorId(docente.getIdCurso()).getBody();
 
         Persona persona = personaFeign.listarPersonaDtoPorId(docente.getIdPersona()).getBody();
 
