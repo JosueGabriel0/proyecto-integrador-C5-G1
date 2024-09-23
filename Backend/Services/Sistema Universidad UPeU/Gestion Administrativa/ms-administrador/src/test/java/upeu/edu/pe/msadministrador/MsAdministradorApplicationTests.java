@@ -1,10 +1,10 @@
-package upeu.edu.pe.msinstalaciones;
+package upeu.edu.pe.msadministrador;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsInstalacionesApplicationTests {
+class MsAdministradorApplicationTests {
 
 	@Test
 	void contextLoads() {
