@@ -34,7 +34,7 @@ public class Estudiante {
 
     private String consejeroAcademico;
     private String fechaGraduacion;
-    
+
     private List<String> practicasRealizadas = new ArrayList<String>();
 
     // Historial Académico del Estudiante

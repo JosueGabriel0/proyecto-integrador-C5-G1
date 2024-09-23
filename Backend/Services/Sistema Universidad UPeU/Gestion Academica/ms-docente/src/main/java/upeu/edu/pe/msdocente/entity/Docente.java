@@ -18,7 +18,6 @@ public class Docente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idDocente;
 
-    private long idPersona;
     private String departamento;
     private String tituloAcatemico;
     private String especialidad;
@@ -61,11 +60,12 @@ public class Docente {
     private List<String> logrosAcademicos = new ArrayList<String>();
 
     private LocalDate fechaJubilacion;
-    private long cursoId;
 
+    private long idCurso;
     @Transient
     private Curso curso;
 
+    private long idPersona;
     @Transient
     private Persona persona;
 
