@@ -28,7 +28,6 @@ public class PostulanteController {
     @GetMapping("/{id}")
     public ResponseEntity<Postulante> listarPostulantes(@PathVariable(required = true) long id) {
         return ResponseEntity.status(HttpStatus.OK).body(postulanteService.buscarPostulantePorId(id));
-        public ResponseEntity<Persona> listarPersonaDtoPorId(@PathVariable(required = true) Long id);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Postulante> editarPostulante(@PathVariable(required = true) long id, @RequestBody Postulante
