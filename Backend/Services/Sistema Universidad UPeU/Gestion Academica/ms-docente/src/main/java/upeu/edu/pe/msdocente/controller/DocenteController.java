@@ -101,7 +101,7 @@ public class DocenteController {
         return ResponseEntity.ok(docenteService.editarDocente(docente));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public String eliminarDocenteResponseEntity(@PathVariable( required = true) Long id){
         docenteService.eliminarDocente(id);
         return "Docente eliminado";
