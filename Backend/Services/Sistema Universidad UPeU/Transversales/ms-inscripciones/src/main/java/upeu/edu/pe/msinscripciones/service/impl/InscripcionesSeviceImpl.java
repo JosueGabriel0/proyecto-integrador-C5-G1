@@ -321,6 +321,18 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             }
 
+            // Obtener el Estudiante si existe
+            if (inscripcion.getIdEstudiante() != null) {
+                try {
+                    ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
+                    if (estudianteResponse.getBody() != null) {
+                        inscripcion.setEstudiante(estudianteResponse.getBody());
+                    }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Estudiante: " + e.getMessage());
+                }
+            }
+
             // Obtener el Docente si existe
             if (inscripcion.getIdDocente() != null) {
                 try {
@@ -333,17 +345,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             }
 
-            // Obtener el Estudiante si existe
-            if (inscripcion.getIdEstudiante() != null) {
-                try {
-                    ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
-                    if (estudianteResponse.getBody() != null) {
-                        inscripcion.setEstudiante(estudianteResponse.getBody());
-                    }
-                } catch (FeignException e) {
-                    System.out.println("Error al obtener el Estudiante: " + e.getMessage());
-                }
-            }
         });
 
         return inscripciones;
