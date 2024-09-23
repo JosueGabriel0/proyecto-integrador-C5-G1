@@ -53,6 +53,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
+
             // Asignar el ID del Usuario recién creado
             inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
 
@@ -63,17 +64,28 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             if (personaResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear la Persona.");
             }
+
             // Asignar el ID de la Persona recién creada
             inscripcion.setIdPersona(personaResponse.getBody().getId());
+
+            // Ahora crear el docente utilizando el ID de la Persona recién creada
+            Docente docente = inscripcionDTO.getDocente();
+            docente.setIdPersona(inscripcion.getIdPersona());
+
+            // Crear el docente
+            ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
+            if (docenteResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo crear el Docente.");
+            }
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-        // Asignar el ID del Rol a la inscripción
+// Asignar el ID del Rol a la inscripción
         inscripcion.setIdRol(inscripcionDTO.getIdRol());
 
-        // Guardar la inscripción en la base de datos como "Sin Rol" (ya que no se crea uno nuevo, solo se asigna)
+// Guardar la inscripción en la base de datos como "Sin Rol"
         inscripcion.setInscripcionRol("Sin Rol");
         inscripcionesRepository.save(inscripcion);
 
@@ -307,9 +319,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
 
             // Obtener el Docente si existe
-            if (inscripcion.getIdDocente() != null) {
+            if (inscripcion.getIdPersona() != null) { // Verificar si hay un ID de persona para buscar al docente
                 try {
-                    ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
+                    ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdPersona());
                     if (docenteResponse.getBody() != null) {
                         inscripcion.setDocente(docenteResponse.getBody());
                     }
