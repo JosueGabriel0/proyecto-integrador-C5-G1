@@ -61,8 +61,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
-            // Crear Estudiante y obtener el ID
-            if (inscripcionDTO.getEstudiante() != null) {
+            // Verificar si se crea un Estudiante o un Docente, no ambos
+            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+                // Crear Estudiante y obtener el ID
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Estudiante
                 ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.crearEstudianteDto(estudiante);
@@ -70,10 +71,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Estudiante.");
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
-            }
 
-            // Crear Docente y obtener el ID
-            if (inscripcionDTO.getDocente() != null) {
+            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getEstudiante() == null) {
+                // Crear Docente y obtener el ID
                 Docente docente = inscripcionDTO.getDocente();
                 docente.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Docente
                 ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
@@ -81,13 +81,16 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Docente.");
                 }
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
+
+            } else {
+                throw new RuntimeException("Debe proveerse solo un Estudiante o un Docente, no ambos.");
             }
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-        // Asignar ID del Rol y guardar la inscripción
+// Asignar ID del Rol y guardar la inscripción
         inscripcion.setIdRol(inscripcionDTO.getIdRol());
         inscripcion.setInscripcionRol("Sin Rol");
         inscripcionesRepository.save(inscripcion);
