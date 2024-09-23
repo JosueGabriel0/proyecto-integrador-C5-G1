@@ -34,5 +34,21 @@
     "contactoEmergenciaCiudad": "Lima",
     "contactoEmergenciaParentesco": "Madre",
     "fechaRegistro": "2024-09-23T00:04:07.584Z"
+  },
+  "docente": {
+    "departamento": "string",
+    "tituloAcatemico": "string",
+    "especialidad": "string",
+    "estadoLaboral": "ACTIVO",
+    "tipoDocente": "TIEMPO_COMPLETO",
+    "fechaContratacion": "2024-09-23",
+    "tipoContrato": "string",
+    "salario": "string",
+    "horario": "string",
+    "numeroOficina": "string",
+    "extensionTelefonica": "string",
+    "supervisor": "string",
+    "fechaJubilacion": "2024-09-23",
+    "cursoId": 1
   }
 }

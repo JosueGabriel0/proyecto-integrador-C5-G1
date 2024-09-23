@@ -68,11 +68,11 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             // Asignar el ID de la Persona recién creada
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
-            // Ahora crear el docente utilizando el ID de la Persona recién creada
+            // Asignar ID de Persona a Docente
             Docente docente = inscripcionDTO.getDocente();
             docente.setIdPersona(inscripcion.getIdPersona());
 
-            // Crear el docente
+            // Crear Docente
             ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
             if (docenteResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Docente.");
