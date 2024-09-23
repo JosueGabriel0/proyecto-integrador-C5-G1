@@ -35,7 +35,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION
     @Override
-    public Inscripcion crearInscripcion(Inscripcion inscripcionDTO) {
+    public Inscripcion crearInscripcion(Inscripcion inscripcionDTO){
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -100,71 +100,115 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     @Override
     public Inscripcion editarInscripcion(Long id, Inscripcion inscripcionDTO) {
-        // Buscar la inscripción por ID
-        Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
-        if (!inscripcionOpt.isPresent()) {
-            throw new RuntimeException("Inscripción no encontrada con ID: " + id);
+        Optional<Inscripcion> optionalInscripcion = inscripcionesRepository.findById(id);
+
+        if (!optionalInscripcion.isPresent()) {
+            throw new RuntimeException("No se pudo encontrar la inscripción con ID: " + id);
         }
 
-        Inscripcion inscripcion = inscripcionOpt.get();
+        Inscripcion inscripcion = optionalInscripcion.get();
 
-        // No se edita el Rol, pero se actualizan los demás campos
         try {
-            // Actualizar los datos del Usuario si es necesario
-            if (inscripcionDTO.getUsuario() != null) {
-                ResponseEntity<Usuario> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcion.getIdUsuario(), inscripcionDTO.getUsuario());
-                if (usuarioResponse.getBody() != null) {
-                    inscripcion.setUsuario(usuarioResponse.getBody());
-                } else {
-                    throw new RuntimeException("No se pudo actualizar el Usuario con ID: " + inscripcion.getIdUsuario());
+            // Verificar y asignar el Rol
+            ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcionDTO.getIdRol());
+            if (rolResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo encontrar el Rol con ID: " + inscripcionDTO.getIdRol());
+            }
+            inscripcion.setIdRol(inscripcionDTO.getIdRol());
+            inscripcionDTO.getUsuario().setIdRol(inscripcionDTO.getIdRol());
+
+            // Actualizar Usuario
+            inscripcionDTO.getUsuario().setIdUsuario(inscripcion.getIdUsuario());
+            ResponseEntity<Usuario> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcion.getIdUsuario(), inscripcionDTO.getUsuario());
+            if (usuarioResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo actualizar el Usuario.");
+            }
+
+            // Actualizar Persona
+            inscripcionDTO.getPersona().setIdUsuario(inscripcion.getIdUsuario());
+            ResponseEntity<Persona> personaResponse = personaFeign.actualizarPersonaDto(inscripcion.getIdPersona(), inscripcionDTO.getPersona());
+            if (personaResponse.getBody() == null) {
+                throw new RuntimeException("No se pudo actualizar la Persona.");
+            }
+
+            // Verificar si se actualiza un Estudiante o un Docente, no ambos
+            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+                // Actualizar Estudiante
+                Estudiante estudiante = inscripcionDTO.getEstudiante();
+                estudiante.setIdPersona(inscripcion.getIdPersona());
+                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.actualizarEstudianteDto(inscripcion.getIdEstudiante(), estudiante);
+                if (estudianteResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Estudiante.");
                 }
-            }
+                inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
 
-            // Actualizar otros campos de la inscripción (excepto el Rol)
-            if (inscripcionDTO.getFechaModificacionInscripcion() != null) {
-                inscripcion.setFechaModificacionInscripcion(inscripcionDTO.getFechaModificacionInscripcion());
-            }
+                // Limpiar ID de Docente si existía
+                inscripcion.setIdDocente(null);
 
-            // Aquí puedes agregar cualquier otro campo que quieras permitir editar:
-            if (inscripcionDTO.getInscripcionRol() != null) {
-                inscripcion.setInscripcionRol(inscripcionDTO.getInscripcionRol());
-            }
+            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getEstudiante() == null) {
+                // Actualizar Docente
+                Docente docente = inscripcionDTO.getDocente();
+                docente.setIdPersona(inscripcion.getIdPersona());
+                ResponseEntity<Docente> docenteResponse = docenteFeign.actualizarDocenteDto(inscripcion.getIdDocente(), docente);
+                if (docenteResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Docente.");
+                }
+                inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
 
-            // Guardar los cambios en la base de datos
-            inscripcionesRepository.save(inscripcion);
+                // Limpiar ID de Estudiante si existía
+                inscripcion.setIdEstudiante(null);
+            } else {
+                throw new RuntimeException("Debe proveerse solo un Estudiante o un Docente, no ambos.");
+            }
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
+        inscripcionesRepository.save(inscripcion);
         return inscripcion;
     }
 
     @Override
     public void eliminarInscripcion(Long idInscripcion) {
-        // Verificar si la inscripción existe antes de eliminar
-        if (!inscripcionesRepository.existsById(idInscripcion)) {
-            throw new RuntimeException("Inscripción no encontrada con ID: " + idInscripcion);
+        Optional<Inscripcion> optionalInscripcion = inscripcionesRepository.findById(idInscripcion);
+
+        if (!optionalInscripcion.isPresent()) {
+            throw new RuntimeException("No se pudo encontrar la inscripción con ID: " + idInscripcion);
         }
 
-        Inscripcion inscripcion = inscripcionesRepository.findById(idInscripcion).orElse(null);
+        Inscripcion inscripcion = optionalInscripcion.get();
 
-        // Eliminar la inscripción pero mantener el rol
         try {
-            // Eliminar el usuario relacionado si existe
-            if (inscripcion != null && inscripcion.getIdUsuario() != null) {
-                usuarioFeign.eliminarUsuarioDto(inscripcion.getIdUsuario());
+            // Eliminar Estudiante si existe
+            if (inscripcion.getIdEstudiante() != null) {
+                ResponseEntity<String> estudianteResponse = estudianteFeign.eliminarEstudianteDto(inscripcion.getIdEstudiante());
+                if (estudianteResponse.getStatusCode().isError()) {
+                    throw new RuntimeException("No se pudo eliminar el Estudiante con ID: " + inscripcion.getIdEstudiante());
+                }
             }
 
-            // Limpiar otros datos de la inscripción (excepto el rol)
-            inscripcion.setUsuario(null);
-            inscripcion.setFechaModificacionInscripcion(null);
-            // Otros campos que deban eliminarse
+            // Eliminar Docente si existe
+            if (inscripcion.getIdDocente() != null) {
+                ResponseEntity<String> docenteResponse = docenteFeign.eliminarDocenteDto(inscripcion.getIdDocente());
+                if (docenteResponse.getStatusCode().isError()) {
+                    throw new RuntimeException("No se pudo eliminar el Docente con ID: " + inscripcion.getIdDocente());
+                }
+            }
 
-            // Guardar la inscripción vacía (sin datos)
-            inscripcionesRepository.save(inscripcion);
+            // Eliminar Persona
+            ResponseEntity<String> personaResponse = personaFeign.eliminarPersonaDto(inscripcion.getIdPersona());
+            if (personaResponse.getStatusCode().isError()) {
+                throw new RuntimeException("No se pudo eliminar la Persona con ID: " + inscripcion.getIdPersona());
+            }
 
-            // Finalmente, eliminar la inscripción
+            // Eliminar Usuario
+            ResponseEntity<String> usuarioResponse = usuarioFeign.eliminarUsuarioDto(inscripcion.getIdUsuario());
+            if (usuarioResponse.getStatusCode().isError()) {
+                throw new RuntimeException("No se pudo eliminar el Usuario con ID: " + inscripcion.getIdUsuario());
+            }
+
+            // Finalmente, eliminar la inscripción de la base de datos
             inscripcionesRepository.deleteById(idInscripcion);
 
         } catch (FeignException e) {
@@ -355,37 +399,72 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     @Override
     public Inscripcion buscarInscripcionPorId(Long id) {
-        // Buscar la inscripción por idInscripcion
-        Optional<Inscripcion> inscripcionOpt = inscripcionesRepository.findById(id);
-        if (!inscripcionOpt.isPresent()) {
-            throw new RuntimeException("Inscripción no encontrada con ID: " + id);
+        Optional<Inscripcion> optionalInscripcion = inscripcionesRepository.findById(id);
+
+        if (!optionalInscripcion.isPresent()) {
+            throw new RuntimeException("No se pudo encontrar la inscripción con ID: " + id);
         }
 
-        Inscripcion inscripcion = inscripcionOpt.get();
+        Inscripcion inscripcion = optionalInscripcion.get();
 
-        try {
-            // Obtener el Rol relacionado si existe
-            if (inscripcion.getIdRol() != null) {
+        // Obtener el Rol si existe
+        if (inscripcion.getIdRol() != null) {
+            try {
                 ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
                 if (rolResponse.getBody() != null) {
                     inscripcion.setRol(rolResponse.getBody());
-                } else {
-                    throw new RuntimeException("No se pudo obtener el Rol con ID: " + inscripcion.getIdRol());
                 }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Rol: " + e.getMessage());
             }
+        }
 
-            // Obtener el Usuario relacionado si existe
-            if (inscripcion.getIdUsuario() != null) {
+        // Obtener el Usuario si existe
+        if (inscripcion.getIdUsuario() != null) {
+            try {
                 ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
                 if (usuarioResponse.getBody() != null) {
                     inscripcion.setUsuario(usuarioResponse.getBody());
-                } else {
-                    throw new RuntimeException("No se pudo obtener el Usuario con ID: " + inscripcion.getIdUsuario());
                 }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Usuario: " + e.getMessage());
             }
+        }
 
-        } catch (FeignException e) {
-            throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
+        // Obtener la Persona si existe
+        if (inscripcion.getIdPersona() != null) {
+            try {
+                ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getIdPersona());
+                if (personaResponse.getBody() != null) {
+                    inscripcion.setPersona(personaResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener la Persona: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Estudiante si existe
+        if (inscripcion.getIdEstudiante() != null) {
+            try {
+                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
+                if (estudianteResponse.getBody() != null) {
+                    inscripcion.setEstudiante(estudianteResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Estudiante: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Docente si existe
+        if (inscripcion.getIdDocente() != null) {
+            try {
+                ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
+                if (docenteResponse.getBody() != null) {
+                    inscripcion.setDocente(docenteResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Docente: " + e.getMessage());
+            }
         }
 
         return inscripcion;

@@ -49,21 +49,5 @@
     "consejeroAcademico": "string",
     "fechaGraduacion": "string",
     "idCurso": 1
-  },
-  "docente": {
-    "departamento": "string",
-    "tituloAcatemico": "string",
-    "especialidad": "string",
-    "estadoLaboral": "ACTIVO",
-    "tipoDocente": "TIEMPO_COMPLETO",
-    "fechaContratacion": "2024-09-23",
-    "tipoContrato": "string",
-    "salario": "string",
-    "horario": "string",
-    "numeroOficina": "string",
-    "extensionTelefonica": "string",
-    "supervisor": "string",
-    "fechaJubilacion": "2024-09-23",
-    "idCurso": 1
   }
 }
