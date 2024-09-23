@@ -282,84 +282,67 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     //R INSCRIPCION GENERAL
     @Override
     public List<Inscripcion> listarInscripcion() {
-        // Obtener todas las inscripciones de la base de datos
         List<Inscripcion> inscripciones = inscripcionesRepository.findAll();
 
-        // Iterar sobre cada inscripción y llenar los datos relacionados (Rol, Usuario, Persona, Estudiante, Docente)
         inscripciones.forEach(inscripcion -> {
-            try {
-                // Obtener el Rol si existe
-                if (inscripcion.getIdRol() != null) {
-                    try {
-                        ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
-                        if (rolResponse.getBody() != null) {
-                            inscripcion.setRol(rolResponse.getBody());
-                        } else {
-                            System.out.println("No se pudo obtener el Rol con ID: " + inscripcion.getIdRol());
-                        }
-                    } catch (FeignException e) {
-                        System.out.println("Error al obtener el Rol: " + e.getMessage());
+            // Obtener el Rol si existe
+            if (inscripcion.getIdRol() != null) {
+                try {
+                    ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
+                    if (rolResponse.getBody() != null) {
+                        inscripcion.setRol(rolResponse.getBody());
                     }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Rol: " + e.getMessage());
                 }
+            }
 
-                // Obtener el Usuario si existe
-                if (inscripcion.getIdUsuario() != null) {
-                    try {
-                        ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
-                        if (usuarioResponse.getBody() != null) {
-                            inscripcion.setUsuario(usuarioResponse.getBody());
-                        } else {
-                            System.out.println("No se pudo obtener el Usuario con ID: " + inscripcion.getIdUsuario());
-                        }
-                    } catch (FeignException e) {
-                        System.out.println("Error al obtener el Usuario: " + e.getMessage());
+            // Obtener el Usuario si existe
+            if (inscripcion.getIdUsuario() != null) {
+                try {
+                    ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
+                    if (usuarioResponse.getBody() != null) {
+                        inscripcion.setUsuario(usuarioResponse.getBody());
                     }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Usuario: " + e.getMessage());
                 }
+            }
 
-                // Obtener la Persona si existe
-                if (inscripcion.getIdPersona() != null) {
-                    try {
-                        ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getIdPersona());
-                        if (personaResponse.getBody() != null) {
-                            inscripcion.setPersona(personaResponse.getBody());
-                        } else {
-                            System.out.println("No se pudo obtener la Persona con ID: " + inscripcion.getIdPersona());
-                        }
-                    } catch (FeignException e) {
-                        System.out.println("Error al obtener la Persona: " + e.getMessage());
+            // Obtener la Persona si existe
+            if (inscripcion.getIdPersona() != null) {
+                try {
+                    ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getIdPersona());
+                    if (personaResponse.getBody() != null) {
+                        inscripcion.setPersona(personaResponse.getBody());
                     }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener la Persona: " + e.getMessage());
                 }
+            }
 
-                // Obtener el Estudiante si existe
-                if (inscripcion.getIdEstudiante() != null) {
-                    try {
-                        ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
-                        if (estudianteResponse.getBody() != null) {
-                            inscripcion.setEstudiante(estudianteResponse.getBody());
-                        } else {
-                            System.out.println("No se pudo obtener el Estudiante con ID: " + inscripcion.getIdEstudiante());
-                        }
-                    } catch (FeignException e) {
-                        System.out.println("Error al obtener el Estudiante: " + e.getMessage());
+            // Obtener el Docente si existe
+            if (inscripcion.getIdDocente() != null) {
+                try {
+                    ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
+                    if (docenteResponse.getBody() != null) {
+                        inscripcion.setDocente(docenteResponse.getBody());
                     }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Docente: " + e.getMessage());
                 }
+            }
 
-                // Obtener el Docente si existe
-                if (inscripcion.getIdDocente() != null) {
-                    try {
-                        ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
-                        if (docenteResponse.getBody() != null) {
-                            inscripcion.setDocente(docenteResponse.getBody());
-                        } else {
-                            System.out.println("No se pudo obtener el Docente con ID: " + inscripcion.getIdDocente());
-                        }
-                    } catch (FeignException e) {
-                        System.out.println("Error al obtener el Docente: " + e.getMessage());
+            // Obtener el Estudiante si existe
+            if (inscripcion.getIdEstudiante() != null) {
+                try {
+                    ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
+                    if (estudianteResponse.getBody() != null) {
+                        inscripcion.setEstudiante(estudianteResponse.getBody());
                     }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Estudiante: " + e.getMessage());
                 }
-
-            } catch (Exception e) {
-                System.out.println("Error al completar la inscripción con ID: " + inscripcion.getIdInscripcion() + " - " + e.getMessage());
             }
         });
 
