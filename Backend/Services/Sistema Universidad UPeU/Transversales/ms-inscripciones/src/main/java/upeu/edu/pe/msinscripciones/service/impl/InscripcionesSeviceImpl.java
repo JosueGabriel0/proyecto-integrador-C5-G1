@@ -61,17 +61,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
-            // Crear Docente y obtener el ID
-            if (inscripcionDTO.getDocente() != null) {
-                Docente docente = inscripcionDTO.getDocente();
-                docente.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Docente
-                ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
-                if (docenteResponse.getBody() == null) {
-                    throw new RuntimeException("No se pudo crear el Docente.");
-                }
-                inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
-            }
-
             // Crear Estudiante y obtener el ID
             if (inscripcionDTO.getEstudiante() != null) {
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
@@ -81,6 +70,17 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Estudiante.");
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
+            }
+            
+            // Crear Docente y obtener el ID
+            if (inscripcionDTO.getDocente() != null) {
+                Docente docente = inscripcionDTO.getDocente();
+                docente.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Docente
+                ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
+                if (docenteResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear el Docente.");
+                }
+                inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
             }
 
         } catch (FeignException e) {
