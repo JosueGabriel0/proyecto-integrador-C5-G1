@@ -37,7 +37,7 @@ public class DocenteController {
             Persona persona = personaResponse.getBody();
 
             // Verificar si el curso existe
-            ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getCursoId());
+            ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getIdCurso());
             if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso");
             }
