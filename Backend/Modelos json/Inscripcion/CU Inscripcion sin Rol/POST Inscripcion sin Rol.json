@@ -48,7 +48,7 @@
     "horario": "string",
     "consejeroAcademico": "string",
     "fechaGraduacion": "string",
-    "idCurso": 0
+    "idCurso": 1
   },
   "docente": {
     "departamento": "string",
