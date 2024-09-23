@@ -270,7 +270,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         List<Inscripcion> inscripciones = inscripcionesRepository.findAll();
 
         inscripciones.forEach(inscripcion -> {
-            // Identificamos si es una Inscripcion con Rol
+            // Obtener el Rol si existe
             if (inscripcion.getIdRol() != null) {
                 try {
                     ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
@@ -282,7 +282,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             }
 
-            // Intentamos obtener la Inscripcion ya sea Con Rol o Sin Rol
+            // Obtener el Usuario si existe
             if (inscripcion.getIdUsuario() != null) {
                 try {
                     ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
@@ -291,6 +291,18 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     }
                 } catch (FeignException e) {
                     System.out.println("Error al obtener el Usuario: " + e.getMessage());
+                }
+            }
+
+            // Obtener la Persona si existe
+            if (inscripcion.getIdPersona() != null) {
+                try {
+                    ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getIdPersona());
+                    if (personaResponse.getBody() != null) {
+                        inscripcion.setPersona(personaResponse.getBody());
+                    }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener la Persona: " + e.getMessage());
                 }
             }
         });
