@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import RolService from "../../../services/administrador/rol/RolService";
+import { Link } from "react-router-dom";
 
-export const ListRolComponent = () => {
+function ListRolComponent(){
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
@@ -16,6 +17,7 @@ export const ListRolComponent = () => {
     return(
         <div className="container">
         <h2>Lista de Roles</h2>
+        <Link to='/add-rol'>Agregar Rol</Link>
         <table>
             <thead>
                 <th>ID</th>

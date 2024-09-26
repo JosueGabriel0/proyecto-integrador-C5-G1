@@ -7,6 +7,10 @@ class RolService{
     getAllRoles(){
         return axios.get(ROL_BASE_REST_API_URL);
     }
+
+    createRol(rol){
+        return axios.post(ROL_BASE_REST_API_URL,rol);
+    }
 }
 
 export default new RolService();
