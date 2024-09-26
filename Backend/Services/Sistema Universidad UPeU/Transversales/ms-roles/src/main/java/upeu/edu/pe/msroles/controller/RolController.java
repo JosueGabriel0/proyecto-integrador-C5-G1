@@ -9,7 +9,7 @@ import upeu.edu.pe.msroles.service.RolService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/rol")
 public class RolController {
