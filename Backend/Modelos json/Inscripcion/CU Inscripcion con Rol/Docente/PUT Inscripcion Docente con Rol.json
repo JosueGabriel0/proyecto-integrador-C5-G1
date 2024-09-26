@@ -1,0 +1,59 @@
+{
+  "rol": {
+    "nombreRol": "docenteGxd",
+    "description": "string",
+    "fechaCreacionRol": "2024-09-25T00:46:44.606Z",
+    "fechaModificacionRol": "2024-09-25T00:46:44.606Z"
+  },
+  "usuario": {
+    "username": "josueGxd",
+    "password": "12345",
+    "email": "josueGxd@gmail.com",
+    "enabled": true,
+    "ultimoLogin": "2024-09-22T02:53:40.759Z",
+    "tokenRecuperacion": "string",
+    "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
+  },
+  "persona": {
+    "nombres": "JOSUEG",
+    "apellido_paterno": "Perez",
+    "apellido_materno": "Lopez",
+    "fecha_nacimiento": "2000-01-01",
+    "genero": "Masculino",
+    "nacionalidad": "Peruana",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": "12345678",
+    "direccion": "Calle Ejemplo 123",
+    "ciudad": "Lima",
+    "departamento": "Lima",
+    "pais": "Perú",
+    "telefono": "987654321",
+    "email": "josue@gmail.com",
+    "estadoCivil": "Soltero",
+    "fotoPerfil": "https://example.com/fotoPerfil.jpg",
+    "tipoSangre": "O+",
+    "contactoEmergenciaNombre": "Maria Lopez",
+    "contactoEmergenciaTelefono": "987654321",
+    "contactoEmergenciaEmail": "maria.lopez@gmail.com",
+    "contactoEmergenciaDireccion": "Calle Emergencia 456",
+    "contactoEmergenciaCiudad": "Lima",
+    "contactoEmergenciaParentesco": "Madre",
+    "fechaRegistro": "2024-09-23T00:04:07.584Z"
+  },
+  "docente": {
+    "departamento": "SISTEMAS",
+    "tituloAcatemico": "string",
+    "especialidad": "string",
+    "estadoLaboral": "ACTIVO",
+    "tipoDocente": "TIEMPO_COMPLETO",
+    "fechaContratacion": "2024-09-23",
+    "tipoContrato": "string",
+    "salario": "string",
+    "horario": "string",
+    "numeroOficina": "string",
+    "extensionTelefonica": "string",
+    "supervisor": "string",
+    "fechaJubilacion": "2024-09-23",
+    "idCurso": 1
+  }
+}
