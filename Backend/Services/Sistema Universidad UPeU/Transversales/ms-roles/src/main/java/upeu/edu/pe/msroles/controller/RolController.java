@@ -16,6 +16,11 @@ public class RolController {
     @Autowired
     private RolService rolService;
 
+    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflight() {
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping
     public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol Rol){
         return ResponseEntity.ok(rolService.guardarRol(Rol));
