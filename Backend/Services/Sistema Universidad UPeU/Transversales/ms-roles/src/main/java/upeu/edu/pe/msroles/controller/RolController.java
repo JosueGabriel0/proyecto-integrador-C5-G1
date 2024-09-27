@@ -7,28 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msroles.entity.Rol;
 import upeu.edu.pe.msroles.service.RolService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/rol")
 public class RolController {
     @Autowired
     private RolService rolService;
 
-    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handlePreflight() {
-        return ResponseEntity.ok().build(); // Responder a la solicitud OPTIONS con un 200 OK
-    }
-
-    private static final Logger logger = LoggerFactory.getLogger(RolController.class);
-
     @PostMapping
     public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol rol){
-        logger.info("Solicitud POST recibida para crear rol: {}", rol);
         return ResponseEntity.ok(rolService.guardarRol(rol));
     }
 
@@ -50,7 +39,6 @@ public class RolController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
-        logger.info("Solicitud DELETE recibida para eliminar rol con ID: {}", id);
         try {
             // Lógica para eliminar la Rol
             rolService.eliminarRol(id);
