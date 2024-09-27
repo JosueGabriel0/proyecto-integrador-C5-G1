@@ -10,10 +10,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Permite todas las rutas
-                .allowedOrigins("http://localhost:3000") // Permite este origen específico
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
-                .allowedHeaders("*") // Permite todos los encabezados
-                .allowCredentials(true); // Permite el uso de credenciales (opcional)
+        registry.addMapping("/**")  // Permite todas las rutas
+                .allowedOrigins("http://localhost:3000")  // Permite solo el origen específico
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
+                .allowedHeaders("*")  // Permite todos los headers
+                .allowCredentials(true);  // Permite enviar cookies u otras credenciales
     }
 }

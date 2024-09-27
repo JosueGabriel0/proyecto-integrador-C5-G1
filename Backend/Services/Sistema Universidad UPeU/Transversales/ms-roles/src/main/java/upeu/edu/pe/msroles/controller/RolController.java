@@ -15,18 +15,11 @@ public class RolController {
     @Autowired
     private RolService rolService;
 
-    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handlePreflight() {
-        return ResponseEntity.ok().build();
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000/add-rol")
     @PostMapping
     public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol Rol){
         return ResponseEntity.ok(rolService.guardarRol(Rol));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity<List<Rol>> listarRolResponseEntity(){
         return ResponseEntity.ok(rolService.listarRol());
@@ -43,7 +36,6 @@ public class RolController {
         return ResponseEntity.ok(rolService.editarRol(Rol));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
         try {
