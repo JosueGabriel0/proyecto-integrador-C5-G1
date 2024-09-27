@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msroles.entity.Rol;
 import upeu.edu.pe.msroles.service.RolService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -15,9 +19,12 @@ public class RolController {
     @Autowired
     private RolService rolService;
 
+    private static final Logger logger = LoggerFactory.getLogger(RolController.class);
+
     @PostMapping
-    public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol Rol){
-        return ResponseEntity.ok(rolService.guardarRol(Rol));
+    public ResponseEntity<Rol> guardarRolResponseEntity(@RequestBody Rol rol){
+        logger.info("Solicitud POST recibida para crear rol: {}", rol);
+        return ResponseEntity.ok(rolService.guardarRol(rol));
     }
 
     @GetMapping
@@ -31,13 +38,14 @@ public class RolController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Rol> editarRolResponseEntity(@PathVariable (required = true) Long id,@RequestBody Rol Rol){
-        Rol.setIdRol(id);
-        return ResponseEntity.ok(rolService.editarRol(Rol));
+    public ResponseEntity<Rol> editarRolResponseEntity(@PathVariable (required = true) Long id,@RequestBody Rol rol){
+        rol.setIdRol(id);
+        return ResponseEntity.ok(rolService.editarRol(rol));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
+        logger.info("Solicitud DELETE recibida para eliminar rol con ID: {}", id);
         try {
             // Lógica para eliminar la Rol
             rolService.eliminarRol(id);
