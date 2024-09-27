@@ -19,6 +19,11 @@ public class RolController {
     @Autowired
     private RolService rolService;
 
+    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflight() {
+        return ResponseEntity.ok().build(); // Responder a la solicitud OPTIONS con un 200 OK
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(RolController.class);
 
     @PostMapping
