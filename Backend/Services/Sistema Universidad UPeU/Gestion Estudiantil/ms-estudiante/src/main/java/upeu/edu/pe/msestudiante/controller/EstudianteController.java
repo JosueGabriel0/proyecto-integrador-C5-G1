@@ -16,7 +16,7 @@ import upeu.edu.pe.msestudiante.service.EstudianteService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Estudiante")
+@RequestMapping("/estudiante")
 
 public class EstudianteController {
     @Autowired
