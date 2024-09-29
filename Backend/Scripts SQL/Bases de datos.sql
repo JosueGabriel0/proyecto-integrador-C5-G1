@@ -1,3 +1,5 @@
+CREATE DATABASE `ms-administrador`;
+CREATE DATABASE `ms-administrativo`;
 CREATE DATABASE `ms-calendarioacademico`;
 CREATE DATABASE `ms-carrera`;
 CREATE DATABASE `ms-curso`;

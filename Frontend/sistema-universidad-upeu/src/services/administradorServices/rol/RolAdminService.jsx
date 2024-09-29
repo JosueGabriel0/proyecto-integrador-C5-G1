@@ -16,6 +16,10 @@ class RolService{
         return axios.get(ROL_BASE_REST_API_URL+"/"+idRol);
     }
 
+    updateRol(idRol,rol){
+        return axios.put(ROL_BASE_REST_API_URL+"/"+idRol,rol);
+    }
+
     deleteRol(idRol){
         return axios.delete(ROL_BASE_REST_API_URL + '/' + idRol)
     }

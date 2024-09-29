@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 
 function AddRolComponent() {
 
     const [nombreRol,setNombreRol] = useState("");
     const [description,setDescription] = useState("");
     const navigate = useNavigate();
-    const {id} =useParams();
+    const {id} = useParams();
 
-    function saveRol(e){
+    function saveOrUpdateRol(e){
         e.preventDefault();
         const rol = {nombreRol,description};
         console.log(rol);
-        RolAdminService.createRol(rol).then((response) => {
-            console.log(response.data);
-            navigate("/roles");
-        }).catch(error => {
-            console.log(error)
-        })
+
+        if(id){
+            RolAdminService.updateRol(id,rol).then((response) => {
+                console.log(response.data);
+                navigate("/roles");
+            }).catch(error => {
+                console.log(error)
+            })
+        }else{
+            RolAdminService.createRol(rol).then((response) => {
+                console.log(response.data);
+                navigate("/roles");
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     }
 
     useEffect(()=>{
@@ -29,7 +38,7 @@ function AddRolComponent() {
         }).catch(error => {
             console.log(error)
         })
-    })
+    },[])
 
     function title(){
         if(id){
@@ -39,9 +48,17 @@ function AddRolComponent() {
         }
     }
 
+    function botonGuardarOActualizar(){
+        if(id){
+            return <div>Actualizar</div>;
+        }else{
+            return <div>Guardar</div>;
+        }
+    }
+
     return(
         <div>
-            <h1></h1>
+            <h1>{ title() }</h1>
             <form>
 
                 <div>
@@ -53,7 +70,7 @@ function AddRolComponent() {
                     <label>Descripcion</label>
                     <input type="text" placeholder="Inserte la descripcion" name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
                 </div>
-                <button onClick={ (e) => saveRol(e) }>Guardar</button>
+                <button onClick={ (e) => saveOrUpdateRol(e) }>{botonGuardarOActualizar()}</button>
                 &nbsp;
                 &nbsp;
                 <Link to="/roles">Cancelar</Link>

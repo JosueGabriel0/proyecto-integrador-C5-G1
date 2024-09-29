@@ -27,6 +27,7 @@ function ListRolComponent(){
     }
     return(
         <div className="container">
+        <Link to="/dashboard-administrador">Retroceder</Link>
         <h2>Lista de Roles</h2>
         <Link to='/add-rol'>Agregar Rol</Link>
         <table>

@@ -23,6 +23,7 @@ const App = () => {
     <Route path='/edit-rol/:id' element={<AddRolComponent />}></Route>
     <Route path='/usuarios' element={<ListUsuarioComponent/>}></Route>
     <Route path='/add-usuario' element={<AddUsuarioComponent/>}></Route>
+    <Route path='/edit-usuario/:id' element={<AddUsuarioComponent/>}></Route>
     </Routes>
     </div>
     </BrowserRouter>

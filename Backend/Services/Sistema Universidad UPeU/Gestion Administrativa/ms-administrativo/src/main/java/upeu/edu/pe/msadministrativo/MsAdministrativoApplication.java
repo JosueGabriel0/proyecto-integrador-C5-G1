@@ -1,4 +1,4 @@
-package upeu.edu.pe.msinscripciones;
+package upeu.edu.pe.msadministrativo;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -10,18 +10,18 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableFeignClients
-public class MsInscripcionesApplication {
+public class MsAdministrativoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MsInscripcionesApplication.class, args);
+        SpringApplication.run(MsAdministrativoApplication.class, args);
     }
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI().info(new Info()
-                .title("OPEN API MICROSERVICIO Inscripciones")
+                .title("OPEN API MICROSERVICIO Administrativo")
                 .version("0.0.1")
-                .description("servicios web inscripciones")
+                .description("servicios web administrativo")
                 .termsOfService("http:// swagger.io/terms")
                 .license(new License().name("Apache 2.0").url("http://springdoc.org"))
         );
