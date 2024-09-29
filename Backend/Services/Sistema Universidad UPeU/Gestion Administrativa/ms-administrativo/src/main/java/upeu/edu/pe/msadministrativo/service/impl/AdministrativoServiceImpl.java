@@ -4,6 +4,7 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import upeu.edu.pe.msadministrativo.dto.Persona;
 import upeu.edu.pe.msadministrativo.entity.Administrativo;
 import upeu.edu.pe.msadministrativo.exception.ResourceNotFoundException;
 import upeu.edu.pe.msadministrativo.feign.PersonaFeign;
