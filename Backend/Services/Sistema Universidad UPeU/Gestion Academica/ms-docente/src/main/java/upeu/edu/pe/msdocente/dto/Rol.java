@@ -1,4 +1,4 @@
-package upeu.edu.pe.mspersona.dto;
+package upeu.edu.pe.msdocente.dto;
 
 import jakarta.persistence.Column;
 import lombok.Data;

@@ -1,7 +1,5 @@
 package upeu.edu.pe.mspersona.service;
 
-import upeu.edu.pe.mspersona.dto.Rol;
-import upeu.edu.pe.mspersona.dto.Usuario;
 import upeu.edu.pe.mspersona.entity.Persona;
 
 import java.util.List;

@@ -1,9 +1,6 @@
 package upeu.edu.pe.msdocente.dto;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,8 +21,6 @@ public class Curso {
 
     private List<String> asignaturas = new ArrayList<>();
 
-    private LocalDateTime fechaCreacion;
-
-    private LocalDateTime fechaModificacion;
-
+    private LocalDateTime fechaCreacionCurso;
+    private LocalDateTime fechaModificacionCurso;
 }

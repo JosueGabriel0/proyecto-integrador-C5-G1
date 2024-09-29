@@ -1,5 +1,6 @@
 package upeu.edu.pe.msadministrador.dto;
 
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -35,6 +36,10 @@ public class Persona {
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private long idUsuario;
+    @Transient
+    private Usuario usuario;
+
+    private LocalDateTime fechaCreacionPersona;
+    private LocalDateTime fechaModificacionPersona;
 }

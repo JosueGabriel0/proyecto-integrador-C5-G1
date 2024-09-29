@@ -1,5 +1,6 @@
 package upeu.edu.pe.msestudiante.dto;
 
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -34,6 +35,10 @@ public class Persona {
     private String contactoEmergenciaCiudad;
     private String contactoEmergenciaParentesco;
     private LocalDateTime fechaRegistro;
+
+    private long idUsuario;
+    @Transient
+    private Usuario usuario;
 
     private LocalDateTime fechaCreacionPersona;
     private LocalDateTime fechaModificacionPersona;

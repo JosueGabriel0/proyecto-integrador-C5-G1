@@ -1,7 +1,5 @@
-package upeu.edu.pe.mspersona.dto;
+package upeu.edu.pe.msestudiante.dto;
 
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Transient;
 import lombok.Data;
 

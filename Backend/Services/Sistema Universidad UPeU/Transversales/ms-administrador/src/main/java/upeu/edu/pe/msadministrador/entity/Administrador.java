@@ -2,7 +2,6 @@ package upeu.edu.pe.msadministrador.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.msadministrador.dto.Persona;
 
 import java.time.LocalDateTime;
 
