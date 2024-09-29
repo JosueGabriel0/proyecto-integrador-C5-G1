@@ -1,18 +1,20 @@
-import { useState } from "react";
-import RolService from "../../../services/administrador/rol/RolService";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 
 function AddRolComponent() {
 
     const [nombreRol,setNombreRol] = useState("");
     const [description,setDescription] = useState("");
     const navigate = useNavigate();
+    const {id} =useParams();
 
     function saveRol(e){
         e.preventDefault();
         const rol = {nombreRol,description};
         console.log(rol);
-        RolService.createRol(rol).then((response) => {
+        RolAdminService.createRol(rol).then((response) => {
             console.log(response.data);
             navigate("/roles");
         }).catch(error => {
@@ -20,9 +22,26 @@ function AddRolComponent() {
         })
     }
 
+    useEffect(()=>{
+        RolAdminService.getRolById(id).then((response)=>{
+            setNombreRol(response.data.nombreRol);
+            setDescription(response.data.description);
+        }).catch(error => {
+            console.log(error)
+        })
+    })
+
+    function title(){
+        if(id){
+            return <h2>Actualizar Rol</h2>
+        }else{
+            return <h2>Agregar Rol</h2>
+        }
+    }
+
     return(
         <div>
-            <h1>Registro de Roles</h1>
+            <h1></h1>
             <form>
 
                 <div>

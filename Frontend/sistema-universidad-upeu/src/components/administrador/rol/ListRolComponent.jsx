@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import RolService from "../../../services/administrador/rol/RolService";
+import RolService from "../../../services/administradorServices/rol/RolAdminService";
 import { Link } from "react-router-dom";
 
 function ListRolComponent(){
@@ -34,6 +34,7 @@ function ListRolComponent(){
                 <th>ID</th>
                 <th>Nombre del Rol</th>
                 <th>Descipcion</th>
+                <th>Acciones</th>
             </thead>
             <tbody>{
                 roles.map(
@@ -42,6 +43,9 @@ function ListRolComponent(){
                         <td>{ rol.idRol }</td>
                         <td>{ rol.nombreRol }</td>
                         <td>{ rol.description }</td>
+                        <td>
+                            <Link to={`/edit-rol/${rol.idRol}`}>Actualizar</Link>
+                        </td>
                         <td>
                             <button onClick={() => deleteRol(rol.idRol)}>Eliminar</button>
                         </td>

@@ -33,7 +33,7 @@ const Login = () => {
       localStorage.setItem('token', 'usuarioAutenticado'); // Guardar token simulado en localStorage
       setError('');
       console.log(`Email: ${email}, Password: ${password}`);
-      navigate('/dashboard'); // Redirigir al dashboard después del login exitoso
+      navigate('/dashboard-administrador'); // Redirigir al dashboard después del login exitoso
     }
   };
 

@@ -12,6 +12,10 @@ class RolService{
         return axios.post(ROL_BASE_REST_API_URL,rol);
     }
 
+    getRolById(idRol){
+        return axios.get(ROL_BASE_REST_API_URL+"/"+idRol);
+    }
+
     deleteRol(idRol){
         return axios.delete(ROL_BASE_REST_API_URL + '/' + idRol)
     }
