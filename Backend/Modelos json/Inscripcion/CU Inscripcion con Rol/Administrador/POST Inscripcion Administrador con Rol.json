@@ -27,6 +27,7 @@
     "ciudad": "Lima",
     "departamento": "Lima",
     "pais": "Perú",
+    "provincia": "No hay",
     "telefono": "987654321",
     "email": "josue@gmail.com",
     "estadoCivil": "Soltero",
@@ -47,7 +48,6 @@
     "fechaUltimaRevision": "2024-09-30T00:13:25.825Z",
     "permisosEspeciales": "string",
     "logsAcceso": "string",
-    "cambiosConfiguracion": "string",
-    "idPersona": 1
+    "cambiosConfiguracion": "string"
   }
 }

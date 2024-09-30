@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import RolService from "../../../services/administradorServices/rol/RolAdminService";
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 import { Link } from "react-router-dom";
 
 function ListRolComponent(){
@@ -10,7 +10,7 @@ function ListRolComponent(){
     }, [])
 
     const listarRoles = () => {
-        RolService.getAllRoles().then(response => {
+        RolAdminService.getAllRoles().then(response => {
             setRoles(response.data);
             console.log(response.data);
         }).catch(error => {
@@ -19,7 +19,7 @@ function ListRolComponent(){
     }
 
     const deleteRol = (idRol) => {
-        RolService.deleteRol(idRol).then((response) => {
+        RolAdminService.deleteRol(idRol).then((response) => {
             listarRoles();
         }).catch(error => {
             console.log(error);
