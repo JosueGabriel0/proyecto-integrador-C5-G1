@@ -40,6 +40,11 @@ spring:
           predicates:
             - Path=/persona/**
 
+        - id: ms-administrador-service
+          uri: lb://ms-administrador-service
+          predicates:
+            - Path=/administrador/**
+
         - id: ms-inscripciones-service
           uri: lb://ms-inscripciones-service
           predicates:
@@ -69,6 +74,11 @@ spring:
           uri: lb://ms-estudiante-service
           predicates:
             - Path=/estudiante/**
+
+        - id: ms-administrativo-service
+          uri: lb://ms-administrativo-service
+          predicates:
+            - Path=/administrativo/**
 
         - id: ms-evaluacionAcademica-service
           uri: lb://ms-evaluacionAcademica-service
