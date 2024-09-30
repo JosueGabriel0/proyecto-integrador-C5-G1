@@ -1,5 +1,10 @@
 {
-  "idRol": 1,
+  "rol": {
+    "nombreRol": "alumnoGxd",
+    "description": "string",
+    "fechaCreacionRol": "2024-09-25T00:46:44.606Z",
+    "fechaModificacionRol": "2024-09-25T00:46:44.606Z"
+  },
   "usuario": {
     "username": "josueGxd",
     "password": "12345",
@@ -10,7 +15,7 @@
     "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
   },
   "persona": {
-    "nombres": "JOSUEG",
+    "nombres": "JOSUE",
     "apellido_paterno": "Perez",
     "apellido_materno": "Lopez",
     "fecha_nacimiento": "2000-01-01",
@@ -35,19 +40,14 @@
     "contactoEmergenciaParentesco": "Madre",
     "fechaRegistro": "2024-09-23T00:04:07.584Z"
   },
-  "estudiante": {
-    "matricula": "string",
-    "cicloActual": 0,
-    "promedioGeneral": 0,
-    "fechaIngreso": "2024-09-23",
-    "estado": "ACTIVO",
-    "tipoEstudiante": "string",
-    "beca": "string",
-    "numeroMatricula": "string",
-    "carreraId": 0,
-    "horario": "string",
-    "consejeroAcademico": "string",
-    "fechaGraduacion": "string",
-    "idCurso": 1
+  "administrador": {
+    "actividadReciente": "string",
+    "fechaActividad": "2024-09-30T00:13:25.825Z",
+    "estadoSistema": "string",
+    "fechaUltimaRevision": "2024-09-30T00:13:25.825Z",
+    "permisosEspeciales": "string",
+    "logsAcceso": "string",
+    "cambiosConfiguracion": "string",
+    "idPersona": 1
   }
 }

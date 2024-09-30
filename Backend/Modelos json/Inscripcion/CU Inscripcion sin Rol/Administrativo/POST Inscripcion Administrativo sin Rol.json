@@ -1,16 +1,16 @@
 {
   "idRol": 1,
   "usuario": {
-    "username": "josueGxd",
+    "username": "josuexd",
     "password": "12345",
-    "email": "josueGxd@gmail.com",
+    "email": "josuexd@gmail.com",
     "enabled": true,
     "ultimoLogin": "2024-09-22T02:53:40.759Z",
     "tokenRecuperacion": "string",
     "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
   },
   "persona": {
-    "nombres": "JOSUEG",
+    "nombres": "JOSUE",
     "apellido_paterno": "Perez",
     "apellido_materno": "Lopez",
     "fecha_nacimiento": "2000-01-01",
@@ -35,19 +35,15 @@
     "contactoEmergenciaParentesco": "Madre",
     "fechaRegistro": "2024-09-23T00:04:07.584Z"
   },
-  "estudiante": {
-    "matricula": "string",
-    "cicloActual": 0,
-    "promedioGeneral": 0,
-    "fechaIngreso": "2024-09-23",
-    "estado": "ACTIVO",
-    "tipoEstudiante": "string",
-    "beca": "string",
-    "numeroMatricula": "string",
-    "carreraId": 0,
-    "horario": "string",
-    "consejeroAcademico": "string",
-    "fechaGraduacion": "string",
-    "idCurso": 1
+  "administrativo": {
+    "registroPagos": "string",
+    "montoTotalPagos": 0,
+    "fechaUltimoPago": "2024-09-30T00:12:32.080Z",
+    "gestionEmpleados": "string",
+    "fechaContratacion": "2024-09-30T00:12:32.080Z",
+    "cargoEmpleado": "string",
+    "solicitudesPendientes": "string",
+    "fechaSolicitud": "2024-09-30T00:12:32.080Z",
+    "idPersona": 1
   }
 }
