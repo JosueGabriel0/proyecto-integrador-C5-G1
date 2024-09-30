@@ -34,6 +34,16 @@ public class Inscripcion {
     @Transient
     private Persona persona;
 
+    //ADMINISTRADOR
+    private Long idAdministrador;
+    @Transient
+    private Administrador administrador;
+
+    //ADMINISTRATIVO
+    private Long idAdministrativo;
+    @Transient
+    private Administrativo administrativo;
+
     //ESTUDIANTE
     private Long idEstudiante;
     @Transient

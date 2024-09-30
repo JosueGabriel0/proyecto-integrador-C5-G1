@@ -6,12 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msinscripciones.dto.*;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
-import upeu.edu.pe.msinscripciones.exception.ResourceNotFoundException;
 import upeu.edu.pe.msinscripciones.feign.*;
 import upeu.edu.pe.msinscripciones.repository.InscripcionesRepository;
 import upeu.edu.pe.msinscripciones.service.InscripcionesService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +26,10 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     private UsuarioFeign usuarioFeign;
     @Autowired
     private PersonaFeign personaFeign;
+    @Autowired
+    private AdministradorFeign administradorFeign;
+    @Autowired
+    private AdministrativoFeign administrativoFeign;
     @Autowired
     private EstudianteFeign estudianteFeign;
     @Autowired
@@ -61,8 +63,28 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
-            // Verificar si se crea un Estudiante o un Docente, no ambos
-            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+            // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
+            if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Crear Administrador y obtener el ID
+                Administrador administrador = inscripcionDTO.getAdministrador();
+                administrador.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Administrador
+                ResponseEntity<Administrador> administradorResponse = administradorFeign.crearAdministradorDto(administrador);
+                if (administradorResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear el Administrador.");
+                }
+                inscripcion.setIdAdministrador(administradorResponse.getBody().getIdAdministrador());
+
+            } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Crear Administrativo y obtener el ID
+                Administrativo administrativo = inscripcionDTO.getAdministrativo();
+                administrativo.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Administrativo
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.crearAdministrativoDto(administrativo);
+                if (administrativoResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear el Administrativo.");
+                }
+                inscripcion.setIdAdministrativo(administrativoResponse.getBody().getIdAdministrativo());
+
+            }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 // Crear Estudiante y obtener el ID
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Estudiante
@@ -72,7 +94,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
 
-            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getEstudiante() == null) {
+            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null) {
                 // Crear Docente y obtener el ID
                 Docente docente = inscripcionDTO.getDocente();
                 docente.setIdPersona(inscripcion.getIdPersona()); // Asignar el ID de la Persona al Docente
@@ -83,14 +105,14 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
 
             } else {
-                throw new RuntimeException("Debe proveerse solo un Estudiante o un Docente, no ambos.");
+                throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez.");
             }
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
         }
 
-// Asignar ID del Rol y guardar la inscripción
+        // Asignar ID del Rol y guardar la inscripción
         inscripcion.setIdRol(inscripcionDTO.getIdRol());
         inscripcion.setInscripcionRol("Sin Rol");
         inscripcionesRepository.save(inscripcion);
@@ -131,8 +153,42 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo actualizar la Persona.");
             }
 
-            // Verificar si se actualiza un Estudiante o un Docente, no ambos
-            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+            // Verificar si se actualiza un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
+            if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Actualizar Administrador
+                Administrador administrador = inscripcionDTO.getAdministrador();
+                administrador.setIdPersona(inscripcion.getIdPersona());
+                ResponseEntity<Administrador> administradorResponse = administradorFeign.actualizarAdministradorDto(inscripcion.getIdAdministrador(), administrador);
+                if (administradorResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Administrador.");
+                }
+                inscripcion.setIdEstudiante(administradorResponse.getBody().getIdAdministrador());
+
+                // Limpiar ID de Administrativo si existía
+                inscripcion.setIdAdministrativo(null);
+                // Limpiar ID de Estudiante si existía
+                inscripcion.setIdEstudiante(null);
+                // Limpiar ID de Docente si existía
+                inscripcion.setIdDocente(null);
+
+            } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Actualizar Administrativo
+                Administrativo administrativo = inscripcionDTO.getAdministrativo();
+                administrativo.setIdPersona(inscripcion.getIdPersona());
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.actualizarAdministrativoDto(inscripcion.getIdAdministrativo(), administrativo);
+                if (administrativoResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Administrativo.");
+                }
+                inscripcion.setIdEstudiante(administrativoResponse.getBody().getIdAdministrativo());
+
+                // Limpiar ID de Administrador si existía
+                inscripcion.setIdAdministrador(null);
+                // Limpiar ID de Estudiante si existía
+                inscripcion.setIdEstudiante(null);
+                // Limpiar ID de Docente si existía
+                inscripcion.setIdDocente(null);
+
+            }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
                 // Actualizar Estudiante
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcion.getIdPersona());
@@ -142,6 +198,10 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
 
+                // Limpiar ID de Administrador si existía
+                inscripcion.setIdAdministrador(null);
+                // Limpiar ID de Administrativo si existía
+                inscripcion.setIdAdministrativo(null);
                 // Limpiar ID de Docente si existía
                 inscripcion.setIdDocente(null);
 
@@ -155,10 +215,14 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
 
+                // Limpiar ID de Administrador si existía
+                inscripcion.setIdAdministrador(null);
+                // Limpiar ID de Administrativo si existía
+                inscripcion.setIdAdministrativo(null);
                 // Limpiar ID de Estudiante si existía
                 inscripcion.setIdEstudiante(null);
             } else {
-                throw new RuntimeException("Debe proveerse solo un Estudiante o un Docente, no ambos.");
+                throw new RuntimeException("Debe proveerse solo un Administrador, Adminitrativo, Estudiante o un Docente, no varios a la vez.");
             }
 
         } catch (FeignException e) {
@@ -180,6 +244,22 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         Inscripcion inscripcion = optionalInscripcion.get();
 
         try {
+            // Eliminar Administrador si existe
+            if (inscripcion.getIdAdministrador() != null) {
+                ResponseEntity<String> administradorResponse = administradorFeign.eliminarAdministradorDto(inscripcion.getIdAdministrador());
+                if (administradorResponse.getStatusCode().isError()) {
+                    throw new RuntimeException("No se pudo eliminar el Administrador con ID: " + inscripcion.getIdAdministrador());
+                }
+            }
+
+            // Eliminar Administrativo si existe
+            if (inscripcion.getIdAdministrativo() != null) {
+                ResponseEntity<String> administrativoResponse = administrativoFeign.eliminarAdministrativoDto(inscripcion.getIdAdministrativo());
+                if (administrativoResponse.getStatusCode().isError()) {
+                    throw new RuntimeException("No se pudo eliminar el Administrativo con ID: " + inscripcion.getIdAdministrativo());
+                }
+            }
+
             // Eliminar Estudiante si existe
             if (inscripcion.getIdEstudiante() != null) {
                 ResponseEntity<String> estudianteResponse = estudianteFeign.eliminarEstudianteDto(inscripcion.getIdEstudiante());
@@ -246,8 +326,28 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             inscripcion.setIdPersona(personaResponse.getBody().getId());
 
-            // Verificar si se crea un Estudiante o un Docente, no ambos
-            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+            // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
+            if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Crear Administrador y obtener el ID
+                Administrador administrador = inscripcionDTO.getAdministrador();
+                administrador.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
+                ResponseEntity<Administrador> administradorResponse = administradorFeign.crearAdministradorDto(administrador);
+                if (administradorResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear el Administrador.");
+                }
+                inscripcion.setIdEstudiante(administradorResponse.getBody().getIdAdministrador());
+
+            } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                // Crear Administrativo y obtener el ID
+                Administrativo administrativo = inscripcionDTO.getAdministrativo();
+                administrativo.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.crearAdministrativoDto(administrativo);
+                if (administrativoResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear el Administrativo.");
+                }
+                inscripcion.setIdEstudiante(administrativoResponse.getBody().getIdAdministrativo());
+
+            }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 // Crear Estudiante y obtener el ID
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
@@ -257,7 +357,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
 
-            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getEstudiante() == null) {
+            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null) {
                 // Crear Docente y obtener el ID
                 Docente docente = inscripcionDTO.getDocente();
                 docente.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Docente
@@ -268,7 +368,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
 
             } else {
-                throw new RuntimeException("Debe proveerse solo un Estudiante o un Docente, no ambos.");
+                throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios.");
             }
 
         } catch (FeignException e) {
@@ -321,8 +421,32 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 inscripcion.setIdPersona(personaResponse.getBody().getId());
             }
 
-            // Actualizar Estudiante o Docente según corresponda
-            if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getDocente() == null) {
+            // Actualizar Administrador, Administrativo, Estudiante o Docente según corresponda
+            if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                Administrador administrador = inscripcionDTO.getAdministrador();
+                administrador.setIdPersona(inscripcion.getIdPersona());  // Asociar al ID de la Persona actualizada
+                ResponseEntity<Administrador> administradorResponse = administradorFeign.actualizarAdministradorDto(inscripcion.getIdAdministrador(), administrador);
+                if (administradorResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Administrador.");
+                }
+                inscripcion.setIdAdministrador(administradorResponse.getBody().getIdAdministrador());
+                inscripcion.setIdAdministrativo(null);  // Asegurarse de que no hay un administrativo asociado
+                inscripcion.setIdEstudiante(null);  // Asegurarse de que no hay un estudiante asociado
+                inscripcion.setIdDocente(null);  // Asegurarse de que no hay un docente asociado
+
+            } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
+                Administrativo administrativo = inscripcionDTO.getAdministrativo();
+                administrativo.setIdPersona(inscripcion.getIdPersona());  // Asociar al ID de la Persona actualizada
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.actualizarAdministrativoDto(inscripcion.getIdAdministrativo(), administrativo);
+                if (administrativoResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo actualizar el Administrativo.");
+                }
+                inscripcion.setIdAdministrativo(administrativoResponse.getBody().getIdAdministrativo());
+                inscripcion.setIdAdministrador(null);  // Asegurarse de que no hay un administrador asociado
+                inscripcion.setIdEstudiante(null);  // Asegurarse de que no hay un estudiante asociado
+                inscripcion.setIdDocente(null);  // Asegurarse de que no hay un docente asociado
+
+            }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcion.getIdPersona());  // Asociar al ID de la Persona actualizada
                 ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.actualizarEstudianteDto(inscripcion.getIdEstudiante(), estudiante);
@@ -330,9 +454,11 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo actualizar el Estudiante.");
                 }
                 inscripcion.setIdEstudiante(estudianteResponse.getBody().getIdEstudiante());
+                inscripcion.setIdAdministrador(null);  // Asegurarse de que no hay un administrador asociado
+                inscripcion.setIdAdministrativo(null);  // Asegurarse de que no hay un administrativo asociado
                 inscripcion.setIdDocente(null);  // Asegurarse de que no hay un docente asociado
 
-            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getEstudiante() == null) {
+            } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null) {
                 Docente docente = inscripcionDTO.getDocente();
                 docente.setIdPersona(inscripcion.getIdPersona());  // Asociar al ID de la Persona actualizada
                 ResponseEntity<Docente> docenteResponse = docenteFeign.actualizarDocenteDto(inscripcion.getIdDocente(), docente);
@@ -340,9 +466,11 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo actualizar el Docente.");
                 }
                 inscripcion.setIdDocente(docenteResponse.getBody().getIdDocente());
+                inscripcion.setIdAdministrador(null);  // Asegurarse de que no hay un administrador asociado
+                inscripcion.setIdAdministrativo(null);  // Asegurarse de que no hay un administrativo asociado
                 inscripcion.setIdEstudiante(null);  // Asegurarse de que no hay un estudiante asociado
             } else {
-                throw new RuntimeException("Debe actualizarse solo un Estudiante o un Docente, no ambos.");
+                throw new RuntimeException("Debe actualizarse solo un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez.");
             }
 
             // Guardar la inscripción actualizada
@@ -374,7 +502,15 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 personaFeign.eliminarPersonaDto(inscripcion.getIdPersona());
             }
 
-            // Eliminar Estudiante o Docente según corresponda
+            // Eliminar Administrador, Administrativo, Estudiante o Docente según corresponda
+            if (inscripcion.getIdAdministrador() != null) {
+                administradorFeign.eliminarAdministradorDto(inscripcion.getIdAdministrador());
+            }
+
+            if (inscripcion.getIdAdministrativo() != null) {
+                administrativoFeign.eliminarAdministrativoDto(inscripcion.getIdAdministrativo());
+            }
+
             if (inscripcion.getIdEstudiante() != null) {
                 estudianteFeign.eliminarEstudianteDto(inscripcion.getIdEstudiante());
             }
@@ -434,6 +570,30 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     }
                 } catch (FeignException e) {
                     System.out.println("Error al obtener la Persona: " + e.getMessage());
+                }
+            }
+
+            // Obtener el Administrador si existe
+            if (inscripcion.getIdAdministrador() != null) {
+                try {
+                    ResponseEntity<Administrador> administradorResponse = administradorFeign.listarAdministradorDtoPorId(inscripcion.getIdAdministrador());
+                    if (administradorResponse.getBody() != null) {
+                        inscripcion.setAdministrador(administradorResponse.getBody());
+                    }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Administrador: " + e.getMessage());
+                }
+            }
+
+            // Obtener el Administrativo si existe
+            if (inscripcion.getIdAdministrativo() != null) {
+                try {
+                    ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.listarAdministrativoDtoPorId(inscripcion.getIdAdministrativo());
+                    if (administrativoResponse.getBody() != null) {
+                        inscripcion.setAdministrativo(administrativoResponse.getBody());
+                    }
+                } catch (FeignException e) {
+                    System.out.println("Error al obtener el Administrativo: " + e.getMessage());
                 }
             }
 
@@ -509,6 +669,30 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 }
             } catch (FeignException e) {
                 System.out.println("Error al obtener la Persona: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Administrador si existe
+        if (inscripcion.getIdAdministrador() != null) {
+            try {
+                ResponseEntity<Administrador> adiministradorResponse = administradorFeign.listarAdministradorDtoPorId(inscripcion.getIdAdministrador());
+                if (adiministradorResponse.getBody() != null) {
+                    inscripcion.setAdministrador(adiministradorResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Administrador: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Administrativo si existe
+        if (inscripcion.getIdAdministrativo() != null) {
+            try {
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.listarAdministrativoDtoPorId(inscripcion.getIdAdministrativo());
+                if (administrativoResponse.getBody() != null) {
+                    inscripcion.setAdministrativo(administrativoResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Administrativo: " + e.getMessage());
             }
         }
 
