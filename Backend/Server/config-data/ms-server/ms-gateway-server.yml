@@ -12,14 +12,14 @@ eureka:
 
 spring:
   cloud:
-
-
     gateway:
       discovery:
         locator:
           enable: true
-      routes:
+      default-filters:
+        - name: AuthFilter
 
+      routes:
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
