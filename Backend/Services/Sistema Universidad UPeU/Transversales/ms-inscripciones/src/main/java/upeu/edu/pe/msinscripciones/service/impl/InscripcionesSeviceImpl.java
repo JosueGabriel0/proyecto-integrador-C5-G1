@@ -162,7 +162,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administradorResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Administrador.");
                 }
-                inscripcion.setIdEstudiante(administradorResponse.getBody().getIdAdministrador());
+                inscripcion.setIdAdministrador(administradorResponse.getBody().getIdAdministrador());
 
                 // Limpiar ID de Administrativo si existía
                 inscripcion.setIdAdministrativo(null);
@@ -179,7 +179,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administrativoResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Administrativo.");
                 }
-                inscripcion.setIdEstudiante(administrativoResponse.getBody().getIdAdministrativo());
+                inscripcion.setIdAdministrativo(administrativoResponse.getBody().getIdAdministrativo());
 
                 // Limpiar ID de Administrador si existía
                 inscripcion.setIdAdministrador(null);
@@ -335,7 +335,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administradorResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrador.");
                 }
-                inscripcion.setIdEstudiante(administradorResponse.getBody().getIdAdministrador());
+                inscripcion.setIdAdministrador(administradorResponse.getBody().getIdAdministrador());
 
             } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrativo y obtener el ID
@@ -345,7 +345,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administrativoResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrativo.");
                 }
-                inscripcion.setIdEstudiante(administrativoResponse.getBody().getIdAdministrativo());
+                inscripcion.setIdAdministrativo(administrativoResponse.getBody().getIdAdministrativo());
 
             }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 // Crear Estudiante y obtener el ID
