@@ -1,64 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Necesario para redireccionar después de login
+// GeneralLoginComponent.js
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // Hook para redirigir
+import React, { useState } from 'react';
+import { login } from '../../services/authServices/authService';
+import { useNavigate } from 'react-router-dom';
 
-  useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => {
-        setError('');
-      }, 3000);
+const GeneralLoginComponent = () => {
+  const [credentials, setCredentials] = useState({ userName: '', password: '' });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials({
+      ...credentials,
+      [name]: value,
+    });
+  };
 
-  useEffect(() => {
-    if (email !== '' && password !== '') {
-      console.log('Ambos campos están completos.');
-    }
-  }, [email, password]);
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (email === '' || password === '') {
-      setError('Por favor, rellene todos los campos');
-    } else {
-      // Simula la autenticación exitosa
-      localStorage.setItem('token', 'usuarioAutenticado'); // Guardar token simulado en localStorage
-      setError('');
-      console.log(`Email: ${email}, Password: ${password}`);
-      navigate('/dashboard-administrador'); // Redirigir al dashboard después del login exitoso
+    try {
+      await login(credentials);
+      navigate('/dashboard-administrador'); // Redirigir al dashboard después del login
+    } catch (error) {
+      setError('Invalid username or password');
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>Email:</label>
-        <input 
-          type="email" 
-          value={email}  
-          onChange={(e) => setEmail(e.target.value)}  
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-      </div>
-      <button type="submit">Login</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+    <div>
+      <h2>Login</h2>
+      {error && <p>{error}</p>}
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username:</label>
+          <input type="text" name="userName" value={credentials.userName} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" name="password" value={credentials.password} onChange={handleInputChange} />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
-export default Login;
+export default GeneralLoginComponent;

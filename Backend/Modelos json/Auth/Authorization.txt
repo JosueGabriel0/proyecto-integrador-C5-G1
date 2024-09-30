@@ -1,0 +1,2 @@
+Authorization
+Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb3N1ZSIsImlkIjoxLCJpYXQiOjE3Mjc3MDMzMjcsImV4cCI6MTcyNzcwNjkyN30.jTsuzZoWx07hN1-z3BGMYsRQfVk5U1QRbQvI8Q1mhsQ
