@@ -2,7 +2,7 @@ import axios from "axios";
 
 const ROL_BASE_REST_API_URL = "http://localhost:9090/rol";
 
-class RolService{
+class RolAdminService{
 
     getAllRoles(){
         return axios.get(ROL_BASE_REST_API_URL);
@@ -25,4 +25,4 @@ class RolService{
     }
 }
 
-export default new RolService();
+export default new RolAdminService();

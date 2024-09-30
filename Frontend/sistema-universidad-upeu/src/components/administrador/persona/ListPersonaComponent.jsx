@@ -16,6 +16,8 @@ function ListPersonaComponent(){
             console.log(error);
         })
     }
+
+
     return(
         <div className="container">
             <Link to="dashboard-administrador"></Link>
@@ -51,7 +53,37 @@ function ListPersonaComponent(){
                 </thead>
                 <tbody>
                     {
-
+                        personas.map(
+                            persona =>
+                                <tr key={ persona.idPersona}>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                    <td>{}</td>
+                                </tr>
+                        )
                     }
                 </tbody>
             </table>

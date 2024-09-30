@@ -1,4 +1,4 @@
-package upeu.edu.pe.msgatewayserver.configuration;
+package upeu.edu.pe.msgatewayserver.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
