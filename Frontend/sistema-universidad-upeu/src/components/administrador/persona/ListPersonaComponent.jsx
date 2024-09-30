@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+
+import { format } from 'date-fns';
+import "../../../style-sheets/administrador/persona/ListPersonaComponent.css"
+import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
 function ListPersonaComponent(){
     const [personas, setPersonas] = useState([]);
 
+    const [usuarios, setUsuarios] = useState([]);
+
     useEffect(() => {
         listarPersonas();
+        listarUsuarios();
     },[])
 
+    function listarUsuarios(){
+        UsuarioAdminService.getAllUsuarios().then(response => {
+            setUsuarios(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function obtenerUsernameUsuario(idUsuario){
+        const usuarioEncontrado = usuarios.find(usuario => usuario.idUsuario === idUsuario);
+        return usuarioEncontrado ? usuarioEncontrado.username : "Desconocido";
+    }
     function listarPersonas(){
         PersonaAdminService.getAllPersonas().then(response => {
             setPersonas(response.data);
@@ -17,11 +37,20 @@ function ListPersonaComponent(){
         })
     }
 
+    function deletePersona(id){
+        PersonaAdminService.deletePersona(id).then(response => {
+            listarPersonas();
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
 
     return(
         <div className="container">
-            <Link to="dashboard-administrador"></Link>
+            <Link to="/dashboard-administrador">Retroceder</Link>
             <h1>Gestion de Personas</h1>
+            <Link to="/add-persona">Agregar Persona</Link>
             <table>
                 <thead>
                     <th>ID</th>
@@ -50,38 +79,43 @@ function ListPersonaComponent(){
                     <th>Ciudad del contacto de emergencia</th>
                     <th>Parentesco del contacto de emergencia</th>
                     <th>Usuario</th>
+                    <th>Acciones</th>
                 </thead>
                 <tbody>
                     {
                         personas.map(
                             persona =>
-                                <tr key={ persona.idPersona}>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
-                                    <td>{}</td>
+                                <tr key={ persona.id}>
+                                    <td>{ persona.id}</td>
+                                    <td>{ persona.nombres }</td>
+                                    <td>{ persona.apellido_paterno}</td>
+                                    <td>{persona.apellido_materno}</td>
+                                    <td>{format(new Date(persona.fecha_nacimiento), 'dd-MM-yyyy')}</td>
+                                    <td>{persona.genero}</td>
+                                    <td>{persona.nacionalidad}</td>
+                                    <td>{persona.tipoDocumento}</td>
+                                    <td>{persona.numeroDocumento}</td>
+                                    <td>{persona.direccion}</td>
+                                    <td>{persona.ciudad}</td>
+                                    <td>{persona.departamento}</td>
+                                    <td>{persona.pais}</td>
+                                    <td>{persona.provincia}</td>
+                                    <td>{persona.telefono}</td>
+                                    <td>{persona.email}</td>
+                                    <td>{persona.estadoCivil}</td>
+                                    <td>{persona.fotoPerfil}</td>
+                                    <td>{persona.tipoSangre}</td>
+                                    <td>{persona.contactoEmergenciaNombre}</td>
+                                    <td>{persona.contactoEmergenciaTelefono}</td>
+                                    <td>{persona.contactoEmergenciaEmail}</td>
+                                    <td>{persona.contactoEmergenciaDireccion}</td>
+                                    <td>{persona.contactoEmergenciaCiudad}</td>
+                                    <td>{persona.contactoEmergenciaParentesco}</td>
+                                    <td>{obtenerUsernameUsuario(persona.idUsuario)}</td>
+                                    <td>
+                                        <Link to={`/edit-persona/${persona.id}`}>Actualizar</Link>                                   
+                                        <button onClick={() => deletePersona(persona.id)}>Eliminar</button>
+                                    </td>
                                 </tr>
                         )
                     }

@@ -1,0 +1,20 @@
+.container{
+    width: 100%;
+    overflow-x: auto;
+}
+.container table{
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Estilos de las celdas */
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;   /* Bordes opcionales para la tabla */
+  }
+  
+thead {
+    background-color: #f4f4f4; /* Color de fondo para el encabezado */
+  }

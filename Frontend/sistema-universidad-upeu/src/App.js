@@ -3,11 +3,13 @@ import { BrowserRouter as BrowserRouter, Routes, Route } from 'react-router-dom'
 import GeneralProtectedRouteComponent from './components/general/GeneralProtectedRouteComponent';
 import ListRolComponent from './components/administrador/rol/ListRolComponent';
 import AddRolComponent from './components/administrador/rol/AddRolComponent';
+import AddUsuarioComponent from './components/administrador/usuario/AddUsuarioComponent';
+import ListUsuarioComponent from './components/administrador/usuario/ListUsuarioComponent';
+import AddPersonaComponent from './components/administrador/persona/AddPersonaComponent';
+import ListPersonaComponent from './components/administrador/persona/ListPersonaComponent';
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
-import AddUsuarioComponent from './components/administrador/usuario/AddUsuarioComponent';
-import ListUsuarioComponent from './components/administrador/usuario/ListUsuarioComponent';
 import { isAuthenticated } from './services/authServices/authService'; // Importa la función de verificación de autenticación
 
 const App = () => {
@@ -55,6 +57,7 @@ const App = () => {
               </GeneralProtectedRouteComponent>
             }
           />
+
           <Route
             path='/usuarios'
             element={
@@ -76,6 +79,31 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
                 <AddUsuarioComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/personas'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <ListPersonaComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/add-persona'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddPersonaComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/edit-persona/:id'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddPersonaComponent />
               </GeneralProtectedRouteComponent>
             }
           />

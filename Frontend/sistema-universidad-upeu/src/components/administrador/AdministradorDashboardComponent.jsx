@@ -22,6 +22,7 @@ const Dashboard = () => {
         <h2>Acciones rápidas</h2>
         <Link to="/roles">Roles</Link>
         <Link to="/usuarios">Usuarios</Link>
+        <Link to="/personas">Personas</Link>
         <button onClick={() => alert('Ir a la gestión de estudiantes')}>Gestión de Estudiantes</button>
         <button onClick={() => alert('Ir a la gestión de cursos')}>Gestión de Cursos</button>
         <button onClick={() => alert('Ir a la gestión de profesores')}>Gestión de Profesores</button>

@@ -1,5 +1,3 @@
-// RolAdminService.js
-
 import axios from "axios";
 import { getToken } from '../../authServices/authService';
 
