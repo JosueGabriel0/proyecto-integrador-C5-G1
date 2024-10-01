@@ -60,7 +60,7 @@ function AddPersonaComponent() {
         }
     };
 
-    function saveOrUpdatePersona(e) {
+    async function saveOrUpdatePersona(e) {
         e.preventDefault();
         const persona = { nombres, apellido_paterno, apellido_materno, fecha_nacimiento, genero, nacionalidad, tipoDocumento, numeroDocumento, direccion, ciudad, departamento, pais, provincia, telefono, email, estadoCivil, fotoPerfil, tipoSangre, contactoEmergenciaNombre, contactoEmergenciaTelefono, contactoEmergenciaEmail, contactoEmergenciaDireccion, contactoEmergenciaCiudad, contactoEmergenciaParentesco, idUsuario };
         console.log(persona);
@@ -153,26 +153,6 @@ function AddPersonaComponent() {
             return <div>Agregar</div>
         }
     }
-
-    const handleFileChange = async (e) => {
-        const file = e.target.files[0]; // Obtiene el archivo seleccionado
-        if (file) {
-            // Aquí puedes hacer la lógica para subir la imagen a tu servidor
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                const response = await fetch('http://tu-servidor.com/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
-                const data = await response.json();
-                setFotoPerfil(data.url); // Supongamos que la respuesta contiene la URL en `data.url`
-            } catch (error) {
-                console.error('Error uploading file:', error);
-            }
-        }
-    };
 
     return (
         <div className="container">
@@ -318,7 +298,7 @@ function AddPersonaComponent() {
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange} // Manejador de cambio de archivo
+                        onChange={handleFileChange} // Manejador para subir la imagen
                     />
                 </div>
 
