@@ -26,3 +26,6 @@ eureka:
   instance:
     #hostname: localhost
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+upload:
+  dir: ./Frontend/sistema-universidad-upeu/src/img  # Ruta donde se guardarán las imágenes

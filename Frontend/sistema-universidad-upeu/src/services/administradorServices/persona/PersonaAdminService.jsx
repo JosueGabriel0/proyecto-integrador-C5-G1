@@ -42,6 +42,15 @@ class PersonaAdminService{
             }
         });
     }
+
+    async uploadProfileImage(idPersona, formData) {
+        return await axios.post(`http://localhost:9090/persona/uploadProfileImage/${idPersona}`, formData, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    }
 }
 
 export default new PersonaAdminService();
