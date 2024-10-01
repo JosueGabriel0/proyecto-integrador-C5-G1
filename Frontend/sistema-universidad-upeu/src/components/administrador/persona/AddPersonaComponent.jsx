@@ -37,23 +37,24 @@ function AddPersonaComponent() {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    // Manejador del cambio de archivo (imagen)
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
+    // Función para manejar la carga de archivo
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
         if (file) {
-            setFotoPerfil(file); // Guarda el archivo en el estado
+            setFotoPerfil(file); // Guardamos el archivo seleccionado
         }
     };
 
-    // Función para subir la imagen al backend
-    const handleImageUpload = async (personaId) => {
+    // Función para subir la imagen al servidor y obtener la URL
+    const handleImageUpload = async () => {
+        if (!fotoPerfil) return null;
+
         const formData = new FormData();
-        formData.append("file", fotoPerfil); // Agrega la imagen seleccionada
+        formData.append("file", fotoPerfil);
 
         try {
-            // Subir la imagen al servidor y obtener la URL
-            const response = await PersonaAdminService.uploadProfileImage(personaId, formData);
-            return response.data.url; // Asumiendo que la respuesta contiene la URL de la imagen
+            const response = await PersonaAdminService.uploadProfileImage(formData); // Este método debe existir en tu servicio
+            return response.data.url; // Aquí asumimos que la respuesta tiene un campo 'url' con la URL de la imagen
         } catch (error) {
             console.error("Error al subir la imagen:", error);
             return null;
@@ -65,14 +66,15 @@ function AddPersonaComponent() {
         const persona = { nombres, apellido_paterno, apellido_materno, fecha_nacimiento, genero, nacionalidad, tipoDocumento, numeroDocumento, direccion, ciudad, departamento, pais, provincia, telefono, email, estadoCivil, fotoPerfil, tipoSangre, contactoEmergenciaNombre, contactoEmergenciaTelefono, contactoEmergenciaEmail, contactoEmergenciaDireccion, contactoEmergenciaCiudad, contactoEmergenciaParentesco, idUsuario };
         console.log(persona);
 
-        if (id) {
-            // Si hay una imagen seleccionada, sube la imagen y obtiene la URL
-            if (fotoPerfil) {
-                const imageUrl = await handleImageUpload(id);  // Llama a la función para subir la imagen
-                if (imageUrl) {
-                    persona.fotoPerfil = imageUrl;  // Asigna la URL de la imagen a persona.fotoPerfil
-                }
+        if (fotoPerfil) {
+            // Subir la imagen y obtener la URL
+            const imageUrl = await handleImageUpload();
+            if (imageUrl) {
+                persona.fotoPerfil = imageUrl; // Asignar la URL de la imagen a 'fotoPerfil'
             }
+        }
+        
+        if (id) {
 
             PersonaAdminService.updatePersona(id, persona).then(response => {
                 console.log(response.data);
@@ -81,13 +83,6 @@ function AddPersonaComponent() {
                 console.log(error);
             })
         } else {
-            // Si es una nueva persona y hay una imagen, sube la imagen y obtiene la URL
-            if (fotoPerfil) {
-                const imageUrl = await handleImageUpload(null);  // Aquí puedes manejar el id de alguna manera si lo necesitas
-                if (imageUrl) {
-                    persona.fotoPerfil = imageUrl;  // Asigna la URL de la imagen a persona.fotoPerfil
-                }
-            }
 
             PersonaAdminService.createPersona(persona).then(response => {
                 console.log(response.data);
@@ -298,7 +293,7 @@ function AddPersonaComponent() {
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange} // Manejador para subir la imagen
+                        onChange={handleFileChange}
                     />
                 </div>
 

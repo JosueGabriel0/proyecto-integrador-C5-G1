@@ -43,6 +43,12 @@ spring:
           filters:
             - AuthFilter
 
+        # Ruta para servir los archivos de imágenes subidos
+        - id: ms-persona-static-files
+          uri: file:///${upload.dir}  # Ruta local donde se almacenan las imágenes
+          predicates:
+          - Path=/uploads/**
+
         - id: ms-administrador-service
           uri: lb://ms-administrador-service
           predicates:
