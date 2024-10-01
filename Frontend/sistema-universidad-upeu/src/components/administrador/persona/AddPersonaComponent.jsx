@@ -45,21 +45,20 @@ function AddPersonaComponent() {
         }
     };
 
-    // Función para subir la imagen al servidor y obtener la URL
-    const handleImageUpload = async () => {
+    async function handleImageUpload(idPersona) {
         if (!fotoPerfil) return null;
-
+    
         const formData = new FormData();
         formData.append("file", fotoPerfil);
-
+    
         try {
-            const response = await PersonaAdminService.uploadProfileImage(formData); // Este método debe existir en tu servicio
+            const response = await PersonaAdminService.uploadProfileImage(idPersona, formData); // Añadir idPersona aquí
             return response.data.url; // Aquí asumimos que la respuesta tiene un campo 'url' con la URL de la imagen
         } catch (error) {
             console.error("Error al subir la imagen:", error);
             return null;
         }
-    };
+    }
 
     async function saveOrUpdatePersona(e) {
         e.preventDefault();
@@ -68,12 +67,12 @@ function AddPersonaComponent() {
 
         if (fotoPerfil) {
             // Subir la imagen y obtener la URL
-            const imageUrl = await handleImageUpload();
+            const imageUrl = await handleImageUpload(persona.idUsuario); // Asegúrate de que idUsuario sea el ID correcto
             if (imageUrl) {
                 persona.fotoPerfil = imageUrl; // Asignar la URL de la imagen a 'fotoPerfil'
             }
         }
-        
+
         if (id) {
 
             PersonaAdminService.updatePersona(id, persona).then(response => {

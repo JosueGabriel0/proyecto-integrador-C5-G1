@@ -28,30 +28,25 @@ public class PersonaController {
 
     @PostMapping("/uploadProfileImage/{id}")
     public ResponseEntity<String> uploadProfileImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-        // Validar que el archivo no esté vacío
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El archivo está vacío");
         }
 
-        // Validar que sea una imagen
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El archivo no es una imagen");
         }
 
-        // Guardar el archivo en el sistema
         try {
             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(uploadDir, fileName); // Usa uploadDir aquí
+            Path path = Paths.get(uploadDir, fileName);
             Files.copy(file.getInputStream(), path);
 
-            // URL de la imagen
-            String imageUrl = "/uploads/" + fileName; // Cambia según tu lógica de URL
+            String imageUrl = "/uploads/" + fileName;
 
-            // Actualizar la entidad Persona con la nueva URL de la foto de perfil
-            Persona persona = personaService.buscarPersonaPorId(id); // Obtener la persona por ID
-            persona.setFotoPerfil(imageUrl); // Establecer la nueva URL
-            personaService.editarPersona(persona); // Guardar los cambios
+            Persona persona = personaService.buscarPersonaPorId(id);
+            persona.setFotoPerfil(imageUrl);
+            personaService.editarPersona(persona);
 
             return ResponseEntity.ok("{\"url\": \"" + imageUrl + "\"}");
         } catch (IOException e) {
