@@ -5,7 +5,7 @@ import PersonaAdminService from "../../../services/administradorServices/persona
 import { format } from 'date-fns';
 import "../../../style-sheets/administrador/persona/ListPersonaComponent.css"
 import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
-function ListPersonaComponent(){
+function ListPersonaComponent() {
     const [personas, setPersonas] = useState([]);
 
     const [usuarios, setUsuarios] = useState([]);
@@ -13,9 +13,9 @@ function ListPersonaComponent(){
     useEffect(() => {
         listarPersonas();
         listarUsuarios();
-    },[])
+    }, [])
 
-    function listarUsuarios(){
+    function listarUsuarios() {
         UsuarioAdminService.getAllUsuarios().then(response => {
             setUsuarios(response.data);
             console.log(response.data);
@@ -24,20 +24,25 @@ function ListPersonaComponent(){
         })
     }
 
-    function obtenerUsernameUsuario(idUsuario){
+    function obtenerUsernameUsuario(idUsuario) {
         const usuarioEncontrado = usuarios.find(usuario => usuario.idUsuario === idUsuario);
         return usuarioEncontrado ? usuarioEncontrado.username : "Desconocido";
     }
-    function listarPersonas(){
-        PersonaAdminService.getAllPersonas().then(response => {
-            setPersonas(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
+    
+    async function listarPersonas() {
+        const response = await PersonaAdminService.getAllPersonas();
+        const personasConImagenes = await Promise.all(
+            response.data.map(async (persona) => {
+                // Pasar fotoPerfil al método para obtener la URL de la imagen
+                const imagenUrl = await PersonaAdminService.getPersonaImagen(persona.fotoPerfil);
+                return { ...persona, imagenUrl }; // Añadir la URL de la imagen a cada persona
+            })
+        );
+        setPersonas(personasConImagenes);
+        console.log(personasConImagenes);
     }
 
-    function deletePersona(id){
+    function deletePersona(id) {
         PersonaAdminService.deletePersona(id).then(response => {
             listarPersonas();
         }).catch(error => {
@@ -46,7 +51,7 @@ function ListPersonaComponent(){
     }
 
 
-    return(
+    return (
         <div className="container">
             <Link to="/dashboard-administrador">Retroceder</Link>
             <h1>Gestion de Personas</h1>
@@ -85,10 +90,10 @@ function ListPersonaComponent(){
                     {
                         personas.map(
                             persona =>
-                                <tr key={ persona.id}>
-                                    <td>{ persona.id}</td>
-                                    <td>{ persona.nombres }</td>
-                                    <td>{ persona.apellido_paterno}</td>
+                                <tr key={persona.id}>
+                                    <td>{persona.id}</td>
+                                    <td>{persona.nombres}</td>
+                                    <td>{persona.apellido_paterno}</td>
                                     <td>{persona.apellido_materno}</td>
                                     <td>{format(new Date(persona.fecha_nacimiento), 'dd-MM-yyyy')}</td>
                                     <td>{persona.genero}</td>
@@ -103,8 +108,12 @@ function ListPersonaComponent(){
                                     <td>{persona.telefono}</td>
                                     <td>{persona.email}</td>
                                     <td>{persona.estadoCivil}</td>
-                                    <td>{persona.fotoPerfil}
-                                        <img src="" alt="" />
+                                    <td>
+                                        {persona.imagenUrl ? (
+                                            <img src={persona.imagenUrl} alt="Imagen de Persona" style={{ width: '50px', height: '50px' }} />
+                                        ) : (
+                                            <p>No disponible</p>
+                                        )}
                                     </td>
                                     <td>{persona.tipoSangre}</td>
                                     <td>{persona.contactoEmergenciaNombre}</td>
@@ -115,7 +124,7 @@ function ListPersonaComponent(){
                                     <td>{persona.contactoEmergenciaParentesco}</td>
                                     <td>{obtenerUsernameUsuario(persona.idUsuario)}</td>
                                     <td>
-                                        <Link to={`/edit-persona/${persona.id}`}>Actualizar</Link>                                   
+                                        <Link to={`/edit-persona/${persona.id}`}>Actualizar</Link>
                                         <button onClick={() => deletePersona(persona.id)}>Eliminar</button>
                                     </td>
                                 </tr>

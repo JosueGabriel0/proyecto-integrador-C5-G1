@@ -47,16 +47,24 @@ class PersonaAdminService {
         });
     }
 
-    const PersonaImagen = () => {
-        const imagenUrl = 'http://localhost:9090/persona/images/Perfil.jpg'; // Cambia el puerto según tu configuración
-    
-        return (
-            <div>
-                <h2>Imagen de Persona</h2>
-                <img src={imagenUrl} alt="Imagen de Persona" />
-            </div>
-        );
-    };
+    // Método para obtener la imagen de una persona
+    async getPersonaImagen(fotoPerfil) {
+        // Construir la URL de la imagen utilizando el atributo fotoPerfil
+        const imagenUrl = `${PERSONA_BASE_REST_API_URL}/images/${fotoPerfil}`; // fotoPerfil contiene el nombre del archivo o la ruta
+
+        try {
+            const response = await axios.get(imagenUrl, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    responseType: 'blob' // Para manejar la imagen como blob
+                },
+            });
+            return URL.createObjectURL(response.data); // Crear una URL para la imagen
+        } catch (error) {
+            console.error("Error al obtener la imagen:", error);
+            return null; // Manejo de errores
+        }
+    }
 }
 
 export default new PersonaAdminService();
