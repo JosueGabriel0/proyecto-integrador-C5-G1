@@ -38,26 +38,56 @@ function AddPersonaComponent() {
 
     function saveOrUpdatePersona(e) {
         e.preventDefault();
-        const persona = { nombres, apellido_paterno, apellido_materno, fecha_nacimiento, genero, nacionalidad, tipoDocumento, numeroDocumento, direccion, ciudad, departamento, pais, provincia, telefono, email, estadoCivil, fotoPerfil, tipoSangre, contactoEmergenciaNombre, contactoEmergenciaTelefono, contactoEmergenciaEmail, contactoEmergenciaDireccion, contactoEmergenciaCiudad, contactoEmergenciaParentesco, idUsuario };
-        console.log(persona);
-        
-        let personaResponse;
+
+        // Crear un objeto FormData para manejar el envío de archivos y otros datos
+        const formData = new FormData();
+
+        // Agregar los campos de la persona al FormData
+        formData.append("nombres", nombres);
+        formData.append("apellido_paterno", apellido_paterno);
+        formData.append("apellido_materno", apellido_materno);
+        formData.append("fecha_nacimiento", fecha_nacimiento);
+        formData.append("genero", genero);
+        formData.append("nacionalidad", nacionalidad);
+        formData.append("tipoDocumento", tipoDocumento);
+        formData.append("numeroDocumento", numeroDocumento);
+        formData.append("direccion", direccion);
+        formData.append("ciudad", ciudad);
+        formData.append("departamento", departamento);
+        formData.append("pais", pais);
+        formData.append("provincia", provincia);
+        formData.append("telefono", telefono);
+        formData.append("email", email);
+        formData.append("estadoCivil", estadoCivil);
+        formData.append("tipoSangre", tipoSangre);
+        formData.append("contactoEmergenciaNombre", contactoEmergenciaNombre);
+        formData.append("contactoEmergenciaTelefono", contactoEmergenciaTelefono);
+        formData.append("contactoEmergenciaEmail", contactoEmergenciaEmail);
+        formData.append("contactoEmergenciaDireccion", contactoEmergenciaDireccion);
+        formData.append("contactoEmergenciaCiudad", contactoEmergenciaCiudad);
+        formData.append("contactoEmergenciaParentesco", contactoEmergenciaParentesco);
+        formData.append("idUsuario", idUsuario);
+
+        // Si se ha seleccionado una foto de perfil, agregarla al FormData
+        if (fotoPerfil) {
+            formData.append("file", fotoPerfil);  // El nombre "file" debe coincidir con el @RequestParam del backend
+        }
+
+        // Comprobar si es una actualización o creación
         if (id) {
-
-            PersonaAdminService.updatePersona(id, persona).then(response => {
+            PersonaAdminService.updatePersona(id, formData).then(response => {
                 console.log(response.data);
                 navigate("/personas");
             }).catch(error => {
                 console.log(error);
-            })
+            });
         } else {
-
-            PersonaAdminService.createPersona(persona).then(response => {
+            PersonaAdminService.createPersona(formData).then(response => {
                 console.log(response.data);
                 navigate("/personas");
             }).catch(error => {
                 console.log(error);
-            })
+            });
         }
     }
 
@@ -257,13 +287,13 @@ function AddPersonaComponent() {
                 </div>
 
                 <div>
-                    <label for="fotoPerfil">Foto de Perfil</label>
+                    <label htmlFor="fotoPerfil">Foto de Perfil</label>
                     <input
                         type="file"
-                        name="file"
+                        name="fotoPerfil"
                         id="fotoPerfil"
                         accept="image/*"
-                        
+                        onChange={(e) => setFotoPerfil(e.target.files[0])}  // Obtener el archivo
                     />
                 </div>
 
