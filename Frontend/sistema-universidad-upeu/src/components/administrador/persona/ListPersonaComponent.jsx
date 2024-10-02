@@ -103,7 +103,9 @@ function ListPersonaComponent(){
                                     <td>{persona.telefono}</td>
                                     <td>{persona.email}</td>
                                     <td>{persona.estadoCivil}</td>
-                                    <td>{persona.fotoPerfil}</td>
+                                    <td>{persona.fotoPerfil}
+                                        <img src="" alt="" />
+                                    </td>
                                     <td>{persona.tipoSangre}</td>
                                     <td>{persona.contactoEmergenciaNombre}</td>
                                     <td>{persona.contactoEmergenciaTelefono}</td>

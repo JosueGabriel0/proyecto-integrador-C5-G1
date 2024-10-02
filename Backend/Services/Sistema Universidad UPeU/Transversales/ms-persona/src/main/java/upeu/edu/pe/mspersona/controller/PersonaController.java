@@ -2,6 +2,8 @@ package upeu.edu.pe.mspersona.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import upeu.edu.pe.mspersona.entity.Persona;
 import upeu.edu.pe.mspersona.exception.ResourceNotFoundException;
 import upeu.edu.pe.mspersona.service.PersonaService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +25,21 @@ import java.util.List;
 public class PersonaController {
     @Autowired
     private PersonaService personaService;
+
+    // Ruta para obtener la imagen por su nombre
+    @GetMapping("/images/{nombreImagen}")
+    public ResponseEntity<FileSystemResource> getImagen(@PathVariable String nombreImagen) {
+        String directorioImagenes = "src/main/resources/static/images"; // Cambia esto a la ruta correcta
+        File imagen = new File(directorioImagenes, nombreImagen);
+
+        if (imagen.exists()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imagen.getName() + "\"")
+                    .body(new FileSystemResource(imagen));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Persona> guardarPersonaResponseEntity(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){

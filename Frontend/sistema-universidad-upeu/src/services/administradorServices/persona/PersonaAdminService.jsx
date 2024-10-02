@@ -46,6 +46,17 @@ class PersonaAdminService {
             },
         });
     }
+
+    const PersonaImagen = () => {
+        const imagenUrl = 'http://localhost:9090/persona/images/Perfil.jpg'; // Cambia el puerto según tu configuración
+    
+        return (
+            <div>
+                <h2>Imagen de Persona</h2>
+                <img src={imagenUrl} alt="Imagen de Persona" />
+            </div>
+        );
+    };
 }
 
 export default new PersonaAdminService();
