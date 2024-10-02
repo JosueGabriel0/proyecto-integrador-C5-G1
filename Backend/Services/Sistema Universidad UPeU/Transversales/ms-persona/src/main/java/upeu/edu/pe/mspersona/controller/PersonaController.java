@@ -23,39 +23,22 @@ public class PersonaController {
     @Autowired
     private PersonaService personaService;
 
-    @Value("${upload.dir}")
-    private String uploadDir; // Accede a la ruta configurada
-
-    @PostMapping("/uploadProfileImage/{id}")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El archivo está vacío");
-        }
-
-        String contentType = file.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El archivo no es una imagen");
-        }
-
-        try {
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(uploadDir, fileName);
-            Files.copy(file.getInputStream(), path);
-
-            String imageUrl = "/uploads/" + fileName;
-
-            Persona persona = personaService.buscarPersonaPorId(id);
-            persona.setFotoPerfil(imageUrl);
-            personaService.editarPersona(persona);
-
-            return ResponseEntity.ok("{\"url\": \"" + imageUrl + "\"}");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la imagen");
-        }
-    }
-
     @PostMapping
-    public ResponseEntity<Persona> guardarPersonaResponseEntity(@RequestBody Persona persona){
+    public ResponseEntity<Persona> guardarPersonaResponseEntity(@RequestBody Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
+        if(!fotoPerfil.isEmpty()){
+            Path directorioImagenes = Paths.get("src//main//resources//static/images");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImg = fotoPerfil.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoPerfil.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImg);
+
+                persona.setFotoPerfil(fotoPerfil.getOriginalFilename());
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
         return ResponseEntity.ok(personaService.guardarPersona(persona));
     }
 

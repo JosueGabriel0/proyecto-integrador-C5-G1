@@ -32,47 +32,16 @@ function AddPersonaComponent() {
 
     const [usuarios, setUsuarios] = useState([]);
 
-    const [personaId, setPersonaId] = useState(null);  // Mantiene el id de la persona si es necesario para la imagen
-
     const navigate = useNavigate();
     const { id } = useParams();
 
-    // Función para manejar la carga de archivo
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setFotoPerfil(file); // Guardamos el archivo seleccionado
-        }
-    };
 
-    async function handleImageUpload(idPersona) {
-        if (!fotoPerfil) return null;
-    
-        const formData = new FormData();
-        formData.append("file", fotoPerfil);
-    
-        try {
-            const response = await PersonaAdminService.uploadProfileImage(idPersona, formData); // Añadir idPersona aquí
-            return response.data.url; // Aquí asumimos que la respuesta tiene un campo 'url' con la URL de la imagen
-        } catch (error) {
-            console.error("Error al subir la imagen:", error);
-            return null;
-        }
-    }
-
-    async function saveOrUpdatePersona(e) {
+    function saveOrUpdatePersona(e) {
         e.preventDefault();
         const persona = { nombres, apellido_paterno, apellido_materno, fecha_nacimiento, genero, nacionalidad, tipoDocumento, numeroDocumento, direccion, ciudad, departamento, pais, provincia, telefono, email, estadoCivil, fotoPerfil, tipoSangre, contactoEmergenciaNombre, contactoEmergenciaTelefono, contactoEmergenciaEmail, contactoEmergenciaDireccion, contactoEmergenciaCiudad, contactoEmergenciaParentesco, idUsuario };
         console.log(persona);
-
-        if (fotoPerfil) {
-            // Subir la imagen y obtener la URL
-            const imageUrl = await handleImageUpload(persona.idUsuario); // Asegúrate de que idUsuario sea el ID correcto
-            if (imageUrl) {
-                persona.fotoPerfil = imageUrl; // Asignar la URL de la imagen a 'fotoPerfil'
-            }
-        }
-
+        
+        let personaResponse;
         if (id) {
 
             PersonaAdminService.updatePersona(id, persona).then(response => {
@@ -151,7 +120,7 @@ function AddPersonaComponent() {
     return (
         <div className="container">
             <h1>{title()}</h1>
-            <form>
+            <form onSubmit={(e) => saveOrUpdatePersona(e)} encType="multipart/form-data">
                 <div>
                     <label>Nombres</label>
                     <input type="text" placeholder="Ingrese sus nombres" name="nombres" value={nombres} onChange={(e) => setNombres(e.target.value)} />
@@ -288,11 +257,13 @@ function AddPersonaComponent() {
                 </div>
 
                 <div>
-                    <label>Foto de Perfil</label>
+                    <label for="fotoPerfil">Foto de Perfil</label>
                     <input
                         type="file"
+                        name="file"
+                        id="fotoPerfil"
                         accept="image/*"
-                        onChange={handleFileChange}
+                        
                     />
                 </div>
 
@@ -343,7 +314,7 @@ function AddPersonaComponent() {
                     </select>
                 </div>
 
-                <button onClick={(e) => saveOrUpdatePersona(e)}>{botonAgregarOActualizar()}</button>
+                <button type="submit">{botonAgregarOActualizar()}</button>
                 &nbsp;
                 &nbsp;
                 <Link to="/personas">Cancelar</Link>
