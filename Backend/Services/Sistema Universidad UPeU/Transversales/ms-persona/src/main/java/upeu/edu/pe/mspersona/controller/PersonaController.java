@@ -24,7 +24,7 @@ public class PersonaController {
     private PersonaService personaService;
 
     @PostMapping
-    public ResponseEntity<Persona> guardarPersonaResponseEntity(@RequestBody Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
+    public ResponseEntity<Persona> guardarPersonaResponseEntity(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
         if(!fotoPerfil.isEmpty()){
             Path directorioImagenes = Paths.get("src//main//resources//static/images");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
