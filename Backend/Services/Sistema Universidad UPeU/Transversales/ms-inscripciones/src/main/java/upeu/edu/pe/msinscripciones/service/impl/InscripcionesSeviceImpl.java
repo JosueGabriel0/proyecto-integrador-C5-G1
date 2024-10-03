@@ -299,7 +299,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION CON ROL
     @Override
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -310,7 +310,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
             Long idRolCreado = rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
             inscripcion.setIdRol(idRolCreado);
-            inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
+            //inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
         /*
             // Crear Usuario
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
