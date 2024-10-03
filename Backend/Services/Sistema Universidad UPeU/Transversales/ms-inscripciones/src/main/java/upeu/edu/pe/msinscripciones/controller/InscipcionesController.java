@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
 import upeu.edu.pe.msinscripciones.service.InscripcionesService;
 
@@ -17,9 +18,9 @@ public class InscipcionesController {
 
     //CRUD DE INSCRIPCION
     @PostMapping
-    public ResponseEntity<Inscripcion> crearInscripcion(@RequestBody Inscripcion inscripcionDTO) {
-        Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcionDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcion);
+    public ResponseEntity<Inscripcion> crearInscripcion(@ModelAttribute Inscripcion inscripcionDTO, @RequestParam("file") MultipartFile fotoPerfil) {
+        Inscripcion nuevaInscripcion = inscripcionesService.crearInscripcion(inscripcionDTO, fotoPerfil);
+        return new ResponseEntity<>(nuevaInscripcion, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -36,9 +37,9 @@ public class InscipcionesController {
 
     //CUD DE INSCRIPCION CON ROL
     @PostMapping("/con-rol")
-    public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
-        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaInscripcionConRol);
+    public ResponseEntity<Inscripcion> crearInscripcionConRol(@ModelAttribute Inscripcion inscripcion, @RequestParam("file") MultipartFile fotoPerfil) {
+        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion, fotoPerfil);
+        return new ResponseEntity<>(nuevaInscripcionConRol, HttpStatus.CREATED);
     }
 
     @PutMapping("/con-rol/{id}")

@@ -4,6 +4,7 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.msinscripciones.dto.*;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
 import upeu.edu.pe.msinscripciones.feign.*;
@@ -37,7 +38,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION
     @Override
-    public Inscripcion crearInscripcion(Inscripcion inscripcionDTO){
+    public Inscripcion crearInscripcion(Inscripcion inscripcionDTO, MultipartFile fotoPerfil){
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -57,7 +58,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             // Crear Persona
             inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona());
+            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(), fotoPerfil);
             if (personaResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear la Persona.");
             }
@@ -298,7 +299,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION CON ROL
     @Override
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -320,7 +321,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             // Crear Persona
             inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona());
+            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(),fotoPerfil);
             if (personaResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear la Persona.");
             }

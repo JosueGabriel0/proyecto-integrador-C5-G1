@@ -3,6 +3,7 @@ package upeu.edu.pe.msinscripciones.feign;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.msinscripciones.dto.Persona;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface PersonaFeign {
 
     @PostMapping
-    ResponseEntity<Persona> crearPersonaDto(@RequestBody Persona persona);
+    ResponseEntity<Persona> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
 
     @GetMapping
     ResponseEntity<List<Persona>> listarPersonasDto();
