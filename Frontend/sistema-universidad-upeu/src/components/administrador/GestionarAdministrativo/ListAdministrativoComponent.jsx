@@ -20,6 +20,11 @@ function ListAdministrativoComponent() {
         })
     }
 
+    function obtenerNombrePersona(idPersona){
+        const personaEncontrada = personas.find(persona => persona.id === idPersona);
+        return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
+    }
+
     function listarAdministrativos() {
         AdministrativoAdminService.getAllAdministrativos().then(response => {
             setAdministrativos(response.data);
@@ -69,7 +74,7 @@ function ListAdministrativoComponent() {
                                 <td>{administrativo.cargoEmpleado}</td>
                                 <td>{administrativo.solicitudesPendientes}</td>
                                 <td>{administrativo.fechaSolicitud}</td>
-                                <td>{administrativo.idPersona}</td>
+                                <td>{obtenerNombrePersona(administrativo.idPersona)}</td>
                                 <td>
                                     <Link to={`/edit-administrativo/${administrativo.idAdministrativo}`}>Actualizar</Link>
                                     <button onClick={() => borrarAdministrativo(administrativo.idAdministrativo)}>Borrar</button>

@@ -7,10 +7,13 @@ import AddUsuarioComponent from './components/administrador/GestionarUsuario/Add
 import ListUsuarioComponent from './components/administrador/GestionarUsuario/ListUsuarioComponent';
 import AddPersonaComponent from './components/administrador/GestionarPersona/AddPersonaComponent';
 import ListPersonaComponent from './components/administrador/GestionarPersona/ListPersonaComponent';
-import ListAdministradorComponent from './components/administrador/GestionarAdministrador/ListAdministradorComponent'
-import AddAdministradorComponent from './components/administrador/GestionarAdministrador/AddAdministradorComponent'
-import ListAdministrativoComponent from './components/administrador/GestionarAdministrativo/ListAdministrativoComponent'
-import AddAdministrativoComponent from './components/administrador/GestionarAdministrativo/AddAdministrativoComponent'
+import ListAdministradorComponent from './components/administrador/GestionarAdministrador/ListAdministradorComponent';
+import AddAdministradorComponent from './components/administrador/GestionarAdministrador/AddAdministradorComponent';
+import ListAdministrativoComponent from './components/administrador/GestionarAdministrativo/ListAdministrativoComponent';
+import AddAdministrativoComponent from './components/administrador/GestionarAdministrativo/AddAdministrativoComponent';
+import ListInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListInscripcionesConRolComponent';
+import AddInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddIncripcionConRolComponent';
+
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
@@ -158,6 +161,31 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
                 <AddAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/inscripcionesConRol'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <ListInscripcionesConRolComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/add-inscripcionConRol'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddInscripcionesConRolComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/edit-inscripcionConRol/:id'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddInscripcionesConRolComponent />
               </GeneralProtectedRouteComponent>
             }
           />

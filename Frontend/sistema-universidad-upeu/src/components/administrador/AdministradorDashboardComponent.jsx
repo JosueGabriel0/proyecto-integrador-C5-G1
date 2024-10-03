@@ -1,13 +1,13 @@
 import React from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+function AdministradorDashboardComponent() {
   return (
     <div>
       <h1>Dashboard</h1>
       <p>Bienvenido al panel principal de administración del sistema universitario UPeU.</p>
       {/* Aquí puedes añadir más secciones, gráficos, o enlaces a diferentes funcionalidades */}
-      
+
       <section>
         <h2>Resumen rápido</h2>
         <ul>
@@ -17,9 +17,11 @@ const Dashboard = () => {
           {/* Puedes obtener estos datos desde el backend o agregarlos dinámicamente */}
         </ul>
       </section>
-      
+
       <section>
         <h2>Acciones rápidas</h2>
+        <Link to="/inscripcionesConRol">Inscripciones Con Rol</Link>
+        <Link to="/roles">Inscripciones Con Asignacion de Rol</Link>
         <Link to="/roles">Roles</Link>
         <Link to="/usuarios">Usuarios</Link>
         <Link to="/personas">Personas</Link>
@@ -33,4 +35,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AdministradorDashboardComponent;
