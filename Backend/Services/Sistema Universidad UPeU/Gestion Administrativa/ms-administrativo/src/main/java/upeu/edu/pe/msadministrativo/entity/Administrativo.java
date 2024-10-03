@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.msadministrativo.dto.Persona;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +18,7 @@ public class Administrativo {
     // Gestión de pagos y facturación
     private String registroPagos;  // Ej: "Pago de matrículas"
     private Double montoTotalPagos;
-    private LocalDateTime fechaUltimoPago;
+    private LocalDate fechaUltimoPago;
 
     // Gestión de recursos humanos
     private String gestionEmpleados;  // Ej: "Contratación", "Desvinculación"
@@ -26,9 +27,9 @@ public class Administrativo {
 
     // Seguimiento de solicitudes administrativas
     private String solicitudesPendientes;  // Ej: "Solicitud de material de oficina"
-    private LocalDateTime fechaSolicitud;
+    private LocalDate fechaSolicitud;
 
-    private long idPersona;
+        private long idPersona;
     @Transient
     private Persona persona;
 

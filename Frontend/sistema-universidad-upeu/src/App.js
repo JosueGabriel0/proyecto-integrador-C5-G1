@@ -9,6 +9,8 @@ import AddPersonaComponent from './components/administrador/GestionarPersona/Add
 import ListPersonaComponent from './components/administrador/GestionarPersona/ListPersonaComponent';
 import ListAdministradorComponent from './components/administrador/GestionarAdministrador/ListAdministradorComponent'
 import AddAdministradorComponent from './components/administrador/GestionarAdministrador/AddAdministradorComponent'
+import ListAdministrativoComponent from './components/administrador/GestionarAdministrativo/ListAdministrativoComponent'
+import AddAdministrativoComponent from './components/administrador/GestionarAdministrativo/AddAdministrativoComponent'
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
@@ -134,6 +136,32 @@ const App = () => {
               </GeneralProtectedRouteComponent>
             }
           />
+
+          <Route
+            path='/administrativos'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <ListAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/add-administrativo'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/edit-administrativo/:id'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
         </Routes>
       </div>
     </BrowserRouter>

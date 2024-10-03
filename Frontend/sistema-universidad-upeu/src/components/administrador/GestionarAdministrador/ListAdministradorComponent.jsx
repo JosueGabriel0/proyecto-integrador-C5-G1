@@ -12,7 +12,7 @@ function ListPersonaComponent() {
         listarPersonas();
     }, [])
 
-    function listarPersonas(){
+    function listarPersonas() {
         PersonaAdminService.getAllPersonas().then(response => {
             setPersonas(response.data);
             console.log(response.data);
@@ -21,9 +21,9 @@ function ListPersonaComponent() {
         })
     }
 
-    function obtenerNombrePersona(idPersona){
+    function obtenerNombrePersona(idPersona) {
         const personaEncontrada = personas.find(persona => persona.id === idPersona);
-        return personaEncontrada ? personaEncontrada.nombres : "Desconosido";
+        return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
     }
 
     function listarAdministradores() {
@@ -45,7 +45,7 @@ function ListPersonaComponent() {
 
     return (
         <div className="container">
-            <Link to="dashboard-administrador">Retroceder</Link>
+            <Link to="/dashboard-administrador">Retroceder</Link>
             <h1>Gestion de Administradores</h1>
             <Link to="/add-administrador">Agregar Administrador</Link>
             <table>
@@ -64,7 +64,7 @@ function ListPersonaComponent() {
                 <tbody>
                     {
                         administradores.map(
-                            administrador =>
+                            administrador => {
                                 <tr key={administrador.idAdministrador}>
                                     <td>{administrador.idAdministrador}</td>
                                     <td>{administrador.actividadReciente}</td>
@@ -74,12 +74,13 @@ function ListPersonaComponent() {
                                     <td>{administrador.permisosEspeciales}</td>
                                     <td>{administrador.logsAcceso}</td>
                                     <td>{administrador.cambiosConfiguracion}</td>
-                                    <td>{administrador.idPersona}</td>
+                                    <td>{obtenerNombrePersona(administrador.idPersona)}</td>
                                     <td>
                                         <Link to={`/edit-administrador/${administrador.idAdministrador}`}>Actualizar</Link>
                                         <button onClick={() => eliminarAdministrador(administrador.idAdministrador)}>Eliminar</button>
                                     </td>
                                 </tr>
+                            }
                         )
                     }
                 </tbody>
