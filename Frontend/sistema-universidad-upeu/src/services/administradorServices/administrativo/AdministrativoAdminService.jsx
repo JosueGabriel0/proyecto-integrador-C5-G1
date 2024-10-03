@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../../authServices/authService";
 
-const ADMINISTRATIVO_BASE_REST_API_URL = "http://localhost:9090/administrador";
+const ADMINISTRATIVO_BASE_REST_API_URL = "http://localhost:9090/administrativo";
 
 class AdministrativoAdminService{
     getAllAdministrativos(){
@@ -13,7 +13,7 @@ class AdministrativoAdminService{
     }
 
     getAdministrativoById(idAdministrativo){
-        return axios.get(ADMINISTRATIVO_BASE_REST_API_URL, idAdministrativo, {
+        return axios.get(ADMINISTRATIVO_BASE_REST_API_URL + "/" + idAdministrativo, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }

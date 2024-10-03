@@ -22,14 +22,14 @@ public class Administrativo {
 
     // Gestión de recursos humanos
     private String gestionEmpleados;  // Ej: "Contratación", "Desvinculación"
-    private LocalDateTime fechaContratacion;
+    private LocalDate fechaContratacion;
     private String cargoEmpleado;  // Ej: "Docente", "Auxiliar administrativo"
 
     // Seguimiento de solicitudes administrativas
     private String solicitudesPendientes;  // Ej: "Solicitud de material de oficina"
     private LocalDate fechaSolicitud;
 
-        private long idPersona;
+    private long idPersona;
     @Transient
     private Persona persona;
 

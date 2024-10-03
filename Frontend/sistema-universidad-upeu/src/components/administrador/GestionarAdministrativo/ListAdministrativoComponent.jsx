@@ -58,7 +58,7 @@ function ListAdministrativoComponent() {
                 </thead>
                 <tbody>
                     {
-                        administrativos.map(administrativo => {
+                        administrativos.map(administrativo => (
                             <tr key={administrativo.idAdministrativo}>
                                 <td>{administrativo.idAdministrativo}</td>
                                 <td>{administrativo.registroPagos}</td>
@@ -72,10 +72,10 @@ function ListAdministrativoComponent() {
                                 <td>{administrativo.idPersona}</td>
                                 <td>
                                     <Link to={`/edit-administrativo/${administrativo.idAdministrativo}`}>Actualizar</Link>
-                                    <button onClick={borrarAdministrativo(administrativo.idAdministrativo)}>Borrar</button>
+                                    <button onClick={() => borrarAdministrativo(administrativo.idAdministrativo)}>Borrar</button>
                                 </td>
                             </tr>
-                        })
+                        ))
                     }
                 </tbody>
             </table>
