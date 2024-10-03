@@ -311,7 +311,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             Long idRolCreado = rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
             inscripcion.setIdRol(idRolCreado);
             inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
-
+        /*
             // Crear Usuario
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
@@ -370,7 +370,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             } else {
                 throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios.");
-            }
+            }*/
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con los microservicios: " + e.getMessage(), e);
