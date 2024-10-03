@@ -1,12 +1,14 @@
 import React from 'react';
 import { BrowserRouter as BrowserRouter, Routes, Route } from 'react-router-dom';
 import GeneralProtectedRouteComponent from './components/general/GeneralProtectedRouteComponent';
-import ListRolComponent from './components/administrador/rol/ListRolComponent';
-import AddRolComponent from './components/administrador/rol/AddRolComponent';
-import AddUsuarioComponent from './components/administrador/usuario/AddUsuarioComponent';
-import ListUsuarioComponent from './components/administrador/usuario/ListUsuarioComponent';
-import AddPersonaComponent from './components/administrador/persona/AddPersonaComponent';
-import ListPersonaComponent from './components/administrador/persona/ListPersonaComponent';
+import ListRolComponent from './components/administrador/GestionarRol/ListRolComponent';
+import AddRolComponent from './components/administrador/GestionarRol/AddRolComponent';
+import AddUsuarioComponent from './components/administrador/GestionarUsuario/AddUsuarioComponent';
+import ListUsuarioComponent from './components/administrador/GestionarUsuario/ListUsuarioComponent';
+import AddPersonaComponent from './components/administrador/GestionarPersona/AddPersonaComponent';
+import ListPersonaComponent from './components/administrador/GestionarPersona/ListPersonaComponent';
+import ListAdministradorComponent from './components/administrador/GestionarAdministrador/ListAdministradorComponent'
+import AddAdministradorComponent from './components/administrador/GestionarAdministrador/AddAdministradorComponent'
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
@@ -32,7 +34,7 @@ const App = () => {
             }
           />
 
-          {/* Rutas protegidas para roles y usuarios */}
+          {/* Rutas protegidas*/}
           <Route
             path='/roles'
             element={
@@ -104,6 +106,31 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
                 <AddPersonaComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/administradores'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <ListAdministradorComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/add-administrador'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddAdministradorComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/edit-administrador/:id'
+            element={
+              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+                <AddAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
           />

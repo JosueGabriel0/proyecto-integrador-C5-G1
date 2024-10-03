@@ -47,18 +47,17 @@ class PersonaAdminService {
         });
     }
 
-    // Método para obtener la imagen de una persona
     async getPersonaImagen(fotoPerfil) {
-        // Construir la URL de la imagen utilizando el atributo fotoPerfil
-        const imagenUrl = `${PERSONA_BASE_REST_API_URL}/images/${fotoPerfil}`; // fotoPerfil contiene el nombre del archivo o la ruta
+        const imagenUrl = `${PERSONA_BASE_REST_API_URL}/images/${fotoPerfil}`; // Asegúrate de que la URL sea correcta
 
         try {
             const response = await axios.get(imagenUrl, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
-                    responseType: 'blob' // Para manejar la imagen como blob
                 },
+                responseType: 'blob' // Para manejar la imagen como blob
             });
+            console.log("Imagen recibida:", response.data); // Verificar si se recibe la imagen correctamente
             return URL.createObjectURL(response.data); // Crear una URL para la imagen
         } catch (error) {
             console.error("Error al obtener la imagen:", error);

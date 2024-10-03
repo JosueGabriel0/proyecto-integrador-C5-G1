@@ -28,18 +28,17 @@ function ListPersonaComponent() {
         const usuarioEncontrado = usuarios.find(usuario => usuario.idUsuario === idUsuario);
         return usuarioEncontrado ? usuarioEncontrado.username : "Desconocido";
     }
-    
+
     async function listarPersonas() {
         const response = await PersonaAdminService.getAllPersonas();
         const personasConImagenes = await Promise.all(
             response.data.map(async (persona) => {
-                // Pasar fotoPerfil al método para obtener la URL de la imagen
+                console.log("Foto de Perfil:", persona.fotoPerfil); // Verificar el valor de fotoPerfil
                 const imagenUrl = await PersonaAdminService.getPersonaImagen(persona.fotoPerfil);
-                return { ...persona, imagenUrl }; // Añadir la URL de la imagen a cada persona
+                return { ...persona, imagenUrl };
             })
         );
         setPersonas(personasConImagenes);
-        console.log(personasConImagenes);
     }
 
     function deletePersona(id) {

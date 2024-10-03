@@ -254,13 +254,12 @@ function AddPersonaComponent() {
                 <div>
                     <label>Email</label>
                     <input
-                        type="email" // Cambiado a tipo "email" para validaciones automáticas
+                        type="email"
                         placeholder="Ingrese su email"
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required // Asegura que el campo sea obligatorio
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" // Expresión regular para validar el formato de email
+                        required
                     />
                     {/* Mensaje de error opcional */}
                     <span className="error-message" style={{ display: email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ? 'block' : 'none' }}>
@@ -299,7 +298,22 @@ function AddPersonaComponent() {
 
                 <div>
                     <label>Tipo de Sangre</label>
-                    <input type="text" placeholder="Ingrese su tipo de sangre" name="tipoSangre" value={tipoSangre} onChange={(e) => setTipoSangre(e.target.value)} />
+                    <select
+                        name="tipoSangre"
+                        value={tipoSangre}
+                        onChange={(e) => setTipoSangre(e.target.value)}
+                        required
+                    >
+                        <option value="">Seleccione su tipo de sangre</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
 
                 <div>
@@ -309,12 +323,34 @@ function AddPersonaComponent() {
 
                 <div>
                     <label>Telefono del Contacto de Emergencia</label>
-                    <input type="text" placeholder="Ingrese el telefono del contacto de emergencia" name="contactoEmergenciaTelefono" value={contactoEmergenciaTelefono} onChange={(e) => setContactoEmergenciaTelefono(e.target.value)} />
+                    <input
+                        type="text" // Se mantiene como tipo texto
+                        placeholder="Ingrese el telefono del contacto de emergencia"
+                        name="contactoEmergenciaTelefono"
+                        value={contactoEmergenciaTelefono}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            // Permitir solo números y limitar a 9 dígitos
+                            if (/^\d*$/.test(value) && value.length <= 9) {
+                                setContactoEmergenciaTelefono(value);
+                            }
+                        }} />
                 </div>
 
                 <div>
                     <label>Email del Contacto de Emergencia</label>
-                    <input type="text" placeholder="Ingrese el email del contacto de emergencia" name="contactoEmergenciaEmail" value={contactoEmergenciaEmail} onChange={(e) => setContactoEmergenciaEmail(e.target.value)} />
+                    <input
+                        type="email"
+                        placeholder="Ingrese el email del contacto de emergencia"
+                        name="contactoEmergenciaEmail"
+                        value={contactoEmergenciaEmail}
+                        onChange={(e) => setContactoEmergenciaEmail(e.target.value)}
+                        required
+                    />
+                    {/* Mensaje de error opcional */}
+                    <span className="error-message" style={{ display: email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ? 'block' : 'none' }}>
+                        Por favor, ingrese un correo electrónico válido.
+                    </span>
                 </div>
 
                 <div>
@@ -335,7 +371,7 @@ function AddPersonaComponent() {
                 <div>
                     <label>Usuario</label>
                     <select value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
-                        <option value="">Seleccione un usuario</option>
+                        <option value="">Seleccione un Usuario</option>
                         {usuarios.map((usuario) => (
                             <option key={usuario.idUsuario} value={usuario.idUsuario}>
                                 {usuario.username}

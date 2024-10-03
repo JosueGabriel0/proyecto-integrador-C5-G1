@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.msadministrador.dto.Persona;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,11 +17,11 @@ public class Administrador {
 
     // Registro y control de actividades realizadas por el administrador
     private String actividadReciente;  // Ej: Modificación de roles, permisos
-    private LocalDateTime fechaActividad;
+    private LocalDate fechaActividad;
 
     // Monitoreo de los microservicios y sistema
     private String estadoSistema;  // Ej: "Activo", "Mantenimiento"
-    private LocalDateTime fechaUltimaRevision;
+    private LocalDate fechaUltimaRevision;
 
     // Asignación de roles y permisos
     private String permisosEspeciales;  // Ej: "Gestión de usuarios avanzados"
