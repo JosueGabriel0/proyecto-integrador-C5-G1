@@ -4,6 +4,7 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.msinscripciones.dto.*;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
@@ -299,7 +300,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION CON ROL
     @Override
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
         Inscripcion inscripcion = new Inscripcion();
 
         try {

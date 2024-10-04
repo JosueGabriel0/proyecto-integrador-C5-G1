@@ -37,8 +37,8 @@ public class InscipcionesController {
 
     //CUD DE INSCRIPCION CON ROL
     @PostMapping("/con-rol")
-    public ResponseEntity<Inscripcion> crearInscripcionConRol(@ModelAttribute Inscripcion inscripcion) {
-        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
+    public ResponseEntity<Inscripcion> crearInscripcionConRol(@ModelAttribute Inscripcion inscripcion,@RequestParam("file") MultipartFile fotoPerfil) {
+        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion, fotoPerfil);
         return new ResponseEntity<>(nuevaInscripcionConRol, HttpStatus.CREATED);
     }
 

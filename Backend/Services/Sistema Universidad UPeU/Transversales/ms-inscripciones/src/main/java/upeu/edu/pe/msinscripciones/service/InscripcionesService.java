@@ -15,7 +15,7 @@ public interface InscripcionesService {
     public void eliminarInscripcion(Long idInscripcion);
 
     //CUD DE INSCRIPCION CON ROL
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO);
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil);
 
     public Inscripcion editarInscripcionConRol(Long id, Inscripcion inscripcionDTO);
 
