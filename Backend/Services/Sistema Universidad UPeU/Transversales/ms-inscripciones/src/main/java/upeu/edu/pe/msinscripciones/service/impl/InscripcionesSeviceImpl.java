@@ -315,7 +315,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             // Crear Usuario
             inscripcionDTO.getUsuario().setIdRol(idRolCreado);
-            inscripcionDTO.getUsuario().getRol().setIdRol(idRolCreado);
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
