@@ -80,6 +80,34 @@ function AddUsuarioComponent(){
             return <h2>Agregar</h2>
         }
     }
+    
+    function PasswordInput() {
+        const [password, setPassword] = useState("");
+        const [showPassword, setShowPassword] = useState(false);
+      
+        return (
+          <div>
+            <label>Contraseña</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Inserte la contraseña"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
+              minLength={8} // longitud mínima recomendada
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          </div>
+        );
+      }
+
     return(
         <div>
             <h1>{ title() }</h1>
@@ -88,15 +116,27 @@ function AddUsuarioComponent(){
                     <label>Nombre de Usuario</label>
                     <input type="text" placeholder="Inserte el nombre de ususario" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
-
-                <div>
+                
+                {/*<div>
                     <label>Contraseña</label>
                     <input type="text" placeholder="Inserte la contraseña" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                </div>
+                </div>*/}
+                {PasswordInput()}
 
                 <div>
                     <label>Email</label>
-                    <input type="text" placeholder="Inserte el email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <input
+                        type="email"
+                        placeholder="Ingrese el email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    {/* Mensaje de error opcional */}
+                    <span className="error-message" style={{ display: email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ? 'block' : 'none' }}>
+                        Por favor, ingrese un correo electrónico válido.
+                    </span>
                 </div>
 
                 <div>

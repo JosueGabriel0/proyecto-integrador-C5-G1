@@ -34,10 +34,7 @@ function ListPersonaComponent() {
         const personasConImagenes = await Promise.all(
             response.data.map(async (persona) => {
                 console.log("Foto de Perfil:", persona.fotoPerfil); // Verificar el valor de fotoPerfil
-                
-                // Usar directamente fotoPerfil si es una URL válida, de lo contrario hacer la petición.
-                const imagenUrl = persona.fotoPerfil ? persona.fotoPerfil : await PersonaAdminService.getPersonaImagen(persona.id);
-                
+                const imagenUrl = await PersonaAdminService.getPersonaImagen(persona.fotoPerfil);
                 return { ...persona, imagenUrl };
             })
         );

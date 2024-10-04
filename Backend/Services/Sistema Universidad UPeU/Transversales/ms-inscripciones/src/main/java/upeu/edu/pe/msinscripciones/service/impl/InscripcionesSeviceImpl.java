@@ -312,14 +312,14 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             Long idRolCreado = rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
             inscripcion.setIdRol(idRolCreado);
             //inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
-        /*
+
             // Crear Usuario
             ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
             inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-
+        /*
             // Crear Persona
             inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
             ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(),fotoPerfil);
