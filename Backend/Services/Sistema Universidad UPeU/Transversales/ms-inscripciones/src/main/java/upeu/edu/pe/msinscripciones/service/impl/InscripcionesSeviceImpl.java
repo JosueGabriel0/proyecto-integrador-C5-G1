@@ -320,7 +320,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
             inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-            
+
             // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrador y obtener el ID

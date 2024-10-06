@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class Administrador {
@@ -12,11 +13,11 @@ public class Administrador {
 
     // Registro y control de actividades realizadas por el administrador
     private String actividadReciente;  // Ej: Modificación de roles, permisos
-    private LocalDate fechaActividad;
+    private String fechaActividad = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // Monitoreo de los microservicios y sistema
     private String estadoSistema;  // Ej: "Activo", "Mantenimiento"
-    private LocalDate fechaUltimaRevision;
+    private String fechaUltimaRevision = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // Asignación de roles y permisos
     private String permisosEspeciales;  // Ej: "Gestión de usuarios avanzados"

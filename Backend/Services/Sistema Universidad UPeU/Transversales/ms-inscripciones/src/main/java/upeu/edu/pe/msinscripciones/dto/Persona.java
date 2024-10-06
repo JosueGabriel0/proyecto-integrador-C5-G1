@@ -14,7 +14,7 @@ public class Persona {
     private String nombres;
     private String apellido_paterno;
     private String apellido_materno;
-    private String fecha_nacimiento = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+    private LocalDate fecha_nacimiento;
     private String genero;
     private String nacionalidad;
     private String tipoDocumento;

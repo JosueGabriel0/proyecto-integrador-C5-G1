@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class Administrativo {
@@ -13,16 +14,16 @@ public class Administrativo {
     // Gestión de pagos y facturación
     private String registroPagos;  // Ej: "Pago de matrículas"
     private Double montoTotalPagos;
-    private LocalDate fechaUltimoPago;
+    private String fechaUltimoPago = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // Gestión de recursos humanos
     private String gestionEmpleados;  // Ej: "Contratación", "Desvinculación"
-    private LocalDate fechaContratacion;
+    private String fechaContratacion = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
     private String cargoEmpleado;  // Ej: "Docente", "Auxiliar administrativo"
 
     // Seguimiento de solicitudes administrativas
     private String solicitudesPendientes;  // Ej: "Solicitud de material de oficina"
-    private LocalDate fechaSolicitud;
+    private String fechaSolicitud = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     private long idPersona;
     @Transient
