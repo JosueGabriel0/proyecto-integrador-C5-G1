@@ -3,6 +3,7 @@ package upeu.edu.pe.msinscripciones.dto;
 import jakarta.persistence.Transient;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,11 +12,11 @@ public class Administrador {
 
     // Registro y control de actividades realizadas por el administrador
     private String actividadReciente;  // Ej: Modificación de roles, permisos
-    private LocalDateTime fechaActividad;
+    private LocalDate fechaActividad;
 
     // Monitoreo de los microservicios y sistema
     private String estadoSistema;  // Ej: "Activo", "Mantenimiento"
-    private LocalDateTime fechaUltimaRevision;
+    private LocalDate fechaUltimaRevision;
 
     // Asignación de roles y permisos
     private String permisosEspeciales;  // Ej: "Gestión de usuarios avanzados"
