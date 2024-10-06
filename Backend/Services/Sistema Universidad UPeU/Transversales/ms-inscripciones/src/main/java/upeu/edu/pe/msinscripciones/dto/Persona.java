@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class Persona {
@@ -13,7 +14,7 @@ public class Persona {
     private String nombres;
     private String apellido_paterno;
     private String apellido_materno;
-    private LocalDate fecha_nacimiento;
+    private String fecha_nacimiento = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
     private String genero;
     private String nacionalidad;
     private String tipoDocumento;
