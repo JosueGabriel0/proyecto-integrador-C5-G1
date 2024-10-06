@@ -300,7 +300,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION CON ROL
     @Override
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -323,11 +323,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             // Crear Persona
             inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(),fotoPerfil);
-            if (personaResponse.getBody() == null) {
-                throw new RuntimeException("No se pudo crear la Persona.");
-            }
-            inscripcion.setIdPersona(personaResponse.getBody().getId());
+
         /*
             // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){

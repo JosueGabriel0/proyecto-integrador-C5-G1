@@ -6,7 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import upeu.edu.pe.msinscripciones.dto.Persona;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
+import upeu.edu.pe.msinscripciones.feign.PersonaFeign;
+import upeu.edu.pe.msinscripciones.repository.InscripcionesRepository;
 import upeu.edu.pe.msinscripciones.service.InscripcionesService;
 
 import java.util.List;
@@ -16,6 +19,10 @@ import java.util.List;
 public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
+    @Autowired
+    private PersonaFeign personaFeign;
+    @Autowired
+    private InscripcionesRepository inscripcionesRepository;
 
     //CRUD DE INSCRIPCION
     @PostMapping
@@ -39,7 +46,15 @@ public class InscipcionesController {
     //CUD DE INSCRIPCION CON ROL
     @PostMapping(value = "/con-rol", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Inscripcion> crearInscripcionConRol(@ModelAttribute Inscripcion inscripcion,@RequestParam("file") MultipartFile fotoPerfil) {
-        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion, fotoPerfil);
+
+        ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcion.getPersona(),fotoPerfil);
+        if (personaResponse.getBody() == null) {
+            throw new RuntimeException("No se pudo crear la Persona.");
+        }
+        inscripcion.setIdPersona(personaResponse.getBody().getId());
+        inscripcionesRepository.save(inscripcion);
+
+        Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
         return new ResponseEntity<>(nuevaInscripcionConRol, HttpStatus.CREATED);
     }
 
