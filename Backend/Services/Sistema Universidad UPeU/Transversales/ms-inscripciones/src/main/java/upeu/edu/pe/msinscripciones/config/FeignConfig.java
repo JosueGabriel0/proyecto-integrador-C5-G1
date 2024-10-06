@@ -1,34 +1,25 @@
 package upeu.edu.pe.msinscripciones.config;
 
 import feign.codec.Encoder;
-import feign.form.FormEncoder;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import feign.optionals.OptionalEncoder;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 
 @Configuration
 public class FeignConfig {
 
-    @Bean
-    public Encoder feignFormEncoder() {
-        return new FormEncoder(new OptionalEncoder(new DefaultEncoder()));
+    private final ObjectFactory<HttpMessageConverters> messageConverters;
+
+    public FeignConfig(ObjectFactory<HttpMessageConverters> messageConverters) {
+        this.messageConverters = messageConverters;
     }
 
-    // Encoder por defecto para manejar objetos simples
-    private static class DefaultEncoder implements Encoder {
-        @Override
-        public void encode(Object object, Type bodyType, RequestTemplate template) {
-            if (object instanceof LocalDate) {
-                // Convertir LocalDate a String (por ejemplo, en formato ISO)
-                template.body(object.toString());
-            } else {
-                // Serialización simple por defecto para otros tipos
-                Map<String, Object> params = new HashMap<>();
-                params.put("data", object);
-                template.body(params.toString());
-            }
-        }
+    @Bean
+    public Encoder feignEncoder() {
+        return new SpringEncoder(this.messageConverters);
     }
 }
