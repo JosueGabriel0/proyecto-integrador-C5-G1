@@ -325,7 +325,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrador y obtener el ID
                 Administrador administrador = inscripcionDTO.getAdministrador();
-                administrador.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
                 ResponseEntity<Administrador> administradorResponse = administradorFeign.crearAdministradorDto(administrador);
                 if (administradorResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrador.");
@@ -335,7 +334,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrativo y obtener el ID
                 Administrativo administrativo = inscripcionDTO.getAdministrativo();
-                administrativo.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
                 ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.crearAdministrativoDto(administrativo);
                 if (administrativoResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrativo.");
@@ -345,7 +343,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 // Crear Estudiante y obtener el ID
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
-                estudiante.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Estudiante
                 ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.crearEstudianteDto(estudiante);
                 if (estudianteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Estudiante.");
@@ -355,7 +352,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null) {
                 // Crear Docente y obtener el ID
                 Docente docente = inscripcionDTO.getDocente();
-                docente.setIdPersona(inscripcion.getIdPersona());  // Asignar el ID de la Persona al Docente
                 ResponseEntity<Docente> docenteResponse = docenteFeign.crearDocenteDto(docente);
                 if (docenteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Docente.");
