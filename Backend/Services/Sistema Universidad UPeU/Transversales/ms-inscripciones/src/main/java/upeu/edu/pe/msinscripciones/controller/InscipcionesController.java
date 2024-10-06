@@ -19,10 +19,6 @@ import java.util.List;
 public class InscipcionesController {
     @Autowired
     private InscripcionesService inscripcionesService;
-    @Autowired
-    private PersonaFeign personaFeign;
-    @Autowired
-    private InscripcionesRepository inscripcionesRepository;
 
     //CRUD DE INSCRIPCION
     @PostMapping
@@ -44,16 +40,8 @@ public class InscipcionesController {
     }
 
     //CUD DE INSCRIPCION CON ROL
-    @PostMapping(value = "/con-rol", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Inscripcion> crearInscripcionConRol(@ModelAttribute Inscripcion inscripcion,@RequestParam("file") MultipartFile fotoPerfil) {
-
-        ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcion.getPersona(),fotoPerfil);
-        if (personaResponse.getBody() == null) {
-            throw new RuntimeException("No se pudo crear la Persona.");
-        }
-        inscripcion.setIdPersona(personaResponse.getBody().getId());
-        inscripcionesRepository.save(inscripcion);
-
+    @PostMapping(value = "/con-rol")
+    public ResponseEntity<Inscripcion> crearInscripcionConRol(@RequestBody Inscripcion inscripcion) {
         Inscripcion nuevaInscripcionConRol = inscripcionesService.crearInscripcionConRol(inscripcion);
         return new ResponseEntity<>(nuevaInscripcionConRol, HttpStatus.CREATED);
     }

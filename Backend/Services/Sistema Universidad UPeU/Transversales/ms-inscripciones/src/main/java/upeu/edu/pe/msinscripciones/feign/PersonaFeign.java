@@ -5,12 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import upeu.edu.pe.msinscripciones.config.FeignConfig;
 import upeu.edu.pe.msinscripciones.dto.Persona;
 
 import java.util.List;
 
-@FeignClient(name = "ms-persona-service", path = "/persona", configuration = FeignConfig.class)
+@FeignClient(name = "ms-persona-service", path = "/persona")
 public interface PersonaFeign {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
