@@ -1,6 +1,7 @@
 package upeu.edu.pe.msinscripciones.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +12,7 @@ import java.util.List;
 @FeignClient(name = "ms-persona-service", path = "/persona")
 public interface PersonaFeign {
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<Persona> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
 
     @GetMapping

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +42,7 @@ public class PersonaController {
         }
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Persona> guardarPersonaResponseEntity(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
         if(!fotoPerfil.isEmpty()){
             Path directorioImagenes = Paths.get("src//main//resources//static/images");
