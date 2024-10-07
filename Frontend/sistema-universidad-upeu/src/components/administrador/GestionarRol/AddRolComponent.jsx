@@ -65,12 +65,12 @@ function AddRolComponent() {
 
                 <div>
                     <label>Nombre del Rol</label>
-                    <input type="text" placeholder="Inserte el rol" name="nombreRol" value={nombreRol} onChange={(e) => setNombreRol(e.target.value)} />
+                    <input required type="text" placeholder="Inserte el rol" name="nombreRol" value={nombreRol} onChange={(e) => setNombreRol(e.target.value)} />
                 </div>
 
                 <div>
                     <label>Descripcion</label>
-                    <input type="text" placeholder="Inserte la descripcion" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <input required type="text" placeholder="Inserte la descripcion" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
                 <button onClick={(e) => saveOrUpdateRol(e)}>{botonGuardarOActualizar()}</button>
                 &nbsp;

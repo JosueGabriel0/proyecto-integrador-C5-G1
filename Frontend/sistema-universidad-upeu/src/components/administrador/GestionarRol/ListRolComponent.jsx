@@ -46,8 +46,6 @@ function ListRolComponent(){
                         <td>{ rol.description }</td>
                         <td>
                             <Link to={`/edit-rol/${rol.idRol}`}>Actualizar</Link>
-                        </td>
-                        <td>
                             <button onClick={() => deleteRol(rol.idRol)}>Eliminar</button>
                         </td>
                     </tr>

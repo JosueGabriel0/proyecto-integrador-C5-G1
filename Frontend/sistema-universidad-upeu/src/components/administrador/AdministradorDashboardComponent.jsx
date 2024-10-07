@@ -21,11 +21,23 @@ function AdministradorDashboardComponent() {
       <section>
         <h2>Acciones rápidas</h2>
         <Link to="/inscripcionesConRol">Inscripciones Con Rol</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/roles">Inscripciones Con Asignacion de Rol</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/roles">Roles</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/usuarios">Usuarios</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/personas">Personas</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/administradores">Administradores</Link>
+        &nbsp;
+        &nbsp;
         <Link to="/administrativos">Administrativos</Link>
         <button onClick={() => alert('Ir a la gestión de estudiantes')}>Gestión de Estudiantes</button>
         <button onClick={() => alert('Ir a la gestión de cursos')}>Gestión de Cursos</button>

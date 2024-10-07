@@ -24,12 +24,12 @@ public class Rol {
     private LocalDateTime fechaModificacionRol;
 
     @PrePersist
-    public void preCreate(){
+    public void onCreate(){
         fechaCreacionRol = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void onUpdate(){
         fechaModificacionRol = java.time.LocalDateTime.now();
     }
 }

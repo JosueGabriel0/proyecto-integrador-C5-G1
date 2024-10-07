@@ -114,7 +114,7 @@ function AddUsuarioComponent(){
             <form>
                 <div>
                     <label>Nombre de Usuario</label>
-                    <input type="text" placeholder="Inserte el nombre de ususario" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <input required type="text" placeholder="Inserte el nombre de ususario" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
                 
                 {/*<div>
@@ -141,7 +141,7 @@ function AddUsuarioComponent(){
 
                 <div>
                     <label>Disponible</label>
-                    <select value={enabled} onChange={(e) => setEnabled(e.target.value === 'true')}>
+                    <select required value={enabled} onChange={(e) => setEnabled(e.target.value === 'true')}>
                         <option value={true}>Disponible</option>
                         <option value={false}>No disponible</option>
                     </select>
@@ -149,8 +149,8 @@ function AddUsuarioComponent(){
 
                 <div>
                     <label>Rol</label>
-                    <select value={idRol} onChange={(e) => setIdRol(e.target.value)}>
-                        <option value="">Seleccione un rol</option>
+                    <select required value={idRol} onChange={(e) => setIdRol(e.target.value)}>
+                        <option required value="">Seleccione un rol</option>
                         {roles.map((rol) => (
                             <option key={rol.idRol} value={rol.idRol}>
                                 {rol.nombreRol}
@@ -161,17 +161,17 @@ function AddUsuarioComponent(){
 
                 <div>
                     <label>Ultimo Login</label>
-                    <input type="text" placeholder="Inserte el ultimo login" name="ultimoLogin" value={ultimoLogin} onChange={(e) => setUltimoLogin(e.target.value)}/>
+                    <input required type="text" placeholder="Inserte el ultimo login" name="ultimoLogin" value={ultimoLogin} onChange={(e) => setUltimoLogin(e.target.value)}/>
                 </div>
 
                 <div>
                     <label htmlFor="">Token de Recuperacion</label>
-                    <input type="text" placeholder="Inserte el token de recuperacion" name="tokenRecuperacion" value={tokenRecuperacion} onChange={(e) => setTokenRecuperacion(e.target.value)}/>
+                    <input required type="text" placeholder="Inserte el token de recuperacion" name="tokenRecuperacion" value={tokenRecuperacion} onChange={(e) => setTokenRecuperacion(e.target.value)}/>
                 </div>
 
                 <div>
                     <label htmlFor="">Expiracion del Token de Recuperacion</label>
-                    <input type="text" placeholder="Inserte la expiracion del token de recuperacion" name="tokenRecuperacionExpiracion" value={tokenRecuperacionExpiracion} onChange={(e) => setTokenRecuperacionExpiracion(e.target.value)}/>
+                    <input required type="text" placeholder="Inserte la expiracion del token de recuperacion" name="tokenRecuperacionExpiracion" value={tokenRecuperacionExpiracion} onChange={(e) => setTokenRecuperacionExpiracion(e.target.value)}/>
                 </div>
                 
                 <button onClick={(e) => saveOrUpdateUsuario(e)}>{botonAgregarOActualizar()}</button>

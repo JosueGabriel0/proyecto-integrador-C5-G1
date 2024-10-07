@@ -33,12 +33,12 @@ public class Usuario {
     private LocalDateTime fechaModificacionUsuario;
 
     @PrePersist
-    public void preCreate(){
+    public void onCreate(){
         fechaCreacionUsuario = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void onUpdate(){
         fechaModificacionUsuario = java.time.LocalDateTime.now();
     }
 }
