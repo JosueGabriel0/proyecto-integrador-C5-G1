@@ -347,8 +347,8 @@ function AddPersonaComponent() {
                         onChange={(e) => setContactoEmergenciaEmail(e.target.value)}
                         required
                     />
-                    {/* Mensaje de error opcional */}
-                    <span className="error-message" style={{ display: email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ? 'block' : 'none' }}>
+                    {/* Mensaje de error opcional para el contacto de emergencia */}
+                    <span className="error-message" style={{ display: contactoEmergenciaEmail && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(contactoEmergenciaEmail) ? 'block' : 'none' }}>
                         Por favor, ingrese un correo electrónico válido.
                     </span>
                 </div>

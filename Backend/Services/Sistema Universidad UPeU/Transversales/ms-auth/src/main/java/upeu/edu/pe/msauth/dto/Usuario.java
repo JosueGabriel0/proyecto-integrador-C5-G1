@@ -1,0 +1,25 @@
+package upeu.edu.pe.msauth.dto;
+
+import javax.persistence.Transient;
+import java.time.LocalDateTime;
+
+public class Usuario {
+    private Long idUsuario;
+
+    private String username; // Nombre de usuario único
+    private String password; // Contraseña del usuario (se debe cifrar)
+    private String email; // Email asociado al usuario
+    private boolean enabled; // Indica si el usuario está activo o no
+
+    private long idRol;
+    @Transient
+    private Rol rol;
+
+    private LocalDateTime ultimoLogin; // Última fecha de acceso del usuario
+
+    private String tokenRecuperacion; // Token para la recuperación de contraseña
+    private LocalDateTime tokenRecuperacionExpiracion; // Fecha de expiración del token de recuperación
+
+    private LocalDateTime fechaCreacionUsuario;
+    private LocalDateTime fechaModificacionUsuario;
+}
