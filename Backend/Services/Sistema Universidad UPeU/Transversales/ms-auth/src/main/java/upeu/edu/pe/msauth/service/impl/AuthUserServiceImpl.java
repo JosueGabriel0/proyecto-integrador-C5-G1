@@ -24,8 +24,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public TokenDto login(Usuario usuarioLogin) {
-        // Buscar el usuario por su ID
-        ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorId(usuarioLogin.getIdUsuario());
+        // Buscar el usuario por su username
+        ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorUsername(usuarioLogin.getUsername());
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             return null; // Usuario no encontrado o error al obtener el usuario
@@ -47,9 +47,9 @@ public class AuthUserServiceImpl implements AuthUserService {
             return null; // Token inválido
         }
 
-        // Obtener el ID de usuario a partir del token
-        Long userId = Long.parseLong(jwtProvider.getUserNameFromToken(token));
-        ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorId(userId);
+        // Obtener el username a partir del token
+        String username = jwtProvider.getUserNameFromToken(token);
+        ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorUsername(username);
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             return null; // Usuario no encontrado o error al obtener el usuario

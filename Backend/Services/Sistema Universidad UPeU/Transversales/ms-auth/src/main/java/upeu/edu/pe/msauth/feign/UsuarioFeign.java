@@ -12,12 +12,11 @@ import java.util.List;
 @FeignClient(name = "ms-usuarios-service", path = "/usuario")
 public interface UsuarioFeign {
 
-    @GetMapping
-    ResponseEntity<List<Usuario>> listarUsuarios();
-
-    @GetMapping("/{id}")
-    ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable("id") Long id);
-
-    @GetMapping("/search")
+    // Método para buscar usuario por username
+    @GetMapping("/search") // Ruta para buscar usuario por username
     ResponseEntity<Usuario> buscarUsuarioPorUsername(@RequestParam("username") String username);
+
+    // Método para buscar usuario por ID
+    @GetMapping("/{id}") // Ruta para buscar usuario por ID
+    ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable("id") Long id);
 }

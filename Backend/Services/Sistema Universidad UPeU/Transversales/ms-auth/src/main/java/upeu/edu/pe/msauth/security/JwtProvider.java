@@ -24,8 +24,8 @@ public class JwtProvider {
 
     public String createToken(Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
-        claims = Jwts.claims().setSubject(String.valueOf(usuario.getIdUsuario()));
-        claims.put("username", usuario.getUsername());
+        claims = Jwts.claims().setSubject(usuario.getUsername()); // Usar username como sujeto
+        claims.put("idUsuario", usuario.getIdUsuario());
         claims.put("email", usuario.getEmail());
         claims.put("roles", usuario.getRol()); // Incluye el rol del usuario en el token
 
