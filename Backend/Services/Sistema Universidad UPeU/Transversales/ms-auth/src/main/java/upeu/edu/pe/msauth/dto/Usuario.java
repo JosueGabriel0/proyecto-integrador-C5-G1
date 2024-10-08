@@ -1,8 +1,11 @@
 package upeu.edu.pe.msauth.dto;
 
+import lombok.Data;
+
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
+@Data
 public class Usuario {
     private Long idUsuario;
 

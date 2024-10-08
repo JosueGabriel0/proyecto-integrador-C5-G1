@@ -1,7 +1,6 @@
 package upeu.edu.pe.msauth.controller;
 
-import upeu.edu.pe.msauth.dto.AuthUserDto;
-import upeu.edu.pe.msauth.entity.AuthUser;
+import upeu.edu.pe.msauth.dto.Usuario;
 import upeu.edu.pe.msauth.entity.TokenDto;
 import upeu.edu.pe.msauth.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class AuthUserController {
     AuthUserService authUserService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody AuthUserDto authUserDto) {
-        TokenDto tokenDto = authUserService.login(authUserDto);
+    public ResponseEntity<TokenDto> login(@RequestBody Usuario usuarioLogin) {
+        TokenDto tokenDto = authUserService.login(usuarioLogin);
         if (tokenDto == null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(tokenDto);
@@ -28,14 +27,6 @@ public class AuthUserController {
         if (tokenDto == null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(tokenDto);
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<AuthUser> create(@RequestBody AuthUserDto authUserDto) {
-        AuthUser authUser = authUserService.save(authUserDto);
-        if (authUser == null)
-            return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(authUser);
     }
 }
 
