@@ -1,21 +1,15 @@
 package upeu.edu.pe.msauth.service.impl;
 
 import org.springframework.http.ResponseEntity;
-import upeu.edu.pe.msauth.dto.AuthUserDto;
 import upeu.edu.pe.msauth.dto.Usuario;
-import upeu.edu.pe.msauth.entity.AuthUser;
 import upeu.edu.pe.msauth.entity.TokenDto;
 
 import upeu.edu.pe.msauth.feign.UsuarioFeign;
-import upeu.edu.pe.msauth.repository.AuthUserRepository;
 import upeu.edu.pe.msauth.security.JwtProvider;
 import upeu.edu.pe.msauth.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Optional;
 
 
 @Service
