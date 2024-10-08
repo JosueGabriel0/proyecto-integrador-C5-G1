@@ -3,7 +3,7 @@ import { login } from '../../services/authServices/authService'; // Asegúrate d
 import { useNavigate } from 'react-router-dom';
 
 const GeneralLoginComponent = () => {
-    const [credentials, setCredentials] = useState({ userName: '', password: '' });
+    const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
     const navigate = useNavigate(); // Hook para redirección
 
@@ -21,7 +21,7 @@ const GeneralLoginComponent = () => {
             const token = await login(credentials); // Intenta iniciar sesión y obtiene el token
             navigate('/dashboard-administrador'); // Redirige a dashboard-administrador tras login exitoso
         } catch (error) {
-            setError('Invalid username or password'); // Manejo de errores
+            setError('El nombre de Usuario o la Contraseña son incorrectos'); // Manejo de errores
         }
     };
 
@@ -31,15 +31,18 @@ const GeneralLoginComponent = () => {
             {error && <p>{error}</p>}
             <form onSubmit={handleLogin}>
                 <div>
-                    <label>Username:</label>
-                    <input type="text" name="userName" value={credentials.userName} onChange={handleInputChange} />
+                    <label>Nombre de Usuario:</label>
+                    <input type="text" name="username" value={credentials.username} onChange={handleInputChange} />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Contraseña:</label>
                     <input type="password" name="password" value={credentials.password} onChange={handleInputChange} />
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <div>
+                <button>Olvide mi Contraseña</button>
+            </div>
         </div>
     );
 };

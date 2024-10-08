@@ -20,7 +20,7 @@ spring:
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
-            - Path=/auth/**
+            - Path=/auth/**, /api/email/**
 
         - id: ms-roles-service
           uri: lb://ms-roles-service
