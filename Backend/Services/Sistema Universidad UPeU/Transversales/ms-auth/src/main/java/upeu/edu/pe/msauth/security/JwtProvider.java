@@ -10,8 +10,9 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 @Component
-public class JwtProvider    {
+public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String secret;
@@ -23,8 +24,8 @@ public class JwtProvider    {
 
     public String createToken(Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
-        claims = Jwts.claims().setSubject(usuario.getUsername());
-        claims.put("idUsuario", usuario.getIdUsuario());
+        claims = Jwts.claims().setSubject(String.valueOf(usuario.getIdUsuario()));
+        claims.put("username", usuario.getUsername());
         claims.put("email", usuario.getEmail());
         claims.put("roles", usuario.getRol()); // Incluye el rol del usuario en el token
 

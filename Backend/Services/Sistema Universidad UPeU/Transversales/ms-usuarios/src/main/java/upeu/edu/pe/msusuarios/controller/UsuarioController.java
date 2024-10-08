@@ -15,6 +15,12 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @GetMapping("/search")
+    public ResponseEntity<Usuario> buscarUsuarioPorUsername(@RequestParam("username") String username) {
+        Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
+        return ResponseEntity.ok(usuario);
+    }
+
     @PostMapping
     public ResponseEntity<Usuario> guardarUsuarioResponseEntity(@RequestBody Usuario usuario){
         return ResponseEntity.ok(usuarioService.guardarUsuario(usuario));

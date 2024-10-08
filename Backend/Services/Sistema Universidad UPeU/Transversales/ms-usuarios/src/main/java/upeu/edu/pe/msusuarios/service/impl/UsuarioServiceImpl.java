@@ -34,6 +34,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario buscarUsuarioPorUsername(String username) {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario con username " + username + " no existe"));
+    }
+
+    @Override
     public List<Usuario> listarUsuario() {
         List<Usuario> usuarios = usuarioRepository.findAll();
 
