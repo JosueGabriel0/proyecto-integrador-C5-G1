@@ -40,6 +40,6 @@ public class UsuarioDataLoader implements CommandLineRunner {
         usuarioRepository.save(usuario1);
         usuarioRepository.save(usuario2);
 
-        System.out.println("Datos iniciales poblados en la base de datos.");
+        System.out.println("Usuarios iniciales poblados en la base de datos.");
     }
 }
