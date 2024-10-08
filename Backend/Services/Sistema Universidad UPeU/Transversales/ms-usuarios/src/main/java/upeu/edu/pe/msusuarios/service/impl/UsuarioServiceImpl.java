@@ -3,6 +3,7 @@ package upeu.edu.pe.msusuarios.service.impl;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder; // Importa PasswordEncoder
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msusuarios.dto.Rol;
 import upeu.edu.pe.msusuarios.entity.Usuario;
@@ -21,14 +22,19 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private RolFeign rolFeign;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // Inyección del PasswordEncoder
 
     @Override
-    public Usuario guardarUsuario(Usuario Usuario) {
-        return usuarioRepository.save(Usuario);
+    public Usuario guardarUsuario(Usuario usuario) {
+        // Cifrar la contraseña antes de guardar
+        String passwordCifrada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordCifrada);
+        return usuarioRepository.save(usuario);
     }
 
     @Override
-    public List<Usuario> listarUsuario(){
+    public List<Usuario> listarUsuario() {
         List<Usuario> usuarios = usuarioRepository.findAll();
 
         // Recorremos cada usuario y asignamos el rol
@@ -50,7 +56,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario buscarUsuarioPorId(Long id){
+    public Usuario buscarUsuarioPorId(Long id) {
         // Buscar el usuario por ID en el repositorio
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario con ID " + id + " no existe"));
@@ -72,13 +78,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario editarUsuario(Usuario Usuario) {
-        return usuarioRepository.save(Usuario);
+    public Usuario editarUsuario(Usuario usuario) {
+        // Si se edita la contraseña, cifrarla antes de guardar
+        if (usuario.getPassword() != null) {
+            String passwordCifrada = passwordEncoder.encode(usuario.getPassword());
+            usuario.setPassword(passwordCifrada);
+        }
+        return usuarioRepository.save(usuario);
     }
 
     @Override
-    public void eliminarUsuario(Long id){
+    public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
-
 }

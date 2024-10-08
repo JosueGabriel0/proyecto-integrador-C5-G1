@@ -16,8 +16,8 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<Usuario> guardarUsuarioResponseEntity(@RequestBody Usuario Usuario){
-        return ResponseEntity.ok(usuarioService.guardarUsuario(Usuario));
+    public ResponseEntity<Usuario> guardarUsuarioResponseEntity(@RequestBody Usuario usuario){
+        return ResponseEntity.ok(usuarioService.guardarUsuario(usuario));
     }
 
     @GetMapping
