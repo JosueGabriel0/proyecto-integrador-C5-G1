@@ -1,6 +1,7 @@
 package upeu.edu.pe.msauth.dto;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
 public class Rol {

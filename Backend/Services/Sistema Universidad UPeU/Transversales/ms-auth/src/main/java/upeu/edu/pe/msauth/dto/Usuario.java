@@ -1,8 +1,8 @@
 package upeu.edu.pe.msauth.dto;
 
+import jakarta.persistence.Transient;
 import lombok.Data;
 
-import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
 @Data
