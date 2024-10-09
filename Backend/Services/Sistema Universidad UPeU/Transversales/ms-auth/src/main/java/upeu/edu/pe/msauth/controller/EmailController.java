@@ -16,9 +16,13 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String body) {
+    public ResponseEntity<String> sendEmail(
+            @RequestParam String to,
+            @RequestParam String subject,
+            @RequestParam String body,
+            @RequestParam(defaultValue = "false") boolean isHtml) {
         try {
-            emailService.sendEmail(to, subject, body);
+            emailService.sendEmail(to, subject, body, isHtml);
             return ResponseEntity.ok("Email sent successfully");
         } catch (IOException e) {
             e.printStackTrace(); // Puedes manejar la excepción de manera más adecuada

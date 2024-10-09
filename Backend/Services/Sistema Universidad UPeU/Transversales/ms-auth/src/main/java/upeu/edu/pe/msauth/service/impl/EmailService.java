@@ -20,10 +20,18 @@ public class EmailService {
         this.sendGrid = new SendGrid(sendGridApiKey);
     }
 
-    public void sendEmail(String to, String subject, String body) throws IOException {
-        Email from = new Email("josueochoa20203@gmail.com"); // Reemplaza con tu correo electrónico
+    public void sendEmail(String to, String subject, String body, boolean isHtml) throws IOException {
+        Email from = new Email("josue.ochoa@upeu.edu.pe"); // Reemplaza con tu correo electrónico
         Email toEmail = new Email(to);
-        Content content = new Content("text/plain", body);
+
+        // Cambiar el tipo de contenido según si es HTML o texto plano
+        Content content;
+        if (isHtml) {
+            content = new Content("text/html", body); // Contenido HTML
+        } else {
+            content = new Content("text/plain", body); // Contenido de texto plano
+        }
+
         Mail mail = new Mail(from, subject, toEmail, content);
 
         Request request = new Request();

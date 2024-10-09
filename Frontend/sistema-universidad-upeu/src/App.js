@@ -18,6 +18,7 @@ import GeneralInicioComponent from './components/general/GeneralInicioComponent'
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
 import { isAuthenticated } from './services/authServices/authService'; // Importa la función de verificación de autenticación
+import GeneralEmailComponent from './components/general/GeneralEmailComponent';
 
 const App = () => {
   return (
@@ -28,6 +29,8 @@ const App = () => {
 
           {/* Ruta de login pública */}
           <Route path='/login' element={<GeneralLoginComponent />} />
+
+          <Route path='/email' element={<GeneralEmailComponent />}/>
 
           {/* Ruta protegida para el dashboard */}
           <Route
