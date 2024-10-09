@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../../services/authServices/authService'; // Asegúrate de la ruta correcta
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const GeneralLoginComponent = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -41,7 +41,7 @@ const GeneralLoginComponent = () => {
                 <button type="submit">Login</button>
             </form>
             <div>
-                <button>Olvide mi Contraseña</button>
+                <Link to="/restablecimiento-contrasenia">Olvide mi Contraseña</Link>
             </div>
         </div>
     );

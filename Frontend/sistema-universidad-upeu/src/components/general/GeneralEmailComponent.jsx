@@ -14,7 +14,8 @@ const GeneralEmailComponent = () => {
         setSuccess(null);
 
         try {
-            await sendEmail(to, subject, body); // Asegúrate de que 'to', 'subject' y 'body' no estén vacíos
+            // Enviar el correo como HTML
+            await sendEmail(to, subject, body, true); // Establece isHtml en true
             setSuccess('Correo enviado con éxito');
             setTo('');
             setSubject('');
@@ -43,7 +44,7 @@ const GeneralEmailComponent = () => {
             <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
-                placeholder="Cuerpo del correo"
+                placeholder="Cuerpo del correo (HTML)"
                 required
             />
             <button type="submit">Enviar Correo</button>

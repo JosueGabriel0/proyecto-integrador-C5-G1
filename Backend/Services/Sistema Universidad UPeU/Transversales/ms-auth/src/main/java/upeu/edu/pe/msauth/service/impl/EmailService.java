@@ -21,7 +21,7 @@ public class EmailService {
     }
 
     public void sendEmail(String to, String subject, String body, boolean isHtml) throws IOException {
-        Email from = new Email("josue.ochoa@upeu.edu.pe"); // Reemplaza con tu correo electrónico
+        Email from = new Email("josueochoa20203@gmail.com"); // Reemplaza con tu correo electrónico
         Email toEmail = new Email(to);
 
         // Cambiar el tipo de contenido según si es HTML o texto plano
