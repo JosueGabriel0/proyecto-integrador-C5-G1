@@ -4,6 +4,7 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,8 @@ public class EmailService {
 
     private final SendGrid sendGrid;
 
-    @Value("${sendgrid.api.key}")
-    private String sendGridApiKey;
-
-    public EmailService() {
+    @Autowired
+    public EmailService(@Value("${sendgrid.api.key}") String sendGridApiKey) {
         this.sendGrid = new SendGrid(sendGridApiKey);
     }
 
@@ -34,5 +33,6 @@ public class EmailService {
 
         Response response = sendGrid.api(request);
         System.out.println("Email sent: " + response.getStatusCode());
+        System.out.println("Response body: " + response.getBody());
     }
 }
