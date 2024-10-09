@@ -22,7 +22,7 @@ public class EmailService {
     }
 
     public void sendEmail(String to, String subject, String body) throws IOException {
-        Email from = new Email("your-email@example.com"); // Reemplaza con tu correo electrónico
+        Email from = new Email("josueochoa20203@gmail.com"); // Reemplaza con tu correo electrónico
         Email toEmail = new Email(to);
         Content content = new Content("text/plain", body);
         Mail mail = new Mail(from, subject, toEmail, content);
