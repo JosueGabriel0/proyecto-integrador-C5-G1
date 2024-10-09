@@ -8,6 +8,7 @@ import upeu.edu.pe.msusuarios.entity.Usuario;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -19,6 +20,16 @@ public class UsuarioController {
     public ResponseEntity<Usuario> buscarUsuarioPorUsername(@RequestParam("username") String username) {
         Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
         return ResponseEntity.ok(usuario);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> getUsuarioByEmail(@PathVariable String email) {
+        Optional<Usuario> usuario = usuarioService.findByEmail(email);
+        if (usuario.isPresent()) {
+            return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

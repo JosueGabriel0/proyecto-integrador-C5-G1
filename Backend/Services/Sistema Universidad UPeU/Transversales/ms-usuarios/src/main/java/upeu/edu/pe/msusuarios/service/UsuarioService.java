@@ -4,6 +4,7 @@ package upeu.edu.pe.msusuarios.service;
 import upeu.edu.pe.msusuarios.entity.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsuarioService {
 
@@ -14,6 +15,8 @@ public interface UsuarioService {
     public Usuario buscarUsuarioPorId(Long id);
 
     public Usuario buscarUsuarioPorUsername(String username);
+
+    public Optional<Usuario> findByEmail(String email);
 
     public Usuario editarUsuario(Usuario usuario);
 

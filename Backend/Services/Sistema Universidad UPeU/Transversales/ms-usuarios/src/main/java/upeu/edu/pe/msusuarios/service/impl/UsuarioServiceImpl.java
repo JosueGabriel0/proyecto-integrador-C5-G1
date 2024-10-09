@@ -13,6 +13,7 @@ import upeu.edu.pe.msusuarios.repository.UsuarioRepository;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -37,6 +38,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario buscarUsuarioPorUsername(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario con username " + username + " no existe"));
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override

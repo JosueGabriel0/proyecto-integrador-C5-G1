@@ -20,6 +20,7 @@ import AdministradorDashboardComponent from './components/administrador/Administ
 import { isAuthenticated } from './services/authServices/authService'; // Importa la función de verificación de autenticación
 import GeneralEmailComponent from './components/general/GeneralEmailComponent';
 import GeneralRestablecerContraseniaComponent from './components/general/GeneralRestablecerContraseniaComponent';
+import GeneralCambiarContraseniaComponent from './components/general/GeneralCambiarContraseniaComponent';
 
 const App = () => {
   return (
@@ -31,9 +32,11 @@ const App = () => {
           {/* Ruta de login pública */}
           <Route path='/login' element={<GeneralLoginComponent />} />
 
-          <Route path='/email' element={<GeneralEmailComponent />}/>
+          <Route path='/email' element={<GeneralEmailComponent />} />
 
-          <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent/>}/>
+          <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent />} />
+
+          <Route path='/cambiar-contrasenia' element={<GeneralCambiarContraseniaComponent />} />
 
           {/* Ruta protegida para el dashboard */}
           <Route
@@ -195,6 +198,8 @@ const App = () => {
               </GeneralProtectedRouteComponent>
             }
           />
+
+          <Route path='*' element={<h2>404 - Página no encontrada</h2>} />
 
         </Routes>
       </div>

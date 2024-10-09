@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { sendEmail } from '../../services/authServices/emailServices/emailService'; // Asegúrate de ajustar la ruta según tu proyecto
+import { sendEmail } from '../../services/authServices/emailServices/emailService'; // Ajusta la ruta según tu proyecto
+import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService'; // Ajusta la ruta según tu proyecto
 
 const GeneralRestablecerContraseniaComponent = () => {
     const [email, setEmail] = useState('');
@@ -11,22 +12,32 @@ const GeneralRestablecerContraseniaComponent = () => {
         setError(null);
         setSuccess(null);
 
-        const subject = 'Restablecimiento de contraseña';
-        const body = `
-            <div style="text-align: center;">
-                <h2>Solicitud de Restablecimiento de Contraseña</h2>
-                <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
-                <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
-                <a 
-                    href="https://www.ejemplo.com/restablecer-contrasenia?email=${encodeURIComponent(email)}" 
-                    style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
-                    Restablecer Contraseña
-                </a>
-            </div>
-        `;
-        const isHtml = true;
-
         try {
+            // Usar el método getUsuarioByEmail para verificar si el correo existe
+            const response = await UsuarioAdminService.getUsuarioByEmail(email);
+            const usuarioEncontrado = response.data;
+
+            if (!usuarioEncontrado) {
+                setError('El correo electrónico no coincide con ningún usuario registrado');
+                return;
+            }
+
+            // Si el correo existe, proceder a enviar el correo de restablecimiento de contraseña
+            const subject = 'Restablecimiento de contraseña';
+            const body = `
+                <div style="text-align: center;">
+                    <h2>Solicitud de Restablecimiento de Contraseña</h2>
+                    <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
+                    <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
+                    <a 
+                        href="http://localhost:3000/cambiar-contrasenia?idUsuario=${usuarioEncontrado.idUsuario}&email=${encodeURIComponent(email)}" 
+                        style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
+                        Restablecer Contraseña
+                    </a>
+                </div>
+            `;
+            const isHtml = true;
+
             await sendEmail(email, subject, body, isHtml);
             setSuccess('Correo para restablecer contraseña enviado con éxito');
             setEmail('');
