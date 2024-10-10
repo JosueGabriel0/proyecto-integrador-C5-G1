@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService';
-import { getShortLivedToken } from '../../services/authServices/authService'; // Importar el servicio
+import { getShortLivedToken } from '../../services/authServices/authService';
 import { Link } from 'react-router-dom';
 
 const GeneralCambiarContraseniaComponent = () => {
@@ -37,8 +37,8 @@ const GeneralCambiarContraseniaComponent = () => {
         }
 
         try {
-            // Obtener un nuevo token de 5 minutos
-            const token = await getShortLivedToken(); // Obtener el token corto
+            // Obtener un nuevo token corto para la actualización
+            const token = await getShortLivedToken();
 
             // Obtener los datos actuales del usuario
             const response = await UsuarioAdminService.getUsuarioById(idUsuario);
@@ -46,15 +46,11 @@ const GeneralCambiarContraseniaComponent = () => {
 
             // Actualizar solo la contraseña, manteniendo el resto de los campos iguales
             const usuarioData = {
-                username: usuarioExistente.username,
-                password: newPassword,
-                email: usuarioExistente.email,
-                enabled: usuarioExistente.enabled,
-                ultimoLogin: usuarioExistente.ultimoLogin,
-                tokenRecuperacion: usuarioExistente.tokenRecuperacion,
-                tokenRecuperacionExpiracion: usuarioExistente.tokenRecuperacionExpiracion
+                ...usuarioExistente,
+                password: newPassword
             };
 
+            // Actualizar el usuario con la nueva contraseña
             await UsuarioAdminService.updateUsuario(idUsuario, usuarioData);
             setSuccess('Contraseña actualizada con éxito');
             setNewPassword('');

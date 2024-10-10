@@ -42,22 +42,28 @@ public class AuthUserController {
 
     @PostMapping("/refresh")
     public ResponseEntity<TokenDto> refresh(@RequestParam String refreshToken) {
+        // Verifica si el token de refresco es válido
         if (!jwtProvider.validate(refreshToken)) {
-            return ResponseEntity.badRequest().build(); // Token de refresco inválido
+            System.out.println("Token de refresco inválido"); // Log de depuración
+            return ResponseEntity.badRequest().body(null); // Token de refresco inválido
         }
 
         String username = jwtProvider.getUserNameFromToken(refreshToken);
         ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorUsername(username);
 
+        // Verificar si la respuesta es exitosa y si el usuario existe
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+            System.out.println("Usuario no encontrado o error en la respuesta del servicio de usuarios");
             return ResponseEntity.badRequest().build(); // Usuario no encontrado o error
         }
 
         Usuario usuario = response.getBody();
         String newAccessToken = jwtProvider.createToken(usuario);
+
+        System.out.println("Nuevo token de acceso generado correctamente para el usuario: " + username);
         return ResponseEntity.ok(TokenDto.builder()
                 .accessToken(newAccessToken)
-                .refreshToken(refreshToken) // Puedes devolver el mismo refreshToken o uno nuevo si lo decides
+                .refreshToken(refreshToken) // Devolver el mismo refreshToken o uno nuevo si lo decides
                 .build()); // Devuelve el nuevo token de acceso
     }
 

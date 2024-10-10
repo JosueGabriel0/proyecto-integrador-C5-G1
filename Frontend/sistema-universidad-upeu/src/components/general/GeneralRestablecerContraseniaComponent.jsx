@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { sendEmail } from '../../services/authServices/emailServices/emailService'; // Ajusta la ruta según tu proyecto
-import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService'; // Ajusta la ruta según tu proyecto
-import { getShortLivedToken } from '../../services/authServices/authService'; // Importar el servicio
+import { sendEmail } from '../../services/authServices/emailServices/emailService';
+import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService';
+import { getShortLivedToken } from '../../services/authServices/authService';
 import { Link } from 'react-router-dom';
 
 const GeneralRestablecerContraseniaComponent = () => {
@@ -15,7 +15,7 @@ const GeneralRestablecerContraseniaComponent = () => {
         setSuccess(null);
 
         try {
-            // Usar el método getUsuarioByEmail para verificar si el correo existe
+            // Verificar si el correo electrónico existe en la base de datos
             const response = await UsuarioAdminService.getUsuarioByEmail(email);
             const usuarioEncontrado = response.data;
 
@@ -24,8 +24,8 @@ const GeneralRestablecerContraseniaComponent = () => {
                 return;
             }
 
-            // Obtener un nuevo token de 5 minutos
-            const token = await getShortLivedToken(); // Obtener el token corto
+            // Obtener un nuevo token corto para restablecimiento
+            const token = await getShortLivedToken();
             const subject = 'Restablecimiento de contraseña';
             const body = `
                 <div style="text-align: center;">
@@ -41,6 +41,7 @@ const GeneralRestablecerContraseniaComponent = () => {
             `;
             const isHtml = true;
 
+            // Enviar el correo electrónico para restablecer la contraseña
             await sendEmail(email, subject, body, isHtml);
             setSuccess('Correo para restablecer contraseña enviado con éxito');
             setEmail('');
