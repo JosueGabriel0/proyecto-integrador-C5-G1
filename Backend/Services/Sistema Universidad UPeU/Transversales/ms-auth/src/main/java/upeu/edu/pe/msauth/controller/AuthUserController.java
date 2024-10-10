@@ -111,7 +111,7 @@ public class AuthUserController {
 
         return ResponseEntity.ok("Contraseña restablecida exitosamente");
     }
-    
+
     @PostMapping("/refresh")
     public ResponseEntity<TokenDto> refresh(@RequestParam String refreshToken) {
         // Verifica si el token de refresco es válido
