@@ -12,8 +12,11 @@ import upeu.edu.pe.msusuarios.feign.RolFeign;
 import upeu.edu.pe.msusuarios.repository.UsuarioRepository;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -87,6 +90,29 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         return usuario;
+    }
+
+    @Override
+    public List<Usuario> guardarUsuariosBatch(List<Usuario> usuarios) {
+        return usuarioRepository.saveAll(usuarios);
+    }
+
+    @Override
+    public String generarTokenRestablecimiento(Long idUsuario) throws Exception {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            String resetToken = UUID.randomUUID().toString(); // Genera un token único
+
+            usuario.setTokenRecuperacion(resetToken); // Asume que el Usuario tiene un campo tokenRecuperacion
+            usuario.setTokenRecuperacionExpiracion(Instant.now().plus(1, ChronoUnit.HOURS)); // Expira en 1 hora
+            usuarioRepository.save(usuario);
+
+            return resetToken;
+        } else {
+            throw new Exception("Usuario no encontrado con ID: " + idUsuario);
+        }
     }
 
     @Override

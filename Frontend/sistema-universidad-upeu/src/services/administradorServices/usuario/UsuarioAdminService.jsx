@@ -60,6 +60,14 @@ class UsuarioAdminService {
             }
         });
     }
+
+    generateResetToken(idUsuario) {
+        return axios.post(`${USUARIO_BASE_REST_API_URL}/${idUsuario}/generate-reset-token`, null, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        });
+    }
 }
 
 export default new UsuarioAdminService();

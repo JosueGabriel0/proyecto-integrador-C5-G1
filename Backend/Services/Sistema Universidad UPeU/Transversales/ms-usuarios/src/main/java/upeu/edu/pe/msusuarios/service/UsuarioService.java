@@ -18,6 +18,10 @@ public interface UsuarioService {
 
     public Optional<Usuario> findByEmail(String email);
 
+    public List<Usuario> guardarUsuariosBatch(List<Usuario> usuarios);
+
+    public String generarTokenRestablecimiento(Long idUsuario) throws Exception;
+
     public Usuario editarUsuario(Usuario usuario);
 
     public void eliminarUsuario(Long id);

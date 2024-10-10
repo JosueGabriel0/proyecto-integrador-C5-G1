@@ -23,6 +23,10 @@ const GeneralRestablecerContraseniaComponent = () => {
                 return;
             }
 
+            // Generar un token de restablecimiento de contraseña para el usuario
+            const tokenResponse = await UsuarioAdminService.generateResetToken(usuarioEncontrado.idUsuario);
+            const resetToken = tokenResponse.data.token;
+
             const subject = 'Restablecimiento de contraseña';
             const body = `
                 <div style="text-align: center;">
@@ -30,7 +34,7 @@ const GeneralRestablecerContraseniaComponent = () => {
                     <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
                     <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
                     <a 
-                        href="http://localhost:3000/cambiar-contrasenia/${usuarioEncontrado.idUsuario}" 
+                        href="http://localhost:3000/cambiar-contrasenia/${resetToken}" 
                         style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
                         Restablecer Contraseña
                     </a>

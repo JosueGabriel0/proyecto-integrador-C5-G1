@@ -16,6 +16,23 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @PostMapping("/{idUsuario}/generate-reset-token")
+    public ResponseEntity<String> generarTokenRestablecimiento(@PathVariable Long idUsuario) {
+        try {
+            String token = usuarioService.generarTokenRestablecimiento(idUsuario);
+            return ResponseEntity.ok("Token de restablecimiento generado: " + token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al generar el token de restablecimiento: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<Usuario>> guardarUsuariosBatch(@RequestBody List<Usuario> usuarios) {
+        List<Usuario> usuariosGuardados = usuarioService.guardarUsuariosBatch(usuarios);
+        return ResponseEntity.ok(usuariosGuardados);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<Usuario> buscarUsuarioPorUsername(@RequestParam("username") String username) {
         Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
