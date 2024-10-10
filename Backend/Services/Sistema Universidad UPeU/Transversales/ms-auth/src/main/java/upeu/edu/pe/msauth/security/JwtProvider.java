@@ -24,10 +24,10 @@ public class JwtProvider {
 
     public String createToken(Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
-        claims = Jwts.claims().setSubject(usuario.getUsername()); // Usar username como sujeto
+        claims = Jwts.claims().setSubject(usuario.getUsername());
         claims.put("idUsuario", usuario.getIdUsuario());
         claims.put("email", usuario.getEmail());
-        claims.put("roles", usuario.getRol()); // Incluye el rol del usuario en el token
+        claims.put("roles", usuario.getRol());
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + 3600000); // El token expira en 1 hora
@@ -55,5 +55,23 @@ public class JwtProvider {
         } catch (Exception e) {
             return "bad token";
         }
+    }
+
+    public String createRefreshToken(Usuario usuario) {
+        Map<String, Object> claims = new HashMap<>();
+        claims = Jwts.claims().setSubject(usuario.getUsername());
+        claims.put("idUsuario", usuario.getIdUsuario());
+        claims.put("email", usuario.getEmail());
+        claims.put("roles", usuario.getRol());
+
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + 300000); // El token expira en 5 minutos (300000 ms)
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
 }

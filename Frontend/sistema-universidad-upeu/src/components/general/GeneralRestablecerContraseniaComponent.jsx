@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { sendEmail } from '../../services/authServices/emailServices/emailService'; // Ajusta la ruta según tu proyecto
 import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService'; // Ajusta la ruta según tu proyecto
+import { getShortLivedToken } from '../../services/authServices/authService'; // Importar el servicio
+import { Link } from 'react-router-dom';
 
 const GeneralRestablecerContraseniaComponent = () => {
     const [email, setEmail] = useState('');
@@ -22,7 +24,8 @@ const GeneralRestablecerContraseniaComponent = () => {
                 return;
             }
 
-            // Si el correo existe, proceder a enviar el correo de restablecimiento de contraseña
+            // Obtener un nuevo token de 5 minutos
+            const token = await getShortLivedToken(); // Obtener el token corto
             const subject = 'Restablecimiento de contraseña';
             const body = `
                 <div style="text-align: center;">
@@ -30,7 +33,7 @@ const GeneralRestablecerContraseniaComponent = () => {
                     <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
                     <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
                     <a 
-                        href="http://localhost:3000/cambiar-contrasenia?idUsuario=${usuarioEncontrado.idUsuario}&email=${encodeURIComponent(email)}" 
+                        href="http://localhost:3000/cambiar-contrasenia/${usuarioEncontrado.idUsuario}?token=${token}" 
                         style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
                         Restablecer Contraseña
                     </a>
@@ -42,12 +45,13 @@ const GeneralRestablecerContraseniaComponent = () => {
             setSuccess('Correo para restablecer contraseña enviado con éxito');
             setEmail('');
         } catch (err) {
-            setError('Error al enviar el correo: ' + err.message);
+            setError('Error: ' + err.message);
         }
     };
 
     return (
         <div>
+            <Link to="/login">Volver al Login</Link>
             <h2>Restablecer Contraseña</h2>
             <form onSubmit={handleSubmit}>
                 <input

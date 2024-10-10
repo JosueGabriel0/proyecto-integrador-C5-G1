@@ -40,6 +40,32 @@ export const login = async (credentials) => {
     }
 };
 
+// Función para obtener un nuevo token que dura 5 minutos
+export const getShortLivedToken = async () => {
+    const token = getToken(); // Puedes enviar el token existente para verificar la sesión
+
+    try {
+        const response = await fetch('http://localhost:9090/auth/token/refresh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Si necesitas el token actual para la autorización
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Token refresh failed: ' + response.statusText);
+        }
+
+        const data = await response.json();
+        saveToken(data.token); // Guardar el nuevo token en localStorage
+        return data.token; // Devuelve solo el nuevo token
+    } catch (error) {
+        console.error('Error getting short-lived token:', error);
+        throw error; // Propaga el error para manejarlo en el componente
+    }
+};
+
 // Función para validar el token (usada si es necesario validar en algún punto)
 export const validateToken = async () => {
     const token = getToken();

@@ -24,7 +24,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public TokenDto login(Usuario usuarioLogin) {
-        // Buscar el usuario por su username
         ResponseEntity<Usuario> response = usuarioFeign.buscarUsuarioPorUsername(usuarioLogin.getUsername());
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
@@ -32,10 +31,13 @@ public class AuthUserServiceImpl implements AuthUserService {
         }
 
         Usuario usuario = response.getBody();
-        // Verificar si la contraseña ingresada coincide con la almacenada
         if (passwordEncoder.matches(usuarioLogin.getPassword(), usuario.getPassword())) {
-            // Crear un token si la autenticación es exitosa
-            return new TokenDto(jwtProvider.createToken(usuario));
+            String accessToken = jwtProvider.createToken(usuario);
+            String refreshToken = jwtProvider.createRefreshToken(usuario);
+            return TokenDto.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build(); // Devuelve ambos tokens
         }
         return null; // Contraseña incorrecta
     }

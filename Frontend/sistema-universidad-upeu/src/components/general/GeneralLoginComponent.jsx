@@ -27,6 +27,7 @@ const GeneralLoginComponent = () => {
 
     return (
         <div>
+            <Link to="/">Inicio</Link>
             <h2>Login</h2>
             {error && <p>{error}</p>}
             <form onSubmit={handleLogin}>
