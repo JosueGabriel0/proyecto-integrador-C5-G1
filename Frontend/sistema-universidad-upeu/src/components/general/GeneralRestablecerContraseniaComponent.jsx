@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { sendEmail } from '../../services/authServices/emailServices/emailService';
 import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService';
-import { getShortLivedToken } from '../../services/authServices/authService';
 import { Link } from 'react-router-dom';
 
 const GeneralRestablecerContraseniaComponent = () => {
@@ -24,8 +23,6 @@ const GeneralRestablecerContraseniaComponent = () => {
                 return;
             }
 
-            // Obtener un nuevo token corto para restablecimiento
-            const token = await getShortLivedToken();
             const subject = 'Restablecimiento de contraseña';
             const body = `
                 <div style="text-align: center;">
@@ -33,7 +30,7 @@ const GeneralRestablecerContraseniaComponent = () => {
                     <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
                     <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
                     <a 
-                        href="http://localhost:3000/cambiar-contrasenia/${usuarioEncontrado.idUsuario}?token=${token}" 
+                        href="http://localhost:3000/cambiar-contrasenia/${usuarioEncontrado.idUsuario}" 
                         style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
                         Restablecer Contraseña
                     </a>

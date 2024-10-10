@@ -1,4 +1,4 @@
-// authService.js
+// authService.jsx
 
 // Guardar el token JWT en localStorage
 export const saveToken = (token) => {
@@ -38,7 +38,7 @@ export const login = async (credentials) => {
         });
 
         if (!response.ok) {
-            throw new Error('Login failed: ' + response.statusText); // Mejora en el manejo de errores
+            throw new Error(`Login failed: ${response.statusText}`); // Mejora en el manejo de errores
         }
 
         const data = await response.json();
@@ -55,16 +55,21 @@ export const login = async (credentials) => {
 export const getShortLivedToken = async () => {
     const refreshToken = getRefreshToken(); // Obtener el refreshToken
 
+    if (!refreshToken) {
+        throw new Error('No refresh token available');
+    }
+
     try {
-        const response = await fetch(`http://localhost:9090/auth/refresh?refreshToken=${refreshToken}`, {
+        const response = await fetch('http://localhost:9090/auth/refresh', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ refreshToken }), // Enviar el refresh token en el cuerpo de la solicitud
         });
 
         if (!response.ok) {
-            throw new Error('Token refresh failed: ' + response.statusText);
+            throw new Error(`Token refresh failed: ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -85,18 +90,22 @@ export const validateToken = async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:9090/auth/validate?token=${token}`, {
+        const response = await fetch('http://localhost:9090/auth/validate', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }), // Enviar el token en el cuerpo de la solicitud
         });
 
         if (!response.ok) {
-            throw new Error('Token validation failed: ' + response.statusText); // Mejora en el manejo de errores
+            throw new Error(`Token validation failed: ${response.statusText}`); // Mejora en el manejo de errores
         }
 
         return true; // Si la validación es exitosa
     } catch (error) {
         console.error('Error validating token:', error);
-        return false;
+        return false; // Devuelve false si ocurre un error durante la validación
     }
 };
 

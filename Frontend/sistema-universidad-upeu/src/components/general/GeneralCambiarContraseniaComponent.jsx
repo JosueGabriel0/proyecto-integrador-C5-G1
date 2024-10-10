@@ -1,111 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { sendEmail } from '../../services/authServices/emailServices/emailService';
 import UsuarioAdminService from '../../services/administradorServices/usuario/UsuarioAdminService';
-import { getShortLivedToken } from '../../services/authServices/authService';
 import { Link } from 'react-router-dom';
 
-const GeneralCambiarContraseniaComponent = () => {
-    const { idUsuario } = useParams();
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+const GeneralRestablecerContraseniaComponent = () => {
+    const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(3600); // 1 hora en segundos
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTimeLeft((prevTime) => {
-                if (prevTime <= 0) {
-                    clearInterval(interval);
-                    return 0;
-                }
-                return prevTime - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setSuccess(null);
-
-        if (newPassword !== confirmPassword) {
-            setError('Las contraseñas no coinciden');
-            return;
-        }
+        setLoading(true);
 
         try {
-            // Obtener un nuevo token corto para la actualización
-            const token = await getShortLivedToken();
+            // Verificar si el correo electrónico existe en la base de datos
+            const response = await UsuarioAdminService.getUsuarioByEmail(email);
+            const usuarioEncontrado = response.data;
 
-            // Obtener los datos actuales del usuario
-            const response = await UsuarioAdminService.getUsuarioById(idUsuario);
-            const usuarioExistente = response.data;
+            if (!usuarioEncontrado) {
+                setError('El correo electrónico no coincide con ningún usuario registrado');
+                setLoading(false);
+                return;
+            }
 
-            // Actualizar solo la contraseña, manteniendo el resto de los campos iguales
-            const usuarioData = {
-                ...usuarioExistente,
-                password: newPassword
-            };
+            const subject = 'Restablecimiento de contraseña';
+            const body = `
+                <div style="text-align: center;">
+                    <h2>Solicitud de Restablecimiento de Contraseña</h2>
+                    <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
+                    <p>Si no hiciste esta solicitud, simplemente ignora este correo.</p>
+                    <a 
+                        href="http://localhost:3000/cambiar-contrasenia/${usuarioEncontrado.idUsuario}" 
+                        style="padding: 10px 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;">
+                        Restablecer Contraseña
+                    </a>
+                </div>
+            `;
+            const isHtml = true;
 
-            // Actualizar el usuario con la nueva contraseña
-            await UsuarioAdminService.updateUsuario(idUsuario, usuarioData);
-            setSuccess('Contraseña actualizada con éxito');
-            setNewPassword('');
-            setConfirmPassword('');
+            // Enviar el correo electrónico para restablecer la contraseña
+            await sendEmail(email, subject, body, isHtml);
+            setSuccess('Correo para restablecer contraseña enviado con éxito');
+            setEmail(''); // Limpia el campo de email después de enviar el correo
         } catch (err) {
-            setError('Error al actualizar la contraseña: ' + err.message);
+            setError(`Hubo un error al enviar el correo: ${err.message}`);
+        } finally {
+            setLoading(false);
         }
-    };
-
-    const formatTimeLeft = (time) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes} min ${seconds < 10 ? `0${seconds}` : seconds} seg`;
     };
 
     return (
         <div>
-            <h2>Cambiar Contraseña</h2>
-            {timeLeft > 0 && (
-                <div style={{ textAlign: 'right', color: 'red' }}>
-                    El token dejará de ser válido en: {formatTimeLeft(timeLeft)}
-                </div>
-            )}
+            <Link to="/login">Volver al Login</Link>
+            <h2>Restablecer Contraseña</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nueva Contraseña:</label>
-                    <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Confirmar Contraseña:</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Cambiar Contraseña</button>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                {success && (
-                    <div style={{ color: 'green' }}>
-                        <p>{success}</p>
-                        <Link to="/login" style={{ textDecoration: 'underline', color: '#007bff' }}>
-                            Volver al Login
-                        </Link>
-                    </div>
-                )}
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Ingresa tu correo electrónico"
+                    required
+                    style={{ marginBottom: '10px', padding: '10px', width: '100%' }}
+                />
+                <button
+                    type="submit"
+                    style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px' }}
+                    disabled={loading} // Desactiva el botón cuando está en carga
+                >
+                    {loading ? 'Enviando...' : 'Restablecer Contraseña'}
+                </button>
             </form>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {success && <p style={{ color: 'green' }}>{success}</p>}
         </div>
     );
 };
 
-export default GeneralCambiarContraseniaComponent;
+export default GeneralRestablecerContraseniaComponent;
