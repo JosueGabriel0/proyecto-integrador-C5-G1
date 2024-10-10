@@ -57,6 +57,10 @@ public class AuthUserServiceImpl implements AuthUserService {
             return null; // Usuario no encontrado o error al obtener el usuario
         }
 
-        return new TokenDto(token); // Token válido
+        // Crear el TokenDto usando el builder
+        return TokenDto.builder()
+                .accessToken(token) // Asigna el token recibido como accessToken
+                .refreshToken(null) // O maneja el refreshToken según sea necesario
+                .build();
     }
 }
