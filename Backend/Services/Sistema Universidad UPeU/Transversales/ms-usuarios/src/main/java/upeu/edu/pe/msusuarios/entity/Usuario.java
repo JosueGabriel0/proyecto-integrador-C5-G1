@@ -25,6 +25,8 @@ public class Usuario {
     @Transient
     private Rol rol;
 
+    private String resetToken; // Asegúrate de que esta propiedad exista
+
     private LocalDateTime ultimoLogin; // Última fecha de acceso del usuario
 
     private String tokenRecuperacion; // Token para la recuperación de contraseña

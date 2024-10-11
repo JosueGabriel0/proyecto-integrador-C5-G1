@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msusuarios.entity.Usuario;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/usuario")
