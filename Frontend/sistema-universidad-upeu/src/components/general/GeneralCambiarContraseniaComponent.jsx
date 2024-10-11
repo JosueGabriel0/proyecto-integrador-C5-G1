@@ -12,17 +12,26 @@ const GeneralCambiarContraseniaComponent = () => {
 
     // Validar el token cuando se carga el componente
     useEffect(() => {
-        const validateToken = async () => {
-            try {
-                const response = await UsuarioAdminService.validateResetToken(token);
-                setTokenValid(response.data.valid);
-            } catch (err) {
-                setError('Token inválido o expirado. Solicita un nuevo enlace de restablecimiento.');
-                setTokenValid(false);
-            }
-        };
+        if (token) {  // Asegurarse de que el token esté definido antes de validar
+            console.log('Token recibido desde useParams:', token); // Depurar token recibido
 
-        validateToken();
+            const validateToken = async () => {
+                try {
+                    const response = await UsuarioAdminService.validateResetToken(token);
+                    console.log('Respuesta de la validación del token:', response); // Depurar respuesta de la API
+                    setTokenValid(response.data.valid);
+                    console.log('Estado del token validado:', response.data.valid);
+                } catch (err) {
+                    console.error('Error al validar el token:', err); // Depurar error
+                    setError('Token inválido o expirado. Solicita un nuevo enlace de restablecimiento.');
+                    setTokenValid(false);
+                }
+            };
+
+            validateToken();
+        } else {
+            console.error('No se recibió ningún token desde useParams.');
+        }
     }, [token]);
 
     const handleSubmit = async (e) => {
@@ -42,6 +51,7 @@ const GeneralCambiarContraseniaComponent = () => {
             setNewPassword('');
             setConfirmPassword('');
         } catch (err) {
+            console.error('Error al actualizar la contraseña:', err); // Depurar error
             setError('Error al actualizar la contraseña: ' + err.message);
         }
     };

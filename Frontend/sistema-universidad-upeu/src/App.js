@@ -36,7 +36,7 @@ const App = () => {
 
           <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent />} />
 
-          <Route path='/cambiar-contrasenia/:idUsuario' element={<GeneralCambiarContraseniaComponent />} />
+          <Route path='/cambiar-contrasenia/:token' element={<GeneralCambiarContraseniaComponent />} />
 
           {/* Ruta protegida para el dashboard */}
           <Route

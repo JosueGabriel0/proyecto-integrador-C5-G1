@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder; // Importa PasswordEncoder
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msusuarios.dto.Rol;
+import upeu.edu.pe.msusuarios.entity.ResetToken;
 import upeu.edu.pe.msusuarios.entity.Usuario;
 import upeu.edu.pe.msusuarios.exception.ResourceNotFoundException;
 import upeu.edu.pe.msusuarios.feign.RolFeign;
+import upeu.edu.pe.msusuarios.repository.ResetTokenRepository;
 import upeu.edu.pe.msusuarios.repository.UsuarioRepository;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
@@ -28,6 +30,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder; // Inyección del PasswordEncoder
+    @Autowired
+    private ResetTokenRepository resetTokenRepository;
 
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
@@ -141,6 +145,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         } else {
             throw new Exception("Usuario no encontrado con ID: " + idUsuario);
         }
+    }
+
+    @Override
+    public boolean validarTokenRestablecimiento(String token) {
+        // Lógica para verificar si el token existe y es válido
+        // Aquí se asume que tienes una entidad o modelo de datos que maneja los tokens
+        Optional<ResetToken> resetToken = resetTokenRepository.findByToken(token);
+
+        // Comprueba si el token existe y no ha expirado
+        return resetToken.isPresent() && !resetToken.get().isExpired();
     }
 
     @Override

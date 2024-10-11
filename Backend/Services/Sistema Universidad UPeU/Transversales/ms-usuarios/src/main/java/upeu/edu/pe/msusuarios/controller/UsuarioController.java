@@ -85,6 +85,17 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarUsuario());
     }
 
+    @GetMapping("/validate-reset-token/{token}")
+    public ResponseEntity<Map<String, Boolean>> validarTokenRestablecimiento(@PathVariable String token) {
+        try {
+            boolean isValid = usuarioService.validarTokenRestablecimiento(token);
+            return ResponseEntity.ok(Map.of("valid", isValid));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("valid", false));
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarUsuarioPorIdResponseEntity(@PathVariable(required = true) Long id){
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorId(id));

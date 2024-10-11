@@ -24,6 +24,8 @@ public interface UsuarioService {
 
     public String generarTokenRestablecimiento(Long idUsuario) throws Exception;
 
+    public boolean validarTokenRestablecimiento(String token);
+
     public Usuario editarUsuario(Usuario usuario);
 
     public void eliminarUsuario(Long id);
