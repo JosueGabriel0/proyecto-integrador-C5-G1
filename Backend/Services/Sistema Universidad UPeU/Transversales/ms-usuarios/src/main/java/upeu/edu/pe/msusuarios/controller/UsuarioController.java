@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msusuarios.entity.Usuario;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,13 +19,18 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/{idUsuario}/generate-reset-token")
-    public ResponseEntity<String> generarTokenRestablecimiento(@PathVariable Long idUsuario) {
+    public ResponseEntity<Map<String, String>> generarTokenRestablecimiento(@PathVariable Long idUsuario) {
         try {
             String token = usuarioService.generarTokenRestablecimiento(idUsuario);
-            return ResponseEntity.ok("Token de restablecimiento generado: " + token);
+
+            // Crear un objeto Map para devolver el token en formato JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al generar el token de restablecimiento: " + e.getMessage());
+                    .body(Map.of("error", "Error al generar el token de restablecimiento: " + e.getMessage()));
         }
     }
 

@@ -23,9 +23,11 @@ const GeneralRestablecerContraseniaComponent = () => {
                 return;
             }
 
-            // Generar un token de restablecimiento de contraseña para el usuario
             const tokenResponse = await UsuarioAdminService.generateResetToken(usuarioEncontrado.idUsuario);
-            const resetToken = tokenResponse.data.token;
+            console.log("Este es el token response: " + tokenResponse);
+            
+            const resetToken = tokenResponse.data.token; // Ahora accede directamente al token
+            console.log("Este es el reset Token: " + resetToken);
 
             const subject = 'Restablecimiento de contraseña';
             const body = `
@@ -41,6 +43,7 @@ const GeneralRestablecerContraseniaComponent = () => {
                 </div>
             `;
             const isHtml = true;
+            console.log("Este es el cuerpo con el reset Token: " + body);
 
             // Enviar el correo electrónico para restablecer la contraseña
             await sendEmail(email, subject, body, isHtml);
