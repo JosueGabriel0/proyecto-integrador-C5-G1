@@ -1,9 +1,8 @@
 package upeu.edu.pe.msauth.security;
 
+import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import upeu.edu.pe.msauth.dto.Usuario;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.Base64;
@@ -44,9 +43,23 @@ public class JwtProvider {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
-            return false;
+        } catch (ExpiredJwtException e) {
+            // Manejar token expirado
+            System.out.println("El token ha expirado");
+        } catch (UnsupportedJwtException e) {
+            // Manejar token no soportado
+            System.out.println("El token no es compatible");
+        } catch (MalformedJwtException e) {
+            // Manejar token mal formado
+            System.out.println("El token está mal formado");
+        } catch (SignatureException e) {
+            // Manejar firma inválida
+            System.out.println("La firma del token no es válida");
+        } catch (IllegalArgumentException e) {
+            // Manejar argumento ilegal
+            System.out.println("El token es nulo o vacío");
         }
+        return false;
     }
 
     public String getUserNameFromToken(String token) {
@@ -65,7 +78,7 @@ public class JwtProvider {
         claims.put("roles", usuario.getRol());
 
         Date now = new Date();
-        Date exp = new Date(now.getTime() + 300000); // El token expira en 5 minutos (300000 ms)
+        Date exp = new Date(now.getTime() + 604800000); // Expira en 7 días (7 * 24 * 60 * 60 * 1000 ms)
 
         return Jwts.builder()
                 .setClaims(claims)

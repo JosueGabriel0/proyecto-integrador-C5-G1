@@ -68,6 +68,16 @@ class UsuarioAdminService {
             }
         });
     }
+    resetPasswordWithToken(token, newPassword) {
+        return axios.post(`${USUARIO_BASE_REST_API_URL}/reset-password`, 
+            { newPassword }, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+    }
 }
 
 export default new UsuarioAdminService();

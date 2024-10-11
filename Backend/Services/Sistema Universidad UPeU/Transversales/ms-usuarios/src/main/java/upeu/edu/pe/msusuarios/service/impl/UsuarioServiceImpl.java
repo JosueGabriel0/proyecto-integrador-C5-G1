@@ -93,6 +93,34 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public void resetPassword(String token, String newPassword) throws Exception {
+        // Buscar al usuario por su token de recuperación
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByTokenRecuperacion(token);
+
+        if (!usuarioOptional.isPresent()) {
+            throw new Exception("Token inválido.");
+        }
+
+        Usuario usuario = usuarioOptional.get();
+
+        // Verificar si el token ha expirado
+        if (usuario.getTokenRecuperacionExpiracion().isBefore(Instant.now())) {
+            throw new Exception("El token ha expirado.");
+        }
+
+        // Cifrar la nueva contraseña
+        String passwordCifrada = passwordEncoder.encode(newPassword);
+        usuario.setPassword(passwordCifrada);
+
+        // Eliminar el token de recuperación ya que no es necesario después del cambio
+        usuario.setTokenRecuperacion(null);
+        usuario.setTokenRecuperacionExpiracion(null);
+
+        // Guardar el usuario actualizado
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
     public List<Usuario> guardarUsuariosBatch(List<Usuario> usuarios) {
         return usuarioRepository.saveAll(usuarios);
     }

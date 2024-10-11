@@ -8,6 +8,7 @@ import upeu.edu.pe.msusuarios.entity.Usuario;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -46,6 +47,25 @@ public class UsuarioController {
             return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestHeader("Authorization") String token,
+                                                @RequestBody Map<String, String> request) {
+        String newPassword = request.get("newPassword");
+
+        try {
+            // Eliminar el prefijo "Bearer " del token
+            String cleanToken = token.replace("Bearer ", "");
+
+            // Llamar al servicio para restablecer la contraseña
+            usuarioService.resetPassword(cleanToken, newPassword);
+
+            return ResponseEntity.ok("Contraseña actualizada con éxito.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al actualizar la contraseña: " + e.getMessage());
         }
     }
 

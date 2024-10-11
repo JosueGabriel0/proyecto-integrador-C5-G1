@@ -20,6 +20,8 @@ public interface UsuarioService {
 
     public List<Usuario> guardarUsuariosBatch(List<Usuario> usuarios);
 
+    public void resetPassword(String token, String newPassword) throws Exception;
+
     public String generarTokenRestablecimiento(Long idUsuario) throws Exception;
 
     public Usuario editarUsuario(Usuario usuario);
