@@ -43,7 +43,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public boolean isValidResetToken(String token) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByResetToken(token);
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByTokenRecuperacion(token);
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
             // Aquí podrías agregar lógica para verificar si el token ha caducado
