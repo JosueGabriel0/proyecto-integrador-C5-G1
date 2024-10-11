@@ -26,6 +26,8 @@ public interface UsuarioService {
 
     public boolean validarTokenRestablecimiento(String token);
 
+    public boolean isValidResetToken(String token);
+
     public Usuario editarUsuario(Usuario usuario);
 
     public void eliminarUsuario(Long id);

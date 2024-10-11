@@ -85,6 +85,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarUsuario());
     }
 
+    @GetMapping("/validar-token/{token}")
+    public ResponseEntity<?> validarToken(@PathVariable String token) {
+        boolean isValid = usuarioService.isValidResetToken(token);
+        return ResponseEntity.ok(Collections.singletonMap("valid", isValid));
+    }
+
     @GetMapping("/validate-reset-token/{token}")
     public ResponseEntity<Map<String, Boolean>> validarTokenRestablecimiento(@PathVariable String token) {
         try {

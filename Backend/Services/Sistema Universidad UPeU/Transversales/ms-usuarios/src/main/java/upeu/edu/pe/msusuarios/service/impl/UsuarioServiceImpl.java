@@ -42,6 +42,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public boolean isValidResetToken(String token) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByResetToken(token);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            // Aquí podrías agregar lógica para verificar si el token ha caducado
+            return true; // Si se encuentra el usuario con el token
+        }
+        return false; // No se encontró un usuario con ese token
+    }
+
+    @Override
     public Usuario buscarUsuarioPorUsername(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario con username " + username + " no existe"));

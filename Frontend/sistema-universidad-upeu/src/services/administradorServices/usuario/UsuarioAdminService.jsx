@@ -81,7 +81,11 @@ class UsuarioAdminService {
 
     // Nuevo método para validar el token de restablecimiento de contraseña
     validateResetToken(token) {
-        return axios.get(`${USUARIO_BASE_REST_API_URL}/validate-reset-token/${token}`);
+        return axios.get(`${USUARIO_BASE_REST_API_URL}/validar-token/${token}`, {
+            headers: {
+                Authorization: `Bearer ${getToken()}` // Asegúrate de incluir el token de autorización si es necesario
+            }
+        });
     }
 }
 
