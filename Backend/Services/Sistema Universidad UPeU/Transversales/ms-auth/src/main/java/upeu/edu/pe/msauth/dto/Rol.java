@@ -1,9 +1,11 @@
 package upeu.edu.pe.msauth.dto;
 
 import jakarta.persistence.Column;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class Rol {
     private Long idRol;
 

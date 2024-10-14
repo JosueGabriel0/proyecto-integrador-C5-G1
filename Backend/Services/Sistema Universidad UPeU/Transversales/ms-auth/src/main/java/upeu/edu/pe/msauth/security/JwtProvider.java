@@ -26,7 +26,7 @@ public class JwtProvider {
         claims = Jwts.claims().setSubject(usuario.getUsername());
         claims.put("idUsuario", usuario.getIdUsuario());
         claims.put("email", usuario.getEmail());
-        claims.put("roles", usuario.getRol());
+        claims.put("nombreRol", usuario.getRol().getNombreRol()); // Incluye solo el nombre del rol en el token
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + 3600000); // El token expira en 1 hora

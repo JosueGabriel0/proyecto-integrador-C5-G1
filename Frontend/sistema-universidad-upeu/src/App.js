@@ -40,7 +40,7 @@ const App = () => {
           <Route
             path='/dashboard-administrador'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AdministradorDashboardComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -50,7 +50,7 @@ const App = () => {
           <Route
             path='/roles'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -58,7 +58,7 @@ const App = () => {
           <Route
             path='/add-rol'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -66,7 +66,7 @@ const App = () => {
           <Route
             path='/edit-rol/:id'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -75,7 +75,7 @@ const App = () => {
           <Route
             path='/usuarios'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -83,7 +83,7 @@ const App = () => {
           <Route
             path='/add-usuario'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -91,7 +91,7 @@ const App = () => {
           <Route
             path='/edit-usuario/:id'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -100,7 +100,7 @@ const App = () => {
           <Route
             path='/personas'
             element={
-              <GeneralProtectedRouteComponent >
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListPersonaComponent />
               </GeneralProtectedRouteComponent>
             }
