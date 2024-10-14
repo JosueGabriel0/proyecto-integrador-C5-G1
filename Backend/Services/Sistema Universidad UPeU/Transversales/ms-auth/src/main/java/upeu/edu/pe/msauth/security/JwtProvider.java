@@ -36,7 +36,7 @@ public class JwtProvider {
         claims.put("email", usuario.getEmail());
 
         // Obtener el rol desde el microservicio de roles
-        ResponseEntity<Rol> response = rolFeign.listarRolDtoPorId(usuario.getRol().getIdRol());
+        ResponseEntity<Rol> response = rolFeign.listarRolDtoPorId(usuario.getIdUsuario());
         String nombreRol = "DEFAULT_ROLE"; // Valor por defecto en caso de que no se encuentre el rol
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
