@@ -88,10 +88,16 @@ export const getUserRole = () => {
     const token = getToken();
     if (!token) return null;
 
-    // Decodificar el JWT para obtener el rol
-    const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
-    console.log("Este es el rol: "+payload.rol);
-    return payload.rol; // Suponiendo que el rol está en el campo 'role' del payload
+    try {
+        // Decodificar el payload del JWT
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
+        
+        console.log("Este es el rol: " + payload.nombreRol); // Asegúrate de que el campo coincide con el nombre en el token
+        return payload.nombreRol; // Devuelve el nombre del rol si está presente
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null; // Devuelve null si ocurre un error durante la decodificación
+    }
 };
 
 // Función para validar el token (usada si es necesario validar en algún punto)
