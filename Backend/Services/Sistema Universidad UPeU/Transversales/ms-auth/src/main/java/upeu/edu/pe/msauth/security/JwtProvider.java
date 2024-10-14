@@ -2,9 +2,14 @@ package upeu.edu.pe.msauth.security;
 
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import upeu.edu.pe.msauth.dto.Rol;
 import upeu.edu.pe.msauth.dto.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import upeu.edu.pe.msauth.feign.RolFeign;
+
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +17,9 @@ import java.util.Map;
 
 @Component
 public class JwtProvider {
+
+    @Autowired
+    private RolFeign rolFeign;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -26,7 +34,16 @@ public class JwtProvider {
         claims = Jwts.claims().setSubject(usuario.getUsername());
         claims.put("idUsuario", usuario.getIdUsuario());
         claims.put("email", usuario.getEmail());
-        claims.put("nombreRol", usuario.getRol().getNombreRol()); // Incluye solo el nombre del rol en el token
+
+        // Obtener el rol desde el microservicio de roles
+        ResponseEntity<Rol> response = rolFeign.listarRolDtoPorId(usuario.getRol().getIdRol());
+        String nombreRol = "DEFAULT_ROLE"; // Valor por defecto en caso de que no se encuentre el rol
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            nombreRol = response.getBody().getNombreRol(); // Obtiene el nombre del rol
+        }
+
+        claims.put("nombreRol", nombreRol); // Incluye el nombre del rol en el token
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + 3600000); // El token expira en 1 hora
