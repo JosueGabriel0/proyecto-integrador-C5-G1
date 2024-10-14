@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.msusuarios.dto.ErrorResponseDto;
+import upeu.edu.pe.msusuarios.dto.Rol;
 import upeu.edu.pe.msusuarios.entity.Usuario;
+import upeu.edu.pe.msusuarios.feign.RolFeign;
 import upeu.edu.pe.msusuarios.service.UsuarioService;
 
 import java.util.*;
@@ -14,6 +17,9 @@ import java.util.*;
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private RolFeign rolFeign;
 
     @PostMapping("/{idUsuario}/generate-reset-token")
     public ResponseEntity<Map<String, String>> generarTokenRestablecimiento(@PathVariable Long idUsuario) {
@@ -73,7 +79,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> guardarUsuarioResponseEntity(@RequestBody Usuario usuario){
+    public ResponseEntity<?> guardarUsuarioResponseEntity(@RequestBody Usuario usuario){
+        Rol rolDto = rolFeign.listarRolDtoPorId(usuario.getIdRol()).getBody();
+
+        if (rolDto == null || rolDto.getIdRol() == null) {
+            String errorMessage = "Error: Rol no encontrado.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(errorMessage));
+        }
+
+        Usuario nuevoUsuario = usuarioService.guardarUsuario(usuario);
         return ResponseEntity.ok(usuarioService.guardarUsuario(usuario));
     }
 
