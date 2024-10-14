@@ -9,6 +9,7 @@ const GeneralCambiarContraseniaComponent = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [tokenValid, setTokenValid] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(120); // Tiempo de expiración en segundos (15 minutos)
 
     // Validar el token cuando se carga el componente
     useEffect(() => {
@@ -28,6 +29,23 @@ const GeneralCambiarContraseniaComponent = () => {
 
         validateToken();
     }, [token]);
+
+    useEffect(() => {
+        if (tokenValid) {
+            const intervalId = setInterval(() => {
+                setTimeLeft((prevTime) => {
+                    if (prevTime <= 1) {
+                        clearInterval(intervalId);
+                        setTokenValid(false); // Opcional: considera el token como inválido si el tiempo se acaba
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000); // Decrementar cada segundo
+
+            return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar
+        }
+    }, [tokenValid]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,36 +72,41 @@ const GeneralCambiarContraseniaComponent = () => {
         <div>
             <h2>Cambiar Contraseña</h2>
             {tokenValid ? (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Nueva Contraseña:</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                        />
+                <>
+                    <div style={{ position: 'absolute', right: '20px', top: '20px' }}>
+                        <p>Tiempo restante: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
                     </div>
-                    <div>
-                        <label>Confirmar Contraseña:</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit">Cambiar Contraseña</button>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && (
-                        <div style={{ color: 'green' }}>
-                            <p>{success}</p>
-                            <Link to="/login" style={{ textDecoration: 'underline', color: '#007bff' }}>
-                                Volver al Login
-                            </Link>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Nueva Contraseña:</label>
+                            <input
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                            />
                         </div>
-                    )}
-                </form>
+                        <div>
+                            <label>Confirmar Contraseña:</label>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit">Cambiar Contraseña</button>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        {success && (
+                            <div style={{ color: 'green' }}>
+                                <p>{success}</p>
+                                <Link to="/login" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                                    Volver al Login
+                                </Link>
+                            </div>
+                        )}
+                    </form>
+                </>
             ) : (
                 <p style={{ color: 'red' }}>{error || 'Verificando el token...'}</p>
             )}

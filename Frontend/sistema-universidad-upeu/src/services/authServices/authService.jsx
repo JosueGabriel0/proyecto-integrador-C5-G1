@@ -26,6 +26,7 @@ export const isAuthenticated = () => {
     return !!token; // Devuelve true si el token existe, false si no.
 };
 
+// authService.jsx
 // Función para realizar el login (petición al microservicio ms-auth)
 export const login = async (credentials) => {
     try {
@@ -38,16 +39,17 @@ export const login = async (credentials) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Login failed: ${response.statusText}`); // Mejora en el manejo de errores
+            throw new Error(`Login failed: ${response.statusText}`);
         }
 
         const data = await response.json();
         saveToken(data.accessToken); // Guardar el accessToken en localStorage
         saveRefreshToken(data.refreshToken); // Guardar el refreshToken en localStorage
+        localStorage.setItem('userRole', data.role); // Guardar el rol en localStorage
         return data.accessToken; // Devuelve el accessToken
     } catch (error) {
         console.error('Error logging in:', error);
-        throw error; // Propaga el error para manejarlo en el componente
+        throw error;
     }
 };
 
@@ -79,6 +81,17 @@ export const getShortLivedToken = async () => {
         console.error('Error getting short-lived token:', error);
         throw error; // Propaga el error para manejarlo en el componente
     }
+};
+
+// Esta función debería devolver el rol del usuario
+export const getUserRole = () => {
+    const token = getToken();
+    if (!token) return null;
+
+    // Decodificar el JWT para obtener el rol
+    const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
+    console.log("Este es el rol: "+payload.rol);
+    return payload.rol; // Suponiendo que el rol está en el campo 'role' del payload
 };
 
 // Función para validar el token (usada si es necesario validar en algún punto)

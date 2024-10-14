@@ -77,8 +77,6 @@ function ListUsuarioComponent(){
                                 <td>{usuario.tokenRecuperacionExpiracion}</td>
                                 <td>
                                     <Link to={`/edit-usuario/${usuario.idUsuario}`}>Actualizar</Link>
-                                </td>
-                                <td>
                                     <button onClick={() => {eliminarUsuario(usuario.idUsuario)}}>Eliminar</button>
                                 </td>
                             </tr>

@@ -21,6 +21,7 @@ import { isAuthenticated } from './services/authServices/authService'; // Import
 import GeneralEmailComponent from './components/general/GeneralEmailComponent';
 import GeneralRestablecerContraseniaComponent from './components/general/GeneralRestablecerContraseniaComponent';
 import GeneralCambiarContraseniaComponent from './components/general/GeneralCambiarContraseniaComponent';
+import Unauthorized from './components/general/GeneralUnauthorizedComponent'; // Importa tu componente de no autorizado
 
 const App = () => {
   return (
@@ -31,28 +32,25 @@ const App = () => {
 
           {/* Ruta de login pública */}
           <Route path='/login' element={<GeneralLoginComponent />} />
-
           <Route path='/email' element={<GeneralEmailComponent />} />
-
           <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent />} />
-
           <Route path='/cambiar-contrasenia/:token' element={<GeneralCambiarContraseniaComponent />} />
 
           {/* Ruta protegida para el dashboard */}
           <Route
             path='/dashboard-administrador'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <AdministradorDashboardComponent />
               </GeneralProtectedRouteComponent>
             }
           />
 
-          {/* Rutas protegidas*/}
+          {/* Rutas protegidas */}
           <Route
             path='/roles'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <ListRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -60,7 +58,7 @@ const App = () => {
           <Route
             path='/add-rol'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <AddRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -68,7 +66,7 @@ const App = () => {
           <Route
             path='/edit-rol/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <AddRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -77,7 +75,7 @@ const App = () => {
           <Route
             path='/usuarios'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <ListUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -85,7 +83,7 @@ const App = () => {
           <Route
             path='/add-usuario'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <AddUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -93,7 +91,7 @@ const App = () => {
           <Route
             path='/edit-usuario/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <AddUsuarioComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -102,7 +100,7 @@ const App = () => {
           <Route
             path='/personas'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent >
                 <ListPersonaComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -110,7 +108,7 @@ const App = () => {
           <Route
             path='/add-persona'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddPersonaComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -118,7 +116,7 @@ const App = () => {
           <Route
             path='/edit-persona/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddPersonaComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -127,7 +125,7 @@ const App = () => {
           <Route
             path='/administradores'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -135,7 +133,7 @@ const App = () => {
           <Route
             path='/add-administrador'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -143,7 +141,7 @@ const App = () => {
           <Route
             path='/edit-administrador/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -152,7 +150,7 @@ const App = () => {
           <Route
             path='/administrativos'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListAdministrativoComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -160,7 +158,7 @@ const App = () => {
           <Route
             path='/add-administrativo'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddAdministrativoComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -168,7 +166,7 @@ const App = () => {
           <Route
             path='/edit-administrativo/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddAdministrativoComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -177,7 +175,7 @@ const App = () => {
           <Route
             path='/inscripcionesConRol'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <ListInscripcionesConRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -185,7 +183,7 @@ const App = () => {
           <Route
             path='/add-inscripcionConRol'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddInscripcionesConRolComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -193,14 +191,14 @@ const App = () => {
           <Route
             path='/edit-inscripcionConRol/:id'
             element={
-              <GeneralProtectedRouteComponent isAuthenticated={isAuthenticated()}>
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddInscripcionesConRolComponent />
               </GeneralProtectedRouteComponent>
             }
           />
 
+          <Route path='/unauthorized' element={<Unauthorized />} /> {/* Ruta para no autorizado */}
           <Route path='*' element={<h2>404 - Página no encontrada</h2>} />
-
         </Routes>
       </div>
     </BrowserRouter>
