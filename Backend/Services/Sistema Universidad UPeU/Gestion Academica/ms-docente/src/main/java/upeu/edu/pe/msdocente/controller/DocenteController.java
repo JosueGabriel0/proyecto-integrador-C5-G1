@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msdocente.dto.Curso;
+import upeu.edu.pe.msdocente.dto.ErrorResponseDto;
 import upeu.edu.pe.msdocente.dto.Persona;
 import upeu.edu.pe.msdocente.entity.Docente;
 import upeu.edu.pe.msdocente.feign.CursoFeign;
@@ -30,42 +31,23 @@ public class DocenteController {
     public ResponseEntity<?> guardarDocenteResponseEntity(@RequestBody Docente docente){
         try {
             // Verificar si el curso existe
-            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(docente.getIdPersona());
-            if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
+            Persona personaDto = personaFeign.listarPersonaDtoPorId(docente.getIdPersona()).getBody();
+            if (personaDto == null || personaDto.getId() == null) {
+                String ErrorMessage = "Error: Persona no encontrada";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
             }
-            Persona persona = personaResponse.getBody();
 
             // Verificar si el curso existe
-            ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(docente.getIdCurso());
-            if (cursoResponse.getStatusCode() == HttpStatus.NOT_FOUND || cursoResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el curso");
-            }
-                Curso curso = cursoResponse.getBody();
-
-
-
-            // Verificar si cada producto en los detalles existe antes de procesarlos
-            /*
-            for (PedidoDetalle pedidoDetalle : pedido.getDetalle()) {
-                ResponseEntity<Producto> productoResponse = productoFeign.listarProductoDtoPorId(pedidoDetalle.getProductoId());
-                if (productoResponse.getStatusCode() == HttpStatus.NOT_FOUND || productoResponse.getBody() == null) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto");
-                }
-                    Producto producto = productoResponse.getBody();
-                    // Asignar el producto al detalle
-                    pedidoDetalle.setProducto(producto);
-
+            Curso cursoDto = cursoFeign.listarCursoDtoPorId(docente.getIdCurso()).getBody();
+            if (cursoDto == null || cursoDto.getIdCurso() == null) {
+                String ErrorMessage = "Error: Curso no encontrado";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
             }
 
-            // Asignar los detalles actualizados
-            pedido.setDetalle(pedido.getDetalle());
-            */
-
             // Asignar el curso al docente
-            docente.setPersona(persona);
+            docente.setPersona(personaDto);
             // Asignar el curso al docente
-            docente.setCurso(curso);
+            docente.setCurso(cursoDto);
 
             // Guardar el pedido si todas las validaciones pasaron
             Docente docenteGuardado = docenteService.guardarDocente(docente);

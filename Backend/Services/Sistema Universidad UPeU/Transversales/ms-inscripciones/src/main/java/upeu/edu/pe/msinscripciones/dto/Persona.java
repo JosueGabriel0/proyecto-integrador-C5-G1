@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class Persona {
-    private long id;
+    private Long id;
 
     private String nombres;
     private String apellido_paterno;

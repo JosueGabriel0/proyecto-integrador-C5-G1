@@ -51,19 +51,30 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             inscripcionDTO.getUsuario().setIdRol(inscripcionDTO.getIdRol());
 
             // Crear Usuario
-            ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
+            ResponseEntity<?> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
-            inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
+            try {
+                Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
+                inscripcion.setIdUsuario(usuarioCreado.getIdUsuario());
+            }catch (ClassCastException e){
+                throw new RuntimeException("Error al convertir la respuesta a Usuario", e);
+            }
 
             // Crear Persona
             inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
-            ResponseEntity<Persona> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(), fotoPerfil);
+            ResponseEntity<?> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(), fotoPerfil);
             if (personaResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear la Persona.");
             }
-            inscripcion.setIdPersona(personaResponse.getBody().getId());
+            try {
+                Persona personaCreada = (Persona) personaResponse.getBody();
+                inscripcion.setIdPersona(personaCreada.getId());
+            }catch (ClassCastException e){
+                throw new RuntimeException("Error al convertir la respuesta a Persona", e);
+            }
+
 
             // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
@@ -315,11 +326,16 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
             // Crear Usuario
             inscripcionDTO.getUsuario().setIdRol(idRolCreado);
-            ResponseEntity<Usuario> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
+            ResponseEntity<?> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
-            inscripcion.setIdUsuario(usuarioResponse.getBody().getIdUsuario());
+            try {
+                Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
+                inscripcion.setIdUsuario(usuarioCreado.getIdUsuario());
+            } catch (ClassCastException e){
+                throw new RuntimeException("Error al convertir la respuesta a Usuario", e);
+            }
 
             // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){

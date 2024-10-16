@@ -1,5 +1,21 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { logout } from '../../services/authServices/authService';
+
+const LogoutButton = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+      logout(); // Llama a la función logout para eliminar los tokens
+      navigate('/login'); // Redirige al usuario a la página de inicio de sesión
+  };
+
+  return (
+      <button onClick={handleLogout}>
+          Logout
+      </button>
+  );
+};
 
 function AdministradorDashboardComponent() {
   return (
@@ -7,6 +23,7 @@ function AdministradorDashboardComponent() {
       <h1>Dashboard</h1>
       <p>Bienvenido al panel principal de administración del sistema universitario UPeU.</p>
       {/* Aquí puedes añadir más secciones, gráficos, o enlaces a diferentes funcionalidades */}
+      {LogoutButton()}
 
       <section>
         <h2>Resumen rápido</h2>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.msadministrador.dto.ErrorResponseDto;
 import upeu.edu.pe.msadministrador.dto.Persona;
 import upeu.edu.pe.msadministrador.entity.Administrador;
 import upeu.edu.pe.msadministrador.feign.PersonaFeign;
@@ -27,14 +28,13 @@ public class AdministradorController {
     public ResponseEntity<?> guardarAdministradorResponseEntity(@RequestBody Administrador administrador){
         try {
             // Verificar si el curso existe
-            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(administrador.getIdPersona());
-            if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
+            Persona personaDto = personaFeign.listarPersonaDtoPorId(administrador.getIdPersona()).getBody();
+            if (personaDto == null || personaDto.getId() == null) {
+                String ErrorMessage = "Error: Persona no encontrada";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
             }
-            Persona persona = personaResponse.getBody();
 
-
-            administrador.setPersona(persona);
+            administrador.setPersona(personaDto);
 
             // Guardar el pedido si todas las validaciones pasaron
             Administrador AdministradorGuardado = administradorService.guardarAdministrador(administrador);

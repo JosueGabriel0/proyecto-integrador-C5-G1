@@ -7,10 +7,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import upeu.edu.pe.mspersona.dto.ErrorResponseDto;
+import upeu.edu.pe.mspersona.dto.Usuario;
 import upeu.edu.pe.mspersona.entity.Persona;
 import upeu.edu.pe.mspersona.exception.ResourceNotFoundException;
+import upeu.edu.pe.mspersona.feign.UsuarioFeign;
 import upeu.edu.pe.mspersona.service.PersonaService;
 
 import java.io.File;
@@ -26,6 +30,8 @@ import java.util.List;
 public class PersonaController {
     @Autowired
     private PersonaService personaService;
+    @Autowired
+    private UsuarioFeign usuarioFeign;
 
     // Ruta para obtener la imagen por su nombre
     @GetMapping("/images/{nombreImagen}")
@@ -43,7 +49,7 @@ public class PersonaController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Persona> guardarPersonaResponseEntity(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
+    public ResponseEntity<?> guardarPersonaResponseEntity(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
         if(!fotoPerfil.isEmpty()){
             Path directorioImagenes = Paths.get("src//main//resources//static/images");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -58,7 +64,16 @@ public class PersonaController {
             }
 
         }
-        return ResponseEntity.ok(personaService.guardarPersona(persona));
+
+        Usuario usuarioDto = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario()).getBody();
+
+        if(usuarioDto == null || usuarioDto.getIdUsuario() == null){
+            String ErrorMessage = "Error: Usuario no encontrado";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
+        }
+
+        Persona nuevaPersona =personaService.guardarPersona(persona);
+        return ResponseEntity.ok(nuevaPersona);
     }
 
     @GetMapping

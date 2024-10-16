@@ -17,7 +17,7 @@ public interface PersonaFeign {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @CircuitBreaker(name = "crearPersonaCB", fallbackMethod = "fallbackMethodCrearPersona")
-    ResponseEntity<Persona> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
+    ResponseEntity<?> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
 
     @GetMapping
     @CircuitBreaker(name = "listarPersonasCB", fallbackMethod = "fallbackMethodListarPersonas")
@@ -35,7 +35,7 @@ public interface PersonaFeign {
     @CircuitBreaker(name = "eliminarPersonaCB", fallbackMethod = "fallbackMethodEliminarPersona")
     ResponseEntity<String> eliminarPersonaDto(@PathVariable Long id);
 
-    default ResponseEntity<Persona> fallbackMethodCrearPersona(Persona Persona, Exception e){
+    default ResponseEntity<?> fallbackMethodCrearPersona(Persona Persona, MultipartFile fotoPerfil, Exception e){
         return ResponseEntity.ok(new Persona());
     }
 

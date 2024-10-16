@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nombres;
     private String apellido_paterno;

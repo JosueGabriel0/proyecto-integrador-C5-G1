@@ -16,7 +16,7 @@ import java.util.List;
 public class Docente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idDocente;
+    private Long idDocente;
 
     private String departamento;
     private String tituloAcatemico;

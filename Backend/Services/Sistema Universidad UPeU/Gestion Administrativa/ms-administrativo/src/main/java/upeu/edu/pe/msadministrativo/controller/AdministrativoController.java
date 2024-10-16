@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.msadministrativo.dto.ErrorResponseDto;
 import upeu.edu.pe.msadministrativo.dto.Persona;
 import upeu.edu.pe.msadministrativo.entity.Administrativo;
 import upeu.edu.pe.msadministrativo.feign.PersonaFeign;
@@ -27,14 +28,13 @@ public class AdministrativoController {
     public ResponseEntity<?> guardarAdministrativoResponseEntity(@RequestBody Administrativo administrativo){
         try {
             // Verificar si la persona existe
-            ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(administrativo.getIdPersona());
-            if (personaResponse.getStatusCode() == HttpStatus.NOT_FOUND || personaResponse.getBody() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la persona");
+            Persona personaDto = personaFeign.listarPersonaDtoPorId(administrativo.getIdPersona()).getBody();
+            if (personaDto == null || personaDto.getId() == null) {
+                String ErrorMessage = "Error: Persona no encontrada";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
             }
-            Persona persona = personaResponse.getBody();
 
-            administrativo.setPersona(persona);
-
+            administrativo.setPersona(personaDto);
 
             // Guardar el pedido si todas las validaciones pasaron
             Administrativo AdministrativoGuardado = administrativoService.guardarAdministrativo(administrativo);

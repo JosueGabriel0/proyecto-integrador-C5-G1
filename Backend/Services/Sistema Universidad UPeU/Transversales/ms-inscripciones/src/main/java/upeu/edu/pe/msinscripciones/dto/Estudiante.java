@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class Estudiante {
-    private long idEstudiante;
+    private Long idEstudiante;
 
 
     private String matricula;

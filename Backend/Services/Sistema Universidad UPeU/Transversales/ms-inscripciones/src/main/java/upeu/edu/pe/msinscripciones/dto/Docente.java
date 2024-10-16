@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class Docente {
-    private long idDocente;
+    private Long idDocente;
 
     private String departamento;
     private String tituloAcatemico;
