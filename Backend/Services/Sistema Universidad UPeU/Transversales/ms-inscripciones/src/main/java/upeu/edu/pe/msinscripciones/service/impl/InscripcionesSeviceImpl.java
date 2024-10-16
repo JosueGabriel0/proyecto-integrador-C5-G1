@@ -63,7 +63,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
 
             // Crear Persona
-            inscripcionDTO.getPersona().setIdUsuario(usuarioResponse.getBody().getIdUsuario());
+            inscripcionDTO.getPersona().setIdUsuario(inscripcion.getIdUsuario());
             ResponseEntity<?> personaResponse = personaFeign.crearPersonaDto(inscripcionDTO.getPersona(), fotoPerfil);
             if (personaResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear la Persona.");
