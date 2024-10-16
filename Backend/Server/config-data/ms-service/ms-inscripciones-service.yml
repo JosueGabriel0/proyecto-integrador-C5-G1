@@ -30,7 +30,7 @@ eureka:
 resilience4j.circuitbreaker:
   instances:
     #CIRCUITBREAKER CRUD ROL
-    personaListarPorIdCB:
+    crearRolCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -40,7 +40,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 
-    personaListarTodasCB:
+    listarRolesCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -50,7 +50,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 60
       eventConsumerBufferSize: 10
 
-    personaCrearCB:
+    listarRolPorIdCB:
       registerHealthIndicator: true
       slidingWindowSize: 15
       permittedNumberOfCallsInHalfOpenState: 2
@@ -60,7 +60,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 70
       eventConsumerBufferSize: 20
 
-    personaActualizarCB:
+    actualizarRolCB:
       registerHealthIndicator: true
       slidingWindowSize: 20
       permittedNumberOfCallsInHalfOpenState: 2
@@ -70,7 +70,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 15
 
-    personaEliminarCB:
+    eliminarRolCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -81,7 +81,7 @@ resilience4j.circuitbreaker:
       eventConsumerBufferSize: 10
 
     #CIRCUITBREAKER CRUD USUARIO
-    personaListarPorIdCB:
+    crearUsuarioCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -91,7 +91,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 
-    personaListarTodasCB:
+    listarUsuariosCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -101,7 +101,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 60
       eventConsumerBufferSize: 10
 
-    personaCrearCB:
+    listrUsuarioPorIdCB:
       registerHealthIndicator: true
       slidingWindowSize: 15
       permittedNumberOfCallsInHalfOpenState: 2
@@ -111,7 +111,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 70
       eventConsumerBufferSize: 20
 
-    personaActualizarCB:
+    actualizarUsuarioCB:
       registerHealthIndicator: true
       slidingWindowSize: 20
       permittedNumberOfCallsInHalfOpenState: 2
@@ -121,7 +121,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 15
 
-    personaEliminarCB:
+    eliminarUsuarioCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -142,7 +142,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 
-    listarPersonaCB:
+    listarPersonasCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3

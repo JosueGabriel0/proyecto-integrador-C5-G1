@@ -20,7 +20,7 @@ public interface PersonaFeign {
     ResponseEntity<Persona> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
 
     @GetMapping
-    @CircuitBreaker(name = "listarPersonaCB", fallbackMethod = "fallbackMethodListarPersonas")
+    @CircuitBreaker(name = "listarPersonasCB", fallbackMethod = "fallbackMethodListarPersonas")
     ResponseEntity<List<Persona>> listarPersonasDto();
 
     @GetMapping("/{id}")
