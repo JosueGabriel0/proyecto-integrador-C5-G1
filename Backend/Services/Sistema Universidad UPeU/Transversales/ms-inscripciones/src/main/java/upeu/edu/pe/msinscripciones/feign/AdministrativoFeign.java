@@ -14,7 +14,7 @@ public interface AdministrativoFeign {
 
     @PostMapping
     @CircuitBreaker(name = "crearAdministrativoCB", fallbackMethod = "fallbackMethodCrearAdministrativo")
-    ResponseEntity<Administrativo> crearAdministrativoDto(@RequestBody Administrativo administrativo);
+    ResponseEntity<?> crearAdministrativoDto(@RequestBody Administrativo administrativo);
 
     @GetMapping
     @CircuitBreaker(name = "listarAdministrativosCB", fallbackMethod = "fallbackMethodListarAdministrativos")
@@ -32,7 +32,7 @@ public interface AdministrativoFeign {
     @CircuitBreaker(name = "eliminarAdministrativoCB", fallbackMethod = "fallbackMethodEliminarAdministrativo")
     ResponseEntity<String> eliminarAdministrativoDto(@PathVariable Long id);
 
-    default ResponseEntity<Administrativo> fallbackMethodCrearAdministrativo(Administrativo administrativo, Exception e){
+    default ResponseEntity<?> fallbackMethodCrearAdministrativo(Administrativo administrativo, Exception e){
         return ResponseEntity.ok(new Administrativo());
     }
 

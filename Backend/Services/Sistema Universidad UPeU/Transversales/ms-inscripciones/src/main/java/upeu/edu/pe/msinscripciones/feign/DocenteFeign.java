@@ -14,7 +14,7 @@ public interface DocenteFeign {
 
     @PostMapping
     @CircuitBreaker(name = "crearDocenteCB", fallbackMethod = "fallbackMethodCrearDocente")
-    ResponseEntity<Docente> crearDocenteDto(@RequestBody Docente docente);
+    ResponseEntity<?> crearDocenteDto(@RequestBody Docente docente);
 
     @GetMapping
     @CircuitBreaker(name = "listarDocentesCB", fallbackMethod = "fallbackMethodListarDocentes")
@@ -32,7 +32,7 @@ public interface DocenteFeign {
     @CircuitBreaker(name = "eliminarDocenteCB", fallbackMethod = "fallbackMethodEliminarDocente")
     ResponseEntity<String> eliminarDocenteDto(@PathVariable Long id);
 
-    default ResponseEntity<Docente> fallbackMethodCrearDocente(Docente docente, Exception e){
+    default ResponseEntity<?> fallbackMethodCrearDocente(Docente docente, Exception e){
         return ResponseEntity.ok(new Docente());
     }
 
