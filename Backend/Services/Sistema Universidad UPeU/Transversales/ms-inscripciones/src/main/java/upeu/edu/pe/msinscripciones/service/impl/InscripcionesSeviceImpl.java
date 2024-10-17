@@ -1,5 +1,6 @@
 package upeu.edu.pe.msinscripciones.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -355,10 +356,13 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             if (usuarioResponse.getBody() == null) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
+
             try {
-                Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
+                // Usar ObjectMapper para convertir la respuesta a un objeto Usuario
+                ObjectMapper objectMapper = new ObjectMapper();
+                Usuario usuarioCreado = objectMapper.convertValue(usuarioResponse.getBody(), Usuario.class);
                 inscripcion.setIdUsuario(usuarioCreado.getIdUsuario());
-            } catch (ClassCastException e){
+            } catch (IllegalArgumentException e) {
                 throw new RuntimeException("Error al convertir la respuesta a Usuario", e);
             }
 
