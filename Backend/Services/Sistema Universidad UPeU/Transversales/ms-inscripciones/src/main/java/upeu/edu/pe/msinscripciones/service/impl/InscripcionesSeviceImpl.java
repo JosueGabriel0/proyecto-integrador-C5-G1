@@ -13,11 +13,44 @@ import upeu.edu.pe.msinscripciones.feign.*;
 import upeu.edu.pe.msinscripciones.repository.InscripcionesRepository;
 import upeu.edu.pe.msinscripciones.service.InscripcionesService;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import feign.FeignException; // Asegúrate de importar esta clase si la estás utilizando
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+
+
 @Service
 public class InscripcionesSeviceImpl implements InscripcionesService {
+
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private static final String BASE_URL_PERSONA = "http://localhost:9090/persona";
+
+    @Autowired
+    public InscripcionesSeviceImpl(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
+    }
+
+    // Aquí iría el resto de tu código, incluyendo métodos y lógica de negocio...
+
     //INYECCION DE DEPENDENCIAS PRINCIPALES PARA INSCRIPCION
     @Autowired
     private InscripcionesRepository inscripcionesRepository;
@@ -57,9 +90,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
             try {
-                Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
+                Usuario usuarioCreado = objectMapper.convertValue(usuarioResponse.getBody(), Usuario.class);
                 inscripcion.setIdUsuario(usuarioCreado.getIdUsuario());
-            }catch (ClassCastException e){
+            }catch (IllegalArgumentException e){
                 throw new RuntimeException("Error al convertir la respuesta a Usuario", e);
             }
             Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
@@ -71,9 +104,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo crear la Persona.");
             }
             try {
-                Persona personaCreada = (Persona) personaResponse.getBody();
+                Persona personaCreada = objectMapper.convertValue(personaResponse.getBody(), Persona.class);
                 inscripcion.setIdPersona(personaCreada.getId());
-            }catch (ClassCastException e){
+            }catch (IllegalArgumentException e){
                 throw new RuntimeException("Error al convertir la respuesta a Persona", e);
             }
 
@@ -88,9 +121,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Administrador.");
                 }
                 try {
-                    Administrador administradorCreado = (Administrador) administradorResponse.getBody();
+                    Administrador administradorCreado = objectMapper.convertValue(administradorResponse.getBody(), Administrador.class);
                     inscripcion.setIdAdministrador(administradorCreado.getIdAdministrador());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Administrador", e);
                 }
 
@@ -104,9 +137,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Administrativo.");
                 }
                 try {
-                    Administrativo administrativoCreado = (Administrativo) administrativoResponse.getBody();
+                    Administrativo administrativoCreado = objectMapper.convertValue(administrativoResponse.getBody(), Administrativo.class);
                     inscripcion.setIdAdministrativo(administrativoCreado.getIdAdministrativo());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Administrativo", e);
                 }
 
@@ -120,9 +153,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Estudiante.");
                 }
                 try {
-                    Estudiante estudianteCreado = (Estudiante) estudianteResponse.getBody();
+                    Estudiante estudianteCreado = objectMapper.convertValue(estudianteResponse.getBody(), Estudiante.class);
                     inscripcion.setIdEstudiante(estudianteCreado.getIdEstudiante());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Estudiante", e);
                 }
 
@@ -136,9 +169,9 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                     throw new RuntimeException("No se pudo crear el Docente.");
                 }
                 try {
-                    Docente docenteCreado = (Docente) docenteResponse.getBody();
+                    Docente docenteCreado = objectMapper.convertValue(docenteResponse.getBody(), Docente.class);
                     inscripcion.setIdDocente(docenteCreado.getIdDocente());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Docente", e);
                 }
 
@@ -337,7 +370,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     //CUD DE INSCRIPCION CON ROL
     @Override
-    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO) {
+    public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
         Inscripcion inscripcion = new Inscripcion();
 
         try {
@@ -353,31 +386,64 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             // Crear Usuario
             inscripcionDTO.getUsuario().setIdRol(idRolCreado);
             ResponseEntity<?> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
-            if (usuarioResponse.getBody() == null) {
+
+            if (usuarioResponse.getBody() == null || !usuarioResponse.getStatusCode().is2xxSuccessful()) {
                 throw new RuntimeException("No se pudo crear el Usuario.");
             }
 
             try {
-                // Usar ObjectMapper para convertir la respuesta a un objeto Usuario
-                ObjectMapper objectMapper = new ObjectMapper();
+                // Usar el ObjectMapper inyectado para convertir la respuesta a un objeto Usuario
                 Usuario usuarioCreado = objectMapper.convertValue(usuarioResponse.getBody(), Usuario.class);
                 inscripcion.setIdUsuario(usuarioCreado.getIdUsuario());
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException("Error al convertir la respuesta a Usuario", e);
+            }
+            Usuario usuarioCreado = (Usuario) usuarioResponse.getBody();
+
+            // Crear Persona usando RestTemplate
+            inscripcionDTO.getPersona().setIdUsuario(usuarioCreado.getIdUsuario());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            try {
+                // Crear MultipartBodyBuilder para la solicitud
+                MultiValueMap<String, Object> builder = new LinkedMultiValueMap<>();
+                builder.add("persona", inscripcionDTO.getPersona());
+                builder.add("file", new ByteArrayResource(fotoPerfil.getBytes()) {
+                    @Override
+                    public String getFilename() {
+                        return fotoPerfil.getOriginalFilename();
+                    }
+                });
+
+                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(builder, headers);
+
+                // Llamar al servicio de persona
+                ResponseEntity<?> personaResponse = restTemplate.exchange(BASE_URL_PERSONA, HttpMethod.POST, requestEntity, Object.class);
+                if (personaResponse.getBody() == null) {
+                    throw new RuntimeException("No se pudo crear la Persona.");
+                }
+
+                Persona personaCreada = objectMapper.convertValue(personaResponse.getBody(), Persona.class);
+                inscripcion.setIdPersona(personaCreada.getId());
+
+            } catch (IOException e) {
+                throw new RuntimeException("Error al procesar el archivo de la foto de perfil.", e);
             }
 
             // Verificar si se crea un Administrador, Administrativo, Estudiante o un Docente, no varios a la vez
             if(inscripcionDTO.getAdministrador() != null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrador y obtener el ID
                 Administrador administrador = inscripcionDTO.getAdministrador();
+                administrador.setIdPersona(1);
                 ResponseEntity<?> administradorResponse = administradorFeign.crearAdministradorDto(administrador);
                 if (administradorResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrador.");
                 }
                 try {
-                    Administrador administradorCreado = (Administrador) administradorResponse.getBody();
+                    Administrador administradorCreado = objectMapper.convertValue(administradorResponse.getBody(), Administrador.class);
                     inscripcion.setIdAdministrador(administradorCreado.getIdAdministrador());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Administrador", e);
                 }
 
@@ -385,42 +451,45 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             } else if(inscripcionDTO.getAdministrativo() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getEstudiante() == null && inscripcionDTO.getDocente() == null){
                 // Crear Administrativo y obtener el ID
                 Administrativo administrativo = inscripcionDTO.getAdministrativo();
+                administrativo.setIdPersona(1);
                 ResponseEntity<?> administrativoResponse = administrativoFeign.crearAdministrativoDto(administrativo);
                 if (administrativoResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Administrativo.");
                 }
                 try {
-                    Administrativo administrativoCreado = (Administrativo) administrativoResponse.getBody();
+                    Administrativo administrativoCreado = objectMapper.convertValue(administrativoResponse.getBody(), Administrativo.class);
                     inscripcion.setIdAdministrativo(administrativoCreado.getIdAdministrativo());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Administrativo", e);
                 }
 
             }else if (inscripcionDTO.getEstudiante() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null) {
                 // Crear Estudiante y obtener el ID
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
+                estudiante.setIdPersona(1);
                 ResponseEntity<?> estudianteResponse = estudianteFeign.crearEstudianteDto(estudiante);
                 if (estudianteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Estudiante.");
                 }
                 try {
-                    Estudiante estudianteCreado = (Estudiante) estudianteResponse.getBody();
+                    Estudiante estudianteCreado = objectMapper.convertValue(estudianteResponse.getBody(), Estudiante.class);
                     inscripcion.setIdEstudiante(estudianteCreado.getIdEstudiante());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Estudiante", e);
                 }
 
             } else if (inscripcionDTO.getDocente() != null && inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getEstudiante() == null) {
                 // Crear Docente y obtener el ID
                 Docente docente = inscripcionDTO.getDocente();
+                docente.setIdPersona(1);
                 ResponseEntity<?> docenteResponse = docenteFeign.crearDocenteDto(docente);
                 if (docenteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo crear el Docente.");
                 }
                 try {
-                    Docente docenteCreado = (Docente) docenteResponse.getBody();
+                    Docente docenteCreado = objectMapper.convertValue(docenteResponse.getBody(), Docente.class);
                     inscripcion.setIdDocente(docenteCreado.getIdDocente());
-                }catch (ClassCastException e){
+                }catch (IllegalArgumentException e){
                     throw new RuntimeException("Error al convertir la respuesta a Docente", e);
                 }
 
