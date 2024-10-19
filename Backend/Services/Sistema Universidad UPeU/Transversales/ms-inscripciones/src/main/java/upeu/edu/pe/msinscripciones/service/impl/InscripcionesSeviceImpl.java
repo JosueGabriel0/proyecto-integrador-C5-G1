@@ -376,10 +376,11 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         try {
             // Crear el Rol y obtener el ID
             ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
-            if (rolResponse.getBody() == null) {
-                throw new RuntimeException("No se pudo crear el Rol.");
+            if (rolResponse.getBody() == null || rolResponse.getBody().getIdRol() == null) {
+                throw new RuntimeException("No se pudo crear el Rol o el ID del Rol es nulo.");
             }
-            Long idRolCreado = rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
+
+            Long idRolCreado = Long.valueOf(1);//rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
             inscripcion.setIdRol(idRolCreado);
             //inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
 
