@@ -380,7 +380,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo crear el Rol o el ID del Rol es nulo.");
             }
 
-            Long idRolCreado = Long.valueOf(1);//rolResponse.getBody().getIdRol();  // Obtener el ID del Rol creado
+            Long idRolCreado =  rolResponse.getBody().getIdRol(); //Long.valueOf(1); //Obtener el ID del Rol creado
             inscripcion.setIdRol(idRolCreado);
             //inscripcionDTO.getUsuario().setIdRol(idRolCreado);  // Asignar el Rol al Usuario
 
