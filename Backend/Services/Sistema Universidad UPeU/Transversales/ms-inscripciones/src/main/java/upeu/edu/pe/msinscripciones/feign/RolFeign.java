@@ -14,7 +14,7 @@ import java.util.List;
 public interface RolFeign {
 
     @PostMapping
-    @CircuitBreaker(name = "crearRolCB", fallbackMethod = "fallbackMethodCrearRol")
+    //@CircuitBreaker(name = "crearRolCB", fallbackMethod = "fallbackMethodCrearRol")
     ResponseEntity<Rol> crearRolDto(@RequestBody Rol rol);
 
     @GetMapping
