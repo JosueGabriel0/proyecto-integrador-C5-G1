@@ -17,7 +17,7 @@ public interface PersonaFeign {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @CircuitBreaker(name = "crearPersonaCB", fallbackMethod = "fallbackMethodCrearPersona")
-    ResponseEntity<?> crearPersonaDto(@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil);
+    ResponseEntity<?> crearPersonaDto(@RequestPart("persona") Persona persona, @RequestPart("file") MultipartFile fotoPerfil);
 
     @GetMapping
     @CircuitBreaker(name = "listarPersonasCB", fallbackMethod = "fallbackMethodListarPersonas")

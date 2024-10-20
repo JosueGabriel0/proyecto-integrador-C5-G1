@@ -512,55 +512,25 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         return inscripcion;
     }
 
-    @Autowired
-    private TokenService tokenService;
-
     @Override
     public void crearPersonaConFoto(Persona personaDTO, MultipartFile fotoPerfil) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
         try {
-            // Obtener el token JWT del servicio de autenticación (ms-auth)
-            String token = tokenService.obtenerTokenJwt(); // Aquí llamas a tu método
+            // Llama al cliente de OpenFeign pasando el objeto Persona y el archivo MultipartFile
+            ResponseEntity<?> response = personaFeign.crearPersonaDto(personaDTO, fotoPerfil);
 
-            // Incluir el token en el encabezado de la solicitud
-            headers.set("Authorization", "Bearer " + token);
-
-            // Obtener los bytes de la foto de perfil
-            byte[] fotoPerfilBytes = fotoPerfil.getBytes();
-
-            // Crear MultiValueMap para la solicitud multipart/form-data
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("persona", personaDTO);  // Cambiar Inscripcion a Persona
-            body.add("file", new ByteArrayResource(fotoPerfilBytes) {
-                @Override
-                public String getFilename() {
-                    return fotoPerfil.getOriginalFilename();
-                }
-            });
-
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-            // Llamar al servicio de Persona para crear la persona con la foto de perfil
-            ResponseEntity<?> personaResponse = restTemplate.exchange(BASE_URL_PERSONA, HttpMethod.POST, requestEntity, Object.class);
-
-            if (personaResponse.getBody() == null) {
-                throw new PersonaCreationException("No se pudo crear la Persona.");
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // Convertir la respuesta a un objeto Persona
+                Persona personaCreada = objectMapper.convertValue(response.getBody(), Persona.class);
+                // Asegúrate de tener un método setId en Persona
+                personaDTO.setId(personaCreada.getId());
+            } else {
+                throw new PersonaCreationException("Error al crear la persona: " + response.getBody());
             }
-
-            // Convertir la respuesta a un objeto Persona
-            Persona personaCreada = objectMapper.convertValue(personaResponse.getBody(), Persona.class);
-            personaDTO.setId(personaCreada.getId()); // Asegúrate de tener un método setId en Persona
-
-        } catch (IOException e) {
-            // Si ocurre un error al obtener los bytes de la foto de perfil
-            throw new PersonaCreationException("Error al procesar el archivo de la foto de perfil.", e);
         } catch (Exception e) {
-            // Manejo de otras excepciones que podrían surgir
             throw new PersonaCreationException("Error inesperado al crear la persona.", e);
         }
     }
+
 
 //    @Override
 //    public Inscripcion editarInscripcionConRol(Long id, Inscripcion inscripcionDTO) {

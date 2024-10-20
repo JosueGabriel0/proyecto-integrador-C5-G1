@@ -1,10 +1,12 @@
 package upeu.edu.pe.msinscripciones.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.msinscripciones.dto.*;
 import upeu.edu.pe.msinscripciones.entity.Inscripcion;
@@ -36,6 +38,8 @@ public class InscipcionesController {
     private DocenteFeign docenteFeign;
     @Autowired
     private EstudianteFeign estudianteFeign;
+    @Autowired
+    private RestTemplate restTemplate;
 
     //CRUD DE INSCRIPCION
 //    @PostMapping
@@ -122,13 +126,13 @@ public class InscipcionesController {
         return new ResponseEntity<>(nuevaInscripcionConRol, HttpStatus.CREATED);
     }
 
-    @PostMapping("/crear-persona")
+    @PostMapping(value = "/crear-persona", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> crearPersona(
-            @ModelAttribute Persona personaDTO, // Cambiar Inscripcion a Persona
+            @ModelAttribute Persona personaDTO,
             @RequestParam("file") MultipartFile fotoPerfil) {
         try {
             // Llama al servicio pasando directamente el MultipartFile
-            inscripcionesService.crearPersonaConFoto(personaDTO, fotoPerfil); // Cambia Inscripcion a Persona
+            inscripcionesService.crearPersonaConFoto(personaDTO, fotoPerfil);
             return new ResponseEntity<>("Persona creada exitosamente.", HttpStatus.CREATED);
         } catch (PersonaCreationException e) {
             // Manejar la excepción personalizada
@@ -138,6 +142,10 @@ public class InscipcionesController {
             return new ResponseEntity<>("Error inesperado al crear la persona: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
+
 
 
 
