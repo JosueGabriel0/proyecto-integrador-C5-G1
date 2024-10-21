@@ -5,44 +5,74 @@ const INSCRIPCION_BASE_REST_API_URL = "http://localhost:9090/inscripcion/con-rol
 
 class InscripcionService {
 
-    getAllInscripciones(){
-        return axios.get(INSCRIPCION_BASE_REST_API_URL, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`
-            }
-        });
+    async getAllInscripciones(){
+        try {
+            const response = await axios.get(INSCRIPCION_BASE_REST_API_URL, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al obtener las inscripciones:", error);
+            throw error;
+        }
     }
 
-    getInscripcionById(idInscripcion){
-        return axios.get(INSCRIPCION_BASE_REST_API_URL + "/" +idInscripcion, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`
-            }
-        })
+    async getInscripcionById(idInscripcion){
+        try {
+            const response = await axios.get(`${INSCRIPCION_BASE_REST_API_URL}/${idInscripcion}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al obtener la inscripción:", error);
+            throw error;
+        }
     }
 
-    createInscripcion(inscripcion){
-        return axios.post(INSCRIPCION_BASE_REST_API_URL,inscripcion, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`
-            }
-        })
+    async createInscripcion(inscripcion){
+        try {
+            const response = await axios.post(INSCRIPCION_BASE_REST_API_URL, inscripcion, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al crear la inscripción:", error);
+            throw error;
+        }
     }
 
-    updateInscripcion(idInscripcion, inscripcion){
-        return axios.put(INSCRIPCION_BASE_REST_API_URL + "/" + idInscripcion, inscripcion, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`
-            }
-        })
+    async updateInscripcion(idInscripcion, inscripcion){
+        try {
+            const response = await axios.put(`${INSCRIPCION_BASE_REST_API_URL}/${idInscripcion}`, inscripcion, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al actualizar la inscripción:", error);
+            throw error;
+        }
     }
 
-    deleteInscripcion(idInscripcion){
-        return axios.delete(INSCRIPCION_BASE_REST_API_URL + "/" + idInscripcion, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`
-            }
-        })
+    async deleteInscripcion(idInscripcion){
+        try {
+            const response = await axios.delete(`${INSCRIPCION_BASE_REST_API_URL}/${idInscripcion}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al eliminar la inscripción:", error);
+            throw error;
+        }
     }
 }
 

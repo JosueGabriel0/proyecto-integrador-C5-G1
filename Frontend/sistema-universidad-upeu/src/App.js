@@ -13,6 +13,8 @@ import ListAdministrativoComponent from './components/administrador/GestionarAdm
 import AddAdministrativoComponent from './components/administrador/GestionarAdministrativo/AddAdministrativoComponent';
 import ListInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListInscripcionesConRolComponent';
 import AddInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddIncripcionConRolComponent';
+import ListEstudianteComponent from './components/administrador/GestionarEstudiante/ListEstudianteComponent';
+import AddEstudianteComponent from './components/administrador/GestionarEstudiante/AddEstudianteComponent';
 
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
@@ -168,6 +170,32 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
                 <AddAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/estudiantes'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
+                <ListEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+          <Route
+            path='/add-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
+                <AddEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-estudiante/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ROLE_ADMIN']}>
+                <AddEstudianteComponent />
               </GeneralProtectedRouteComponent>
             }
           />

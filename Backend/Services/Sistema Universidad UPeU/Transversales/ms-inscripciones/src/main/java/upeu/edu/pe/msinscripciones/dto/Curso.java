@@ -1,9 +1,6 @@
 package upeu.edu.pe.msinscripciones.dto;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,7 +9,7 @@ import java.util.List;
 
 @Data
 public class Curso {
-    private long idCurso;
+    private Long idCurso;
 
     private String nombre;
     private String codigo;
@@ -22,4 +19,7 @@ public class Curso {
     private String nivel;
 
     private List<String> asignaturas = new ArrayList<>();
+
+    private LocalDateTime fechaCreacionCurso;
+    private LocalDateTime fechaModificacionCurso;
 }
