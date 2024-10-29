@@ -56,6 +56,12 @@ function AdministradorDashboardComponent() {
         &nbsp;
         &nbsp;
         <Link to="/administrativos">Administrativos</Link>
+        &nbsp;
+        &nbsp;
+        <Link to="/docentes">Docentes</Link>
+        &nbsp;
+        &nbsp;
+        <Link to="/estudiantes">Estudiantes</Link>
         <button onClick={() => alert('Ir a la gestión de estudiantes')}>Gestión de Estudiantes</button>
         <button onClick={() => alert('Ir a la gestión de cursos')}>Gestión de Cursos</button>
         <button onClick={() => alert('Ir a la gestión de profesores')}>Gestión de Profesores</button>

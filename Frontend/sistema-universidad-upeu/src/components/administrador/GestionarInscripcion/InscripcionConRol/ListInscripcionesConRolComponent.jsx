@@ -127,7 +127,15 @@ function ListInscripcionesConRolComponent() {
                         inscripciones.map((inscripcion) => (
                             <tr key={inscripcion.idInscripcion}>
                                 <td>{inscripcion.idInscripcion}</td>
-                                <td>{}</td>
+                                <td>{inscripcion.inscripcionRol}</td>
+                                <td>{inscripcion.fechaCreacionInscripcion}</td>
+                                <td>{inscripcion.fechaModificacionInscripcion}</td>
+                                <td>{inscripcion.idRol}</td>
+                                <td>{inscripcion.rol.idRol}</td>
+                                <td>{inscripcion.rol.nombreRol}</td>
+                                <td>{inscripcion.rol.description}</td>
+                                <td>{inscripcion.rol.fechaCreacionRol}</td>
+                                <td>{inscripcion.rol.fechaModificacionRol}</td>
                             </tr>
                         ))
                     }

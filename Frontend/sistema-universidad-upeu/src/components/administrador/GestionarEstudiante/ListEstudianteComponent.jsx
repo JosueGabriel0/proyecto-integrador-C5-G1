@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import EstudianteAdminService from "../../../services/administradorServices/estudiante/EstudianteAdminService";
+import { Link } from "react-router-dom";
 
 function ListEstudianteComponent() {
     const [estudiantes, setEstudiantes] = useState([]);
 
+    useEffect(() => {
+        listarEstudiantes();
+    }, [])
+
     function listarEstudiantes() {
-        EstudianteAdminService.getAllEstudiantes().then(response => {
-            setEstudiantes(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
+        EstudianteAdminService.getAllEstudiantes()
+            .then(response => {
+                setEstudiantes(response.data);
+                console.log("Estos son los datos del backend:", response.data); // Usa coma en lugar de concatenar
+            })
+            .catch(error => {
+                console.log("Error al obtener los datos:", error);
+            });
     }
 
     function borrarEstudiante(idEstudiante) {
@@ -22,39 +29,85 @@ function ListEstudianteComponent() {
         })
     }
 
-    function title(){
-        if(id){
-            return <div>Actualizar Estudiante</div>
-        }else{
-            return <div>Agregar Estudiante</div>
-        }
-    }
     return (
         <div className="container">
+            <Link to="/dashboard-administrador">Retroceder</Link>
             <h1>Gestionar Estudiante</h1>
+            <Link to="/add-estudiante">Agregar Estudiante</Link>
+
             <table>
                 <thead>
-                    <th>ID</th>
-                    <th>Matricula</th>
-                    <th>Ciclo Actual</th>
-                    <th>Promedio General</th>
-                    <th>Fecha Ingreso</th>
-                    <th>Estado</th>
-                    <th>Tipo de Estudiante</th>
-                    <th>Beca</th>
-                    <th>Numero de Matricula</th>
-                    <th>Id de la Carrerra</th>
-                    <th>Asignaturas Matriculadas</th>
-                    <th>Horario</th>
-                    <th>Consejero Academico</th>
-                    <th>Fecha de Graduacion</th>
-                    <th>Practicas Realizadas</th>
-                    <th>Historial Academico</th>
-                    <th>Id del Curso</th>
-                    <th>Id Persona</th>
-                    <th>Fecha de creacion de Estudiante</th>
-                    <th>Fecha de modificacion de Estudiante</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Matricula</th>
+                        <th>Ciclo Actual</th>
+                        <th>Promedio General</th>
+                        <th>Fecha Ingreso</th>
+                        <th>Estado</th>
+                        <th>Tipo de Estudiante</th>
+                        <th>Beca</th>
+                        <th>Numero de Matricula</th>
+                        <th>Id de la Carrerra</th>
+                        <th>Asignaturas Matriculadas</th>
+                        <th>Horario</th>
+                        <th>Consejero Academico</th>
+                        <th>Fecha de Graduacion</th>
+                        <th>Practicas Realizadas</th>
+                        <th>Historial Academico</th>
+                        <th>Id del Curso</th>
+                        <th>Id Persona</th>
+                        <th>Fecha de creacion de Estudiante</th>
+                        <th>Fecha de modificacion de Estudiante</th>
+                        <th>Acciones</th>
+                    </tr>
                 </thead>
+                <tbody>
+                    {
+                        estudiantes.map(estudiante => (
+                            <tr key={estudiante.idEstudiante}>
+                                <td>{estudiante.idEstudiante}</td>
+                                <td>{estudiante.matricula}</td>
+                                <td>{estudiante.cicloActual}</td>
+                                <td>{estudiante.promedioGeneral}</td>
+                                <td>{estudiante.fechaIngreso}</td>
+                                <td>{estudiante.estado}</td>
+                                <td>{estudiante.tipoEstudiante}</td>
+                                <td>{estudiante.beca}</td>
+                                <td>{estudiante.numeroMatricula}</td>
+                                <td>{estudiante.carreraId}</td>
+                                <td>{estudiante.asignaturasMatriculadas?.join(", ")}</td>
+                                <td>{estudiante.horario}</td>
+                                <td>{estudiante.consejeroAcademico}</td>
+                                <td>{estudiante.fechaGraduacion}</td>
+                                <td>{estudiante.practicasRealizadas?.join(", ")}</td>
+                                <td>
+                                    {estudiante.historialAcademico && estudiante.historialAcademico.length > 0 ? (
+                                        estudiante.historialAcademico.map((registro, index) => (
+                                            <div key={index}>
+                                                {/* Asumiendo que tienes un atributo `descripcion` en `RegistroAcademico` */}
+                                                {registro.descripcion}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        "No hay registros"
+                                    )}
+                                </td>
+                                <td>{estudiante.idCurso}</td>
+                                <td>{estudiante.idPersona}</td>
+                                <td>{estudiante.fechaCreacionEstudiante}</td>
+                                <td>{estudiante.fechaModificacionEstudiante}</td>
+
+                                <td>
+                                    <Link to={`/edit-estudiante/${estudiante.idEstudiante}`}>Actualizar</Link>
+                                    <button onClick={() => borrarEstudiante(estudiante.idEstudiante)}>Borrar</button>
+                                </td>
+                            </tr>
+                        ))
+
+                    }
+
+
+                </tbody>
             </table>
         </div>
     );
