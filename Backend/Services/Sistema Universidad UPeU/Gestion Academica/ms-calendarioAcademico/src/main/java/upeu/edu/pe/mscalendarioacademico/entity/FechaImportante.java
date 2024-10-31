@@ -8,35 +8,32 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-
 public class FechaImportante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFechaImportante;
 
+    @Column(nullable = false)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private LocalDate fecha;
+
+    // Relación con la entidad Calendario Académico
     @ManyToOne
     @JoinColumn(name = "calendarioAcademico_id")
     private CalendarioAcademico calendarioAcademico;
 
-    private String descripcion;
-
-    private LocalDate fecha;
-
-    // Relación con la entidad Planificación Académica
-    @ManyToOne
-    @JoinColumn(name = "planificacion_academica_id")
-    private CalendarioAcademico planificacionAcademica;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionFechaImportante;
+    private LocalDateTime fechaModificacionFechaImportante;
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionFechaImportante = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionFechaImportante = java.time.LocalDateTime.now();
     }
 }

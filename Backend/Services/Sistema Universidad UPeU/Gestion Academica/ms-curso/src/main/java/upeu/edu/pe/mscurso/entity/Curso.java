@@ -2,6 +2,8 @@ package upeu.edu.pe.mscurso.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mscurso.dto.Carrera;
+import upeu.edu.pe.mscurso.dto.Docente;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,10 +25,13 @@ public class Curso {
     private String tipo;
     private String nivel;
 
-    @ElementCollection
-    @CollectionTable(name = "asignaturas", joinColumns = @JoinColumn(name = "curso_id"))
-    @Column(name = "asignatura")
-    private List<String> asignaturas = new ArrayList<>();
+    private Long idCarrera;
+    @Transient
+    private Carrera carrera;
+
+    private Long idDocente;
+    @Transient
+    private Docente docente;
 
     private LocalDateTime fechaCreacionCurso;
     private LocalDateTime fechaModificacionCurso;

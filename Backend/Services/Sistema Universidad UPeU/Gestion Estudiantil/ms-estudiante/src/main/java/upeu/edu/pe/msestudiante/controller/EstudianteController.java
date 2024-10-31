@@ -66,7 +66,7 @@ public class EstudianteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Estudiante>> listarEstudiantesResponseEntity(){
+    public ResponseEntity<List<Estudiante>> listarEstudiantesResponseEntity() {
         return ResponseEntity.ok(estudianteService.listarEstudiante());
     }
 

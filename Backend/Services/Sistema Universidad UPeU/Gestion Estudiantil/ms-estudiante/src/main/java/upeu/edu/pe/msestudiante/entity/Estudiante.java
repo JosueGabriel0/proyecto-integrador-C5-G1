@@ -2,7 +2,6 @@ package upeu.edu.pe.msestudiante.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.Persona;
 
 import java.time.LocalDate;
@@ -35,7 +34,12 @@ public class Estudiante {
     private Long carreraId;
 
     @ElementCollection
-    @CollectionTable(name = "asignaturas_matriculas", joinColumns = @JoinColumn(name = "docente_id"))
+    @CollectionTable(name = "carreras_ingresadas", joinColumns = @JoinColumn(name = "estudiante_id"))
+    @Column(name = "carreras")
+    private List<String> carrerasIngresadas = new ArrayList<String>();
+
+    @ElementCollection
+    @CollectionTable(name = "asignaturas_matriculadas", joinColumns = @JoinColumn(name = "estudiante_id"))
     @Column(name = "asignaturas")
     private List<String> asignaturasMatriculadas = new ArrayList<String>();
 
@@ -46,17 +50,13 @@ public class Estudiante {
     private String fechaGraduacion;
 
     @ElementCollection
-    @CollectionTable(name = "practicas_realizadas", joinColumns = @JoinColumn(name = "docente_id"))
+    @CollectionTable(name = "practicas_realizadas", joinColumns = @JoinColumn(name = "estudiante_id"))
     @Column(name = "practicas")
     private List<String> practicasRealizadas = new ArrayList<String>();
 
     // Historial Académico del Estudiante
-    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RegistroAcademico> historialAcademico;
-
-    private long idCurso;
-    @Transient
-    private Curso curso;
 
     private long idPersona;
     @Transient

@@ -13,13 +13,13 @@ public class PlanificacionAcademica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idPlanificacionAcademica;
+    private Long idPlanificacionAcademica;
 
     private String nombrePlanEstudio;
     private String codigoPlanEstudio;
     private String versionPlanEstudio;
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime fechaCreacionPlanificacionAcademica;
+    private LocalDateTime fechaModificacionPlanificacionAcademica;
 
     @Enumerated(EnumType.STRING)
     private EstadoPlanificacion estado; //Activo, Inactivo o En revision
@@ -45,17 +45,14 @@ public class PlanificacionAcademica {
     @Column(name = "evento_calendario_id")
     private List<Long> calendarioAcademicoIds;
 
-    @OneToMany(mappedBy = "planificacionAcademica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FechaImportante> fechasImportantes;
-
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionPlanificacionAcademica = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionPlanificacionAcademica = java.time.LocalDateTime.now();
     }
 }

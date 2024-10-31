@@ -1,54 +1,44 @@
 package upeu.edu.pe.msroles.loaders;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import upeu.edu.pe.msroles.entity.Rol;
 import upeu.edu.pe.msroles.repository.RolRepository;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Component
-public class RolDataLoader implements CommandLineRunner {
+@Configuration
+public class RolDataLoader {
 
-    @Autowired
-    private RolRepository rolRepository;
+    @Bean
+    public CommandLineRunner loadRoles(RolRepository rolRepository) {
+        return args -> {
+            // Verificar si existen roles en la base de datos
+            if (rolRepository.count() == 0) {
 
-    @Override
-    public void run(String... args) throws Exception {
-        // Crear y guardar algunos roles de ejemplo
-        Rol rol1 = new Rol();
-        rol1.setNombreRol("ROLE_ADMIN");
-        rol1.setDescription("Rol para administradores");
-        rol1.setFechaCreacionRol(LocalDateTime.now());
+                // Crear roles por defecto
+                Rol adminRole = new Rol();
+                adminRole.setNombreRol("ADMINISTRADOR");
+                adminRole.setDescription("Acceso completo a todas las funcionalidades.");
 
-        Rol rol2 = new Rol();
-        rol2.setNombreRol("ROLE_DOCENTE");
-        rol2.setDescription("Rol para docentes");
-        rol2.setFechaCreacionRol(LocalDateTime.now());
+                Rol administrativoRole = new Rol();
+                administrativoRole.setNombreRol("ADMINISTRATIVO");
+                administrativoRole.setDescription("Acceso a la gestión administrativa.");
 
-        Rol rol3 = new Rol();
-        rol3.setNombreRol("ROLE_ESTUDIANTE");
-        rol3.setDescription("Rol para estudiantes");
-        rol3.setFechaCreacionRol(LocalDateTime.now());
+                Rol estudianteRole = new Rol();
+                estudianteRole.setNombreRol("ESTUDIANTE");
+                estudianteRole.setDescription("Acceso a los recursos del estudiante.");
 
-        Rol rol4 = new Rol();
-        rol4.setNombreRol("ROLE_ADMINISTRATIVO");
-        rol4.setDescription("Rol para personal administrativo");
-        rol4.setFechaCreacionRol(LocalDateTime.now());
+                Rol docenteRole = new Rol();
+                docenteRole.setNombreRol("DOCENTE");
+                docenteRole.setDescription("Acceso a la gestión académica como docente.");
 
-        Rol rol5 = new Rol();
-        rol5.setNombreRol("ROLE_COORDINADOR");
-        rol5.setDescription("Rol para coordinadores");
-        rol5.setFechaCreacionRol(LocalDateTime.now());
+                // Guardar roles en la base de datos
+                rolRepository.saveAll(List.of(adminRole, administrativoRole, estudianteRole, docenteRole));
 
-        // Guardar roles en la base de datos
-        rolRepository.save(rol1);
-        rolRepository.save(rol2);
-        rolRepository.save(rol3);
-        rolRepository.save(rol4);
-        rolRepository.save(rol5);
-
-        System.out.println("Roles iniciales poblados en la base de datos.");
+                System.out.println("Roles iniciales creados correctamente.");
+            }
+        };
     }
 }

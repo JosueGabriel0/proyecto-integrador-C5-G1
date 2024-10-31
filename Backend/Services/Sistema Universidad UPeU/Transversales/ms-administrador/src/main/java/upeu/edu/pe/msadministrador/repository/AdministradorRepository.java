@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import upeu.edu.pe.msadministrador.entity.Administrador;
 
 @Repository
-public interface administradorRepository extends JpaRepository<Administrador, Long> {
+public interface AdministradorRepository extends JpaRepository<Administrador, Long> {
 
 }

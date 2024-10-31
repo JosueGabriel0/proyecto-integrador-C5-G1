@@ -8,6 +8,7 @@ import upeu.edu.pe.msadministrador.dto.Persona;
 import upeu.edu.pe.msadministrador.entity.Administrador;
 import upeu.edu.pe.msadministrador.exception.ResourceNotFoundException;
 import upeu.edu.pe.msadministrador.feign.PersonaFeign;
+import upeu.edu.pe.msadministrador.repository.AdministradorRepository;
 import upeu.edu.pe.msadministrador.service.AdministradorService;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class AdministradorServiceImpl implements AdministradorService {
 
     @Autowired
-    upeu.edu.pe.msadministrador.repository.administradorRepository administradorRepository;
+    AdministradorRepository administradorRepository;
 
     @Autowired
     private PersonaFeign personaFeign;

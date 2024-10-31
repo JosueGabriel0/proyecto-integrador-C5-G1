@@ -2,6 +2,7 @@ package upeu.edu.pe.mscarrera.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mscarrera.dto.PlanificacionAcademica;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Carrera {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long idCarrera;
 
     private String codigo;
     private String nombre;
@@ -21,20 +22,25 @@ public class Carrera {
     private int duracion; //Duracion en años
 
     @ElementCollection
-    @CollectionTable(name = "asignaturas", joinColumns = @JoinColumn(name = "carrera_id"))
-    @Column(name = "asignatura")
-    private List<String> asignaturas = new ArrayList<>();
+    @CollectionTable(name = "cursos_Ids", joinColumns = @JoinColumn(name = "carrera_id"))
+    @Column(name = "cursosIds")
+    private List<Long> cursos = new ArrayList<>();
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
+    @ElementCollection
+    @CollectionTable(name = "planificaciones_Ids", joinColumns = @JoinColumn(name = "carrera_id"))
+    @Column(name = "planificacionesIds")
+    private List<Long> planificacionesAcademicas =  new ArrayList<>();
+
+    private LocalDateTime fechaCreacionCarrera;
+    private LocalDateTime fechaModificacionCarrera;
 
     @PrePersist
     public void onCreate(){
-        fechaCreacion = java.time.LocalDateTime.now();
+        fechaCreacionCarrera = java.time.LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate(){
-        fechaModificacion = java.time.LocalDateTime.now();
+        fechaModificacionCarrera = java.time.LocalDateTime.now();
     }
 }

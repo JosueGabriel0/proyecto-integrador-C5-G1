@@ -3,6 +3,7 @@ package upeu.edu.pe.mscalendarioacademico.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,4 +27,17 @@ public class CalendarioAcademico {
 
     @OneToMany(mappedBy = "calendarioAcademico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FechaImportante> fechasImportantes;
+
+    private LocalDateTime fechaCreacionCalendarioAcademico;
+    private LocalDateTime fechaModificacionCalendarioAcademico;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionCalendarioAcademico = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionCalendarioAcademico = java.time.LocalDateTime.now();
+    }
 }

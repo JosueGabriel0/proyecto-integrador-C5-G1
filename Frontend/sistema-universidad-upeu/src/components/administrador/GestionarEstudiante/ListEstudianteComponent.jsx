@@ -81,16 +81,14 @@ function ListEstudianteComponent() {
                                 <td>{estudiante.fechaGraduacion}</td>
                                 <td>{estudiante.practicasRealizadas?.join(", ")}</td>
                                 <td>
-                                    {estudiante.historialAcademico && estudiante.historialAcademico.length > 0 ? (
-                                        estudiante.historialAcademico.map((registro, index) => (
-                                            <div key={index}>
-                                                {/* Asumiendo que tienes un atributo `descripcion` en `RegistroAcademico` */}
-                                                {registro.descripcion}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        "No hay registros"
-                                    )}
+                                    {/* Renderizar historial académico */}
+                                    <ul>
+                                        {estudiante.historialAcademico?.map(registro => (
+                                            <li key={registro.id}>
+                                                <b>Curso:</b> {registro.nombreCurso} <br /> <b>- Calificación:</b> {registro.calificacion} <br /> <b>- Fecha Finalización:</b> {registro.fechaFinalizacion}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </td>
                                 <td>{estudiante.idCurso}</td>
                                 <td>{estudiante.idPersona}</td>

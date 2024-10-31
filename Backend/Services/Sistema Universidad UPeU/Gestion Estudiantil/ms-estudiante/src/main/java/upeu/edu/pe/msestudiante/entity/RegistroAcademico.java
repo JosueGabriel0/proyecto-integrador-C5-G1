@@ -1,10 +1,13 @@
 package upeu.edu.pe.msestudiante.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,9 +20,13 @@ public class RegistroAcademico {
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id")
+    @JsonIgnore
     private Estudiante estudiante;
 
-    private Long cursoId;  // Referencia a otro microservicio
+    @ElementCollection
+    @CollectionTable(name = "cursos_Ids", joinColumns = @JoinColumn(name = "docente_id"))
+    @Column(name = "cursosIds")
+    private List<Long> cursos = new ArrayList<>();
 
     private String nombreCurso;
 
