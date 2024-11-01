@@ -47,7 +47,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente1.setLogrosAcademicos(Arrays.asList("Mejor Docente 2021", "Reconocimiento a la Innovación"));
             docente1.setFechaJubilacion(null); // No está jubilado
             docente1.setCursos(Arrays.asList(101L, 102L)); // IDs de cursos de ejemplo
+            docente1.setIdPersona(3L);
+
+            docenteRepository.save(docente1);
+
             docente1.setHistorialLaboral(createHistorialLaboral(docente1));
+            docenteRepository.save(docente1);
+
+            System.out.println("Docente 1 cargado con su historial laboral.");
 
             // Crear docente 2
             Docente docente2 = new Docente();
@@ -69,7 +76,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente2.setLogrosAcademicos(Arrays.asList("Premio a la Excelencia 2022"));
             docente2.setFechaJubilacion(null); // No está jubilado
             docente2.setCursos(Arrays.asList(201L, 202L)); // IDs de cursos de ejemplo
+            docente2.setIdPersona(6L);
+
+            docenteRepository.save(docente2);
+
             docente2.setHistorialLaboral(createHistorialLaboral(docente2));
+            docenteRepository.save(docente2);
+
+            System.out.println("Docente 2 cargado con su historial laboral.");
 
             // Crear docente 3
             Docente docente3 = new Docente();
@@ -91,7 +105,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente3.setLogrosAcademicos(Arrays.asList("Investigador del Año 2021"));
             docente3.setFechaJubilacion(null);
             docente3.setCursos(Arrays.asList(301L, 302L));
+            docente2.setIdPersona(7L);
+
+            docenteRepository.save(docente3);
+
             docente3.setHistorialLaboral(createHistorialLaboral(docente3));
+            docenteRepository.save(docente3);
+
+            System.out.println("Docente 3 cargado con su historial laboral.");
 
 // Crear docente 4
             Docente docente4 = new Docente();
@@ -113,7 +134,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente4.setLogrosAcademicos(Arrays.asList("Mejor Proyecto de Investigación 2022"));
             docente4.setFechaJubilacion(null);
             docente4.setCursos(Arrays.asList(401L, 402L));
+            docente2.setIdPersona(8L);
+
+            docenteRepository.save(docente4);
+
             docente4.setHistorialLaboral(createHistorialLaboral(docente4));
+            docenteRepository.save(docente4);
+
+            System.out.println("Docente 4 cargado con su historial laboral.");
 
 // Crear docente 5
             Docente docente5 = new Docente();
@@ -135,7 +163,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente5.setLogrosAcademicos(Arrays.asList("Premio Nacional de Física 2021"));
             docente5.setFechaJubilacion(null);
             docente5.setCursos(Arrays.asList(501L, 502L));
+            docente2.setIdPersona(9L);
+
+            docenteRepository.save(docente5);
+
             docente5.setHistorialLaboral(createHistorialLaboral(docente5));
+            docenteRepository.save(docente5);
+
+            System.out.println("Docente 5 cargado con su historial laboral.");
 
 // Crear docente 6
             Docente docente6 = new Docente();
@@ -157,7 +192,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente6.setLogrosAcademicos(Arrays.asList("Investigadora del Año 2020"));
             docente6.setFechaJubilacion(null);
             docente6.setCursos(Arrays.asList(601L, 602L));
+            docente2.setIdPersona(10L);
+
+            docenteRepository.save(docente6);
+
             docente6.setHistorialLaboral(createHistorialLaboral(docente6));
+            docenteRepository.save(docente6);
+
+            System.out.println("Docente 6 cargado con su historial laboral.");
 
 // Crear docente 7
             Docente docente7 = new Docente();
@@ -179,7 +221,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente7.setLogrosAcademicos(Arrays.asList("Mejor Investigación 2021"));
             docente7.setFechaJubilacion(null);
             docente7.setCursos(Arrays.asList(701L, 702L));
+            docente2.setIdPersona(11L);
+
+            docenteRepository.save(docente7);
+
             docente7.setHistorialLaboral(createHistorialLaboral(docente7));
+            docenteRepository.save(docente7);
+
+            System.out.println("Docente 7 cargado con su historial laboral.");
 
 // Crear docente 8
             Docente docente8 = new Docente();
@@ -201,7 +250,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente8.setLogrosAcademicos(Arrays.asList("Premio a la Investigación Histórica 2022"));
             docente8.setFechaJubilacion(null);
             docente8.setCursos(Arrays.asList(801L, 802L));
+            docente2.setIdPersona(12L);
+
+            docenteRepository.save(docente8);
+
             docente8.setHistorialLaboral(createHistorialLaboral(docente8));
+            docenteRepository.save(docente8);
+
+            System.out.println("Docente 14 cargado con su historial laboral.");
 
 // Crear docente 9
             Docente docente9 = new Docente();
@@ -223,7 +279,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente9.setLogrosAcademicos(Arrays.asList("Reconocimiento a la Excelencia Académica 2021"));
             docente9.setFechaJubilacion(null);
             docente9.setCursos(Arrays.asList(901L, 902L));
+            docente2.setIdPersona(13L);
+
+            docenteRepository.save(docente9);
+
             docente9.setHistorialLaboral(createHistorialLaboral(docente9));
+            docenteRepository.save(docente9);
+
+            System.out.println("Docente 9 cargado con su historial laboral.");
 
 // Crear docente 10
             Docente docente10 = new Docente();
@@ -245,7 +308,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente10.setLogrosAcademicos(Arrays.asList("Mejor Tesis de Maestría 2020"));
             docente10.setFechaJubilacion(null);
             docente10.setCursos(Arrays.asList(1001L, 1002L));
+            docente2.setIdPersona(14L);
+
+            docenteRepository.save(docente10);
+
             docente10.setHistorialLaboral(createHistorialLaboral(docente10));
+            docenteRepository.save(docente10);
+
+            System.out.println("Docente 10 cargado con su historial laboral.");
 
 // Crear docente 11
             Docente docente11 = new Docente();
@@ -267,7 +337,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente11.setLogrosAcademicos(Arrays.asList("Premio a la Excelencia Legal 2019"));
             docente11.setFechaJubilacion(null);
             docente11.setCursos(Arrays.asList(1101L, 1102L));
+            docente2.setIdPersona(15L);
+
+            docenteRepository.save(docente11);
+
             docente11.setHistorialLaboral(createHistorialLaboral(docente11));
+            docenteRepository.save(docente11);
+
+            System.out.println("Docente 11 cargado con su historial laboral.");
 
 // Crear docente 12
             Docente docente12 = new Docente();
@@ -289,7 +366,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente12.setLogrosAcademicos(Arrays.asList("Reconocimiento a la Innovación Educativa 2021"));
             docente12.setFechaJubilacion(null);
             docente12.setCursos(Arrays.asList(1201L, 1202L));
+            docente2.setIdPersona(16L);
+
+            docenteRepository.save(docente12);
+
             docente12.setHistorialLaboral(createHistorialLaboral(docente12));
+            docenteRepository.save(docente12);
+
+            System.out.println("Docente 12 cargado con su historial laboral.");
 
 // Crear docente 13
             Docente docente13 = new Docente();
@@ -311,7 +395,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente13.setLogrosAcademicos(Arrays.asList("Premio Nacional de Arquitectura 2020"));
             docente13.setFechaJubilacion(null);
             docente13.setCursos(Arrays.asList(1301L, 1302L));
+            docente2.setIdPersona(17L);
+
+            docenteRepository.save(docente13);
+
             docente13.setHistorialLaboral(createHistorialLaboral(docente13));
+            docenteRepository.save(docente13);
+
+            System.out.println("Docente 14 cargado con su historial laboral.");
 
 // Crear docente 14
             Docente docente14 = new Docente();
@@ -333,7 +424,14 @@ public class DocenteDataLoader implements CommandLineRunner {
             docente14.setLogrosAcademicos(Arrays.asList("Premio a la Investigación Ambiental 2022"));
             docente14.setFechaJubilacion(null);
             docente14.setCursos(Arrays.asList(1401L, 1402L));
+            docente2.setIdPersona(18L);
+
+            docenteRepository.save(docente14);
+
             docente14.setHistorialLaboral(createHistorialLaboral(docente14));
+            docenteRepository.save(docente14);
+
+            System.out.println("Docente 14 cargado con su historial laboral.");
 
             // Guardar docentes en la base de datos
             docenteRepository.saveAll(Arrays.asList(docente1, docente2, docente3, docente4, docente5, docente6, docente7, docente8, docente9, docente10, docente11, docente12, docente13, docente14));

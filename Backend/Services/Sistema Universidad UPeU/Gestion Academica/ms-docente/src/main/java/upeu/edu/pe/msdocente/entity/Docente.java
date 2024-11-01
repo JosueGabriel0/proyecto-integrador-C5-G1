@@ -22,6 +22,8 @@ public class Docente {
     private String especialidad;
 
     @ElementCollection
+    @CollectionTable(name = "cursos_impartidos", joinColumns = @JoinColumn(name = "docente_id"))
+    @Column(name = "cursosImpartidos")
     private List<String> cursosImpartidos;
 
     // Historial Laboral del Docente

@@ -79,8 +79,6 @@ public class EstudianteRequest {
 
     private Persona persona;
 
-    private Curso curso;
-
     private LocalDateTime fechaCreacionEstudiante;
     private LocalDateTime fechaModificacionEstudiante;
 }

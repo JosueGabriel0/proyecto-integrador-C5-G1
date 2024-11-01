@@ -25,7 +25,7 @@ public class AdministrativoDataLoader {
                 admin1.setGestionEmpleados("Contratación");
                 admin1.setCargoEmpleado("Auxiliar administrativo");
                 admin1.setSolicitudesPendientes("Solicitud de material de oficina");
-                admin1.setIdPersona(1); // ID de la persona asociada
+                admin1.setIdPersona(2L); // ID de la persona asociada
 
                 Administrativo admin2 = new Administrativo();
                 admin2.setRegistroPagos("Pago de inscripciones");
@@ -33,7 +33,7 @@ public class AdministrativoDataLoader {
                 admin2.setGestionEmpleados("Desvinculación");
                 admin2.setCargoEmpleado("Secretaria");
                 admin2.setSolicitudesPendientes("Solicitud de renovación de contrato");
-                admin2.setIdPersona(2); // ID de la persona asociada
+                admin2.setIdPersona(22L); // ID de la persona asociada
 
                 Administrativo admin3 = new Administrativo();
                 admin3.setRegistroPagos("Pago de servicios");
@@ -41,7 +41,7 @@ public class AdministrativoDataLoader {
                 admin3.setGestionEmpleados("Contratación");
                 admin3.setCargoEmpleado("Auxiliar administrativo");
                 admin3.setSolicitudesPendientes("Solicitud de equipo informático");
-                admin3.setIdPersona(3); // ID de la persona asociada
+                admin3.setIdPersona(23L); // ID de la persona asociada
 
                 Administrativo admin4 = new Administrativo();
                 admin4.setRegistroPagos("Pago de matrículas");
@@ -49,7 +49,7 @@ public class AdministrativoDataLoader {
                 admin4.setGestionEmpleados("Contratación");
                 admin4.setCargoEmpleado("Coordinador");
                 admin4.setSolicitudesPendientes("Solicitud de material de oficina");
-                admin4.setIdPersona(4); // ID de la persona asociada
+                admin4.setIdPersona(24L); // ID de la persona asociada
 
                 // Guardar administrativos en la base de datos
                 administrativoRepository.saveAll(List.of(admin1, admin2, admin3, admin4));

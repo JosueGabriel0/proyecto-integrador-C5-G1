@@ -31,7 +31,7 @@ public class CarreraController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Carrera> editarCarreraResponseEntity(@PathVariable (required = true) Long id,@RequestBody Carrera Carrera){
-        Carrera.setId(id);
+        Carrera.setIdCarrera(id);
         return ResponseEntity.ok(carreraService.editarCarrera(Carrera));
     }
 

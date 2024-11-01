@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import upeu.edu.pe.msdocente.dto.Curso;
 import upeu.edu.pe.msdocente.dto.ErrorResponseDto;
 import upeu.edu.pe.msdocente.dto.Persona;
 import upeu.edu.pe.msdocente.entity.Docente;
-import upeu.edu.pe.msdocente.feign.CursoFeign;
 import upeu.edu.pe.msdocente.feign.PersonaFeign;
 import upeu.edu.pe.msdocente.service.DocenteService;
 
@@ -22,8 +20,6 @@ import java.util.List;
 public class DocenteController {
     @Autowired
     private DocenteService docenteService;
-    @Autowired
-    private CursoFeign cursoFeign;
     @Autowired
     private PersonaFeign personaFeign;
 
@@ -37,17 +33,8 @@ public class DocenteController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
             }
 
-            // Verificar si el curso existe
-            Curso cursoDto = cursoFeign.listarCursoDtoPorId(docente.getIdCurso()).getBody();
-            if (cursoDto == null || cursoDto.getIdCurso() == null) {
-                String ErrorMessage = "Error: Curso no encontrado";
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
-            }
-
             // Asignar el curso al docente
             docente.setPersona(personaDto);
-            // Asignar el curso al docente
-            docente.setCurso(cursoDto);
 
             // Guardar el pedido si todas las validaciones pasaron
             Docente docenteGuardado = docenteService.guardarDocente(docente);

@@ -4,12 +4,10 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import upeu.edu.pe.msestudiante.dto.Curso;
 import upeu.edu.pe.msestudiante.dto.Persona;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
 import upeu.edu.pe.msestudiante.entity.RegistroAcademico;
 import upeu.edu.pe.msestudiante.exception.ResourceNotFoundException;
-import upeu.edu.pe.msestudiante.feign.CursoFeign;
 import upeu.edu.pe.msestudiante.feign.PersonaFeign;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import upeu.edu.pe.msestudiante.service.EstudianteService;
@@ -22,9 +20,6 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Autowired
     EstudianteRepository estudianteRepository;
-
-    @Autowired
-    private CursoFeign cursoFeign;
 
     @Autowired
     private PersonaFeign personaFeign;
@@ -45,19 +40,6 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Override
     public List<Estudiante> listarEstudiante() {
         List<Estudiante> estudiantes = estudianteRepository.findAllWithHistorial();
-
-        // Asignamos el curso y detalles de persona mediante Feign
-        estudiantes.forEach(estudiante -> {
-            try {
-                ResponseEntity<Curso> cursoResponse = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso());
-                if (cursoResponse.getBody() == null) {
-                    throw new ResourceNotFoundException("Curso con ID " + estudiante.getIdCurso() + " no existe");
-                }
-                estudiante.setCurso(cursoResponse.getBody());
-            } catch (FeignException e) {
-                throw new RuntimeException("Error al obtener el curso con ID " + estudiante.getIdCurso(), e);
-            }
-        });
 
         estudiantes.forEach(estudiante -> {
             try {
@@ -81,12 +63,6 @@ public class EstudianteServiceImpl implements EstudianteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Estudiante con ID " + id + " no encontrado"));
 
         try {
-            // Obtener el curso asociado usando Feign
-            Curso curso = cursoFeign.listarCursoDtoPorId(estudiante.getIdCurso()).getBody();
-            if (curso == null) {
-                throw new ResourceNotFoundException("Curso con ID " + estudiante.getIdCurso() + " no existe");
-            }
-            estudiante.setCurso(curso);
 
             // Obtener la persona asociada usando Feign
             Persona persona = personaFeign.listarPersonaDtoPorId(estudiante.getIdPersona()).getBody();

@@ -35,7 +35,6 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante1.setTipoEstudiante("Regular");
             estudiante1.setBeca("Beca 100%");
             estudiante1.setNumeroMatricula("123456");
-            estudiante1.setCarreraId(1L); // ID de carrera de ejemplo
             estudiante1.setCarrerasIngresadas(Arrays.asList("Ingeniería de Sistemas", "Administración"));
             estudiante1.setAsignaturasMatriculadas(Arrays.asList("Matemáticas", "Programación"));
             estudiante1.setHorario("Lunes a Viernes 8am - 2pm");
@@ -43,6 +42,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante1.setFechaGraduacion("2028-12-01");
             estudiante1.setPracticasRealizadas(Arrays.asList("Práctica 1", "Práctica 2"));
             estudiante1.setHistorialAcademico(createHistorialAcademico(estudiante1));
+            estudiante1.setIdPersona(4L);
 
             // Crear estudiante 2
             Estudiante estudiante2 = new Estudiante();
@@ -54,7 +54,6 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setTipoEstudiante("Regular");
             estudiante2.setBeca("Beca parcial");
             estudiante2.setNumeroMatricula("654321");
-            estudiante2.setCarreraId(2L); // ID de carrera de ejemplo
             estudiante2.setCarrerasIngresadas(Arrays.asList("Ingeniería de Sistemas"));
             estudiante2.setAsignaturasMatriculadas(Arrays.asList("Química", "Física"));
             estudiante2.setHorario("Lunes a Viernes 9am - 3pm");
@@ -62,6 +61,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setFechaGraduacion("2028-12-01");
             estudiante2.setPracticasRealizadas(Arrays.asList("Práctica 3"));
             estudiante2.setHistorialAcademico(createHistorialAcademico(estudiante2));
+            estudiante2.setIdPersona(5L);
 
             // Guardar estudiantes en la base de datos
             estudianteRepository.saveAll(Arrays.asList(estudiante1, estudiante2));

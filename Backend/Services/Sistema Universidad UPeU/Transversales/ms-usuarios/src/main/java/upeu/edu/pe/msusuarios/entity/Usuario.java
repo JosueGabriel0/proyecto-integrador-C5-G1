@@ -6,7 +6,6 @@ import upeu.edu.pe.msusuarios.dto.Rol;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -16,7 +15,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
+    @Column(nullable = false, unique = true)
     private String username; // Nombre de usuario único
+
     private String password; // Contraseña del usuario (se debe cifrar)
     private String email; // Email asociado al usuario
     private boolean enabled; // Indica si el usuario está activo o no

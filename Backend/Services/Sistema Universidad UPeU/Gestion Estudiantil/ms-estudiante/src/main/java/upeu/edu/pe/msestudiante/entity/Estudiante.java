@@ -30,9 +30,6 @@ public class Estudiante {
     private String beca;
     private String numeroMatricula;
 
-    //Referencia a otro microservicio
-    private Long carreraId;
-
     @ElementCollection
     @CollectionTable(name = "carreras_ingresadas", joinColumns = @JoinColumn(name = "estudiante_id"))
     @Column(name = "carreras")

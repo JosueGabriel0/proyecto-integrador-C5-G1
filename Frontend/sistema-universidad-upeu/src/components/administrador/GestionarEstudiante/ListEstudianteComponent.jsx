@@ -47,14 +47,13 @@ function ListEstudianteComponent() {
                         <th>Tipo de Estudiante</th>
                         <th>Beca</th>
                         <th>Numero de Matricula</th>
-                        <th>Id de la Carrerra</th>
+                        <th>Careras Ingresadas</th>
                         <th>Asignaturas Matriculadas</th>
                         <th>Horario</th>
                         <th>Consejero Academico</th>
                         <th>Fecha de Graduacion</th>
                         <th>Practicas Realizadas</th>
                         <th>Historial Academico</th>
-                        <th>Id del Curso</th>
                         <th>Id Persona</th>
                         <th>Fecha de creacion de Estudiante</th>
                         <th>Fecha de modificacion de Estudiante</th>
@@ -74,7 +73,7 @@ function ListEstudianteComponent() {
                                 <td>{estudiante.tipoEstudiante}</td>
                                 <td>{estudiante.beca}</td>
                                 <td>{estudiante.numeroMatricula}</td>
-                                <td>{estudiante.carreraId}</td>
+                                <td>{estudiante.carrerasIngresadas?.join(", ")}</td>
                                 <td>{estudiante.asignaturasMatriculadas?.join(", ")}</td>
                                 <td>{estudiante.horario}</td>
                                 <td>{estudiante.consejeroAcademico}</td>
@@ -90,7 +89,6 @@ function ListEstudianteComponent() {
                                         ))}
                                     </ul>
                                 </td>
-                                <td>{estudiante.idCurso}</td>
                                 <td>{estudiante.idPersona}</td>
                                 <td>{estudiante.fechaCreacionEstudiante}</td>
                                 <td>{estudiante.fechaModificacionEstudiante}</td>
