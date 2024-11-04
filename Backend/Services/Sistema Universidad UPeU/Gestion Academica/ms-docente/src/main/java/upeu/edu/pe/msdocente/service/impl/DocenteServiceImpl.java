@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.msdocente.dto.Persona;
 import upeu.edu.pe.msdocente.entity.Docente;
+import upeu.edu.pe.msdocente.entity.RegistroLaboral;
 import upeu.edu.pe.msdocente.exception.ResourceNotFoundException;
 import upeu.edu.pe.msdocente.feign.PersonaFeign;
 import upeu.edu.pe.msdocente.repository.DocenteRepository;
+import upeu.edu.pe.msdocente.repository.RegistroLaboralRepository;
 import upeu.edu.pe.msdocente.service.DocenteService;
 
 import java.util.List;
@@ -18,15 +20,30 @@ import java.util.List;
 public class DocenteServiceImpl implements DocenteService {
 
     @Autowired
-    DocenteRepository docenteRepository;
+    private DocenteRepository docenteRepository;
 
     @Autowired
     private PersonaFeign personaFeign;
 
+    @Autowired
+    private RegistroLaboralRepository registroLaboralRepository;
+
     @Override
     public Docente guardarDocente(Docente docente) {
-        return docenteRepository.save(docente);
+        // Guarda el docente primero
+        Docente nuevoDocente = docenteRepository.save(docente);
+
+        // Si hay un historial laboral, asigna el docente y guarda los registros laborales
+        if (docente.getHistorialLaboral() != null) {
+            for (RegistroLaboral registro : docente.getHistorialLaboral()) {
+                registro.setDocente(nuevoDocente); // Asocia el docente guardado
+                registroLaboralRepository.save(registro); // Guarda el registro laboral
+            }
+        }
+
+        return nuevoDocente; // Retorna el docente guardado
     }
+
 
     @Override
     public List<Docente> listarDocente() {

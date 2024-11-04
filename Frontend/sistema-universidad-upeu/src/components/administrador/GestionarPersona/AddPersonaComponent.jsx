@@ -22,6 +22,7 @@ function AddPersonaComponent() {
     const [estadoCivil, setEstadoCivil] = useState("");
     const [fotoPerfil, setFotoPerfil] = useState(null);
     const [tipoSangre, setTipoSangre] = useState("");
+    const [responsableFinanciero, setResponsableFinanciero] = useState("");
     const [contactoEmergenciaNombre, setContactoEmergenciaNombre] = useState("");
     const [contactoEmergenciaTelefono, setContactoEmergenciaTelefono] = useState("");
     const [contactoEmergenciaEmail, setContactoEmergenciaEmail] = useState("");
@@ -60,6 +61,7 @@ function AddPersonaComponent() {
         formData.append("email", email);
         formData.append("estadoCivil", estadoCivil);
         formData.append("tipoSangre", tipoSangre);
+        formData.append("responsableFinanciero", responsableFinanciero);
         formData.append("contactoEmergenciaNombre", contactoEmergenciaNombre);
         formData.append("contactoEmergenciaTelefono", contactoEmergenciaTelefono);
         formData.append("contactoEmergenciaEmail", contactoEmergenciaEmail);
@@ -118,6 +120,7 @@ function AddPersonaComponent() {
                 setEstadoCivil(response.data.estadoCivil);
                 setFotoPerfil(response.data.fotoPerfil);
                 setTipoSangre(response.data.tipoSangre);
+                setResponsableFinanciero(response.data.responsableFinanciero);
                 setContactoEmergenciaNombre(response.data.contactoEmergenciaNombre);
                 setContactoEmergenciaTelefono(response.data.contactoEmergenciaTelefono);
                 setContactoEmergenciaEmail(response.data.contactoEmergenciaEmail);
@@ -314,6 +317,11 @@ function AddPersonaComponent() {
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                     </select>
+                </div>
+
+                <div>
+                    <label>Responsable Financiero</label>
+                    <input type="text" placeholder="Ingrese el Nombre del Responsable Financiero" name="responsableFinanciero" value={responsableFinanciero} onChange={(e) => setResponsableFinanciero(e.target.value)} />
                 </div>
 
                 <div>

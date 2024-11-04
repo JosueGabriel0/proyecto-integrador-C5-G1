@@ -24,7 +24,7 @@ public class RegistroAcademico {
     private Estudiante estudiante;
 
     @ElementCollection
-    @CollectionTable(name = "cursos_Ids", joinColumns = @JoinColumn(name = "docente_id"))
+    @CollectionTable(name = "cursos_Ids", joinColumns = @JoinColumn(name = "estudiante_id"))
     @Column(name = "cursosIds")
     private List<Long> cursos = new ArrayList<>();
 

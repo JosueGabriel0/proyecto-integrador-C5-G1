@@ -1,13 +1,30 @@
 import { useEffect, useState } from "react";
 import EstudianteAdminService from "../../../services/administradorServices/estudiante/EstudianteAdminService";
 import { Link } from "react-router-dom";
+import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
 
 function ListEstudianteComponent() {
     const [estudiantes, setEstudiantes] = useState([]);
+    const [personas, setPersonas] = useState([]);
 
     useEffect(() => {
+        listarPersonas();
         listarEstudiantes();
     }, [])
+
+    function listarPersonas(){
+        PersonaAdminService.getAllPersonas().then(response => {
+            setPersonas(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function obtenerNombrePersona(idPersona){
+        const personaEncontrada = personas.find(persona => persona.id === idPersona);
+        return personaEncontrada? personaEncontrada.nombres : "Desconocido";
+    }
 
     function listarEstudiantes() {
         EstudianteAdminService.getAllEstudiantes()
@@ -54,7 +71,7 @@ function ListEstudianteComponent() {
                         <th>Fecha de Graduacion</th>
                         <th>Practicas Realizadas</th>
                         <th>Historial Academico</th>
-                        <th>Id Persona</th>
+                        <th>Nombre de la Persona</th>
                         <th>Fecha de creacion de Estudiante</th>
                         <th>Fecha de modificacion de Estudiante</th>
                         <th>Acciones</th>
@@ -89,7 +106,7 @@ function ListEstudianteComponent() {
                                         ))}
                                     </ul>
                                 </td>
-                                <td>{estudiante.idPersona}</td>
+                                <td>{obtenerNombrePersona(estudiante.idPersona)}</td>
                                 <td>{estudiante.fechaCreacionEstudiante}</td>
                                 <td>{estudiante.fechaModificacionEstudiante}</td>
 

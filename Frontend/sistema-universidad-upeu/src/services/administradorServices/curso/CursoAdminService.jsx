@@ -1,12 +1,12 @@
 import axios from "axios";
 import { getToken } from "../../authServices/authService";
 
-const DOCENTE_DATABASE_API_REST_URL = "http://localhost:9090/docente";
+const CURSO_DATABASE_REST_API_URL = "http://localhost:9090/curso";
 
-class DocenteAdminService{
-    getAllDocentes(){
+class CursoAdminService{
+    getAllCursos(){
         return(
-            axios.get(DOCENTE_DATABASE_API_REST_URL, {
+            axios.get(CURSO_DATABASE_REST_API_URL, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -14,9 +14,9 @@ class DocenteAdminService{
         )
     }
 
-    getDocenteById(idDocente){
+    getCursoById(idCurso){
         return(
-            axios.get(DOCENTE_DATABASE_API_REST_URL + "/" + idDocente, {
+            axios.get(CURSO_DATABASE_REST_API_URL + "/" + idCurso, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -24,9 +24,9 @@ class DocenteAdminService{
         )
     }
 
-    postDocente(docente){
+    postCurso(curso){
         return(
-            axios.post(DOCENTE_DATABASE_API_REST_URL, docente, {
+            axios.post(CURSO_DATABASE_REST_API_URL, curso, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -34,9 +34,9 @@ class DocenteAdminService{
         )
     }
 
-    putDocente(idDocente, docente){
+    putCurso(idCurso, curso){
         return(
-            axios.put(DOCENTE_DATABASE_API_REST_URL + "/" + idDocente, docente, {
+            axios.put(CURSO_DATABASE_REST_API_URL + "/" + idCurso, curso, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -44,9 +44,9 @@ class DocenteAdminService{
         )
     }
 
-    deleteDocente(idDocente){
+    deleteCurso(idCurso){
         return(
-            axios.delete(DOCENTE_DATABASE_API_REST_URL + "/" + idDocente, {
+            axios.delete(CURSO_DATABASE_REST_API_URL + "/" + idCurso, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -55,4 +55,4 @@ class DocenteAdminService{
     }
 }
 
-export default new DocenteAdminService();
+export default new CursoAdminService();

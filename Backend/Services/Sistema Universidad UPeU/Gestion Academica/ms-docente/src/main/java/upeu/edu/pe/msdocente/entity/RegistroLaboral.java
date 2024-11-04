@@ -1,5 +1,6 @@
 package upeu.edu.pe.msdocente.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class RegistroLaboral {
 
     @ManyToOne
     @JoinColumn(name = "docente_id")
+    @JsonIgnore
     private Docente docente;
 
     private String puesto;
