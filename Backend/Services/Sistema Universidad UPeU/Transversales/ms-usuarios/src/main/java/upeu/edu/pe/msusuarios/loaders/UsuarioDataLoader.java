@@ -26,7 +26,7 @@ public class UsuarioDataLoader {
                 Usuario usuarioAdministrador1 = new Usuario();
                 usuarioAdministrador1.setUsername("josue");
                 usuarioAdministrador1.setPassword("josue12345"); // Asegúrate de cifrar la contraseña
-                usuarioAdministrador1.setEmail("administrador@universidad.com");
+                usuarioAdministrador1.setEmail("josueochoa2003cm@gmail.com");
                 usuarioAdministrador1.setEnabled(true);
                 usuarioAdministrador1.setIdRol(1L);
 
