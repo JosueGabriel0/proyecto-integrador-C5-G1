@@ -24,8 +24,8 @@ public class UsuarioDataLoader {
 
                 // Crear usuarios por defecto
                 Usuario usuarioAdministrador1 = new Usuario();
-                usuarioAdministrador1.setUsername("administrador");
-                usuarioAdministrador1.setPassword("passwordAdministrador123"); // Asegúrate de cifrar la contraseña
+                usuarioAdministrador1.setUsername("josue");
+                usuarioAdministrador1.setPassword("josue12345"); // Asegúrate de cifrar la contraseña
                 usuarioAdministrador1.setEmail("administrador@universidad.com");
                 usuarioAdministrador1.setEnabled(true);
                 usuarioAdministrador1.setIdRol(1L);
