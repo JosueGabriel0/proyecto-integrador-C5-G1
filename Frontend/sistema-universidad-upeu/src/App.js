@@ -11,8 +11,6 @@ import ListAdministradorComponent from './components/administrador/GestionarAdmi
 import AddAdministradorComponent from './components/administrador/GestionarAdministrador/AddAdministradorComponent';
 import ListAdministrativoComponent from './components/administrador/GestionarAdministrativo/ListAdministrativoComponent';
 import AddAdministrativoComponent from './components/administrador/GestionarAdministrativo/AddAdministrativoComponent';
-import ListInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListInscripcionesConRolComponent';
-import AddInscripcionesConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddIncripcionConRolComponent';
 import ListDocenteComponent from './components/administrador/GestionarDocente/ListDocenteComponent';
 import AddDocenteComponent from './components/administrador/GestionarDocente/AddDocenteComponent';
 import ListEstudianteComponent from './components/administrador/GestionarEstudiante/ListEstudianteComponent';
@@ -26,6 +24,17 @@ import GeneralEmailComponent from './components/general/GeneralEmailComponent';
 import GeneralRestablecerContraseniaComponent from './components/general/GeneralRestablecerContraseniaComponent';
 import GeneralCambiarContraseniaComponent from './components/general/GeneralCambiarContraseniaComponent';
 import Unauthorized from './components/general/GeneralUnauthorizedComponent'; // Importa tu componente de no autorizado
+import OrderListConRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/OrderListConRolComponent';
+
+import ListConRolAdministradorComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListConRolAdministradorComponent';
+import ListConRolAdministrativoComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListConRolAdministrativoComponent';
+import ListConRolDocenteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListConRolDocenteComponent';
+import ListConRolEstudianteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListConRolEstudianteComponent';
+
+import AddConRolAdministradorComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolAdministradorComponent';
+import AddConRolAdministrativoComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolAdministrativoComponent';
+import AddConRolDocenteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolDocenteComponent';
+import AddConRolEstudianteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolEstudianteComponent';
 
 const App = () => {
   return (
@@ -232,23 +241,115 @@ const App = () => {
             path='/inscripcionesConRol'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
-                <ListInscripcionesConRolComponent />
+                <OrderListConRolComponent />
               </GeneralProtectedRouteComponent>
             }
           />
+
           <Route
-            path='/add-inscripcionConRol'
+            path='/list-inscripcionConRol-administrador'
             element={
-              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
-                <AddInscripcionesConRolComponent />
+              <GeneralProtectedRouteComponent>
+                <ListConRolAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
           />
+
           <Route
-            path='/edit-inscripcionConRol/:id'
+            path='/list-inscripcionConRol-administrativo'
+            element={
+              <GeneralProtectedRouteComponent>
+                <ListConRolAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/list-inscripcionConRol-docente'
+            element={
+              <GeneralProtectedRouteComponent>
+                <ListConRolDocenteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/list-inscripcionConRol-estudiante'
+            element={
+              <GeneralProtectedRouteComponent>
+                <ListConRolEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/add-inscripcionConRol-administrador'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
-                <AddInscripcionesConRolComponent />
+                <AddConRolAdministradorComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/add-inscripcionConRol-administrativo'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/add-inscripcionConRol-docente'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolDocenteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/add-inscripcionConRol-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-inscripcionConRol-administrador/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolAdministradorComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-inscripcionConRol-administrativo/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolAdministrativoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-inscripcionConRol-docente/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolDocenteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-inscripcionConRol-estudiante/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddConRolEstudianteComponent />
               </GeneralProtectedRouteComponent>
             }
           />

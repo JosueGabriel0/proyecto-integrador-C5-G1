@@ -60,6 +60,8 @@ function ListUsuarioComponent(){
                     <th>Ultimo Login</th>
                     <th>Token de Recuperacion</th>
                     <th>Expiracion del Token de Recuperacion</th>
+                    <th>Fecha de Creacion de Usuario</th>
+                    <th>Fecha de Modificacion de Usuario</th>
                     <th>Acciones</th>
                 </thead>
                 <tbody>{
@@ -75,6 +77,8 @@ function ListUsuarioComponent(){
                                 <td>{usuario.ultimoLogin}</td>
                                 <td>{usuario.tokenRecuperacion}</td>
                                 <td>{usuario.tokenRecuperacionExpiracion}</td>
+                                <td>{usuario.fechaCreacionUsuario}</td>
+                                <td>{usuario.fechaModificacionUsuario}</td>
                                 <td>
                                     <Link to={`/edit-usuario/${usuario.idUsuario}`}>Actualizar</Link>
                                     <button onClick={() => {eliminarUsuario(usuario.idUsuario)}}>Eliminar</button>
