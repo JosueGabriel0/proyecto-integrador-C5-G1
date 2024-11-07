@@ -84,6 +84,8 @@ function ListPersonaComponent() {
                     <th>Ciudad del contacto de emergencia</th>
                     <th>Parentesco del contacto de emergencia</th>
                     <th>Usuario</th>
+                    <th>Fecha de Creacion de Persona</th>
+                    <th>Fecha de Modificacion Persona</th>
                     <th>Acciones</th>
                 </thead>
                 <tbody>
@@ -124,6 +126,8 @@ function ListPersonaComponent() {
                                     <td>{persona.contactoEmergenciaCiudad}</td>
                                     <td>{persona.contactoEmergenciaParentesco}</td>
                                     <td>{obtenerUsernameUsuario(persona.idUsuario)}</td>
+                                    <td>{persona.fechaCreacionPersona}</td>
+                                    <td>{persona.fechaModificacionPersona}</td>
                                     <td>
                                         <Link to={`/edit-persona/${persona.id}`}>Actualizar</Link>
                                         <button onClick={() => deletePersona(persona.id)}>Eliminar</button>

@@ -65,9 +65,32 @@ public class AdministradorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Administrador> editarAdministradorResponseEntity(@PathVariable( required = true) Long id, @RequestBody Administrador administrador){
+    public ResponseEntity<?> editarAdministradorResponseEntity(@PathVariable(required = true) Long id,@RequestBody Administrador administrador){
         administrador.setIdAdministrador(id);
-        return ResponseEntity.ok(administradorService.editarAdministrador(administrador));
+        try {
+            // Verificar si el curso existe
+            Persona personaDto = personaFeign.listarPersonaDtoPorId(administrador.getIdPersona()).getBody();
+            if (personaDto == null || personaDto.getId() == null) {
+                String ErrorMessage = "Error: Persona no encontrada";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
+            }
+
+            administrador.setPersona(personaDto);
+
+            Administrador AdministradorEditado = administradorService.editarAdministrador(administrador);
+
+            // Retornar respuesta exitosa
+            return ResponseEntity.status(HttpStatus.CREATED).body(AdministradorEditado);
+
+        } catch (FeignException e) {
+            // Imprimir los detalles del error que Feign está arrojando
+            String errorMensaje = "Error al comunicarse con otro servicio: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMensaje);
+
+        } catch (Exception e) {
+            // Manejo de cualquier otro error inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

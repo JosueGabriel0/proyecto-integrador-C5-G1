@@ -72,7 +72,9 @@ public class PersonaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
         }
 
+        System.out.println("Este es la persona que se esta guardado en el controller Persona: " + persona);
         Persona nuevaPersona =personaService.guardarPersona(persona);
+        System.out.println("Este es la nuevaPersona que se esta guardado en el controller Persona: " + persona);
         return ResponseEntity.ok(nuevaPersona);
     }
 
@@ -104,10 +106,36 @@ public class PersonaController {
         return ResponseEntity.ok(personaService.buscarPersonaPorId(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Persona> editarPersonaResponseEntity(@PathVariable (required = true) Long id,@RequestBody Persona persona){
+
+    @PutMapping(value="/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> editarPersonaResponseEntity(@PathVariable(required = true) Long id,@ModelAttribute Persona persona, @RequestParam("file") MultipartFile fotoPerfil){
         persona.setId(id);
-        return ResponseEntity.ok(personaService.editarPersona(persona));
+        if(!fotoPerfil.isEmpty()){
+            Path directorioImagenes = Paths.get("src//main//resources//static/images");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImg = fotoPerfil.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoPerfil.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImg);
+
+                persona.setFotoPerfil(fotoPerfil.getOriginalFilename());
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
+
+        Usuario usuarioDto = usuarioFeign.listarUsuarioDtoPorId(persona.getIdUsuario()).getBody();
+
+        if(usuarioDto == null || usuarioDto.getIdUsuario() == null){
+            String ErrorMessage = "Error: Usuario no encontrado";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(ErrorMessage));
+        }
+
+        System.out.println("Este es la persona que se esta guardado en el controller Persona: " + persona);
+        Persona personaEditada =personaService.editarPersona(persona);
+        System.out.println("Este es la nuevaPersona que se esta guardado en el controller Persona: " + persona);
+        return ResponseEntity.ok(personaEditada);
     }
 
     @DeleteMapping("{id}")

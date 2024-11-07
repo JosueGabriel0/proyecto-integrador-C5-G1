@@ -119,9 +119,17 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> editarUsuarioResponseEntity(@PathVariable(required = true) Long id,@RequestBody Usuario Usuario){
-        Usuario.setIdUsuario(id);
-        return ResponseEntity.ok(usuarioService.editarUsuario(Usuario));
+    public ResponseEntity<?> editarUsuarioResponseEntity(@PathVariable(required = true) Long id,@RequestBody Usuario usuario){
+        usuario.setIdUsuario(id);
+        Rol rolDto = rolFeign.listarRolDtoPorId(usuario.getIdRol()).getBody();
+
+        if (rolDto == null || rolDto.getIdRol() == null) {
+            String errorMessage = "Error: Rol no encontrado.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(errorMessage));
+        }
+
+        Usuario nuevoUsuario = usuarioService.guardarUsuario(usuario);
+        return ResponseEntity.ok(usuarioService.guardarUsuario(usuario));
     }
 
     @DeleteMapping("{id}")

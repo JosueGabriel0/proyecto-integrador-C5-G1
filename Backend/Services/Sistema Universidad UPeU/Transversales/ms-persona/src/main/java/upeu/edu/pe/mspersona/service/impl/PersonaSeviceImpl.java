@@ -28,6 +28,7 @@ public class PersonaSeviceImpl implements PersonaService {
     //METODOS PRINCIPALES DE PERSONA
     @Override
     public Persona guardarPersona(Persona persona) {
+        System.out.println("Esta es la persona que se esta guardando en el service Persona: " + persona);
         return personaRepository.save(persona);
     }
 

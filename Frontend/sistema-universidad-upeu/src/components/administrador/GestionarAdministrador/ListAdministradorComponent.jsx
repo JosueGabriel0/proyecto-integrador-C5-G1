@@ -50,36 +50,44 @@ function ListPersonaComponent() {
             <Link to="/add-administrador">Agregar Administrador</Link>
             <table>
                 <thead>
-                    <th>ID</th>
-                    <th>Actividad Reciente</th>
-                    <th>Fecha de Actividad</th>
-                    <th>Estado del Sistema</th>
-                    <th>Fecha de Ultima Revision</th>
-                    <th>Permisos Especiales</th>
-                    <th>Logs Accesos</th>
-                    <th>Cambios de la Configuracion</th>
-                    <th>Persona</th>
-                    <th>Acciones</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Actividad Reciente</th>
+                        <th>Fecha de Actividad</th>
+                        <th>Estado del Sistema</th>
+                        <th>Fecha de Ultima Revision</th>
+                        <th>Permisos Especiales</th>
+                        <th>Logs Accesos</th>
+                        <th>Cambios de la Configuracion</th>
+                        <th>Persona</th>
+                        <th>Fecha de Creacion del Administrador</th>
+                        <th>Fecha de Modificacion del Administrador</th>
+                        <th>Acciones</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
                         administradores.map(
                             administrador => {
-                                <tr key={administrador.idAdministrador}>
-                                    <td>{administrador.idAdministrador}</td>
-                                    <td>{administrador.actividadReciente}</td>
-                                    <td>{administrador.fechaActividad}</td>
-                                    <td>{administrador.estadoSistema}</td>
-                                    <td>{administrador.fechaUltimaRevision}</td>
-                                    <td>{administrador.permisosEspeciales}</td>
-                                    <td>{administrador.logsAcceso}</td>
-                                    <td>{administrador.cambiosConfiguracion}</td>
-                                    <td>{obtenerNombrePersona(administrador.idPersona)}</td>
-                                    <td>
-                                        <Link to={`/edit-administrador/${administrador.idAdministrador}`}>Actualizar</Link>
-                                        <button onClick={() => eliminarAdministrador(administrador.idAdministrador)}>Eliminar</button>
-                                    </td>
-                                </tr>
+                                return (
+                                    <tr key={administrador.idAdministrador}>
+                                        <td>{administrador.idAdministrador}</td>
+                                        <td>{administrador.actividadReciente}</td>
+                                        <td>{administrador.fechaActividad}</td>
+                                        <td>{administrador.estadoSistema}</td>
+                                        <td>{administrador.fechaUltimaRevision}</td>
+                                        <td>{administrador.permisosEspeciales}</td>
+                                        <td>{administrador.logsAcceso}</td>
+                                        <td>{administrador.cambiosConfiguracion}</td>
+                                        <td>{obtenerNombrePersona(administrador.idPersona)}</td>
+                                        <td>{administrador.fechaCreacionAministrador}</td>
+                                        <td>{administrador.fechaModificacionAministrador}</td>
+                                        <td>
+                                            <Link to={`/edit-administrador/${administrador.idAdministrador}`}>Actualizar</Link>
+                                            <button onClick={() => eliminarAdministrador(administrador.idAdministrador)}>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                );
                             }
                         )
                     }

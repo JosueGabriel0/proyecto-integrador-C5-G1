@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionConRolAdminService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
+import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
+import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
 function ListConRolAdministradorComponent() {
     const [inscripciones, setInscripciones] = useState([]);
     const navigate = useNavigate();
 
     const [roles, setRoles] = useState([]);
-
+    const [usuarios, setUsuarios] = useState([]);
+    const [personas, setPersonas] = useState([]);
 
     function listarInscripcionesConRolAdministrador() {
         InscripcionConRolAdminService.getAllInscripciones().then(response => {
@@ -27,9 +30,53 @@ function ListConRolAdministradorComponent() {
         })
     }
 
+    function listarRoles() {
+        RolAdminService.getAllRoles().then(response => {
+            setRoles(response.data); // Guardar los roles en el estado
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    function obtenerNombreRol(idRol) {
+        const rolEncontrado = roles.find(rol => rol.idRol === idRol);
+        return rolEncontrado ? rolEncontrado.nombreRol : "Desconocido"; // Devuelve el nombre del rol o "Desconocido"
+    }
+
+    function listarUsuarios() {
+        UsuarioAdminService.getAllUsuarios().then(response => {
+            setUsuarios(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function obtenerUsernameUsuario(idUsuario) {
+        const usuarioEncontrado = usuarios.find(usuario => usuario.idUsuario === idUsuario);
+        return usuarioEncontrado ? usuarioEncontrado.username : "Desconocido";
+    }
+
+    function listarPersonas() {
+        PersonaAdminService.getAllPersonas().then(response => {
+            setPersonas(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function obtenerNombrePersona(idPersona) {
+        const personaEncontrada = personas.find(persona => persona.id === idPersona);
+        return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
+    }
+
     useEffect(() => {
         listarInscripcionesConRolAdministrador();
         listarRoles();
+        listarUsuarios();
+        listarPersonas();
     }, []);
 
     // Asumiendo que inscripcion.fechaCreacionInscripcion es el array de la fecha
@@ -75,20 +122,6 @@ function ListConRolAdministradorComponent() {
         });
     };
 
-    function listarRoles() {
-        RolAdminService.getAllRoles().then(response => {
-            setRoles(response.data); // Guardar los roles en el estado
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    function obtenerNombreRol(idRol) {
-        const rolEncontrado = roles.find(rol => rol.idRol === idRol);
-        return rolEncontrado ? rolEncontrado.nombreRol : "Desconocido"; // Devuelve el nombre del rol o "Desconocido"
-    }
-
     return (
         <div className="container">
             <h2>Lista de Inscripciones Con Rol</h2>
@@ -98,7 +131,7 @@ function ListConRolAdministradorComponent() {
                         <th colSpan="4">Datos de Inscripcion</th>
                         <th colSpan="5">Datos de Rol</th>
                         <th colSpan="11">Datos de Usuario</th>
-                        <th colSpan="30">Datos de Persona</th>
+                        <th colSpan="29">Datos de Persona</th>
                         <th colSpan="11">Datos de Administrador</th>
                         <th colSpan="1">Acciones</th>
                     </tr>
@@ -145,6 +178,7 @@ function ListConRolAdministradorComponent() {
                         <th>Estado Civil</th>
                         <th>Foto de Perfil</th>
                         <th>Tipo de sangre</th>
+                        <th>Responsable Financiero</th>
                         <th>Nombre del contacto de emergencia</th>
                         <th>Telefono del contacto de emergencia</th>
                         <th>Email del contacto de emergencia</th>
@@ -199,43 +233,59 @@ function ListConRolAdministradorComponent() {
                                 <td>{formatFecha(inscripcion.usuario.fechaCreacionUsuario)}</td>
                                 <td>{formatFecha(inscripcion.usuario.fechaModificacionUsuario)}</td>
 
-                                <td>{persona.id}</td>
-                                <td>{persona.nombres}</td>
-                                <td>{persona.apellido_paterno}</td>
-                                <td>{persona.apellido_materno}</td>
-                                <td>{format(new Date(persona.fecha_nacimiento), 'dd-MM-yyyy')}</td>
-                                <td>{persona.genero}</td>
-                                <td>{persona.nacionalidad}</td>
-                                <td>{persona.tipoDocFumento}</td>
-                                <td>{persona.numeroDocumento}</td>
-                                <td>{persona.direccion}</td>
-                                <td>{persona.ciudad}</td>
-                                <td>{persona.departamento}</td>
-                                <td>{persona.pais}</td>
-                                <td>{persona.provincia}</td>
-                                <td>{persona.telefono}</td>
-                                <td>{persona.email}</td>
-                                <td>{persona.estadoCivil}</td>
+                                <td>{inscripcion.persona.id}</td>
+                                <td>{inscripcion.persona.nombres}</td>
+                                <td>{inscripcion.persona.apellido_paterno}</td>
+                                <td>{inscripcion.persona.apellido_materno}</td>
+                                <td>{inscripcion.persona.fecha_nacimiento}</td>
+                                <td>{inscripcion.persona.genero}</td>
+                                <td>{inscripcion.persona.nacionalidad}</td>
+                                <td>{inscripcion.persona.tipoDocumento}</td>
+                                <td>{inscripcion.persona.numeroDocumento}</td>
+                                <td>{inscripcion.persona.direccion}</td>
+                                <td>{inscripcion.persona.ciudad}</td>
+                                <td>{inscripcion.persona.departamento}</td>
+                                <td>{inscripcion.persona.pais}</td>
+                                <td>{inscripcion.persona.provincia}</td>
+                                <td>{inscripcion.persona.telefono}</td>
+                                <td>{inscripcion.persona.email}</td>
+                                <td>{inscripcion.persona.estadoCivil}</td>
                                 <td>
-                                    {persona.imagenUrl ? (
-                                        <img src={persona.imagenUrl} alt="Imagen de Persona" style={{ width: '50px', height: '50px' }} />
+                                    {inscripcion.persona.imagenUrl ? (
+                                        <img src={inscripcion.persona.imagenUrl} alt="Imagen de Persona" style={{ width: '50px', height: '50px' }} />
                                     ) : (
                                         <p>No disponible</p>
                                     )}
                                 </td>
-                                <td>{persona.tipoSangre}</td>
-                                <td>{persona.responsableFinanciero}</td>
-                                <td>{persona.contactoEmergenciaNombre}</td>
-                                <td>{persona.contactoEmergenciaTelefono}</td>
-                                <td>{persona.contactoEmergenciaEmail}</td>
-                                <td>{persona.contactoEmergenciaDireccion}</td>
-                                <td>{persona.contactoEmergenciaCiudad}</td>
-                                <td>{persona.contactoEmergenciaParentesco}</td>
-                                <td>{obtenerUsernameUsuario(persona.idUsuario)}</td>
+                                <td>{inscripcion.persona.tipoSangre}</td>
+                                <td>{inscripcion.persona.responsableFinanciero}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaNombre}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaTelefono}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaEmail}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaDireccion}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaCiudad}</td>
+                                <td>{inscripcion.persona.contactoEmergenciaParentesco}</td>
+                                <td>{obtenerUsernameUsuario(inscripcion.persona.idUsuario)}</td>
+                                <td>{inscripcion.persona.fechaCreacionPersona}</td>
+                                <td>{inscripcion.persona.fechaModificacionPersona}</td>
+
+                                <td>{inscripcion.administrador.idAdministrador}</td>
+                                <td>{inscripcion.administrador.actividadReciente}</td>
+                                <td>{inscripcion.administrador.fechaActividad}</td>
+                                <td>{inscripcion.administrador.estadoSistema}</td>
+                                <td>{inscripcion.administrador.fechaUltimaRevision}</td>
+                                <td>{inscripcion.administrador.permisosEspeciales}</td>
+                                <td>{inscripcion.administrador.logsAcceso}</td>
+                                <td>{inscripcion.administrador.cambiosConfiguracion}</td>
+                                <td>{obtenerNombrePersona(inscripcion.administrador.idPersona)}</td>
+                                <td>{inscripcion.administrador.fechaCreacionAministrador}</td>
+                                <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
+
                                 <td>
-                                    <Link to={`/edit-persona/${persona.id}`}>Actualizar</Link>
-                                    <button onClick={() => deletePersona(persona.id)}>Eliminar</button>
+                                    <Link to="/list-conRol-administrador">Actualizar</Link>
+                                    <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
                                 </td>
+
                             </tr>
                         ))
                     }

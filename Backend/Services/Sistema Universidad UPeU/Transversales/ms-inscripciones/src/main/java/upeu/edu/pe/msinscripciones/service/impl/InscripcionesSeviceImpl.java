@@ -467,6 +467,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     public void crearPersonaConFoto(Persona personaDTO, MultipartFile fotoPerfil) {
         try {
             // Llama al cliente de OpenFeign pasando el objeto Persona y el archivo MultipartFile
+            System.out.println("Esta es la Persona que se esta enviando con Feign en el metodo crearPersonaConFoto: "+personaDTO);
             ResponseEntity<?> response = personaFeign.crearPersonaDto(personaDTO, fotoPerfil);
 
             if (response.getStatusCode() == HttpStatus.OK) {
