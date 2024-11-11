@@ -20,7 +20,9 @@ public interface InscripcionesService {
 
     public void crearPersonaConFoto(Persona personaDTO, MultipartFile fotoPerfil);
 
-    public Inscripcion editarInscripcionConRol(Long id, Inscripcion inscripcionDTO);
+    public void actualizarPersonaConFoto(Long idPersona, Persona personaDTO, MultipartFile fotoPerfil);
+
+    public Inscripcion editarInscripcionConRol(Long idInscripcion, Inscripcion inscripcionDTO, MultipartFile fotoPerfil);
 
     public void eliminarInscripcionConRol(Long id);
 

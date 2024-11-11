@@ -129,11 +129,58 @@ public class InscipcionesController {
         }
     }
 
-    @PutMapping("/con-rol/{id}")
-    public ResponseEntity<Inscripcion> editarInscripcionConRol(@PathVariable Long id, @RequestBody Inscripcion inscripcionDTO) {
-        Inscripcion inscripcion = inscripcionesService.editarInscripcionConRol(id, inscripcionDTO);
-        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
+    @PutMapping(value = "/con-rol/{idInscripcion}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Inscripcion> actualizarInscripcionConRol(
+            @PathVariable Long idInscripcion,
+            @RequestPart("inscripcion") String inscripcionJson,
+            @RequestPart("file") MultipartFile fotoPerfil) {
+
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        // Imprimir el JSON recibido para depuración
+        logger.info("JSON recibido para actualización: {}", inscripcionJson);
+
+        // Convertir el JSON a objeto Inscripcion
+        Inscripcion inscripcionDto;
+        try {
+            inscripcionDto = objectMapper.readValue(inscripcionJson, Inscripcion.class);
+            inscripcionDto.setIdInscripcion(idInscripcion);
+
+            //Settear los ids de los objetos que se enviaran a sus respectivos microservicios
+            Inscripcion inscripcionEncontrada = inscripcionesService.buscarInscripcionPorId(idInscripcion);
+
+            inscripcionDto.getRol().setIdRol(inscripcionEncontrada.getRol().getIdRol());
+            inscripcionDto.getUsuario().setIdUsuario(inscripcionEncontrada.getUsuario().getIdUsuario());
+            inscripcionDto.getPersona().setId(inscripcionEncontrada.getPersona().getId());
+
+            if(inscripcionEncontrada.getAdministrador() != null && inscripcionEncontrada.getAdministrativo() == null && inscripcionEncontrada.getDocente() == null && inscripcionEncontrada.getEstudiante() == null){
+                inscripcionDto.getAdministrador().setIdAdministrador(inscripcionEncontrada.getAdministrador().getIdAdministrador());
+            }else if(inscripcionEncontrada.getIdAdministrativo() != null && inscripcionEncontrada.getAdministrador() == null && inscripcionEncontrada.getDocente() == null && inscripcionEncontrada.getEstudiante() == null){
+                inscripcionDto.getAdministrativo().setIdAdministrativo(inscripcionEncontrada.getAdministrativo().getIdAdministrativo());
+            }else if(inscripcionEncontrada.getDocente() != null && inscripcionEncontrada.getAdministrador() == null && inscripcionEncontrada.getAdministrativo() == null && inscripcionEncontrada.getEstudiante() == null){
+                inscripcionDto.getDocente().setIdDocente(inscripcionEncontrada.getDocente().getIdDocente());
+            }else if(inscripcionEncontrada.getEstudiante() != null &&inscripcionEncontrada.getAdministrador() == null && inscripcionEncontrada.getAdministrativo() == null && inscripcionEncontrada.getDocente() == null){
+                inscripcionDto.getEstudiante().setIdEstudiante(inscripcionEncontrada.getEstudiante().getIdEstudiante());
+            }
+
+            // Imprimir el objeto Inscripcion convertido para depuración
+            logger.info("Objeto Inscripcion convertido para actualización: {}", inscripcionDto);
+        } catch (IOException e) {
+            logger.error("Error al convertir JSON a objeto Inscripcion", e);
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        // Llamar al servicio para actualizar la inscripción
+        try {
+            Inscripcion inscripcionActualizada = inscripcionesService.editarInscripcionConRol(idInscripcion, inscripcionDto, fotoPerfil);
+            return new ResponseEntity<>(inscripcionActualizada, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            logger.error("Error al actualizar la inscripción con rol", e);
+            System.out.println("Estos son los datos mandados: "+inscripcionDto);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @DeleteMapping("/con-rol/{id}")
     public ResponseEntity<String> eliminarDatosInscripcionConRol(@PathVariable Long id) {

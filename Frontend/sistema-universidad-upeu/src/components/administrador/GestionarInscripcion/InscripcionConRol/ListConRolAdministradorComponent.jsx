@@ -124,7 +124,9 @@ function ListConRolAdministradorComponent() {
 
     return (
         <div className="container">
+            <Link to="/inscripcionesConRol">Retroceder</Link>
             <h2>Lista de Inscripciones Con Rol</h2>
+            <Link to="/add-inscripcionConRol-estudiante">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -282,7 +284,7 @@ function ListConRolAdministradorComponent() {
                                 <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
 
                                 <td>
-                                    <Link to="/list-conRol-administrador">Actualizar</Link>
+                                    <Link to={`/edit-inscripcionConRol-administrador/${inscripcion.idInscripcion}`}>Actualizar</Link>
                                     <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
                                 </td>
 
