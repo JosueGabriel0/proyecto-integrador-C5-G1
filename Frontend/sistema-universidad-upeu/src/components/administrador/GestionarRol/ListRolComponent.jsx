@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 import { Link } from "react-router-dom";
 
-function ListRolComponent(){
+function ListRolComponent() {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
@@ -25,34 +25,36 @@ function ListRolComponent(){
             console.log(error);
         })
     }
-    return(
+    return (
         <div className="container">
-        <Link to="/dashboard-administrador">Retroceder</Link>
-        <h2>Lista de Roles</h2>
-        <Link to='/add-rol'>Agregar Rol</Link>
-        <table>
-            <thead>
-                <th>ID</th>
-                <th>Nombre del Rol</th>
-                <th>Descipcion</th>
-                <th>Acciones</th>
-            </thead>
-            <tbody>{
-                roles.map(
-                    rol =>
-                    <tr key={ rol.idRol }>
-                        <td>{ rol.idRol }</td>
-                        <td>{ rol.nombreRol }</td>
-                        <td>{ rol.description }</td>
-                        <td>
-                            <Link to={`/edit-rol/${rol.idRol}`}>Actualizar</Link>
-                            <button onClick={() => deleteRol(rol.idRol)}>Eliminar</button>
-                        </td>
+            <Link to="/dashboard-administrador">Retroceder</Link>
+            <h2>Lista de Roles</h2>
+            <Link to='/add-rol'>Agregar Rol</Link>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Rol</th>
+                        <th>Descipcion</th>
+                        <th>Acciones</th>
                     </tr>
-                )
-            }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>{
+                    roles.map(
+                        rol =>
+                            <tr key={rol.idRol}>
+                                <td>{rol.idRol}</td>
+                                <td>{rol.nombreRol}</td>
+                                <td>{rol.description}</td>
+                                <td>
+                                    <Link to={`/edit-rol/${rol.idRol}`}>Actualizar</Link>
+                                    <button onClick={() => deleteRol(rol.idRol)}>Eliminar</button>
+                                </td>
+                            </tr>
+                    )
+                }
+                </tbody>
+            </table>
         </div>
     )
 }

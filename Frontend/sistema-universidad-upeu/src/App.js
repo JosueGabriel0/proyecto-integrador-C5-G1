@@ -249,7 +249,7 @@ const App = () => {
           <Route
             path='/list-inscripcionConRol-administrador'
             element={
-              <GeneralProtectedRouteComponent>
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <ListConRolAdministradorComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -258,7 +258,7 @@ const App = () => {
           <Route
             path='/list-inscripcionConRol-administrativo'
             element={
-              <GeneralProtectedRouteComponent>
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <ListConRolAdministrativoComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -267,7 +267,7 @@ const App = () => {
           <Route
             path='/list-inscripcionConRol-docente'
             element={
-              <GeneralProtectedRouteComponent>
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <ListConRolDocenteComponent />
               </GeneralProtectedRouteComponent>
             }
@@ -276,7 +276,7 @@ const App = () => {
           <Route
             path='/list-inscripcionConRol-estudiante'
             element={
-              <GeneralProtectedRouteComponent>
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <ListConRolEstudianteComponent />
               </GeneralProtectedRouteComponent>
             }

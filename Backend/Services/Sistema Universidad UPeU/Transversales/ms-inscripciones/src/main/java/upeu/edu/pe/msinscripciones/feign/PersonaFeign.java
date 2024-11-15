@@ -17,27 +17,27 @@ import java.util.List;
 public interface PersonaFeign {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @CircuitBreaker(name = "crearPersonaCB", fallbackMethod = "fallbackMethodCrearPersona")
+    //@CircuitBreaker(name = "crearPersonaCB", fallbackMethod = "fallbackMethodCrearPersona")
     ResponseEntity<?> crearPersonaDto(@RequestPart("persona") Persona persona, @RequestPart("file") MultipartFile fotoPerfil);
 
     @GetMapping
-    @CircuitBreaker(name = "listarPersonasCB", fallbackMethod = "fallbackMethodListarPersonas")
+    //@CircuitBreaker(name = "listarPersonasCB", fallbackMethod = "fallbackMethodListarPersonas")
     ResponseEntity<List<Persona>> listarPersonasDto();
 
     @GetMapping("/{id}")
-    @CircuitBreaker(name = "listarPersonaPorIdCB", fallbackMethod = "fallbackMethodListarPersonaPorId")
+    //@CircuitBreaker(name = "listarPersonaPorIdCB", fallbackMethod = "fallbackMethodListarPersonaPorId")
     ResponseEntity<Persona> listarPersonaDtoPorId(@PathVariable Long id);
 
     // Método para actualizar una persona por ID
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @CircuitBreaker(name = "editarPersonaCB", fallbackMethod = "fallbackMethodEditarPersona")
+    //@CircuitBreaker(name = "editarPersonaCB", fallbackMethod = "fallbackMethodEditarPersona")
     ResponseEntity<?> editarPersonaDto(
             @PathVariable("id") Long id,
             @RequestPart("persona") Persona persona,
             @RequestPart("file") MultipartFile fotoPerfil);
 
     @DeleteMapping("/{id}")  // Añadir la ruta con el ID
-    @CircuitBreaker(name = "eliminarPersonaCB", fallbackMethod = "fallbackMethodEliminarPersona")
+    //@CircuitBreaker(name = "eliminarPersonaCB", fallbackMethod = "fallbackMethodEliminarPersona")
     ResponseEntity<String> eliminarPersonaDto(@PathVariable Long id);
 
     default ResponseEntity<?> fallbackMethodCrearPersona(Persona Persona, MultipartFile fotoPerfil, Exception e){

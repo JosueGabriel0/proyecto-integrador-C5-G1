@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionConRolAdminService";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
 import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
 import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
 function ListConRolAdministradorComponent() {
     const [inscripciones, setInscripciones] = useState([]);
-    const navigate = useNavigate();
 
     const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
@@ -58,18 +57,26 @@ function ListConRolAdministradorComponent() {
         return usuarioEncontrado ? usuarioEncontrado.username : "Desconocido";
     }
 
-    function listarPersonas() {
-        PersonaAdminService.getAllPersonas().then(response => {
-            setPersonas(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
+    async function listarPersonas() {
+        const response = await PersonaAdminService.getAllPersonas();
+        const personasConImagenes = await Promise.all(
+            response.data.map(async (persona) => {
+                console.log("Foto de Perfil:", persona.fotoPerfil); // Verificar el valor de fotoPerfil
+                const imagenUrl = await PersonaAdminService.getPersonaImagen(persona.fotoPerfil);
+                return { ...persona, imagenUrl };
+            })
+        );
+        setPersonas(personasConImagenes);
     }
 
     function obtenerNombrePersona(idPersona) {
         const personaEncontrada = personas.find(persona => persona.id === idPersona);
         return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
+    }
+
+    function obtenerImagenPersona(idPersona) {
+        const personaEncontrada = personas.find((persona) => persona.id === idPersona);
+        return personaEncontrada && personaEncontrada.imagenUrl ? personaEncontrada.imagenUrl : null;
     }
 
     useEffect(() => {
@@ -126,7 +133,7 @@ function ListConRolAdministradorComponent() {
         <div className="container">
             <Link to="/inscripcionesConRol">Retroceder</Link>
             <h2>Lista de Inscripciones Con Rol</h2>
-            <Link to="/add-inscripcionConRol-estudiante">Agregar</Link>
+            <Link to="/add-inscripcionConRol-administrador">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -209,88 +216,98 @@ function ListConRolAdministradorComponent() {
                 </thead>
 
                 <tbody>
-                    {
-                        inscripciones.map((inscripcion) => (
-                            <tr key={inscripcion.idInscripcion}>
-                                <td>{inscripcion.idInscripcion}</td>
-                                <td>{inscripcion.inscripcionRol}</td>
-                                <td>{formatFecha(inscripcion.fechaCreacionInscripcion)}</td>
-                                <td>{formatFecha(inscripcion.fechaModificacionInscripcion)}</td>
+                    {inscripciones && Array.isArray(inscripciones) && inscripciones.length > 0 ? (
+                        inscripciones.map(
+                            inscripcion =>
+                                <tr key={inscripcion.idInscripcion}>
+                                    <td>{inscripcion.idInscripcion}</td>
+                                    <td>{inscripcion.inscripcionRol}</td>
+                                    <td>{formatFecha(inscripcion.fechaCreacionInscripcion)}</td>
+                                    <td>{formatFecha(inscripcion.fechaModificacionInscripcion)}</td>
 
-                                <td>{inscripcion.rol.idRol}</td>
-                                <td>{inscripcion.rol.nombreRol}</td>
-                                <td>{inscripcion.rol.description}</td>
-                                <td>{formatFecha(inscripcion.rol.fechaCreacionRol)}</td>
-                                <td>{formatFecha(inscripcion.rol.fechaModificacionRol)}</td>
+                                    <td>{inscripcion.rol.idRol}</td>
+                                    <td>{inscripcion.rol.nombreRol}</td>
+                                    <td>{inscripcion.rol.description}</td>
+                                    <td>{formatFecha(inscripcion.rol.fechaCreacionRol)}</td>
+                                    <td>{formatFecha(inscripcion.rol.fechaModificacionRol)}</td>
 
-                                <td>{inscripcion.usuario.idUsuario}</td>
-                                <td>{inscripcion.usuario.username}</td>
-                                <td>{inscripcion.usuario.password}</td>
-                                <td>{inscripcion.usuario.email}</td>
-                                <td>{inscripcion.usuario.enabled ? "Disponible" : "No disponible"}</td>
-                                <td>{obtenerNombreRol(inscripcion.usuario.idRol)}</td>
-                                <td>{formatFecha(inscripcion.usuario.ultimoLogin)}</td>
-                                <td>{inscripcion.usuario.tokenRecuperacion}</td>
-                                <td>{formatFechaDesdeEpoch(inscripcion.usuario.tokenRecuperacionExpiracion)}</td>
-                                <td>{formatFecha(inscripcion.usuario.fechaCreacionUsuario)}</td>
-                                <td>{formatFecha(inscripcion.usuario.fechaModificacionUsuario)}</td>
+                                    <td>{inscripcion.usuario.idUsuario}</td>
+                                    <td>{inscripcion.usuario.username}</td>
+                                    <td>{inscripcion.usuario.password}</td>
+                                    <td>{inscripcion.usuario.email}</td>
+                                    <td>{inscripcion.usuario.enabled ? "Disponible" : "No disponible"}</td>
+                                    <td>{obtenerNombreRol(inscripcion.usuario.idRol)}</td>
+                                    <td>{formatFecha(inscripcion.usuario.ultimoLogin)}</td>
+                                    <td>{inscripcion.usuario.tokenRecuperacion}</td>
+                                    <td>{formatFechaDesdeEpoch(inscripcion.usuario.tokenRecuperacionExpiracion)}</td>
+                                    <td>{formatFecha(inscripcion.usuario.fechaCreacionUsuario)}</td>
+                                    <td>{formatFecha(inscripcion.usuario.fechaModificacionUsuario)}</td>
 
-                                <td>{inscripcion.persona.id}</td>
-                                <td>{inscripcion.persona.nombres}</td>
-                                <td>{inscripcion.persona.apellido_paterno}</td>
-                                <td>{inscripcion.persona.apellido_materno}</td>
-                                <td>{inscripcion.persona.fecha_nacimiento}</td>
-                                <td>{inscripcion.persona.genero}</td>
-                                <td>{inscripcion.persona.nacionalidad}</td>
-                                <td>{inscripcion.persona.tipoDocumento}</td>
-                                <td>{inscripcion.persona.numeroDocumento}</td>
-                                <td>{inscripcion.persona.direccion}</td>
-                                <td>{inscripcion.persona.ciudad}</td>
-                                <td>{inscripcion.persona.departamento}</td>
-                                <td>{inscripcion.persona.pais}</td>
-                                <td>{inscripcion.persona.provincia}</td>
-                                <td>{inscripcion.persona.telefono}</td>
-                                <td>{inscripcion.persona.email}</td>
-                                <td>{inscripcion.persona.estadoCivil}</td>
-                                <td>
-                                    {inscripcion.persona.imagenUrl ? (
-                                        <img src={inscripcion.persona.imagenUrl} alt="Imagen de Persona" style={{ width: '50px', height: '50px' }} />
-                                    ) : (
-                                        <p>No disponible</p>
-                                    )}
-                                </td>
-                                <td>{inscripcion.persona.tipoSangre}</td>
-                                <td>{inscripcion.persona.responsableFinanciero}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaNombre}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaTelefono}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaEmail}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaDireccion}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaCiudad}</td>
-                                <td>{inscripcion.persona.contactoEmergenciaParentesco}</td>
-                                <td>{obtenerUsernameUsuario(inscripcion.persona.idUsuario)}</td>
-                                <td>{inscripcion.persona.fechaCreacionPersona}</td>
-                                <td>{inscripcion.persona.fechaModificacionPersona}</td>
+                                    <td>{inscripcion.persona.id}</td>
+                                    <td>{inscripcion.persona.nombres}</td>
+                                    <td>{inscripcion.persona.apellido_paterno}</td>
+                                    <td>{inscripcion.persona.apellido_materno}</td>
+                                    <td>{inscripcion.persona.fecha_nacimiento}</td>
+                                    <td>{inscripcion.persona.genero}</td>
+                                    <td>{inscripcion.persona.nacionalidad}</td>
+                                    <td>{inscripcion.persona.tipoDocumento}</td>
+                                    <td>{inscripcion.persona.numeroDocumento}</td>
+                                    <td>{inscripcion.persona.direccion}</td>
+                                    <td>{inscripcion.persona.ciudad}</td>
+                                    <td>{inscripcion.persona.departamento}</td>
+                                    <td>{inscripcion.persona.pais}</td>
+                                    <td>{inscripcion.persona.provincia}</td>
+                                    <td>{inscripcion.persona.telefono}</td>
+                                    <td>{inscripcion.persona.email}</td>
+                                    <td>{inscripcion.persona.estadoCivil}</td>
+                                    <td>
+                                        {obtenerImagenPersona(inscripcion.idPersona) ? (
+                                            <img
+                                                src={obtenerImagenPersona(inscripcion.idPersona)}
+                                                alt="Imagen de Persona"
+                                                style={{ width: "50px", height: "50px" }}
+                                            />
+                                        ) : (
+                                            <p>No disponible</p>
+                                        )}
+                                    </td>
+                                    <td>{inscripcion.persona.tipoSangre}</td>
+                                    <td>{inscripcion.persona.responsableFinanciero}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaNombre}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaTelefono}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaEmail}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaDireccion}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaCiudad}</td>
+                                    <td>{inscripcion.persona.contactoEmergenciaParentesco}</td>
+                                    <td>{obtenerUsernameUsuario(inscripcion.persona.idUsuario)}</td>
+                                    <td>{inscripcion.persona.fechaCreacionPersona}</td>
+                                    <td>{inscripcion.persona.fechaModificacionPersona}</td>
 
-                                <td>{inscripcion.administrador.idAdministrador}</td>
-                                <td>{inscripcion.administrador.actividadReciente}</td>
-                                <td>{inscripcion.administrador.fechaActividad}</td>
-                                <td>{inscripcion.administrador.estadoSistema}</td>
-                                <td>{inscripcion.administrador.fechaUltimaRevision}</td>
-                                <td>{inscripcion.administrador.permisosEspeciales}</td>
-                                <td>{inscripcion.administrador.logsAcceso}</td>
-                                <td>{inscripcion.administrador.cambiosConfiguracion}</td>
-                                <td>{obtenerNombrePersona(inscripcion.administrador.idPersona)}</td>
-                                <td>{inscripcion.administrador.fechaCreacionAministrador}</td>
-                                <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
+                                    <td>{inscripcion.administrador.idAdministrador}</td>
+                                    <td>{inscripcion.administrador.actividadReciente}</td>
+                                    <td>{inscripcion.administrador.fechaActividad}</td>
+                                    <td>{inscripcion.administrador.estadoSistema}</td>
+                                    <td>{inscripcion.administrador.fechaUltimaRevision}</td>
+                                    <td>{inscripcion.administrador.permisosEspeciales}</td>
+                                    <td>{inscripcion.administrador.logsAcceso}</td>
+                                    <td>{inscripcion.administrador.cambiosConfiguracion}</td>
+                                    <td>{obtenerNombrePersona(inscripcion.administrador.idPersona)}</td>
+                                    <td>{inscripcion.administrador.fechaCreacionAministrador}</td>
+                                    <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
 
-                                <td>
-                                    <Link to={`/edit-inscripcionConRol-administrador/${inscripcion.idInscripcion}`}>Actualizar</Link>
-                                    <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
-                                </td>
+                                    <td>
+                                        <Link to={`/edit-inscripcionConRol-administrador/${inscripcion.idInscripcion}`}>Actualizar</Link>
+                                        <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
+                                    </td>
 
-                            </tr>
-                        ))
-                    }
+                                </tr>
+
+                        )
+                    ) : (
+                        <tr>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
 

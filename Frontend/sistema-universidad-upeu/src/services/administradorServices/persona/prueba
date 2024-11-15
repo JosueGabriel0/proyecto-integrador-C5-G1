@@ -1,0 +1,50 @@
+{
+    "rol": {
+        "nombreRol": "#1qqq",
+        "description": "string"
+    },
+    "usuario": {
+        "username": "z1qqq",
+        "password": "12345",
+        "email": "josuexd@gmail.com",
+        "enabled": true,
+        "ultimoLogin": "2024-09-22T02:53:40.759Z",
+        "tokenRecuperacion": "string",
+        "tokenRecuperacionExpiracion": "2024-09-22T02:53:40.759Z"
+    },
+    "persona": {
+        "nombres": "JOSUExdq",
+        "apellido_paterno": "Perez",
+        "apellido_materno": "Lopez",
+        "fecha_nacimiento": "2024-10-06",
+        "genero": "Masculino",
+        "nacionalidad": "Peruana",
+        "tipoDocumento": "DNI",
+        "numeroDocumento": "12345678",
+        "direccion": "Calle Ejemplo 123",
+        "ciudad": "Lima",
+        "departamento": "Lima",
+        "pais": "Perú",
+        "provincia": "No hay",
+        "telefono": "987654321",
+        "email": "josue@gmail.com",
+        "estadoCivil": "Soltero",
+        "tipoSangre": "O+",
+        "responsableFinanciero": "Juan",
+        "contactoEmergenciaNombre": "Maria Lopez",
+        "contactoEmergenciaTelefono": "987654321",
+        "contactoEmergenciaEmail": "maria.lopez@gmail.com",
+        "contactoEmergenciaDireccion": "Calle Emergencia 456",
+        "contactoEmergenciaCiudad": "Lima",
+        "contactoEmergenciaParentesco": "Madre"
+    },
+    "administrador": {
+        "actividadReciente": "string",
+        "fechaActividad": "2024-11-15",
+        "estadoSistema": "string",
+        "fechaUltimaRevision": "2024-11-15",
+        "permisosEspeciales": "string",
+        "logsAcceso": "string",
+        "cambiosConfiguracion": "string"
+    }
+}

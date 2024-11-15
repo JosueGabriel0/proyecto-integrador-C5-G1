@@ -14,23 +14,23 @@ import java.util.List;
 public interface UsuarioFeign {
 
     @PostMapping
-    @CircuitBreaker(name = "crearUsuarioCB", fallbackMethod = "fallbackMethodCrearUsuario")
+    //@CircuitBreaker(name = "crearUsuarioCB", fallbackMethod = "fallbackMethodCrearUsuario")
     ResponseEntity<?> crearUsuarioDto(@RequestBody Usuario usuario);
 
     @GetMapping
-    @CircuitBreaker(name = "listarUsuariosCB", fallbackMethod = "fallbackMethodListarUsuarios")
+    //@CircuitBreaker(name = "listarUsuariosCB", fallbackMethod = "fallbackMethodListarUsuarios")
     ResponseEntity<List<Usuario>> listarUsuariosDto();
 
     @GetMapping("/{id}")
-    @CircuitBreaker(name = "listrUsuarioPorIdCB", fallbackMethod = "fallbackMethodListarUsuarioPorId")
+    //@CircuitBreaker(name = "listrUsuarioPorIdCB", fallbackMethod = "fallbackMethodListarUsuarioPorId")
     ResponseEntity<Usuario> listarUsuarioDtoPorId(@PathVariable Long id);
 
     @PutMapping("/{id}")  // Añadir la ruta con el ID
-    @CircuitBreaker(name = "actualizarUsuarioCB", fallbackMethod = "fallbackMethodActualizarUsuario")
+    //@CircuitBreaker(name = "actualizarUsuarioCB", fallbackMethod = "fallbackMethodActualizarUsuario")
     ResponseEntity<Usuario> actualizarUsuarioDto(@PathVariable Long id, @RequestBody Usuario usuario);
 
     @DeleteMapping("/{id}")  // Añadir la ruta con el ID
-    @CircuitBreaker(name = "eliminarUsuarioCB", fallbackMethod = "fallbackMethodEliminarUsuario")
+    //@CircuitBreaker(name = "eliminarUsuarioCB", fallbackMethod = "fallbackMethodEliminarUsuario")
     ResponseEntity<String> eliminarUsuarioDto(@PathVariable Long id);
 
     default ResponseEntity<?> fallbackMethodCrearUsuario(Usuario Usuario, Exception e){
