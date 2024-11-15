@@ -368,14 +368,32 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     @Override
     public Inscripcion crearInscripcionConRol(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
         Inscripcion inscripcion = new Inscripcion();
+        final int maxRetries = 5;  // Número máximo de intentos
+        final int retryInterval = 2000;  // Intervalo de espera entre intentos (en milisegundos)
 
         try {
-            // 1. Crear el Rol y obtener el ID
-            ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
-            if (rolResponse.getBody() == null || rolResponse.getBody().getIdRol() == null) {
-                throw new RuntimeException("No se pudo crear el Rol o el ID del Rol es nulo.");
+            // 1. Intentar crear el Rol y obtener el ID con un ciclo de espera
+            Long idRolCreado = null;
+            for (int i = 0; i < maxRetries; i++) {
+                ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
+                if (rolResponse.getBody() != null && rolResponse.getBody().getIdRol() != null) {
+                    idRolCreado = rolResponse.getBody().getIdRol();
+                    break;  // Si el rol se creó correctamente, salir del ciclo
+                }
+                try {
+                    Thread.sleep(retryInterval);  // Esperar antes de intentar de nuevo
+                } catch (InterruptedException e) {
+                    // Manejar la interrupción si ocurre
+                    Thread.currentThread().interrupt();  // Restablecer el estado de interrupción
+                    throw new RuntimeException("El hilo fue interrumpido mientras esperaba para crear el Rol.", e);
+                }
             }
-            Long idRolCreado = rolResponse.getBody().getIdRol();
+
+            if (idRolCreado == null) {
+                throw new RuntimeException("No se pudo crear el Rol después de varios intentos.");
+            }
+
+            // Asignar el ID del Rol al objeto Inscripcion
             inscripcion.setIdRol(idRolCreado);
             inscripcionDTO.getUsuario().setIdRol(idRolCreado); // Asignar el Rol al Usuario
 
