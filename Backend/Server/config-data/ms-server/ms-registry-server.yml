@@ -1,10 +1,15 @@
 server:
-  port: 8090
+  #port: 8090 #Local
+  port: 443 # LocalTunnel trabaja en HTTPS #Con Dominio Publico
 eureka:
   instance:
-    hostname: localhost
+    #hostname: localhost #Local
+    hostname: twenty-trees-take.loca.lt # Hostname debe ser el dominio público #Con Dominio Publico
+    secure-port-enabled: true #Con Dominio Publico
+    secure-port: 443 # Configura el puerto HTTPS Con Dominio Publico
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ #Local
+      defaultZone: https://${eureka.instance.hostname}/eureka/ # Usar HTTPS #Con Dominio Publico

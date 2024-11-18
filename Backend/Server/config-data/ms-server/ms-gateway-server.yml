@@ -1,13 +1,16 @@
 server:
-  port: 9090
+  #port: 9090 #Local
+  port: 443 # LocalTunnel trabaja en HTTPS #Con Dominio Publico
 
 eureka:
   client:
     serviceUrl:
-      #defaultZone: http://localhost:8090/eureka
-      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+      #defaultZone: http://localhost:8090/eureka #Puerto Estatico #Local
+      #defaultZone: ${EUREKA_URI:http://localhost:8090/eureka} #Puerto Dinamico #Local
+      defaultZone: ${EUREKA_URI:https://twenty-trees-take.loca.lt/eureka}
   instance:
-    #hostname: localhost
+    #hostname: localhost #Hostname Estatico #Local
+    hostname: twenty-trees-take.loca.lt #Con Dominio Publico
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 spring:
@@ -17,8 +20,8 @@ spring:
         corsConfigurations:
           '[/**]': # Aplicar la configuración a todas las rutas
             allowedOrigins:
-              - "http://localhost:3000"  # Permitir tu frontend
-              - "https://large-feet-fry.loca.lt"
+              - "http://localhost:3000"  # Permitir tu frontend Local
+              - "https://twenty-trees-take.loca.lt" # Permitir tu frontend con Dominio Publico
             allowedHeaders:
               - "*"  # Permitir todos los encabezados, incluyendo Authorization
             allowedMethods:
