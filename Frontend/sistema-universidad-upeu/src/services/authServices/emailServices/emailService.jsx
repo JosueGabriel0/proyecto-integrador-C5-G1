@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs'; // Importa qs para serializar
 
-const EMAIL_BASE_REST_API_URL = "http://localhost:9090/api/email/send";
+const EMAIL_BASE_REST_API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/email/send`;
 
 const sendEmail = async (to, subject, body, isHtml = true) => {
     try {

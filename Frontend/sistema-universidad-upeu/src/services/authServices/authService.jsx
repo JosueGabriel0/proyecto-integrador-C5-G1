@@ -30,7 +30,7 @@ export const isAuthenticated = () => {
 // Función para realizar el login (petición al microservicio ms-auth)
 export const login = async (credentials) => {
     try {
-        const response = await fetch('http://localhost:9090/auth/login', {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

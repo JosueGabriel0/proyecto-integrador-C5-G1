@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getToken } from "../../authServices/authService";
-const PERSONA_BASE_REST_API_URL = "http://localhost:9090/persona";
+const PERSONA_BASE_REST_API_URL = `${process.env.REACT_APP_API_BASE_URL}/persona`;
 
 class PersonaAdminService {
     getAllPersonas() {

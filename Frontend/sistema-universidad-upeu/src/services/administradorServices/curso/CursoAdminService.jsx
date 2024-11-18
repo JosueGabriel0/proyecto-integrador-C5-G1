@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../../authServices/authService";
 
-const CURSO_DATABASE_REST_API_URL = "http://localhost:9090/curso";
+const CURSO_DATABASE_REST_API_URL = `${process.env.REACT_APP_API_BASE_URL}/curso`;
 
 class CursoAdminService{
     getAllCursos(){
