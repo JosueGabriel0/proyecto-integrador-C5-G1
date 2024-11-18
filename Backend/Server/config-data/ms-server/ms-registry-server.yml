@@ -4,7 +4,7 @@ server:
 eureka:
   instance:
     #hostname: localhost #Local
-    hostname: twenty-trees-take.loca.lt # Hostname debe ser el dominio público #Con Dominio Publico
+    hostname: quiet-seals-lie.loca.lt # Hostname debe ser el dominio público #Con Dominio Publico
     secure-port-enabled: true #Con Dominio Publico
     secure-port: 443 # Configura el puerto HTTPS Con Dominio Publico
   client:
@@ -12,4 +12,4 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ #Local
-      defaultZone: https://${eureka.instance.hostname}/eureka/ # Usar HTTPS #Con Dominio Publico
+      defaultZone: ${EUREKA_URI:https://quiet-seals-lie.loca.lt:9090/eureka} # Usar HTTPS #Con Dominio Publico
