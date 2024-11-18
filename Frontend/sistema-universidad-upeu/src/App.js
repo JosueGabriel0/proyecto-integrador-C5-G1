@@ -38,7 +38,7 @@ import AddConRolEstudianteComponent from './components/administrador/GestionarIn
 
 const App = () => {
   return (
-    <BrowserRouter basename="/PROYECTO-INTEGRADOR-C5-G1/Frontend/sistema-universidad-upeu">
+    <BrowserRouter>
       <div className='container'>
         <Routes>
           <Route exact path='/' element={<GeneralInicioComponent />} />
