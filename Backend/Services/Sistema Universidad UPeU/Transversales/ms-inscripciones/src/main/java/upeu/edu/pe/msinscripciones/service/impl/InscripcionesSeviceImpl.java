@@ -393,6 +393,8 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 throw new RuntimeException("No se pudo crear el Rol después de varios intentos.");
             }
 
+            System.out.println("El id del rol que se creo y se esta asignando a Usuario es este: "+idRolCreado);
+
             // Asignar el ID del Rol al objeto Inscripcion
             inscripcion.setIdRol(idRolCreado);
             inscripcionDTO.getUsuario().setIdRol(idRolCreado); // Asignar el Rol al Usuario
