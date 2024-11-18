@@ -1,12 +1,14 @@
 server:
   #port: 8180
-  port: ${PORT:${SERVER_PORT:0}}
+  #port: ${PORT:${SERVER_PORT:0}} #Local
+  port: 443  # Puerto HTTPS, para usar el dominio público y encriptación SSL.
+
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     enabled: true
-    path: /doc/swagger-ui.html
+    path: /roles/swagger-ui.html
 spring:
   jpa:
     hibernate.ddl-auto: update
@@ -22,7 +24,10 @@ eureka:
   client:
     serviceUrl:
       #defaultZone: http://localhost:8090/eureka
-      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+      #defaultZone: ${EUREKA_URI:http://localhost:8090/eureka} #Local
+      defaultZone: ${EUREKA_URI:https://eleven-news-join.loca.lt:9090/eureka}
+
   instance:
     #hostname: localhost
+    hostname: eleven-news-join.loca.lt  # Con dominio público
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
