@@ -27,7 +27,7 @@ class InscripcionConRolAdminService {
 
     postInscripcion(inscripcion){
         return(
-            axios.post(INSCRIPCION_DATABASE_REST_API_URL, inscripcion, {
+            axios.post(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol", inscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -37,7 +37,7 @@ class InscripcionConRolAdminService {
 
     putInscripcion(idInscripcion, inscripcion){
         return(
-            axios.put(INSCRIPCION_DATABASE_REST_API_URL + "/" + idInscripcion, inscripcion, {
+            axios.put(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol/" + idInscripcion, inscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -47,7 +47,7 @@ class InscripcionConRolAdminService {
 
     deleteInscripcion(idInscripcion){
         return(
-            axios.delete(INSCRIPCION_DATABASE_REST_API_URL + "/" + idInscripcion, {
+            axios.delete(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol/" + idInscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
