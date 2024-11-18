@@ -17,7 +17,7 @@
     "sistema-universidad-upeu": "file:",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://JosueGabriel0.github.io/PROYECTO-INTEGRADOR-C5-G1",
+  "homepage": "https://JosueGabriel0.github.io/PROYECTO-INTEGRADOR-C5-G1/Frontend/sistema-universidad-upeu",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
