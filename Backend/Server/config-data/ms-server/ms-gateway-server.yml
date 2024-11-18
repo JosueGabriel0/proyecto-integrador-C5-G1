@@ -18,6 +18,7 @@ spring:
           '[/**]': # Aplicar la configuración a todas las rutas
             allowedOrigins:
               - "http://localhost:3000"  # Permitir tu frontend
+              - "https://true-cities-sniff.loca.lt/"
             allowedHeaders:
               - "*"  # Permitir todos los encabezados, incluyendo Authorization
             allowedMethods:
