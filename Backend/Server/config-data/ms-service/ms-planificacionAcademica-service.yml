@@ -1,7 +1,6 @@
 server:
   #port: 8089
-  #port: ${PORT:${SERVER_PORT:0}} #Local
-  port: 443  # Puerto HTTPS, para usar el dominio público y encriptación SSL.
+  port: ${PORT:${SERVER_PORT:0}} #Local
 
 springdoc:
   api-docs:
