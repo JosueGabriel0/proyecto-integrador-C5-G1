@@ -140,8 +140,9 @@ function AddUsuarioComponent(){
                 </div>
 
                 <div>
-                    <label>Disponible</label>
+                    <label>Disponible</label>....
                     <select required value={enabled} onChange={(e) => setEnabled(e.target.value === 'true')}>
+                        <option value={null}>Elija la Disponibilidad</option>
                         <option value={true}>Disponible</option>
                         <option value={false}>No disponible</option>
                     </select>

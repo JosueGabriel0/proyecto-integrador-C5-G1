@@ -87,7 +87,7 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
       slidingWindowType: TIME_BASED
-      minimumNumberOfCalls: 4
+      minimumNumberOfCalls: 20
       waitDurationInOpenState: 5s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
@@ -97,7 +97,7 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
       slidingWindowType: COUNT_BASED
-      minimumNumberOfCalls: 4
+      minimumNumberOfCalls: 20
       waitDurationInOpenState: 10s
       failureRateThreshold: 60
       eventConsumerBufferSize: 10
@@ -107,7 +107,7 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 15
       permittedNumberOfCallsInHalfOpenState: 2
       slidingWindowType: TIME_BASED
-      minimumNumberOfCalls: 5
+      minimumNumberOfCalls: 20
       waitDurationInOpenState: 8s
       failureRateThreshold: 70
       eventConsumerBufferSize: 20
@@ -117,7 +117,7 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 20
       permittedNumberOfCallsInHalfOpenState: 2
       slidingWindowType: COUNT_BASED
-      minimumNumberOfCalls: 6
+      minimumNumberOfCalls: 20
       waitDurationInOpenState: 12s
       failureRateThreshold: 50
       eventConsumerBufferSize: 15
@@ -127,7 +127,7 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
       slidingWindowType: TIME_BASED
-      minimumNumberOfCalls: 4
+      minimumNumberOfCalls: 20
       waitDurationInOpenState: 7s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10

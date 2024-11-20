@@ -532,36 +532,63 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
     @Override
     public Inscripcion editarInscripcionConRol(Long idInscripcion, Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
-        // Buscar la inscripción existente por ID
-        Optional<Inscripcion> inscripcionExistenteOpt = inscripcionesRepository.findById(idInscripcion);
-        if (!inscripcionExistenteOpt.isPresent()) {
-            throw new RuntimeException("Inscripción no encontrada para el ID: " + idInscripcion);
-        }
-        Inscripcion inscripcionExistente = inscripcionExistenteOpt.get();
+        final int maxRetries = 5;  // Número máximo de intentos
+        final int retryInterval = 2000;  // Intervalo de espera entre intentos (en milisegundos)
+
+        // Validar que la inscripción existe
+        Inscripcion inscripcionExistente = inscripcionesRepository.findById(idInscripcion)
+                .orElseThrow(() -> new RuntimeException("Inscripción no encontrada con ID: " + idInscripcion));
 
         try {
-            // 1. Actualizar el Rol
-            ResponseEntity<Rol> rolResponse = rolFeign.actualizarRolDto(inscripcionDTO.getRol().getIdRol(), inscripcionDTO.getRol());
-            if (rolResponse.getBody() == null || rolResponse.getBody().getIdRol() == null) {
-                throw new RuntimeException("No se pudo actualizar el Rol o el ID del Rol es nulo. Este es el body: "+inscripcionDTO);
+            // 1. Actualizar Rol
+            if (inscripcionDTO.getRol() != null && inscripcionDTO.getRol().getIdRol() != null) {
+                Long idRolActualizado = null;
+
+                for (int i = 0; i < maxRetries; i++) {
+                    ResponseEntity<Rol> rolResponse = rolFeign.actualizarRolDto(inscripcionExistente.getIdRol(), inscripcionDTO.getRol());
+                    if (rolResponse.getBody() != null && rolResponse.getBody().getIdRol() != null) {
+                        idRolActualizado = rolResponse.getBody().getIdRol();
+                        break;  // Salir del ciclo si se actualizó correctamente
+                    }
+                    try {
+                        Thread.sleep(retryInterval);  // Esperar antes de intentar nuevamente
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("El hilo fue interrumpido mientras esperaba para actualizar el Rol.", e);
+                    }
+                }
+
+                if (idRolActualizado == null) {
+                    throw new RuntimeException("No se pudo actualizar el Rol después de varios intentos.");
+                }
+
+                inscripcionExistente.setIdRol(idRolActualizado);
+                System.out.println("El id del rol actualizado es: " + idRolActualizado);
             }
-            Long idRolActualizado = rolResponse.getBody().getIdRol();
-            inscripcionExistente.setIdRol(idRolActualizado);
-            inscripcionDTO.getUsuario().setIdRol(idRolActualizado); // Asignar el Rol al Usuario
 
-            // 2. Actualizar el Usuario
-            ResponseEntity<?> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcionExistente.getIdUsuario(), inscripcionDTO.getUsuario());
-            if (usuarioResponse.getBody() == null || !usuarioResponse.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException("No se pudo actualizar el Usuario.");
+            // 2. Actualizar Usuario
+            if (inscripcionDTO.getUsuario() != null) {
+                inscripcionDTO.getUsuario().setIdRol(inscripcionExistente.getIdRol());
+                ResponseEntity<?> usuarioResponse = usuarioFeign.actualizarUsuarioDto(inscripcionExistente.getIdUsuario(), inscripcionDTO.getUsuario());
+                if (usuarioResponse.getBody() == null || !usuarioResponse.getStatusCode().is2xxSuccessful()) {
+                    throw new RuntimeException("No se pudo actualizar el Usuario.");
+                }
+                Usuario usuarioActualizado = objectMapper.convertValue(usuarioResponse.getBody(), Usuario.class);
+                inscripcionExistente.setIdUsuario(usuarioActualizado.getIdUsuario());
             }
-            Usuario usuarioActualizado = objectMapper.convertValue(usuarioResponse.getBody(), Usuario.class);
-            inscripcionExistente.setIdUsuario(usuarioActualizado.getIdUsuario());
 
-            // 3. Actualizar la Persona asociada
-            inscripcionDTO.getPersona().setIdUsuario(usuarioActualizado.getIdUsuario());
-            actualizarPersonaConFoto(inscripcionExistente.getIdPersona(), inscripcionDTO.getPersona(), fotoPerfil);
+            // 3. Actualizar Persona y Foto de Perfil
+            if (inscripcionDTO.getPersona() != null) {
+                inscripcionDTO.getPersona().setIdUsuario(inscripcionExistente.getIdUsuario());
+                if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+                    crearPersonaConFoto(inscripcionDTO.getPersona(), fotoPerfil);
+                } else {
+                    actualizarPersonaConFoto(inscripcionExistente.getIdPersona(), inscripcionDTO.getPersona(),fotoPerfil);
+                }
+                inscripcionExistente.setIdPersona(inscripcionDTO.getPersona().getId());
+            }
 
-            // 4. Actualizar según el tipo específico (Administrador, Administrativo, Estudiante, Docente)
+            // 4. Actualizar rol específico (Administrador, Administrativo, Estudiante o Docente)
             if (inscripcionDTO.getAdministrador() != null) {
                 Administrador administrador = inscripcionDTO.getAdministrador();
                 administrador.setIdPersona(inscripcionExistente.getIdPersona());
@@ -569,9 +596,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administradorResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Administrador.");
                 }
-                Administrador administradorActualizado = objectMapper.convertValue(administradorResponse.getBody(), Administrador.class);
-                inscripcionExistente.setIdAdministrador(administradorActualizado.getIdAdministrador());
-
             } else if (inscripcionDTO.getAdministrativo() != null) {
                 Administrativo administrativo = inscripcionDTO.getAdministrativo();
                 administrativo.setIdPersona(inscripcionExistente.getIdPersona());
@@ -579,9 +603,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (administrativoResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Administrativo.");
                 }
-                Administrativo administrativoActualizado = objectMapper.convertValue(administrativoResponse.getBody(), Administrativo.class);
-                inscripcionExistente.setIdAdministrativo(administrativoActualizado.getIdAdministrativo());
-
             } else if (inscripcionDTO.getEstudiante() != null) {
                 Estudiante estudiante = inscripcionDTO.getEstudiante();
                 estudiante.setIdPersona(inscripcionExistente.getIdPersona());
@@ -589,9 +610,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (estudianteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Estudiante.");
                 }
-                Estudiante estudianteActualizado = objectMapper.convertValue(estudianteResponse.getBody(), Estudiante.class);
-                inscripcionExistente.setIdEstudiante(estudianteActualizado.getIdEstudiante());
-
             } else if (inscripcionDTO.getDocente() != null) {
                 Docente docente = inscripcionDTO.getDocente();
                 docente.setIdPersona(inscripcionExistente.getIdPersona());
@@ -599,17 +617,10 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 if (docenteResponse.getBody() == null) {
                     throw new RuntimeException("No se pudo actualizar el Docente.");
                 }
-                Docente docenteActualizado = objectMapper.convertValue(docenteResponse.getBody(), Docente.class);
-                inscripcionExistente.setIdDocente(docenteActualizado.getIdDocente());
-
-            } else {
-                throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios.");
             }
 
-            // Actualizar otros campos de inscripción
-            inscripcionExistente.setInscripcionRol("Actualizado Con Rol");
-
-            // Guardar la inscripción actualizada
+            // 5. Actualizar los datos propios de la inscripción
+            inscripcionExistente.setInscripcionRol(inscripcionDTO.getInscripcionRol());
             inscripcionesRepository.save(inscripcionExistente);
 
         } catch (FeignException e) {
@@ -618,6 +629,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcionExistente;
     }
+
 
     @Override
     public void eliminarInscripcionConRol(Long id) {

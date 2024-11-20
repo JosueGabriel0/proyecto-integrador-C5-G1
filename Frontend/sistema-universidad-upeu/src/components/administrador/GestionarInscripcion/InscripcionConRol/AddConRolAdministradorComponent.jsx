@@ -303,6 +303,7 @@ function AddConRolAdministradorComponent() {
                 <div>
                     <label>Disponible</label>
                     <select required value={enabled} onChange={(e) => setEnabled(e.target.value === 'true')}>
+                        <option value={null}>Seleccione la Disponibilidad</option>
                         <option value={true}>Disponible</option>
                         <option value={false}>No disponible</option>
                     </select>

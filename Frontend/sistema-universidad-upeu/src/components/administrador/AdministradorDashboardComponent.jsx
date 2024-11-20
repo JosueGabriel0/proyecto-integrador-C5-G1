@@ -30,7 +30,10 @@ function AdministradorDashboardComponent() {
           overflow: "hidden",
         }}
       >
-        <Spline scene="https://prod.spline.design/MwtxV8UARi6sJ67B/scene.splinecode" />
+        {/*<Spline scene="https://prod.spline.design/MwtxV8UARi6sJ67B/scene.splinecode" />
+        <Spline scene="https://prod.spline.design/WyaY6g5euT7Rs7lf/scene.splinecode" />
+        */}
+        <Spline scene="https://prod.spline.design/qYVvRyxsQv9ZTLJD/scene.splinecode" />
       </div>
 
       {/* Contenido encima del fondo */}
