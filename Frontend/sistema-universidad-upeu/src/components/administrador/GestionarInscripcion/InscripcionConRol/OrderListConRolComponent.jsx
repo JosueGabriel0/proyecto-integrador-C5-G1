@@ -16,6 +16,9 @@ function OrderListConRolComponent(){
             &nbsp;
             &nbsp;
             <Link to="/list-inscripcionConRol-Estudiante">Inscripcion de Estudiante</Link>
+            &nbsp;
+            &nbsp;
+            <Link to="/list-personaNuevoRol">Inscripcion de Persona con un Nuevo Rol Asignando Permisos</Link>
         </div>
     )
 }

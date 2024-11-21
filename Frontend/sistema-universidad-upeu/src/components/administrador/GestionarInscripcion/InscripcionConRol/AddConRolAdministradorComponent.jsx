@@ -204,7 +204,7 @@ function AddConRolAdministradorComponent() {
             }
             )
         }
-    }, [])
+    }, [id])
 
     function title() {
         if (id) {

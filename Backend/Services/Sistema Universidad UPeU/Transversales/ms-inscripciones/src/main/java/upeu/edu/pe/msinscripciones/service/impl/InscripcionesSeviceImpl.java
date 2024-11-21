@@ -374,10 +374,12 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
         try {
             // 1. Intentar crear el Rol y obtener el ID con un ciclo de espera
             Long idRolCreado = null;
+            String nombreRolCreado = null;
             for (int i = 0; i < maxRetries; i++) {
                 ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
                 if (rolResponse.getBody() != null && rolResponse.getBody().getIdRol() != null) {
                     idRolCreado = rolResponse.getBody().getIdRol();
+                    nombreRolCreado = rolResponse.getBody().getNombreRol();
                     break;  // Si el rol se creó correctamente, salir del ciclo
                 }
                 try {
@@ -467,6 +469,8 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 Docente docenteCreado = objectMapper.convertValue(docenteResponse.getBody(), Docente.class);
                 inscripcion.setIdDocente(docenteCreado.getIdDocente());
 
+            } else if (inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null && inscripcionDTO.getEstudiante() == null){
+                System.out.println("Se creo una persona con el nuevo Rol: "+nombreRolCreado);
             } else {
                 throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios.");
             }

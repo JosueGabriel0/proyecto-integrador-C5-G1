@@ -35,6 +35,8 @@ import AddConRolAdministradorComponent from './components/administrador/Gestiona
 import AddConRolAdministrativoComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolAdministrativoComponent';
 import AddConRolDocenteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolDocenteComponent';
 import AddConRolEstudianteComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddConRolEstudianteComponent';
+import AddPersonaNuevoRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/AddPersonaNuevoRolComponent';
+import ListPersonaNuevoRolComponent from './components/administrador/GestionarInscripcion/InscripcionConRol/ListPersonaNuevoRolComponent';
 
 const App = () => {
   return (
@@ -283,6 +285,15 @@ const App = () => {
           />
 
           <Route
+            path='/list-personaNuevoRol'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <ListPersonaNuevoRolComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
             path='/add-inscripcionConRol-administrador'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
@@ -319,6 +330,15 @@ const App = () => {
           />
 
           <Route
+            path='/add-personaNuevoRol'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddPersonaNuevoRolComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
             path='/edit-inscripcionConRol-administrador/:id'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
@@ -350,6 +370,15 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <AddConRolEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/edit-PersonaNuevoRol/:id'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AddPersonaNuevoRolComponent />
               </GeneralProtectedRouteComponent>
             }
           />

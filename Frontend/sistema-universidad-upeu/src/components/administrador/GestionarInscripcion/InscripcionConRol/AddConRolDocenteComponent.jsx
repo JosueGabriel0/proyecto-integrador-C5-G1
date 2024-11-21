@@ -253,7 +253,7 @@ function AddConRolDocenteComponent() {
             }
             )
         }
-    }, [])
+    }, [id])
 
     function title() {
         if (id) {
