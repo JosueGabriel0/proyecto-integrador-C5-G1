@@ -3,7 +3,7 @@ import { getToken } from "../../authServices/authService";
 
 const INSCRIPCION_DATABASE_REST_API_URL = `${process.env.REACT_APP_API_BASE_URL}/inscripcion`;
 
-class InscripcionConRolAdminService {
+class InscripcionAdminService {
 
     getAllInscripciones(){
         return(
@@ -27,7 +27,7 @@ class InscripcionConRolAdminService {
 
     postInscripcion(inscripcion){
         return(
-            axios.post(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol", inscripcion, {
+            axios.post(INSCRIPCION_DATABASE_REST_API_URL, inscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -37,7 +37,7 @@ class InscripcionConRolAdminService {
 
     putInscripcion(idInscripcion, inscripcion){
         return(
-            axios.put(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol/" + idInscripcion, inscripcion, {
+            axios.put(INSCRIPCION_DATABASE_REST_API_URL + "/" + idInscripcion, inscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -47,7 +47,7 @@ class InscripcionConRolAdminService {
 
     deleteInscripcion(idInscripcion){
         return(
-            axios.delete(INSCRIPCION_DATABASE_REST_API_URL + "/con-rol/" + idInscripcion, {
+            axios.delete(INSCRIPCION_DATABASE_REST_API_URL + "/" + idInscripcion, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -56,4 +56,4 @@ class InscripcionConRolAdminService {
     }
 }
 
-export default new InscripcionConRolAdminService();
+export default new InscripcionAdminService();

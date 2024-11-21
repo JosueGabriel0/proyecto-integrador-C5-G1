@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionConRolAdminService";
+import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import { Link } from "react-router-dom";
 import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
 import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
