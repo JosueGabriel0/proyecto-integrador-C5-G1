@@ -44,7 +44,7 @@ public class Estudiante {
     private String horario;
 
     private String consejeroAcademico;
-    private String fechaGraduacion;
+    private LocalDate fechaGraduacion;
 
     @ElementCollection
     @CollectionTable(name = "practicas_realizadas", joinColumns = @JoinColumn(name = "estudiante_id"))

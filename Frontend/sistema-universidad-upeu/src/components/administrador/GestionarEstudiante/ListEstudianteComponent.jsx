@@ -112,7 +112,7 @@ function ListEstudianteComponent() {
 
                                 <td>
                                     <Link to={`/edit-estudiante/${estudiante.idEstudiante}`}>Actualizar</Link>
-                                    <button onClick={() => borrarEstudiante(estudiante.idEstudiante)}>Borrar</button>
+                                    <button onClick={() => borrarEstudiante(estudiante.idEstudiante)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))

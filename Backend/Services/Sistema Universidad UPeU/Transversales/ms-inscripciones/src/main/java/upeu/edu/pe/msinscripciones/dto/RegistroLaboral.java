@@ -16,4 +16,7 @@ public class RegistroLaboral {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String descripcion;  // Descripción del rol o actividades realizadas
+
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaModificacion;
 }

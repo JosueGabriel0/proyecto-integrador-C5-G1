@@ -39,7 +39,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante1.setAsignaturasMatriculadas(Arrays.asList("Matemáticas", "Programación"));
             estudiante1.setHorario("Lunes a Viernes 8am - 2pm");
             estudiante1.setConsejeroAcademico("Prof. Juan Pérez");
-            estudiante1.setFechaGraduacion("2028-12-01");
+            estudiante1.setFechaGraduacion(LocalDate.of(2028, 12, 1));
             estudiante1.setPracticasRealizadas(Arrays.asList("Práctica 1", "Práctica 2"));
             estudiante1.setHistorialAcademico(createHistorialAcademico(estudiante1));
             estudiante1.setIdPersona(4L);
@@ -58,7 +58,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setAsignaturasMatriculadas(Arrays.asList("Química", "Física"));
             estudiante2.setHorario("Lunes a Viernes 9am - 3pm");
             estudiante2.setConsejeroAcademico("Prof. María López");
-            estudiante2.setFechaGraduacion("2028-12-01");
+            estudiante2.setFechaGraduacion(LocalDate.of(2028, 12, 1));
             estudiante2.setPracticasRealizadas(Arrays.asList("Práctica 3"));
             estudiante2.setHistorialAcademico(createHistorialAcademico(estudiante2));
             estudiante2.setIdPersona(5L);

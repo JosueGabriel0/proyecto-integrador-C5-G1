@@ -13,8 +13,26 @@ function ListConRolAdministradorComponent() {
 
     function listarInscripcionesConRolAdministrador() {
         InscripcionConRolAdminService.getAllInscripciones().then(response => {
-            setInscripciones(response.data);
-            console.log(response.data);
+            const inscripciones = response.data;
+
+            if (inscripciones && inscripciones.length > 0) {
+                const inscripcionesConAdministrador = inscripciones.filter(
+                    (inscripcionVerificar) =>
+                        inscripcionVerificar.administrador &&
+                        inscripcionVerificar.administrador.idAdministrador
+                );
+
+                if (inscripcionesConAdministrador.length > 0) {
+                    setInscripciones(inscripcionesConAdministrador);
+                    console.log(inscripcionesConAdministrador);
+                } else {
+                    setInscripciones([]);
+                    console.log("No hay inscripciones de Administradores");
+                }
+            } else {
+                setInscripciones([]);
+                console.log("No hay inscripciones");
+            }
         }).catch(error => {
             console.log(error);
         })
@@ -132,7 +150,7 @@ function ListConRolAdministradorComponent() {
     return (
         <div className="container">
             <Link to="/inscripcionesConRol">Retroceder</Link>
-            <h2>Lista de Inscripciones Con Rol</h2>
+            <h2>Lista de Inscripciones Con Rol de Administradores</h2>
             <Link to="/add-inscripcionConRol-administrador">Agregar</Link>
             <table>
                 <thead>
@@ -305,7 +323,7 @@ function ListConRolAdministradorComponent() {
                         )
                     ) : (
                         <tr>
-                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones</td>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Administradores</td>
                         </tr>
                     )}
                 </tbody>

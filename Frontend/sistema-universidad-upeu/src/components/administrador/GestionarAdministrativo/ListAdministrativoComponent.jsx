@@ -59,6 +59,8 @@ function ListAdministrativoComponent() {
                     <th>Solicitudes Pendientes</th>
                     <th>Fecha de Solicitud</th>
                     <th>Persona</th>
+                    <th>Fecha de Creacion del Administrativo</th>
+                    <th>Fecha de Modificacion del Administrativo</th>
                     <th>Acciones</th>
                 </thead>
                 <tbody>
@@ -75,9 +77,11 @@ function ListAdministrativoComponent() {
                                 <td>{administrativo.solicitudesPendientes}</td>
                                 <td>{administrativo.fechaSolicitud}</td>
                                 <td>{obtenerNombrePersona(administrativo.idPersona)}</td>
+                                <td>{administrativo.fechaCreacionAministrativo}</td>
+                                <td>{administrativo.fechaModificacionAministrativo}</td>
                                 <td>
                                     <Link to={`/edit-administrativo/${administrativo.idAdministrativo}`}>Actualizar</Link>
-                                    <button onClick={() => borrarAdministrativo(administrativo.idAdministrativo)}>Borrar</button>
+                                    <button onClick={() => borrarAdministrativo(administrativo.idAdministrativo)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))

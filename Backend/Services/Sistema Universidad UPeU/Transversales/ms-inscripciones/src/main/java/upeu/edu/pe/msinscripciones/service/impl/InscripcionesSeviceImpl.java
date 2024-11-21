@@ -620,7 +620,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
             }
 
             // 5. Actualizar los datos propios de la inscripción
-            inscripcionExistente.setInscripcionRol(inscripcionDTO.getInscripcionRol());
+            inscripcionExistente.setInscripcionRol("Con Rol");
             inscripcionesRepository.save(inscripcionExistente);
 
         } catch (FeignException e) {

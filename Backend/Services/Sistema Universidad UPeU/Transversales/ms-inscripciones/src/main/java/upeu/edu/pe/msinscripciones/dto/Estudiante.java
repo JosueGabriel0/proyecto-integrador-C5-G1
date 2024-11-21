@@ -31,7 +31,7 @@ public class Estudiante {
     private String horario;
 
     private String consejeroAcademico;
-    private String fechaGraduacion;
+    private LocalDate fechaGraduacion;
 
     private List<String> practicasRealizadas = new ArrayList<String>();
 

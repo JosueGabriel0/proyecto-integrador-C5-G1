@@ -53,43 +53,6 @@ function AddDocenteComponent() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const estadosLaborales = ["ACTIVO",
-        "INACTIVO",
-        "LICENCIA",
-        "JUBILADO",
-        "BAJA_TEMPORAL",
-        "BAJA_PERMANENTE"]
-
-    const tiposDocentes = ["TIEMPO_COMPLETO",
-        "MEDIO_TIEMPO",
-        "VISITANTE",
-        "ADJUNTO",
-        "TITULAR",
-        "EMERITO"]
-
-    function listarPersonas() {
-        PersonaAdminService.getAllPersonas().then(response => {
-            setPersonas(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    function listarCursos() {
-        CursoAdminService.getAllCursos().then(response => {
-            setCursosService(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    function obtenerNombreCurso(idCurso){
-        const cursoEncontrado = cursosService.find(cursoService => cursoService.idCurso === idCurso);
-        return cursoEncontrado? cursoEncontrado.nombre : "Desconocido";
-    }
-
     function saveOrUpdateDocente(e) {
         e.preventDefault();
         const docente = {
@@ -148,17 +111,6 @@ function AddDocenteComponent() {
         }
     }, [id])
 
-    function agregarCursoImpartido() {
-        if (nuevoCursoImpartido.trim() !== '') {
-            setCursosImpartidos([...cursosImpartidos, nuevoCursoImpartido]);
-            setNuevoCursoImpartido('');
-        }
-    }
-
-    function eliminarCursoImpartido(index) {
-        setCursosImpartidos(cursosImpartidos.filter((_, i) => i !== index));
-    }
-
     function title() {
         if (id) {
             return <div>Actualizar Docente</div>
@@ -173,6 +125,54 @@ function AddDocenteComponent() {
         } else {
             return <div>Agregar</div>
         }
+    }
+
+    const estadosLaborales = ["ACTIVO",
+        "INACTIVO",
+        "LICENCIA",
+        "JUBILADO",
+        "BAJA_TEMPORAL",
+        "BAJA_PERMANENTE"]
+
+    const tiposDocentes = ["TIEMPO_COMPLETO",
+        "MEDIO_TIEMPO",
+        "VISITANTE",
+        "ADJUNTO",
+        "TITULAR",
+        "EMERITO"]
+
+    function listarPersonas() {
+        PersonaAdminService.getAllPersonas().then(response => {
+            setPersonas(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function listarCursos() {
+        CursoAdminService.getAllCursos().then(response => {
+            setCursosService(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function obtenerNombreCurso(idCurso) {
+        const cursoEncontrado = cursosService.find(cursoService => cursoService.idCurso === idCurso);
+        return cursoEncontrado ? cursoEncontrado.nombre : "Desconocido";
+    }
+
+    function agregarCursoImpartido() {
+        if (nuevoCursoImpartido.trim() !== '') {
+            setCursosImpartidos([...cursosImpartidos, nuevoCursoImpartido]);
+            setNuevoCursoImpartido('');
+        }
+    }
+
+    function eliminarCursoImpartido(index) {
+        setCursosImpartidos(cursosImpartidos.filter((_, i) => i !== index));
     }
 
     function agregarRegistro() {

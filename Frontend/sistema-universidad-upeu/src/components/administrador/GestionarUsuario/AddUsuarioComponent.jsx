@@ -159,21 +159,6 @@ function AddUsuarioComponent(){
                         ))}
                     </select>
                 </div>
-
-                <div>
-                    <label>Ultimo Login</label>
-                    <input required type="text" placeholder="Inserte el ultimo login" name="ultimoLogin" value={ultimoLogin} onChange={(e) => setUltimoLogin(e.target.value)}/>
-                </div>
-
-                <div>
-                    <label htmlFor="">Token de Recuperacion</label>
-                    <input required type="text" placeholder="Inserte el token de recuperacion" name="tokenRecuperacion" value={tokenRecuperacion} onChange={(e) => setTokenRecuperacion(e.target.value)}/>
-                </div>
-
-                <div>
-                    <label htmlFor="">Expiracion del Token de Recuperacion</label>
-                    <input required type="text" placeholder="Inserte la expiracion del token de recuperacion" name="tokenRecuperacionExpiracion" value={tokenRecuperacionExpiracion} onChange={(e) => setTokenRecuperacionExpiracion(e.target.value)}/>
-                </div>
                 
                 <button onClick={(e) => saveOrUpdateUsuario(e)}>{botonAgregarOActualizar()}</button>
                 &nbsp;

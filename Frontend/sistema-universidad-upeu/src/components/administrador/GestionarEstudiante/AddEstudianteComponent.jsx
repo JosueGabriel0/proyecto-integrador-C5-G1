@@ -36,38 +36,8 @@ function AddEstudianteComponent() {
     const [carreras, setCarreras] = useState([]);
     const [cursos, setCursos] = useState([]);
 
-    // Agregar una lista de estados posibles
-    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO"]; // Correspondientes a tu enum
-
     const { id } = useParams();
     const navigate = useNavigate();
-
-    function listarPersonas(){
-        PersonaAdminService.getAllPersonas().then(response => {
-            setPersonas(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    function listarCarreras(){
-        CarreraAdminService.getAllCarreras().then(response => {
-            setCarreras(response.data);
-            console.log(response.data)
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    function listarCursos(){
-        CursoAdminService.getAllCursos().then(response => {
-            setCursos(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
 
     function saveOrUpdateEstudiante(e) {
         e.preventDefault();
@@ -135,6 +105,36 @@ function AddEstudianteComponent() {
             })
         }
     }, [id])
+
+    // Agregar una lista de estados posibles
+    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO"]; // Correspondientes a tu enum
+
+    function listarPersonas() {
+        PersonaAdminService.getAllPersonas().then(response => {
+            setPersonas(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function listarCarreras() {
+        CarreraAdminService.getAllCarreras().then(response => {
+            setCarreras(response.data);
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    function listarCursos() {
+        CursoAdminService.getAllCursos().then(response => {
+            setCursos(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
 
     // Agrega una nueva carrera a la lista
     const agregarCarrera = () => {
@@ -327,7 +327,7 @@ function AddEstudianteComponent() {
 
                 <div>
                     <label>Fecha de Graduacion</label>
-                    <input type="text" placeholder="Ingrese la fecha de graduacion" name="fechaGraduacion" value={fechaGraduacion} onChange={(e) => setFechaGraduacion(e.target.value)} />
+                    <input type="date" placeholder="Ingrese la fecha de graduacion" name="fechaGraduacion" value={fechaGraduacion} onChange={(e) => setFechaGraduacion(e.target.value)} />
                 </div>
 
                 <div>
