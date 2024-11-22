@@ -1,4 +1,4 @@
-package upeu.edu.pe.msrealtimechat.config;
+package upeu.edu.pe.ms_realTimeChat.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +7,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import upeu.edu.pe.msrealtimechat.chat.ChatMessage;
-import upeu.edu.pe.msrealtimechat.chat.MessageType;
+import upeu.edu.pe.ms_realTimeChat.chat.ChatMessage;
+import upeu.edu.pe.ms_realTimeChat.chat.MessageType;
 
 @Component
 @Slf4j

@@ -1,4 +1,4 @@
-package upeu.edu.pe.msrealtimechat.chat;
+package upeu.edu.pe.ms_realTimeChat.chat;
 
 public enum MessageType {
 

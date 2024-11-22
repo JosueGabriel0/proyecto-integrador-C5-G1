@@ -1,4 +1,4 @@
-package upeu.edu.pe.msrealtimechat.config;
+package upeu.edu.pe.ms_realTimeChat.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
