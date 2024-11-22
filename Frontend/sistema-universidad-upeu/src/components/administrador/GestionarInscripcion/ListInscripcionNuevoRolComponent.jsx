@@ -1,46 +1,52 @@
 import React, { useEffect, useState } from "react";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import { Link } from "react-router-dom";
-import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
-import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
-import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
-function ListConRolAdministrativoComponent(data) {
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
+import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
+import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+function ListInscripcionNuevoRolComponent() {
     const [inscripciones, setInscripciones] = useState([]);
 
     const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [personas, setPersonas] = useState([]);
 
-    function listarInscripcionesConRolAdministrativo() {
-        InscripcionConRolAdminService.getAllInscripciones().then(response => {
-            const inscripciones = response.data;
+    function listarInscripcionPersonaConNuevoRol() {
+        InscripcionConRolAdminService.getAllInscripciones()
+            .then(response => {
+                // Filtramos las inscripciones que tienen los campos de rol como null
+                const inscripcionesFiltradas = response.data.filter(inscripcion => {
+                    return inscripcion.administrador === null &&
+                        inscripcion.administrativo === null &&
+                        inscripcion.estudiante === null &&
+                        inscripcion.docente === null;
+                });
 
-            if (inscripciones && inscripciones.length > 0) {
-                const inscripcionesConAdministrativo = inscripciones.filter(
-                    (inscripcionVerificar) =>
-                        inscripcionVerificar.administrativo &&
-                        inscripcionVerificar.administrativo.idAdministrativo
-                );
-
-                if (inscripcionesConAdministrativo.length > 0) {
-                    setInscripciones(inscripcionesConAdministrativo);
-                    console.log(inscripcionesConAdministrativo);
+                // Verificar si no hay inscripciones de ningún tipo
+                if (inscripcionesFiltradas.length === 0) {
+                    // Si no hay inscripciones con todos los roles como null
+                    if (response.data.length === 0) {
+                        console.log("No hay inscripciones");
+                        setInscripciones([]);
+                    } else {
+                        // Si hay inscripciones pero no con todos los roles como null
+                        console.log("No hay inscripciones del tipo persona con nuevo rol");
+                        setInscripciones([]);
+                    }
                 } else {
-                    setInscripciones([]);
-                    console.log("No hay inscripciones de Administrativos");
+                    // Si hay inscripciones filtradas, actualizamos el estado
+                    setInscripciones(inscripcionesFiltradas);
+                    console.log(inscripcionesFiltradas); // Verifica los datos filtrados
                 }
-            } else {
-                setInscripciones([]);
-                console.log("No hay inscripciones");
-            }
-        }).catch(error => {
-            console.log(error);
-        })
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
-    function borrarInscripcionesConRolAdministrativo(idInscripcion) {
+    function borrarInscripcionPersonaConNuevoRol(idInscripcion) {
         InscripcionConRolAdminService.deleteInscripcion(idInscripcion).then(response => {
-            listarInscripcionesConRolAdministrativo();
+            listarInscripcionPersonaConNuevoRol();
             console.log(response.data)
         }).catch(error => {
             console.log(error);
@@ -87,18 +93,13 @@ function ListConRolAdministrativoComponent(data) {
         setPersonas(personasConImagenes);
     }
 
-    function obtenerNombrePersona(idPersona) {
-        const personaEncontrada = personas.find(persona => persona.id === idPersona);
-        return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
-    }
-
     function obtenerImagenPersona(idPersona) {
         const personaEncontrada = personas.find((persona) => persona.id === idPersona);
         return personaEncontrada && personaEncontrada.imagenUrl ? personaEncontrada.imagenUrl : null;
     }
 
     useEffect(() => {
-        listarInscripcionesConRolAdministrativo();
+        listarInscripcionPersonaConNuevoRol();
         listarRoles();
         listarUsuarios();
         listarPersonas();
@@ -149,9 +150,9 @@ function ListConRolAdministrativoComponent(data) {
 
     return (
         <div className="container">
-            <Link to="/inscripcionesConRol">Retroceder</Link>
-            <h2>Lista de Inscripciones Con Rol de Administrativos</h2>
-            <Link to="/add-inscripcionConRol-administrativo">Agregar</Link>
+            <Link to="/inscripciones">Retroceder</Link>
+            <h2>Lista de Inscripciones de Personas Con Nuevo Rol</h2>
+            <Link to="/add-inscripcion-nuevo-rol">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -159,7 +160,6 @@ function ListConRolAdministrativoComponent(data) {
                         <th colSpan="5">Datos de Rol</th>
                         <th colSpan="11">Datos de Usuario</th>
                         <th colSpan="29">Datos de Persona</th>
-                        <th colSpan="12">Datos de Administrativo</th>
                         <th colSpan="1">Acciones</th>
                     </tr>
                     <tr>
@@ -215,19 +215,6 @@ function ListConRolAdministrativoComponent(data) {
                         <th>Usuario</th>
                         <th>Fecha de Creacion de la Persona</th>
                         <th>Fecha de Modificacion de la Persona</th>
-
-                        <th>ID del Administrativo</th>
-                        <th>Registro de Pagos</th>
-                        <th>Monto Total Pagos</th>
-                        <th>Fecha de Ultimo Pago</th>
-                        <th>Gestion de Empleados</th>
-                        <th>Fecha de Contratacion</th>
-                        <th>Cargo de Empleado</th>
-                        <th>Solicitudes Pendientes</th>
-                        <th>Fecha de Solicitud</th>
-                        <th>Persona</th>
-                        <th>Fecha de Creacion del Administrativo</th>
-                        <th>Fecha de Modificacion del Administrativo</th>
 
                         <th>Acciones</th>
 
@@ -302,21 +289,9 @@ function ListConRolAdministrativoComponent(data) {
                                     <td>{inscripcion.persona.fechaCreacionPersona}</td>
                                     <td>{inscripcion.persona.fechaModificacionPersona}</td>
 
-                                    <td>{inscripcion.administrativo.idAdministrativo}</td>
-                                    <td>{inscripcion.administrativo.registroPagos}</td>
-                                    <td>{inscripcion.administrativo.montoTotalPagos}</td>
-                                    <td>{inscripcion.administrativo.fechaUltimoPago}</td>
-                                    <td>{inscripcion.administrativo.gestionEmpleados}</td>
-                                    <td>{inscripcion.administrativo.fechaContratacion}</td>
-                                    <td>{inscripcion.administrativo.cargoEmpleado}</td>
-                                    <td>{inscripcion.administrativo.solicitudesPendientes}</td>
-                                    <td>{inscripcion.administrativo.fechaSolicitud}</td>
-                                    <td>{obtenerNombrePersona(inscripcion.administrativo.idPersona)}</td>
-                                    <td>{inscripcion.administrativo.fechaCreacionAministrativo}</td>
-                                    <td>{inscripcion.administrativo.fechaModificacionAministrativo}</td>
                                     <td>
-                                        <Link to={`/edit-inscripcionConRol-administrativo/${inscripcion.idInscripcion}`}>Actualizar</Link>
-                                        <button onClick={(e) => borrarInscripcionesConRolAdministrativo(inscripcion.idInscripcion)}>Eliminar</button>
+                                        <Link to={`/edit-inscripcion-nuevo-rol/${inscripcion.idInscripcion}`}>Actualizar</Link>
+                                        <button onClick={(e) => borrarInscripcionPersonaConNuevoRol(inscripcion.idInscripcion)}>Eliminar</button>
                                     </td>
 
                                 </tr>
@@ -324,7 +299,7 @@ function ListConRolAdministrativoComponent(data) {
                         )
                     ) : (
                         <tr>
-                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Administrativos</td>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Personas Con Nuevo Rol</td>
                         </tr>
                     )}
                 </tbody>
@@ -334,4 +309,4 @@ function ListConRolAdministrativoComponent(data) {
     )
 }
 
-export default ListConRolAdministrativoComponent;
+export default ListInscripcionNuevoRolComponent;

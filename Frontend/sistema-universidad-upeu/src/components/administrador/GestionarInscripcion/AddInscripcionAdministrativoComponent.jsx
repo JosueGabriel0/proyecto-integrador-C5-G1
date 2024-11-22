@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 
-function AddConRolAdministradorComponent() {
+function AddInscripcionAdministrativoComponent() {
 
     const [nombreRol, setNombreRol] = useState("");
     const [description, setDescription] = useState("");
@@ -41,13 +41,14 @@ function AddConRolAdministradorComponent() {
     const [contactoEmergenciaCiudad, setContactoEmergenciaCiudad] = useState("");
     const [contactoEmergenciaParentesco, setContactoEmergenciaParentesco] = useState("");
 
-    const [actividadReciente, setActividadReciente] = useState("");
-    const [fechaActividad, setFechaActividad] = useState("");
-    const [estadoSistema, setEstadoSistema] = useState("");
-    const [fechaUltimaRevision, setFechaUltimaRevision] = useState("");
-    const [permisosEspeciales, setPermisosEspeciales] = useState("");
-    const [logsAcceso, setLogsAcceso] = useState("");
-    const [cambiosConfiguracion, setCambiosConfiguracion] = useState("");
+    const [registroPagos, setRegistroPagos] = useState("");
+    const [montoTotalPagos, setMontoTotalPagos] = useState("");
+    const [fechaUltimoPago, setFechaUltimoPago] = useState("");
+    const [gestionEmpleados, setGestionEmpleados] = useState("");
+    const [fechaContratacion, setFechaContratacion] = useState("");
+    const [cargoEmpleado, setCargoEmpleado] = useState("");
+    const [solicitudesPendientes, setSolicitudesPendientes] = useState("");
+    const [fechaSolicitud, setFechaSolicitud] = useState("");
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -94,14 +95,15 @@ function AddConRolAdministradorComponent() {
                 contactoEmergenciaCiudad,
                 contactoEmergenciaParentesco
             },
-            administrador: {
-                actividadReciente,
-                fechaActividad,
-                estadoSistema,
-                fechaUltimaRevision,
-                permisosEspeciales,
-                logsAcceso,
-                cambiosConfiguracion
+            administrativo: {
+                registroPagos,
+                montoTotalPagos,
+                fechaUltimoPago,
+                gestionEmpleados,
+                fechaContratacion,
+                cargoEmpleado,
+                solicitudesPendientes,
+                fechaSolicitud
             }
         };
 
@@ -140,7 +142,7 @@ function AddConRolAdministradorComponent() {
             try {
                 const response = await InscripcionConRolAdminService.putInscripcion(id, formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-administrador");
+                navigate("/list-inscripcion-administrativo");
             } catch (error) {
                 console.error(error);
             }
@@ -148,7 +150,7 @@ function AddConRolAdministradorComponent() {
             try {
                 const response = await InscripcionConRolAdminService.postInscripcion(formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-administrador");
+                navigate("/list-inscripcion-administrativo");
             } catch (error) {
                 console.error(error);
             }
@@ -195,12 +197,14 @@ function AddConRolAdministradorComponent() {
                 setContactoEmergenciaCiudad(response.data.persona.contactoEmergenciaCiudad);
                 setContactoEmergenciaParentesco(response.data.persona.contactoEmergenciaParentesco);
 
-                setActividadReciente(response.data.administrador.actividadReciente);
-                setEstadoSistema(response.data.administrador.estadoSistema);
-                setFechaUltimaRevision(response.data.administrador.fechaUltimaRevision);
-                setPermisosEspeciales(response.data.administrador.permisosEspeciales);
-                setLogsAcceso(response.data.administrador.logsAcceso);
-                setCambiosConfiguracion(response.data.administrador.cambiosConfiguracion);
+                setRegistroPagos(response.data.administrativo.registroPagos);
+                setMontoTotalPagos(response.data.administrativo.montoTotalPagos);
+                setFechaUltimoPago(response.data.administrativo.fechaUltimoPago);
+                setGestionEmpleados(response.data.administrativo.gestionEmpleados);
+                setFechaContratacion(response.data.administrativo.fechaContratacion);
+                setCargoEmpleado(response.data.administrativo.cargoEmpleado);
+                setSolicitudesPendientes(response.data.administrativo.solicitudesPendientes);
+                setFechaSolicitud(response.data.administrativo.fechaSolicitud);
             }
             )
         }
@@ -209,11 +213,11 @@ function AddConRolAdministradorComponent() {
     function title() {
         if (id) {
             return (
-                <div>Actualizar Inscripcion Con Rol de Administrador</div>
+                <div>Actualizar Inscripcion Con Rol de Administrativo</div>
             )
         } else {
             return (
-                <div>Agregar Inscripcion Con Rol de Administrador</div>
+                <div>Agregar Inscripcion Con Rol de Administrativo</div>
             )
         }
     }
@@ -254,6 +258,26 @@ function AddConRolAdministradorComponent() {
                 </button>
             </div>
         );
+    }
+
+    {/*Funciones para inputs de Administrativo*/ }
+    
+    // Función para evitar la entrada de caracteres no válidos como letras
+    function preventInvalidInput(e) {
+        if (["e", "E", "+", "-"].includes(e.key)) {
+            e.preventDefault();
+        }
+    }
+
+    // Función para manejar el cambio de valor, asegurando solo 2 decimales
+    function handleMontoTotalPagosChange(e) {
+        const value = e.target.value;
+        const regex = /^\d*(\.\d{0,2})?$/;
+
+        // Solo permite números con hasta 2 decimales
+        if (regex.test(value)) {
+            setMontoTotalPagos(value);
+        }
     }
 
     return (
@@ -533,51 +557,65 @@ function AddConRolAdministradorComponent() {
                 </div>
 
 
-                {/*Administrador*/}
+                {/*Administrativo*/}
                 <div>
-                    <label>Actividad Reciente</label>
-                    <input type="text" placeholder="Ingrese la actividad reciente" name="actividadReciente" value={actividadReciente} onChange={(e) => setActividadReciente(e.target.value)} />
+                    <label>Registro de Pagos</label>
+                    <input type="text" placeholder="Ingrese el Registro de Pagos" name="registroPagos" value={registroPagos} onChange={(e) => setRegistroPagos(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Fecha Actividad</label>
-                    <input type="date" placeholder="Ingrese la Fecha de Actividad" name="fechaActividad" value={fechaActividad} onChange={(e) => setFechaActividad(e.target.value)} />
+                    <label>Monto Total de Pagos</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        placeholder="Ingrese el Monto Total de Pagos"
+                        name="montoTotalPagos"
+                        value={montoTotalPagos}
+                        onChange={(e) => handleMontoTotalPagosChange(e)}
+                        onKeyDown={(e) => preventInvalidInput(e)}
+                    />
                 </div>
 
                 <div>
-                    <label>Estado Sistema</label>
-                    <input type="text" placeholder="Ingrese el estado del Sistema" name="estadoSistema" value={estadoSistema} onChange={(e) => setEstadoSistema(e.target.value)} />
+                    <label>Fecha de Ultimo Pago</label>
+                    <input type="date" placeholder="Ingrese la fecha de Ultimo Pago" name="fechaUltimoPago" value={fechaUltimoPago} onChange={(e) => setFechaUltimoPago(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Fecha Ultima Revision</label>
-                    <input type="date" placeholder="Ingrese la Fecha de Ultima Revision" name="fechaUltimaRevision" value={fechaUltimaRevision} onChange={(e) => setFechaUltimaRevision(e.target.value)} />
+                    <label>Gestion de Empleados</label>
+                    <input type="text" placeholder="Ingrese la Gestion de Empleados" name="gestionEmpleados" value={gestionEmpleados} onChange={(e) => setGestionEmpleados(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Permisos Especiales</label>
-                    <input type="text" placeholder="Ingrese los Permisos Especiales" name="permisosEspeciales" value={permisosEspeciales} onChange={(e) => setPermisosEspeciales(e.target.value)} />
+                    <label>Fecha de Contratacion</label>
+                    <input type="date" placeholder="Ingrese la fecha de contratacion" name="fechaContratacion" value={fechaContratacion} onChange={(e) => setFechaContratacion(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Logs de Accesos</label>
-                    <input type="text" placeholder="Ingrese los Logs de Accesos" name="logsAcceso" value={logsAcceso} onChange={(e) => setLogsAcceso(e.target.value)} />
+                    <label>Cargo de Empleado</label>
+                    <input type="text" placeholder="Ingrese el Cargo de Empleado" name="cargoEmpleado" value={cargoEmpleado} onChange={(e) => setCargoEmpleado(e.target.value)} />
                 </div>
 
                 <div>
-                    <label>Cambios de Configuracion</label>
-                    <input type="text" placeholder="Ingrese los cambios de Configuracion" name="cambiosConfiguracion" value={cambiosConfiguracion} onChange={(e) => setCambiosConfiguracion(e.target.value)} />
+                    <label>Solicitudes Pendientes</label>
+                    <input type="text" placeholder="Ingrese las Solicitudes Pendientes" name="solicitudesPendientes" value={solicitudesPendientes} onChange={(e) => setSolicitudesPendientes(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha Solicitud</label>
+                    <input type="date" placeholder="Ingrese la Fecha de Solicitud" name="fechaSolicitud" value={fechaSolicitud} onChange={(e) => setFechaSolicitud(e.target.value)} />
                 </div>
 
                 <div>
                     <button onClick={(e) => saveOrUpdateInscripcion(e)}>{botonAgregarOActualizar()}</button>
                     &nbsp;
                     &nbsp;
-                    <Link to="/list-inscripcionConRol-administrador">Cancelar</Link>
+                    <Link to="/list-inscripcion-administrativo">Cancelar</Link>
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddConRolAdministradorComponent;
+export default AddInscripcionAdministrativoComponent;

@@ -72,8 +72,7 @@ function AdministradorDashboardComponent() {
         {/* Acciones rápidas */}
         <section style={{ marginTop: "20px" }}>
           <h2>Acciones rápidas</h2>
-          <Link to="/inscripcionesConRol">Inscripciones Con Rol</Link>&nbsp;&nbsp;
-          <Link to="/roles">Inscripciones Con Asignación de Rol</Link>&nbsp;&nbsp;
+          <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
           <Link to="/roles">Roles</Link>&nbsp;&nbsp;
           <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
           <Link to="/personas">Personas</Link>&nbsp;&nbsp;

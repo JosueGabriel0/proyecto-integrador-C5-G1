@@ -1,52 +1,46 @@
 import React, { useEffect, useState } from "react";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import { Link } from "react-router-dom";
-import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
-import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
-import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
-function ListPersonaNuevoRolComponent() {
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
+import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
+import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+function ListInscripcionAdministradorComponent() {
     const [inscripciones, setInscripciones] = useState([]);
 
     const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [personas, setPersonas] = useState([]);
 
-    function listarInscripcionPersonaConNuevoRol() {
-        InscripcionConRolAdminService.getAllInscripciones()
-            .then(response => {
-                // Filtramos las inscripciones que tienen los campos de rol como null
-                const inscripcionesFiltradas = response.data.filter(inscripcion => {
-                    return inscripcion.administrador === null &&
-                        inscripcion.administrativo === null &&
-                        inscripcion.estudiante === null &&
-                        inscripcion.docente === null;
-                });
+    function listarInscripcionesConRolAdministrador() {
+        InscripcionConRolAdminService.getAllInscripciones().then(response => {
+            const inscripciones = response.data;
 
-                // Verificar si no hay inscripciones de ningún tipo
-                if (inscripcionesFiltradas.length === 0) {
-                    // Si no hay inscripciones con todos los roles como null
-                    if (response.data.length === 0) {
-                        console.log("No hay inscripciones");
-                        setInscripciones([]);
-                    } else {
-                        // Si hay inscripciones pero no con todos los roles como null
-                        console.log("No hay inscripciones del tipo persona con nuevo rol");
-                        setInscripciones([]);
-                    }
+            if (inscripciones && inscripciones.length > 0) {
+                const inscripcionesConAdministrador = inscripciones.filter(
+                    (inscripcionVerificar) =>
+                        inscripcionVerificar.administrador &&
+                        inscripcionVerificar.administrador.idAdministrador
+                );
+
+                if (inscripcionesConAdministrador.length > 0) {
+                    setInscripciones(inscripcionesConAdministrador);
+                    console.log(inscripcionesConAdministrador);
                 } else {
-                    // Si hay inscripciones filtradas, actualizamos el estado
-                    setInscripciones(inscripcionesFiltradas);
-                    console.log(inscripcionesFiltradas); // Verifica los datos filtrados
+                    setInscripciones([]);
+                    console.log("No hay inscripciones de Administradores");
                 }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            } else {
+                setInscripciones([]);
+                console.log("No hay inscripciones");
+            }
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
-    function borrarInscripcionPersonaConNuevoRol(idInscripcion) {
+    function borrarInscripcionesConRolAdministrador(idInscripcion) {
         InscripcionConRolAdminService.deleteInscripcion(idInscripcion).then(response => {
-            listarInscripcionPersonaConNuevoRol();
+            listarInscripcionesConRolAdministrador();
             console.log(response.data)
         }).catch(error => {
             console.log(error);
@@ -93,13 +87,18 @@ function ListPersonaNuevoRolComponent() {
         setPersonas(personasConImagenes);
     }
 
+    function obtenerNombrePersona(idPersona) {
+        const personaEncontrada = personas.find(persona => persona.id === idPersona);
+        return personaEncontrada ? personaEncontrada.nombres : "Desconocido";
+    }
+
     function obtenerImagenPersona(idPersona) {
         const personaEncontrada = personas.find((persona) => persona.id === idPersona);
         return personaEncontrada && personaEncontrada.imagenUrl ? personaEncontrada.imagenUrl : null;
     }
 
     useEffect(() => {
-        listarInscripcionPersonaConNuevoRol();
+        listarInscripcionesConRolAdministrador();
         listarRoles();
         listarUsuarios();
         listarPersonas();
@@ -150,9 +149,9 @@ function ListPersonaNuevoRolComponent() {
 
     return (
         <div className="container">
-            <Link to="/inscripcionesConRol">Retroceder</Link>
-            <h2>Lista de Inscripciones de Personas Con Nuevo Rol</h2>
-            <Link to="/add-personaNuevoRol">Agregar</Link>
+            <Link to="/inscripciones">Retroceder</Link>
+            <h2>Lista de Inscripciones Con Rol de Administradores</h2>
+            <Link to="/add-inscripcion-administrador">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -160,6 +159,7 @@ function ListPersonaNuevoRolComponent() {
                         <th colSpan="5">Datos de Rol</th>
                         <th colSpan="11">Datos de Usuario</th>
                         <th colSpan="29">Datos de Persona</th>
+                        <th colSpan="11">Datos de Administrador</th>
                         <th colSpan="1">Acciones</th>
                     </tr>
                     <tr>
@@ -215,6 +215,18 @@ function ListPersonaNuevoRolComponent() {
                         <th>Usuario</th>
                         <th>Fecha de Creacion de la Persona</th>
                         <th>Fecha de Modificacion de la Persona</th>
+
+                        <th>ID del Administrador</th>
+                        <th>Actividad Reciente</th>
+                        <th>Fecha de Actividad</th>
+                        <th>Estado del Sistema</th>
+                        <th>Fecha de Ultima Revision</th>
+                        <th>Permisos Especiales</th>
+                        <th>Logs Accesos</th>
+                        <th>Cambios de la Configuracion</th>
+                        <th>Persona</th>
+                        <th>Fecha de Creacion del Administrador</th>
+                        <th>Fecha de Modificacion Administrador</th>
 
                         <th>Acciones</th>
 
@@ -289,9 +301,21 @@ function ListPersonaNuevoRolComponent() {
                                     <td>{inscripcion.persona.fechaCreacionPersona}</td>
                                     <td>{inscripcion.persona.fechaModificacionPersona}</td>
 
+                                    <td>{inscripcion.administrador.idAdministrador}</td>
+                                    <td>{inscripcion.administrador.actividadReciente}</td>
+                                    <td>{inscripcion.administrador.fechaActividad}</td>
+                                    <td>{inscripcion.administrador.estadoSistema}</td>
+                                    <td>{inscripcion.administrador.fechaUltimaRevision}</td>
+                                    <td>{inscripcion.administrador.permisosEspeciales}</td>
+                                    <td>{inscripcion.administrador.logsAcceso}</td>
+                                    <td>{inscripcion.administrador.cambiosConfiguracion}</td>
+                                    <td>{obtenerNombrePersona(inscripcion.administrador.idPersona)}</td>
+                                    <td>{inscripcion.administrador.fechaCreacionAministrador}</td>
+                                    <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
+
                                     <td>
-                                        <Link to={`/edit-personaNuevoRol/${inscripcion.idInscripcion}`}>Actualizar</Link>
-                                        <button onClick={(e) => borrarInscripcionPersonaConNuevoRol(inscripcion.idInscripcion)}>Eliminar</button>
+                                        <Link to={`/edit-inscripcion-administrador/${inscripcion.idInscripcion}`}>Actualizar</Link>
+                                        <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
                                     </td>
 
                                 </tr>
@@ -299,7 +323,7 @@ function ListPersonaNuevoRolComponent() {
                         )
                     ) : (
                         <tr>
-                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Personas Con Nuevo Rol</td>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Administradores</td>
                         </tr>
                     )}
                 </tbody>
@@ -309,4 +333,4 @@ function ListPersonaNuevoRolComponent() {
     )
 }
 
-export default ListPersonaNuevoRolComponent;
+export default ListInscripcionAdministradorComponent;

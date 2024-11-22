@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import { Link } from "react-router-dom";
-import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
-import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
-import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
-function ListConRolEstudianteComponent() {
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
+import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
+import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+function ListInscripcionAdministrativoComponent() {
     const [inscripciones, setInscripciones] = useState([]);
 
     const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [personas, setPersonas] = useState([]);
 
-    function listarInscripcionesConRolEstudiante() {
+    function listarInscripcionesConRolAdministrativo() {
         InscripcionConRolAdminService.getAllInscripciones().then(response => {
             const inscripciones = response.data;
 
             if (inscripciones && inscripciones.length > 0) {
-                const inscripcionesConEstudiante = inscripciones.filter(
+                const inscripcionesConAdministrativo = inscripciones.filter(
                     (inscripcionVerificar) =>
-                        inscripcionVerificar.estudiante &&
-                        inscripcionVerificar.estudiante.idEstudiante
+                        inscripcionVerificar.administrativo &&
+                        inscripcionVerificar.administrativo.idAdministrativo
                 );
 
-                if (inscripcionesConEstudiante.length > 0) {
-                    setInscripciones(inscripcionesConEstudiante);
-                    console.log(inscripcionesConEstudiante);
+                if (inscripcionesConAdministrativo.length > 0) {
+                    setInscripciones(inscripcionesConAdministrativo);
+                    console.log(inscripcionesConAdministrativo);
                 } else {
                     setInscripciones([]);
-                    console.log("No hay inscripciones de Estudiantes");
+                    console.log("No hay inscripciones de Administrativos");
                 }
             } else {
                 setInscripciones([]);
@@ -38,9 +38,9 @@ function ListConRolEstudianteComponent() {
         })
     }
 
-    function borrarInscripcionesConRolEstudiante(idInscripcion) {
+    function borrarInscripcionesConRolAdministrativo(idInscripcion) {
         InscripcionConRolAdminService.deleteInscripcion(idInscripcion).then(response => {
-            listarInscripcionesConRolEstudiante();
+            listarInscripcionesConRolAdministrativo();
             console.log(response.data)
         }).catch(error => {
             console.log(error);
@@ -98,7 +98,7 @@ function ListConRolEstudianteComponent() {
     }
 
     useEffect(() => {
-        listarInscripcionesConRolEstudiante();
+        listarInscripcionesConRolAdministrativo();
         listarRoles();
         listarUsuarios();
         listarPersonas();
@@ -149,9 +149,9 @@ function ListConRolEstudianteComponent() {
 
     return (
         <div className="container">
-            <Link to="/inscripcionesConRol">Retroceder</Link>
-            <h2>Lista de Inscripciones Con Rol de Estudiantes</h2>
-            <Link to="/add-inscripcionConRol-estudiante">Agregar</Link>
+            <Link to="/inscripciones">Retroceder</Link>
+            <h2>Lista de Inscripciones Con Rol de Administrativos</h2>
+            <Link to="/add-inscripcion-administrativo">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -159,7 +159,7 @@ function ListConRolEstudianteComponent() {
                         <th colSpan="5">Datos de Rol</th>
                         <th colSpan="11">Datos de Usuario</th>
                         <th colSpan="29">Datos de Persona</th>
-                        <th colSpan="19">Datos de Estudiante</th>
+                        <th colSpan="12">Datos de Administrativo</th>
                         <th colSpan="1">Acciones</th>
                     </tr>
                     <tr>
@@ -216,25 +216,18 @@ function ListConRolEstudianteComponent() {
                         <th>Fecha de Creacion de la Persona</th>
                         <th>Fecha de Modificacion de la Persona</th>
 
-                        <th>ID</th>
-                        <th>Matricula</th>
-                        <th>Ciclo Actual</th>
-                        <th>Promedio General</th>
-                        <th>Fecha Ingreso</th>
-                        <th>Estado</th>
-                        <th>Tipo de Estudiante</th>
-                        <th>Beca</th>
-                        <th>Numero de Matricula</th>
-                        <th>Careras Ingresadas</th>
-                        <th>Asignaturas Matriculadas</th>
-                        <th>Horario</th>
-                        <th>Consejero Academico</th>
-                        <th>Fecha de Graduacion</th>
-                        <th>Practicas Realizadas</th>
-                        <th>Historial Academico</th>
-                        <th>Nombre de la Persona</th>
-                        <th>Fecha de creacion de Estudiante</th>
-                        <th>Fecha de modificacion de Estudiante</th>
+                        <th>ID del Administrativo</th>
+                        <th>Registro de Pagos</th>
+                        <th>Monto Total Pagos</th>
+                        <th>Fecha de Ultimo Pago</th>
+                        <th>Gestion de Empleados</th>
+                        <th>Fecha de Contratacion</th>
+                        <th>Cargo de Empleado</th>
+                        <th>Solicitudes Pendientes</th>
+                        <th>Fecha de Solicitud</th>
+                        <th>Persona</th>
+                        <th>Fecha de Creacion del Administrativo</th>
+                        <th>Fecha de Modificacion del Administrativo</th>
 
                         <th>Acciones</th>
 
@@ -309,38 +302,21 @@ function ListConRolEstudianteComponent() {
                                     <td>{inscripcion.persona.fechaCreacionPersona}</td>
                                     <td>{inscripcion.persona.fechaModificacionPersona}</td>
 
-                                    <td>{inscripcion.estudiante.idEstudiante}</td>
-                                    <td>{inscripcion.estudiante.matricula}</td>
-                                    <td>{inscripcion.estudiante.cicloActual}</td>
-                                    <td>{inscripcion.estudiante.promedioGeneral}</td>
-                                    <td>{inscripcion.estudiante.fechaIngreso}</td>
-                                    <td>{inscripcion.estudiante.estado}</td>
-                                    <td>{inscripcion.estudiante.tipoEstudiante}</td>
-                                    <td>{inscripcion.estudiante.beca}</td>
-                                    <td>{inscripcion.estudiante.numeroMatricula}</td>
-                                    <td>{inscripcion.estudiante.carrerasIngresadas?.join(", ")}</td>
-                                    <td>{inscripcion.estudiante.asignaturasMatriculadas?.join(", ")}</td>
-                                    <td>{inscripcion.estudiante.horario}</td>
-                                    <td>{inscripcion.estudiante.consejeroAcademico}</td>
-                                    <td>{inscripcion.estudiante.fechaGraduacion}</td>
-                                    <td>{inscripcion.estudiante.practicasRealizadas?.join(", ")}</td>
+                                    <td>{inscripcion.administrativo.idAdministrativo}</td>
+                                    <td>{inscripcion.administrativo.registroPagos}</td>
+                                    <td>{inscripcion.administrativo.montoTotalPagos}</td>
+                                    <td>{inscripcion.administrativo.fechaUltimoPago}</td>
+                                    <td>{inscripcion.administrativo.gestionEmpleados}</td>
+                                    <td>{inscripcion.administrativo.fechaContratacion}</td>
+                                    <td>{inscripcion.administrativo.cargoEmpleado}</td>
+                                    <td>{inscripcion.administrativo.solicitudesPendientes}</td>
+                                    <td>{inscripcion.administrativo.fechaSolicitud}</td>
+                                    <td>{obtenerNombrePersona(inscripcion.administrativo.idPersona)}</td>
+                                    <td>{inscripcion.administrativo.fechaCreacionAministrativo}</td>
+                                    <td>{inscripcion.administrativo.fechaModificacionAministrativo}</td>
                                     <td>
-                                        {/* Renderizar historial académico */}
-                                        <ul>
-                                            {inscripcion.estudiante.historialAcademico?.map(registro => (
-                                                <li key={registro.id}>
-                                                    <b>Curso:</b> {registro.nombreCurso} <br /> <b>- Calificación:</b> {registro.calificacion} <br /> <b>- Fecha Finalización:</b> {registro.fechaFinalizacion}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </td>
-                                    <td>{obtenerNombrePersona(inscripcion.estudiante.idPersona)}</td>
-                                    <td>{inscripcion.estudiante.fechaCreacionEstudiante}</td>
-                                    <td>{inscripcion.estudiante.fechaModificacionEstudiante}</td>
-
-                                    <td>
-                                        <Link to={`/edit-inscripcionConRol-estudiante/${inscripcion.idInscripcion}`}>Actualizar</Link>
-                                        <button onClick={(e) => borrarInscripcionesConRolEstudiante(inscripcion.idInscripcion)}>Eliminar</button>
+                                        <Link to={`/edit-inscripcion-administrativo/${inscripcion.idInscripcion}`}>Actualizar</Link>
+                                        <button onClick={(e) => borrarInscripcionesConRolAdministrativo(inscripcion.idInscripcion)}>Eliminar</button>
                                     </td>
 
                                 </tr>
@@ -348,7 +324,7 @@ function ListConRolEstudianteComponent() {
                         )
                     ) : (
                         <tr>
-                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Estudiantes</td>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Administrativos</td>
                         </tr>
                     )}
                 </tbody>
@@ -358,4 +334,4 @@ function ListConRolEstudianteComponent() {
     )
 }
 
-export default ListConRolEstudianteComponent;
+export default ListInscripcionAdministrativoComponent;

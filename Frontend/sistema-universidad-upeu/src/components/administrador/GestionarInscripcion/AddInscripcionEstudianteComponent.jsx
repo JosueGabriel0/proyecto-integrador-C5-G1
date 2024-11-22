@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
-import CarreraAdminService from "../../../../services/administradorServices/carrera/CarreraAdminService";
-import CursoAdminService from "../../../../services/administradorServices/curso/CursoAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import CarreraAdminService from "../../../services/administradorServices/carrera/CarreraAdminService";
+import CursoAdminService from "../../../services/administradorServices/curso/CursoAdminService";
 
-function AddConRolEstudianteComponent() {
+function AddInscripcionEstudianteComponent() {
 
     const [nombreRol, setNombreRol] = useState("");
     const [description, setDescription] = useState("");
@@ -159,7 +159,7 @@ function AddConRolEstudianteComponent() {
             try {
                 const response = await InscripcionConRolAdminService.putInscripcion(id, formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-estudiante");
+                navigate("/list-inscripcion-estudiante");
             } catch (error) {
                 console.error(error);
             }
@@ -167,7 +167,7 @@ function AddConRolEstudianteComponent() {
             try {
                 const response = await InscripcionConRolAdminService.postInscripcion(formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-estudiante");
+                navigate("/list-inscripcion-estudiante");
             } catch (error) {
                 console.error(error);
             }
@@ -836,11 +836,11 @@ function AddConRolEstudianteComponent() {
                     <button onClick={(e) => saveOrUpdateInscripcion(e)}>{botonAgregarOActualizar()}</button>
                     &nbsp;
                     &nbsp;
-                    <Link to="/list-inscripcionConRol-estudiante">Cancelar</Link>
+                    <Link to="/list-inscripcion-estudiante">Cancelar</Link>
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddConRolEstudianteComponent;
+export default AddInscripcionEstudianteComponent;

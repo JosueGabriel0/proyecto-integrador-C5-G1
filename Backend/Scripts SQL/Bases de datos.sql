@@ -14,3 +14,4 @@ CREATE DATABASE `ms-roles`;
 CREATE DATABASE `ms-usuarios`;
 CREATE DATABASE `ms-inscripciones`;
 CREATE DATABASE `ms-postulante`;
+CREATE DATABASE `ms-realTimeChat`;

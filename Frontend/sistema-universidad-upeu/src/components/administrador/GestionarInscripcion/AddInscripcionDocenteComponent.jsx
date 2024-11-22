@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
-import CursoAdminService from "../../../../services/administradorServices/curso/CursoAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import CursoAdminService from "../../../services/administradorServices/curso/CursoAdminService";
 
-function AddConRolDocenteComponent() {
+function AddInscripcionDocenteComponent() {
 
     const [nombreRol, setNombreRol] = useState("");
     const [description, setDescription] = useState("");
@@ -175,7 +175,7 @@ function AddConRolDocenteComponent() {
             try {
                 const response = await InscripcionConRolAdminService.putInscripcion(id, formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-docente");
+                navigate("/list-inscripcion-docente");
             } catch (error) {
                 console.error(error);
             }
@@ -183,7 +183,7 @@ function AddConRolDocenteComponent() {
             try {
                 const response = await InscripcionConRolAdminService.postInscripcion(formData);
                 console.log(response.data);
-                navigate("/list-inscripcionConRol-docente");
+                navigate("/list-inscripcion-docente");
             } catch (error) {
                 console.error(error);
             }
@@ -920,11 +920,11 @@ function AddConRolDocenteComponent() {
                     <button onClick={(e) => saveOrUpdateInscripcion(e)}>{botonAgregarOActualizar()}</button>
                     &nbsp;
                     &nbsp;
-                    <Link to="/list-inscripcionConRol-docente">Cancelar</Link>
+                    <Link to="/list-inscripcion-docente">Cancelar</Link>
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddConRolDocenteComponent;
+export default AddInscripcionDocenteComponent;

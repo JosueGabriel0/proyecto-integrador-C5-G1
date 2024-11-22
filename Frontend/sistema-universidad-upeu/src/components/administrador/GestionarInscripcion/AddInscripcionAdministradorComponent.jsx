@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 
-function AddPersonaNuevoRolComponent() {
+function AddInscripcionAdministradorComponent() {
 
     const [nombreRol, setNombreRol] = useState("");
     const [description, setDescription] = useState("");
@@ -40,6 +40,14 @@ function AddPersonaNuevoRolComponent() {
     const [contactoEmergenciaDireccion, setContactoEmergenciaDireccion] = useState("");
     const [contactoEmergenciaCiudad, setContactoEmergenciaCiudad] = useState("");
     const [contactoEmergenciaParentesco, setContactoEmergenciaParentesco] = useState("");
+
+    const [actividadReciente, setActividadReciente] = useState("");
+    const [fechaActividad, setFechaActividad] = useState("");
+    const [estadoSistema, setEstadoSistema] = useState("");
+    const [fechaUltimaRevision, setFechaUltimaRevision] = useState("");
+    const [permisosEspeciales, setPermisosEspeciales] = useState("");
+    const [logsAcceso, setLogsAcceso] = useState("");
+    const [cambiosConfiguracion, setCambiosConfiguracion] = useState("");
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -85,6 +93,15 @@ function AddPersonaNuevoRolComponent() {
                 contactoEmergenciaDireccion,
                 contactoEmergenciaCiudad,
                 contactoEmergenciaParentesco
+            },
+            administrador: {
+                actividadReciente,
+                fechaActividad,
+                estadoSistema,
+                fechaUltimaRevision,
+                permisosEspeciales,
+                logsAcceso,
+                cambiosConfiguracion
             }
         };
 
@@ -123,7 +140,7 @@ function AddPersonaNuevoRolComponent() {
             try {
                 const response = await InscripcionConRolAdminService.putInscripcion(id, formData);
                 console.log(response.data);
-                navigate("/list-personaNuevoRol");
+                navigate("/list-inscripcion-administrador");
             } catch (error) {
                 console.error(error);
             }
@@ -131,7 +148,7 @@ function AddPersonaNuevoRolComponent() {
             try {
                 const response = await InscripcionConRolAdminService.postInscripcion(formData);
                 console.log(response.data);
-                navigate("/list-personaNuevoRol");
+                navigate("/list-inscripcion-administrador");
             } catch (error) {
                 console.error(error);
             }
@@ -177,6 +194,13 @@ function AddPersonaNuevoRolComponent() {
                 setContactoEmergenciaDireccion(response.data.persona.contactoEmergenciaDireccion);
                 setContactoEmergenciaCiudad(response.data.persona.contactoEmergenciaCiudad);
                 setContactoEmergenciaParentesco(response.data.persona.contactoEmergenciaParentesco);
+
+                setActividadReciente(response.data.administrador.actividadReciente);
+                setEstadoSistema(response.data.administrador.estadoSistema);
+                setFechaUltimaRevision(response.data.administrador.fechaUltimaRevision);
+                setPermisosEspeciales(response.data.administrador.permisosEspeciales);
+                setLogsAcceso(response.data.administrador.logsAcceso);
+                setCambiosConfiguracion(response.data.administrador.cambiosConfiguracion);
             }
             )
         }
@@ -185,11 +209,11 @@ function AddPersonaNuevoRolComponent() {
     function title() {
         if (id) {
             return (
-                <div>Actualizar Inscripcion de Persona Con Nuevo Rol</div>
+                <div>Actualizar Inscripcion Con Rol de Administrador</div>
             )
         } else {
             return (
-                <div>Agregar Inscripcion de Persona Con Nuevo Rol</div>
+                <div>Agregar Inscripcion Con Rol de Administrador</div>
             )
         }
     }
@@ -508,15 +532,52 @@ function AddPersonaNuevoRolComponent() {
                     <input type="text" placeholder="Ingrese el parentesco del contacto de emergencia" name="contactoEmergenciaParentesco" value={contactoEmergenciaParentesco} onChange={(e) => setContactoEmergenciaParentesco(e.target.value)} />
                 </div>
 
+
+                {/*Administrador*/}
+                <div>
+                    <label>Actividad Reciente</label>
+                    <input type="text" placeholder="Ingrese la actividad reciente" name="actividadReciente" value={actividadReciente} onChange={(e) => setActividadReciente(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha Actividad</label>
+                    <input type="date" placeholder="Ingrese la Fecha de Actividad" name="fechaActividad" value={fechaActividad} onChange={(e) => setFechaActividad(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Estado Sistema</label>
+                    <input type="text" placeholder="Ingrese el estado del Sistema" name="estadoSistema" value={estadoSistema} onChange={(e) => setEstadoSistema(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha Ultima Revision</label>
+                    <input type="date" placeholder="Ingrese la Fecha de Ultima Revision" name="fechaUltimaRevision" value={fechaUltimaRevision} onChange={(e) => setFechaUltimaRevision(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Permisos Especiales</label>
+                    <input type="text" placeholder="Ingrese los Permisos Especiales" name="permisosEspeciales" value={permisosEspeciales} onChange={(e) => setPermisosEspeciales(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Logs de Accesos</label>
+                    <input type="text" placeholder="Ingrese los Logs de Accesos" name="logsAcceso" value={logsAcceso} onChange={(e) => setLogsAcceso(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Cambios de Configuracion</label>
+                    <input type="text" placeholder="Ingrese los cambios de Configuracion" name="cambiosConfiguracion" value={cambiosConfiguracion} onChange={(e) => setCambiosConfiguracion(e.target.value)} />
+                </div>
+
                 <div>
                     <button onClick={(e) => saveOrUpdateInscripcion(e)}>{botonAgregarOActualizar()}</button>
                     &nbsp;
                     &nbsp;
-                    <Link to="/list-personaNuevoRol">Cancelar</Link>
+                    <Link to="/list-inscripcion-administrador">Cancelar</Link>
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddPersonaNuevoRolComponent;
+export default AddInscripcionAdministradorComponent;

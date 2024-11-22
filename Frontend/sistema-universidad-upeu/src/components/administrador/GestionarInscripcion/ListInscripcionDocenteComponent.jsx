@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
-import InscripcionConRolAdminService from "../../../../services/administradorServices/Inscripcion/InscripcionAdminService";
+import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import { Link } from "react-router-dom";
-import RolAdminService from "../../../../services/administradorServices/rol/RolAdminService";
-import UsuarioAdminService from "../../../../services/administradorServices/usuario/UsuarioAdminService";
-import PersonaAdminService from "../../../../services/administradorServices/persona/PersonaAdminService";
-function ListConRolAdministradorComponent() {
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
+import UsuarioAdminService from "../../../services/administradorServices/usuario/UsuarioAdminService";
+import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+function ListInscripcionDocenteComponent() {
     const [inscripciones, setInscripciones] = useState([]);
 
     const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [personas, setPersonas] = useState([]);
 
-    function listarInscripcionesConRolAdministrador() {
+    function listarInscripcionesConRolDocente() {
         InscripcionConRolAdminService.getAllInscripciones().then(response => {
             const inscripciones = response.data;
 
             if (inscripciones && inscripciones.length > 0) {
-                const inscripcionesConAdministrador = inscripciones.filter(
+                const inscripcionesConDocente = inscripciones.filter(
                     (inscripcionVerificar) =>
-                        inscripcionVerificar.administrador &&
-                        inscripcionVerificar.administrador.idAdministrador
+                        inscripcionVerificar.docente &&
+                        inscripcionVerificar.docente.idDocente
                 );
 
-                if (inscripcionesConAdministrador.length > 0) {
-                    setInscripciones(inscripcionesConAdministrador);
-                    console.log(inscripcionesConAdministrador);
+                if (inscripcionesConDocente.length > 0) {
+                    setInscripciones(inscripcionesConDocente);
+                    console.log(inscripcionesConDocente);
                 } else {
                     setInscripciones([]);
-                    console.log("No hay inscripciones de Administradores");
+                    console.log("No hay inscripciones de Docentes");
                 }
             } else {
                 setInscripciones([]);
@@ -38,9 +38,9 @@ function ListConRolAdministradorComponent() {
         })
     }
 
-    function borrarInscripcionesConRolAdministrador(idInscripcion) {
+    function borrarInscripcionesConRolDocente(idInscripcion) {
         InscripcionConRolAdminService.deleteInscripcion(idInscripcion).then(response => {
-            listarInscripcionesConRolAdministrador();
+            listarInscripcionesConRolDocente();
             console.log(response.data)
         }).catch(error => {
             console.log(error);
@@ -98,7 +98,7 @@ function ListConRolAdministradorComponent() {
     }
 
     useEffect(() => {
-        listarInscripcionesConRolAdministrador();
+        listarInscripcionesConRolDocente();
         listarRoles();
         listarUsuarios();
         listarPersonas();
@@ -149,9 +149,9 @@ function ListConRolAdministradorComponent() {
 
     return (
         <div className="container">
-            <Link to="/inscripcionesConRol">Retroceder</Link>
-            <h2>Lista de Inscripciones Con Rol de Administradores</h2>
-            <Link to="/add-inscripcionConRol-administrador">Agregar</Link>
+            <Link to="/inscripciones">Retroceder</Link>
+            <h2>Lista de Inscripciones Con Rol de Docentes</h2>
+            <Link to="/add-inscripcion-docente">Agregar</Link>
             <table>
                 <thead>
                     <tr>
@@ -159,7 +159,7 @@ function ListConRolAdministradorComponent() {
                         <th colSpan="5">Datos de Rol</th>
                         <th colSpan="11">Datos de Usuario</th>
                         <th colSpan="29">Datos de Persona</th>
-                        <th colSpan="11">Datos de Administrador</th>
+                        <th colSpan="23">Datos de Docente</th>
                         <th colSpan="1">Acciones</th>
                     </tr>
                     <tr>
@@ -216,17 +216,29 @@ function ListConRolAdministradorComponent() {
                         <th>Fecha de Creacion de la Persona</th>
                         <th>Fecha de Modificacion de la Persona</th>
 
-                        <th>ID del Administrador</th>
-                        <th>Actividad Reciente</th>
-                        <th>Fecha de Actividad</th>
-                        <th>Estado del Sistema</th>
-                        <th>Fecha de Ultima Revision</th>
-                        <th>Permisos Especiales</th>
-                        <th>Logs Accesos</th>
-                        <th>Cambios de la Configuracion</th>
-                        <th>Persona</th>
-                        <th>Fecha de Creacion del Administrador</th>
-                        <th>Fecha de Modificacion Administrador</th>
+                        <th>ID</th>
+                        <th>Departamento</th>
+                        <th>Titulo Academico</th>
+                        <th>Especialidad</th>
+                        <th>Cursos Impartidos</th>
+                        <th>Historial Laboral</th>
+                        <th>Estado Laboral</th>
+                        <th>Tipo de Docente</th>
+                        <th>Fecha de Contratacion</th>
+                        <th>Tipo Contrato</th>
+                        <th>Salario</th>
+                        <th>Horario</th>
+                        <th>Publicaciones Academicas</th>
+                        <th>Proyectos de Investigacion</th>
+                        <th>Numero Oficina</th>
+                        <th>Extencion Telefonica</th>
+                        <th>Supervisor</th>
+                        <th>Logros Academicos</th>
+                        <th>Fecha de Jubilacion</th>
+                        <th>Todos los Cursos Impartidos actualmente y anteriormente</th>
+                        <th>Nombre de la Persona</th>
+                        <th>Fecha Creacion de Docente</th>
+                        <th>Fecha Modificacion de Docente</th>
 
                         <th>Acciones</th>
 
@@ -301,21 +313,42 @@ function ListConRolAdministradorComponent() {
                                     <td>{inscripcion.persona.fechaCreacionPersona}</td>
                                     <td>{inscripcion.persona.fechaModificacionPersona}</td>
 
-                                    <td>{inscripcion.administrador.idAdministrador}</td>
-                                    <td>{inscripcion.administrador.actividadReciente}</td>
-                                    <td>{inscripcion.administrador.fechaActividad}</td>
-                                    <td>{inscripcion.administrador.estadoSistema}</td>
-                                    <td>{inscripcion.administrador.fechaUltimaRevision}</td>
-                                    <td>{inscripcion.administrador.permisosEspeciales}</td>
-                                    <td>{inscripcion.administrador.logsAcceso}</td>
-                                    <td>{inscripcion.administrador.cambiosConfiguracion}</td>
-                                    <td>{obtenerNombrePersona(inscripcion.administrador.idPersona)}</td>
-                                    <td>{inscripcion.administrador.fechaCreacionAministrador}</td>
-                                    <td>{inscripcion.administrador.fechaModificacionAministrador}</td>
-
+                                    <td>{inscripcion.docente.idDocente}</td>
+                                    <td>{inscripcion.docente.departamento}</td>
+                                    <td>{inscripcion.docente.tituloAcatemico}</td>
+                                    <td>{inscripcion.docente.especialidad}</td>
+                                    <td>{inscripcion.docente.cursosImpartidos?.join(", ")}</td>
                                     <td>
-                                        <Link to={`/edit-inscripcionConRol-administrador/${inscripcion.idInscripcion}`}>Actualizar</Link>
-                                        <button onClick={(e) => borrarInscripcionesConRolAdministrador(inscripcion.idInscripcion)}>Eliminar</button>
+                                        {/* Renderizar historial laboral */}
+                                        <ul>
+                                            {inscripcion.docente.historialLaboral?.map(historial => (
+                                                <li key={historial.id}>
+                                                    <b>Puesto:</b> {historial.puesto} <br /> <b>- Departamento:</b> {historial.departamento} <br /> <b>- Fecha Inicio:</b> {historial.fechaInicio} <br /> <b>- Fecha Fin:</b> {historial.fechaFin} <br /> <b>- Descripcion:</b> {historial.descripcion}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </td>
+                                    <td>{inscripcion.docente.estadoLaboral}</td>
+                                    <td>{inscripcion.docente.tipoDocente}</td>
+                                    <td>{inscripcion.docente.fechaContratacion}</td>
+                                    <td>{inscripcion.docente.tipoContrato}</td>
+                                    <td>{inscripcion.docente.salario}</td>
+                                    <td>{inscripcion.docente.horario}</td>
+                                    <td>{inscripcion.docente.publicacionesAcademicas?.join(", ")}</td>
+                                    <td>{inscripcion.docente.proyectosInvestigacion?.join(", ")}</td>
+                                    <td>{inscripcion.docente.numeroOficina}</td>
+                                    <td>{inscripcion.docente.extensionTelefonica}</td>
+                                    <td>{inscripcion.docente.supervisor}</td>
+                                    <td>{inscripcion.docente.logrosAcademicos?.join(", ")}</td>
+                                    <td>{inscripcion.docente.fechaJubilacion}</td>
+                                    <td>{inscripcion.docente.cursos?.join(", ")}</td>
+                                    <td>{obtenerNombrePersona(inscripcion.docente.idPersona)}</td>
+                                    <td>{inscripcion.docente.fechaCreacionDocente}</td>
+                                    <td>{inscripcion.docente.fechaModificacionDocente}</td>
+                                
+                                    <td>
+                                        <Link to={`/edit-inscripcion-docente/${inscripcion.idInscripcion}`}>Actualizar</Link>
+                                        <button onClick={(e) => borrarInscripcionesConRolDocente(inscripcion.idInscripcion)}>Eliminar</button>
                                     </td>
 
                                 </tr>
@@ -323,7 +356,7 @@ function ListConRolAdministradorComponent() {
                         )
                     ) : (
                         <tr>
-                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Administradores</td>
+                            <td colSpan="56" style={{ textAlign: 'center' }}>No hay inscripciones de Docentes</td>
                         </tr>
                     )}
                 </tbody>
@@ -333,4 +366,4 @@ function ListConRolAdministradorComponent() {
     )
 }
 
-export default ListConRolAdministradorComponent;
+export default ListInscripcionDocenteComponent;
