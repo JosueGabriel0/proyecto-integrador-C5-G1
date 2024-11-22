@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-realTimeChat-service
+    name: ms-usuarios-service
   profiles:
     active: development
   config:
