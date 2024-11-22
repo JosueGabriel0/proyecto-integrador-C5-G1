@@ -46,11 +46,9 @@ spring:
             - Path=/usuario/**
 
         - id: ms-realTimeChat-service
-          uri: lb://ms-realTimeChat-service # El servicio que maneja WebSocket
+          uri: lb://ms-realTimeChat-service
           predicates:
-            - Path=/chat/** # Definir el endpoint WebSocket
-          filters:
-            - AuthFilter
+            - Path=/ws/**
 
         - id: ms-persona-service
           uri: lb://ms-persona-service

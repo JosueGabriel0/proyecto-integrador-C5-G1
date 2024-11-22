@@ -37,6 +37,9 @@ import AddInscripcionDocenteComponent from './components/administrador/Gestionar
 import AddInscripcionEstudianteComponent from './components/administrador/GestionarInscripcion/AddInscripcionEstudianteComponent';
 import AddInscripcionNuevoRolComponent from './components/administrador/GestionarInscripcion/AddInscripcionNuevoRolComponent';
 
+import ChatComponent from './components/realTimeChat/ChatComponent';
+import LoginComponent from './components/realTimeChat/LoginComponent';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -381,6 +384,26 @@ const App = () => {
               </GeneralProtectedRouteComponent>
             }
           />
+
+
+          <Route
+            path="/login-real-time-chat"
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <LoginComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path="/chat-real-time-chat"
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <ChatComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
 
           <Route path='/unauthorized' element={<Unauthorized />} /> {/* Ruta para no autorizado */}
           <Route path='*' element={<h2>404 - Página no encontrada</h2>} />
