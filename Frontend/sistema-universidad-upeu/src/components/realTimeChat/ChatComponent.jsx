@@ -39,14 +39,20 @@ const ChatComponent = () => {
     };
   }, [username]);
 
-
   const sendMessage = (content) => {
-    const message = {
-      sender: username,
-      content,
-      type: "CHAT",
-    };
-    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(message));
+    if (stompClient && stompClient.connected) {
+      const message = {
+        sender: username,
+        content,
+        type: "CHAT",
+      };
+      stompClient.publish({
+        destination: "/app/chat.sendMessage",
+        body: JSON.stringify(message),
+      });
+    } else {
+      console.error("STOMP client is not connected");
+    }
   };
 
   return (

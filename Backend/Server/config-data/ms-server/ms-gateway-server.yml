@@ -49,6 +49,8 @@ spring:
           uri: lb://ms-realTimeChat-service
           predicates:
             - Path=/ws/**
+          filters:
+            - CORSFilter  # Asegúrate de incluir este filtro si es necesario
 
         - id: ms-persona-service
           uri: lb://ms-persona-service
