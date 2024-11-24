@@ -14,14 +14,14 @@ spring:
     gateway:
       globalcors:
         corsConfigurations:
-          '/auth/**': # Aplicar la configuración a las rutas que empiecen con "/auth"
+          '[/**]': # Aplica CORS a todas las rutas
             allowedOrigins:
-              - "http://localhost:3000"  # Permitir el frontend en desarrollo local
+              - "*"  # Permite cualquier origen
             allowedHeaders:
-              - "*"  # Permitir todos los encabezados, incluyendo Authorization
+              - "*"  # Permite todos los encabezados
             allowedMethods:
-              - "*"  # Permitir todos los métodos (GET, POST, PUT, DELETE, OPTIONS)
-            allowCredentials: true  # Permitir el envío de credenciales
+              - "*"  # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
+            allowCredentials: true  # Permite el envío de credenciales (como cookies, encabezados de autenticación)
 
       discovery:
         locator:
@@ -43,10 +43,10 @@ spring:
           predicates:
             - Path=/usuario/**
 
-        - id: ms-realTimeChat-service
-          uri: lb://ms-realTimeChat-service
-          predicates:
-            - Path=/ws/**
+        #- id: ms-realTimeChat-service
+          #uri: lb://ms-realTimeChat-service
+          #predicates:
+            #- Path=/ws/**
 
         - id: ms-persona-service
           uri: lb://ms-persona-service

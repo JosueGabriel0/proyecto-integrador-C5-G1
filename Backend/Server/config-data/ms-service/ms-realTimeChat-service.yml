@@ -1,6 +1,6 @@
 server:
-  #port: 8083
-  port: ${PORT:${SERVER_PORT:0}} #Local
+  port: 8083
+  #port: ${PORT:${SERVER_PORT:0}} #Local
 
 springdoc:
   api-docs:
