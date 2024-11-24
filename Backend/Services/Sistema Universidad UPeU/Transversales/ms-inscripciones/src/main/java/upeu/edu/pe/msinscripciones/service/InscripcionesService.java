@@ -22,4 +22,6 @@ public interface InscripcionesService {
     public List<Inscripcion> listarInscripcion();
 
     public Inscripcion buscarInscripcionPorId(Long id);
+
+    public Inscripcion buscarInscripcionPorIdUsuario(Long idUsuario);
 }

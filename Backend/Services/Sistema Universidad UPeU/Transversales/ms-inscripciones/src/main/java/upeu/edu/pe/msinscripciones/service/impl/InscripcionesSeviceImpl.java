@@ -564,4 +564,101 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
 
         return inscripcion;
     }
+
+    @Override
+    public Inscripcion buscarInscripcionPorIdUsuario(Long idUsuario){
+        Optional<Inscripcion> optionalInscripcion = inscripcionesRepository.findByIdUsuario(idUsuario);
+
+        if (!optionalInscripcion.isPresent()) {
+            throw new RuntimeException("No se pudo encontrar la inscripción con ID: " + idUsuario);
+        }
+
+        Inscripcion inscripcion = optionalInscripcion.get();
+
+        // Obtener el Rol si existe
+        if (inscripcion.getIdRol() != null) {
+            try {
+                ResponseEntity<Rol> rolResponse = rolFeign.listarRolDtoPorId(inscripcion.getIdRol());
+                if (rolResponse.getBody() != null) {
+                    inscripcion.setRol(rolResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Rol: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Usuario si existe
+        if (inscripcion.getIdUsuario() != null) {
+            try {
+                ResponseEntity<Usuario> usuarioResponse = usuarioFeign.listarUsuarioDtoPorId(inscripcion.getIdUsuario());
+                if (usuarioResponse.getBody() != null) {
+                    inscripcion.setUsuario(usuarioResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Usuario: " + e.getMessage());
+            }
+        }
+
+        // Obtener la Persona si existe
+        if (inscripcion.getIdPersona() != null) {
+            try {
+                ResponseEntity<Persona> personaResponse = personaFeign.listarPersonaDtoPorId(inscripcion.getIdPersona());
+                if (personaResponse.getBody() != null) {
+                    inscripcion.setPersona(personaResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener la Persona: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Administrador si existe
+        if (inscripcion.getIdAdministrador() != null) {
+            try {
+                ResponseEntity<Administrador> adiministradorResponse = administradorFeign.listarAdministradorDtoPorId(inscripcion.getIdAdministrador());
+                if (adiministradorResponse.getBody() != null) {
+                    inscripcion.setAdministrador(adiministradorResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Administrador: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Administrativo si existe
+        if (inscripcion.getIdAdministrativo() != null) {
+            try {
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.listarAdministrativoDtoPorId(inscripcion.getIdAdministrativo());
+                if (administrativoResponse.getBody() != null) {
+                    inscripcion.setAdministrativo(administrativoResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Administrativo: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Estudiante si existe
+        if (inscripcion.getIdEstudiante() != null) {
+            try {
+                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(inscripcion.getIdEstudiante());
+                if (estudianteResponse.getBody() != null) {
+                    inscripcion.setEstudiante(estudianteResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Estudiante: " + e.getMessage());
+            }
+        }
+
+        // Obtener el Docente si existe
+        if (inscripcion.getIdDocente() != null) {
+            try {
+                ResponseEntity<Docente> docenteResponse = docenteFeign.listarDocenteDtoPorId(inscripcion.getIdDocente());
+                if (docenteResponse.getBody() != null) {
+                    inscripcion.setDocente(docenteResponse.getBody());
+                }
+            } catch (FeignException e) {
+                System.out.println("Error al obtener el Docente: " + e.getMessage());
+            }
+        }
+
+        return inscripcion;
+    }
 }

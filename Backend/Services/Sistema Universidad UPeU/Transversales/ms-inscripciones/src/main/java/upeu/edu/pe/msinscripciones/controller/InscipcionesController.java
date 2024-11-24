@@ -148,8 +148,14 @@ public class InscipcionesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable Long id) {
+    public ResponseEntity<Inscripcion> listarInscripcionPorId(@PathVariable(required = true) Long id) {
         Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorId(id);
+        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
+    }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<Inscripcion> buscarInscripcionPorIdUsuario(@PathVariable(required = true) Long idUsuario){
+        Inscripcion inscripcion = inscripcionesService.buscarInscripcionPorIdUsuario(idUsuario);
         return new ResponseEntity<>(inscripcion, HttpStatus.OK);
     }
 }

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { getToken } from "../../authServices/authService";
+import { getToken } from "../authServices/authService";
 
 const USUARIO_BASE_REST_API_URL = `${process.env.REACT_APP_API_BASE_URL}/usuario`;
 
-class UsuarioAdminService {
+class UsuarioService {
     getAllUsuarios() {
         return axios.get(USUARIO_BASE_REST_API_URL, {
             headers: {
@@ -89,4 +89,4 @@ class UsuarioAdminService {
     }
 }
 
-export default new UsuarioAdminService();
+export default new UsuarioService();

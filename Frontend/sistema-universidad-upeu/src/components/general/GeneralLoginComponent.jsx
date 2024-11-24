@@ -7,6 +7,8 @@ const GeneralLoginComponent = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate(); // Hook para redirección
 
+    const [showPassword, setShowPassword] = useState(false);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({
@@ -33,11 +35,17 @@ const GeneralLoginComponent = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     <label>Nombre de Usuario:</label>
-                    <input type="text" name="username" value={credentials.username} onChange={handleInputChange} />
+                    <input type="text" placeholder="Ingrese su usuario" name="username" value={credentials.username} onChange={handleInputChange} />
                 </div>
                 <div>
                     <label>Contraseña:</label>
-                    <input type="password" name="password" value={credentials.password} onChange={handleInputChange} />
+                    <input type={showPassword ? "text" : "password"} placeholder="Ingrese su contraseña" name="password" value={credentials.password} onChange={handleInputChange} autoComplete="off" minLength={8} required />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? "Ocultar" : "Mostrar"}
+                    </button>
                 </div>
                 <button type="submit">Login</button>
             </form>

@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UsuarioService from "../../services/usuarioServices/UsuarioService"
+import { getUserId } from "../../services/authServices/authService";
 
 const LoginComponent = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const usuarioId = getUserId();
+
+  useEffect(() => {
+    obtenerNombreUsuario();
+  }, [usuarioId])
+
+  const obtenerNombreUsuario = () => {
+    UsuarioService.getUsuarioById(usuarioId).then((response) => {
+      setUsername(response.data.username);
+      console.log(response.data.username);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();

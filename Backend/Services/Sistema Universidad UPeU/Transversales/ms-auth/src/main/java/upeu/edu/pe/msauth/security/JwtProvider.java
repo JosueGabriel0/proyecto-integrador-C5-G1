@@ -4,10 +4,12 @@ import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import upeu.edu.pe.msauth.dto.Inscripcion;
 import upeu.edu.pe.msauth.dto.Rol;
 import upeu.edu.pe.msauth.dto.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import upeu.edu.pe.msauth.feign.InscripcionFeign;
 import upeu.edu.pe.msauth.feign.RolFeign;
 
 import java.util.Base64;
@@ -20,6 +22,9 @@ public class JwtProvider {
 
     @Autowired
     private RolFeign rolFeign;
+
+    @Autowired
+    private InscripcionFeign inscripcionFeign;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -44,6 +49,14 @@ public class JwtProvider {
         }
 
         claims.put("nombreRol", nombreRol); // Incluye el nombre del rol en el token
+
+        //Obtener la inscripcion desde el microservicio de inscripciones
+        ResponseEntity<Inscripcion> inscripcionResponse = inscripcionFeign.buscarInscripcionPorIdUsuario(usuario.getIdUsuario());
+        Long idInscripcion = null;
+        if (inscripcionResponse.getStatusCode().is2xxSuccessful() && inscripcionResponse.getBody() != null) {
+            idInscripcion = inscripcionResponse.getBody().getIdInscripcion();
+        }
+        claims.put("idInscripcion", idInscripcion);
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + 3600000); // El token expira en 1 hora

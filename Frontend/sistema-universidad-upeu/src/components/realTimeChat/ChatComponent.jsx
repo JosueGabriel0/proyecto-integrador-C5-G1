@@ -21,6 +21,7 @@ const ChatComponent = () => {
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
 
+        // Enviar el mensaje de JOIN al servidor
         client.publish({
           destination: "/app/chat.addUser",
           body: JSON.stringify({ sender: username, type: "JOIN" }),

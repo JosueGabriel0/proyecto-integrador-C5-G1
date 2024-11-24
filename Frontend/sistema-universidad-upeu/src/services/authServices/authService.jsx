@@ -100,6 +100,23 @@ export const getUserRole = () => {
     }
 };
 
+// Esta función debería devolver el id del usuario
+export const getUserId = () => {
+    const token = getToken();
+    if (!token) return null;
+
+    try {
+        // Decodificar el payload del JWT
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
+        
+        console.log("Este es el id: " + payload.idUsuario); // Asegúrate de que el campo coincide con el id en el token
+        return payload.idUsuario; // Devuelve el id si está presente
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null; // Devuelve null si ocurre un error durante la decodificación
+    }
+};
+
 // Función para validar el token (usada si es necesario validar en algún punto)
 export const validateToken = async () => {
     const token = getToken();
