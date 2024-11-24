@@ -16,7 +16,7 @@ spring:
         corsConfigurations:
           '[/**]': # Aplica CORS a todas las rutas
             allowedOrigins:
-              - "*"  # Permite cualquier origen
+              - "http://localhost:3000"  # Permite cualquier origen
             allowedHeaders:
               - "*"  # Permite todos los encabezados
             allowedMethods:

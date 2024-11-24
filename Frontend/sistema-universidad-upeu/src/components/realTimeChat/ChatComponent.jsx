@@ -12,7 +12,7 @@ const ChatComponent = () => {
 
   useEffect(() => {
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:9090/ws"), // Conexión usando SockJS
+      webSocketFactory: () => new SockJS("http://localhost:8083/ws"), // Conexión usando SockJS
       onConnect: () => {
         console.log("Conectado al WebSocket");
         client.subscribe("/topic/public", (message) => {
