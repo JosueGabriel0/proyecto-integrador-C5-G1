@@ -389,18 +389,14 @@ const App = () => {
           <Route
             path="/login-real-time-chat"
             element={
-              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <LoginComponent />
-              </GeneralProtectedRouteComponent>
             }
           />
 
           <Route
             path="/chat-real-time-chat"
             element={
-              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <ChatComponent />
-              </GeneralProtectedRouteComponent>
             }
           />
 

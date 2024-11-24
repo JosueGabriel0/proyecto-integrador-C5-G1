@@ -49,6 +49,16 @@ spring:
           uri: lb://ms-realTimeChat-service
           predicates:
             - Path=/ws/**
+          cors:
+            corsConfigurations:
+              '[/**]': # Especificar que no se debe aplicar CORS a esta ruta
+                allowedOrigins: # Dejar vacío o aplicar configuración diferente
+                  - ""
+                allowedHeaders:
+                  - "*"
+                allowedMethods:
+                  - "*"
+                allowCredentials: true
 
         - id: ms-persona-service
           uri: lb://ms-persona-service
