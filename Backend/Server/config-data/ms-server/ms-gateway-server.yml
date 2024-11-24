@@ -33,15 +33,17 @@ spring:
           predicates:
             - Path=/auth/**, /api/email/**
 
-        - id: ms-roles-service
-          uri: lb://ms-roles-service
-          predicates:
-            - Path=/rol/**
-
         - id: ms-usuarios-service
           uri: lb://ms-usuarios-service
           predicates:
             - Path=/usuario/**
+
+        - id: ms-roles-service
+          uri: lb://ms-roles-service
+          predicates:
+            - Path=/rol/**
+          filters:
+            - AuthFilter
 
         - id: ms-inscripciones-service
           uri: lb://ms-inscripciones-service
