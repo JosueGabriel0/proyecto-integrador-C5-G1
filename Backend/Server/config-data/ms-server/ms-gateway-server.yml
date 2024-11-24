@@ -12,6 +12,16 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '/auth/**': # Aplicar la configuración a las rutas que empiecen con "/auth"
+            allowedOrigins:
+              - "http://localhost:3000"  # Permitir el frontend en desarrollo local
+            allowedHeaders:
+              - "*"  # Permitir todos los encabezados, incluyendo Authorization
+            allowedMethods:
+              - "*"  # Permitir todos los métodos (GET, POST, PUT, DELETE, OPTIONS)
+            allowCredentials: true  # Permitir el envío de credenciales
 
       discovery:
         locator:
@@ -121,152 +131,6 @@ spring:
             - Path=/planificacionAcademica/**
           filters:
             - AuthFilter
-
-      globalcors:
-        corsConfigurations:
-          '/auth/**': # Aplicar la configuración a las rutas que empiecen con "/auth"
-            allowedOrigins:
-              - "http://localhost:3000"  # Permitir el frontend en desarrollo local
-            allowedHeaders:
-              - "*"  # Permitir todos los encabezados, incluyendo Authorization
-            allowedMethods:
-              - "*"  # Permitir todos los métodos (GET, POST, PUT, DELETE, OPTIONS)
-            allowCredentials: true  # Permitir el envío de credenciales
-
-          '/api/email/**': # Aplicar la configuración a las rutas que empiecen con "/api/email"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/rol/**': # Aplicar la configuración a las rutas que empiecen con "/rol"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/usuario/**': # Aplicar la configuración a las rutas que empiecen con "/usuario"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/persona/**': # Aplicar la configuración a las rutas que empiecen con "/persona"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/administrador/**': # Aplicar la configuración a las rutas que empiecen con "/administrador"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/inscripcion/**': # Aplicar la configuración a las rutas que empiecen con "/inscripcion"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/calendarioAcademico/**': # Aplicar la configuración a las rutas que empiecen con "/calendarioAcademico"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/carrera/**': # Aplicar la configuración a las rutas que empiecen con "/carrera"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/curso/**': # Aplicar la configuración a las rutas que empiecen con "/curso"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/docente/**': # Aplicar la configuración a las rutas que empiecen con "/docente"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/estudiante/**': # Aplicar la configuración a las rutas que empiecen con "/estudiante"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/administrativo/**': # Aplicar la configuración a las rutas que empiecen con "/administrativo"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/evaluacionAcademica/**': # Aplicar la configuración a las rutas que empiecen con "/evaluacionAcademica"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/materialesEducativos/**': # Aplicar la configuración a las rutas que empiecen con "/materialesEducativos"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
-
-          '/planificacionAcademica/**': # Aplicar la configuración a las rutas que empiecen con "/planificacionAcademica"
-            allowedOrigins:
-              - "http://localhost:3000"
-            allowedHeaders:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowCredentials: true
 
 logging:
   level:
