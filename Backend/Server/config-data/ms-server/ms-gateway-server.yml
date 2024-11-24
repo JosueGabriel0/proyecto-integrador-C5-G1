@@ -43,6 +43,13 @@ spring:
           predicates:
             - Path=/usuario/**
 
+        - id: ms-inscripciones-service
+          uri: lb://ms-inscripciones-service
+          predicates:
+            - Path=/inscripcion/**
+            #filters:
+            #- AuthFilter
+
         #- id: ms-realTimeChat-service
           #uri: lb://ms-realTimeChat-service
           #predicates:
@@ -61,13 +68,6 @@ spring:
             - Path=/administrador/**
           filters:
             - AuthFilter
-
-        - id: ms-inscripciones-service
-          uri: lb://ms-inscripciones-service
-          predicates:
-            - Path=/inscripcion/**
-          #filters:
-            #- AuthFilter
 
         - id: ms-calendarioAcademico-service
           uri: lb://ms-calendarioAcademico-service
