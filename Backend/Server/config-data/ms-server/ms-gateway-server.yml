@@ -12,6 +12,116 @@ eureka:
 spring:
   cloud:
     gateway:
+
+      discovery:
+        locator:
+          enable: true
+
+      routes:
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**, /api/email/**
+
+        - id: ms-roles-service
+          uri: lb://ms-roles-service
+          predicates:
+            - Path=/rol/**
+
+        - id: ms-usuarios-service
+          uri: lb://ms-usuarios-service
+          predicates:
+            - Path=/usuario/**
+
+        - id: ms-realTimeChat-service
+          uri: lb://ms-realTimeChat-service
+          predicates:
+            - Path=/ws/**
+
+        - id: ms-persona-service
+          uri: lb://ms-persona-service
+          predicates:
+            - Path=/persona/**
+          filters:
+            - AuthFilter
+
+        - id: ms-administrador-service
+          uri: lb://ms-administrador-service
+          predicates:
+            - Path=/administrador/**
+          filters:
+            - AuthFilter
+
+        - id: ms-inscripciones-service
+          uri: lb://ms-inscripciones-service
+          predicates:
+            - Path=/inscripcion/**
+          filters:
+            - AuthFilter
+
+        - id: ms-calendarioAcademico-service
+          uri: lb://ms-calendarioAcademico-service
+          predicates:
+            - Path=/calendarioAcademico/**
+          filters:
+            - AuthFilter
+
+        - id: ms-carrera-service
+          uri: lb://ms-carrera-service
+          predicates:
+            - Path=/carrera/**
+          filters:
+            - AuthFilter
+
+        - id: ms-curso-service
+          uri: lb://ms-curso-service
+          predicates:
+            - Path=/curso/**
+          filters:
+            - AuthFilter
+
+        - id: ms-docente-service
+          uri: lb://ms-docente-service
+          predicates:
+            - Path=/docente/**
+          filters:
+            - AuthFilter
+
+        - id: ms-estudiante-service
+          uri: lb://ms-estudiante-service
+          predicates:
+            - Path=/estudiante/**
+          filters:
+            - AuthFilter
+
+        - id: ms-administrativo-service
+          uri: lb://ms-administrativo-service
+          predicates:
+            - Path=/administrativo/**
+          filters:
+            - AuthFilter
+
+        - id: ms-evaluacionAcademica-service
+          uri: lb://ms-evaluacionAcademica-service
+          predicates:
+            - Path=/evaluacionAcademica/**
+          filters:
+            - AuthFilter
+
+        - id: ms-materialesEducativos-service
+          uri: lb://ms-materialesEducativos-service
+          predicates:
+            - Path=/materialesEducativos/**
+          filters:
+            - AuthFilter
+
+        - id: ms-planificacionAcademica-service
+          uri: lb://ms-planificacionAcademica-service
+          predicates:
+            - Path=/planificacionAcademica/**
+          filters:
+            - AuthFilter
+
       globalcors:
         corsConfigurations:
           '/auth/**': # Aplicar la configuración a las rutas que empiecen con "/auth"
@@ -157,115 +267,6 @@ spring:
             allowedMethods:
               - "*"
             allowCredentials: true
-
-      discovery:
-        locator:
-          enable: true
-
-      routes:
-        - id: ms-auth-service
-          uri: lb://ms-auth-service
-          predicates:
-            - Path=/auth/**, /api/email/**
-
-        - id: ms-roles-service
-          uri: lb://ms-roles-service
-          predicates:
-            - Path=/rol/**
-
-        - id: ms-usuarios-service
-          uri: lb://ms-usuarios-service
-          predicates:
-            - Path=/usuario/**
-
-        - id: ms-realTimeChat-service
-          uri: lb://ms-realTimeChat-service
-          predicates:
-            - Path=/ws/**
-
-        - id: ms-persona-service
-          uri: lb://ms-persona-service
-          predicates:
-            - Path=/persona/**
-          filters:
-            - AuthFilter
-
-        - id: ms-administrador-service
-          uri: lb://ms-administrador-service
-          predicates:
-            - Path=/administrador/**
-          filters:
-            - AuthFilter
-
-        - id: ms-inscripciones-service
-          uri: lb://ms-inscripciones-service
-          predicates:
-            - Path=/inscripcion/**
-          filters:
-            - AuthFilter
-
-        - id: ms-calendarioAcademico-service
-          uri: lb://ms-calendarioAcademico-service
-          predicates:
-            - Path=/calendarioAcademico/**
-          filters:
-            - AuthFilter
-
-        - id: ms-carrera-service
-          uri: lb://ms-carrera-service
-          predicates:
-            - Path=/carrera/**
-          filters:
-            - AuthFilter
-
-        - id: ms-curso-service
-          uri: lb://ms-curso-service
-          predicates:
-            - Path=/curso/**
-          filters:
-            - AuthFilter
-
-        - id: ms-docente-service
-          uri: lb://ms-docente-service
-          predicates:
-            - Path=/docente/**
-          filters:
-            - AuthFilter
-
-        - id: ms-estudiante-service
-          uri: lb://ms-estudiante-service
-          predicates:
-            - Path=/estudiante/**
-          filters:
-            - AuthFilter
-
-        - id: ms-administrativo-service
-          uri: lb://ms-administrativo-service
-          predicates:
-            - Path=/administrativo/**
-          filters:
-            - AuthFilter
-
-        - id: ms-evaluacionAcademica-service
-          uri: lb://ms-evaluacionAcademica-service
-          predicates:
-            - Path=/evaluacionAcademica/**
-          filters:
-            - AuthFilter
-
-        - id: ms-materialesEducativos-service
-          uri: lb://ms-materialesEducativos-service
-          predicates:
-            - Path=/materialesEducativos/**
-          filters:
-            - AuthFilter
-
-        - id: ms-planificacionAcademica-service
-          uri: lb://ms-planificacionAcademica-service
-          predicates:
-            - Path=/planificacionAcademica/**
-          filters:
-            - AuthFilter
 
 logging:
   level:
