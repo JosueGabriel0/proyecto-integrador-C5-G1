@@ -33,7 +33,7 @@ public class UsuarioDataLoader {
                 Usuario usuarioAdministrativo1 = new Usuario();
                 usuarioAdministrativo1.setUsername("administrativo");
                 usuarioAdministrativo1.setPassword("passwordAdministrativo123"); // Asegúrate de cifrar la contraseña
-                usuarioAdministrativo1.setEmail("administrativo@universidad.com");
+                usuarioAdministrativo1.setEmail("josue.ochoa@upeu.edu.pe");
                 usuarioAdministrativo1.setEnabled(true);
                 usuarioAdministrativo1.setIdRol(2L);
 
