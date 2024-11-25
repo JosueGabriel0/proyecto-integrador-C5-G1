@@ -44,7 +44,7 @@ public class InscripcionesDataLoader {
                 inscripcion3.setIdInscripcion(null); // Se generará automáticamente
                 inscripcion3.setInscripcionRol("Con Rol");
                 inscripcion3.setFechaCreacionInscripcion(LocalDateTime.now());
-                inscripcion3.setIdRol(3L);
+                inscripcion3.setIdRol(4L);
                 inscripcion3.setIdUsuario(9L);
                 inscripcion3.setIdPersona(3L);
                 inscripcion3.setIdDocente(1L);
@@ -54,7 +54,7 @@ public class InscripcionesDataLoader {
                 inscripcion4.setIdInscripcion(null); // Se generará automáticamente
                 inscripcion4.setInscripcionRol("Con Rol");
                 inscripcion4.setFechaCreacionInscripcion(LocalDateTime.now());
-                inscripcion4.setIdRol(4L);
+                inscripcion4.setIdRol(3L);
                 inscripcion4.setIdUsuario(23L);
                 inscripcion4.setIdPersona(4L);
                 inscripcion4.setIdEstudiante(1L);
