@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Spline from '@splinetool/react-spline';
 import GeneralProfileCardCompoent from './GeneralProfileCardComponent';
 
-function GeneralDashboardComponent() {
+function GeneralDashboardComponent({titulo = "Dshboard"}) {
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
       {/* Fondo Spline */}
@@ -38,7 +38,7 @@ function GeneralDashboardComponent() {
           padding: "20px",
         }}
       >
-        <h1>Dashboard</h1>
+        <h1>{titulo}</h1>
         <p>Bienvenido al panel principal de administración del sistema universitario UPeU.</p>
 
         <GeneralProfileCardCompoent />

@@ -58,38 +58,13 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
     @Override
     public Inscripcion crearInscripcion(Inscripcion inscripcionDTO, MultipartFile fotoPerfil) {
         Inscripcion inscripcion = new Inscripcion();
-        final int maxRetries = 5;  // Número máximo de intentos
-        final int retryInterval = 2000;  // Intervalo de espera entre intentos (en milisegundos)
 
         try {
-            // 1. Intentar crear el Rol y obtener el ID con un ciclo de espera
-            Long idRolCreado = null;
-            String nombreRolCreado = null;
-            for (int i = 0; i < maxRetries; i++) {
-                ResponseEntity<Rol> rolResponse = rolFeign.crearRolDto(inscripcionDTO.getRol());
-                if (rolResponse.getBody() != null && rolResponse.getBody().getIdRol() != null) {
-                    idRolCreado = rolResponse.getBody().getIdRol();
-                    nombreRolCreado = rolResponse.getBody().getNombreRol();
-                    break;  // Si el rol se creó correctamente, salir del ciclo
-                }
-                try {
-                    Thread.sleep(retryInterval);  // Esperar antes de intentar de nuevo
-                } catch (InterruptedException e) {
-                    // Manejar la interrupción si ocurre
-                    Thread.currentThread().interrupt();  // Restablecer el estado de interrupción
-                    throw new RuntimeException("El hilo fue interrumpido mientras esperaba para crear el Rol.", e);
-                }
-            }
-
-            if (idRolCreado == null) {
-                throw new RuntimeException("No se pudo crear el Rol después de varios intentos.");
-            }
-
-            System.out.println("El id del rol que se creo y se esta asignando a Usuario es este: "+idRolCreado);
+            System.out.println("El id del rol que se creo y se esta asignando a Usuario es este: "+inscripcionDTO.getIdRol());
 
             // Asignar el ID del Rol al objeto Inscripcion
-            inscripcion.setIdRol(idRolCreado);
-            inscripcionDTO.getUsuario().setIdRol(idRolCreado); // Asignar el Rol al Usuario
+            inscripcion.setIdRol(inscripcionDTO.getIdRol());
+            inscripcionDTO.getUsuario().setIdRol(inscripcionDTO.getIdRol()); // Asignar el Rol al Usuario
 
             // 2. Crear el Usuario y obtener el ID
             ResponseEntity<?> usuarioResponse = usuarioFeign.crearUsuarioDto(inscripcionDTO.getUsuario());
@@ -160,7 +135,7 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 inscripcion.setIdDocente(docenteCreado.getIdDocente());
 
             } else if (inscripcionDTO.getAdministrador() == null && inscripcionDTO.getAdministrativo() == null && inscripcionDTO.getDocente() == null && inscripcionDTO.getEstudiante() == null){
-                System.out.println("Se creo una persona con el nuevo Rol: "+nombreRolCreado);
+                System.out.println("Se creo una persona con el nuevo Rol:");
             } else {
                 throw new RuntimeException("Debe proveerse solo un Administrador, Administrativo, Estudiante o un Docente, no varios.");
             }
@@ -234,32 +209,6 @@ public class InscripcionesSeviceImpl implements InscripcionesService {
                 .orElseThrow(() -> new RuntimeException("Inscripción no encontrada con ID: " + idInscripcion));
 
         try {
-            // 1. Actualizar Rol
-            if (inscripcionDTO.getRol() != null && inscripcionDTO.getRol().getIdRol() != null) {
-                Long idRolActualizado = null;
-
-                for (int i = 0; i < maxRetries; i++) {
-                    ResponseEntity<Rol> rolResponse = rolFeign.actualizarRolDto(inscripcionExistente.getIdRol(), inscripcionDTO.getRol());
-                    if (rolResponse.getBody() != null && rolResponse.getBody().getIdRol() != null) {
-                        idRolActualizado = rolResponse.getBody().getIdRol();
-                        break;  // Salir del ciclo si se actualizó correctamente
-                    }
-                    try {
-                        Thread.sleep(retryInterval);  // Esperar antes de intentar nuevamente
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        throw new RuntimeException("El hilo fue interrumpido mientras esperaba para actualizar el Rol.", e);
-                    }
-                }
-
-                if (idRolActualizado == null) {
-                    throw new RuntimeException("No se pudo actualizar el Rol después de varios intentos.");
-                }
-
-                inscripcionExistente.setIdRol(idRolActualizado);
-                System.out.println("El id del rol actualizado es: " + idRolActualizado);
-            }
-
             // 2. Actualizar Usuario
             if (inscripcionDTO.getUsuario() != null) {
                 inscripcionDTO.getUsuario().setIdRol(inscripcionExistente.getIdRol());

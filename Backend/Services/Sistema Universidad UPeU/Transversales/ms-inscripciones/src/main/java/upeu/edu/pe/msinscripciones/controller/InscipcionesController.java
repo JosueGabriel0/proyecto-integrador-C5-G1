@@ -88,7 +88,6 @@ public class InscipcionesController {
             //Settear los ids de los objetos que se enviaran a sus respectivos microservicios
             Inscripcion inscripcionEncontrada = inscripcionesService.buscarInscripcionPorId(idInscripcion);
 
-            inscripcionDto.getRol().setIdRol(inscripcionEncontrada.getRol().getIdRol());
             inscripcionDto.getUsuario().setIdUsuario(inscripcionEncontrada.getUsuario().getIdUsuario());
             inscripcionDto.getPersona().setId(inscripcionEncontrada.getPersona().getId());
 

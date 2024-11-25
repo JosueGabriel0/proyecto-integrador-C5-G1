@@ -6,7 +6,7 @@ import CursoAdminService from "../../../services/administradorServices/curso/Cur
 
 function AddDocenteComponent() {
     const [departamento, setDepartamento] = useState("");
-    const [tituloAcatemico, setTituloAcademico] = useState("");
+    const [tituloAcademico, setTituloAcademico] = useState("");
     const [especialidad, setEspecialidad] = useState("");
 
     const [cursosImpartidos, setCursosImpartidos] = useState([]);
@@ -56,7 +56,7 @@ function AddDocenteComponent() {
     function saveOrUpdateDocente(e) {
         e.preventDefault();
         const docente = {
-            departamento, tituloAcatemico, especialidad, cursosImpartidos, historialLaboral: historialLaboral.map(registro => ({
+            departamento, tituloAcademico, especialidad, cursosImpartidos, historialLaboral: historialLaboral.map(registro => ({
                 puesto: registro.puesto,
                 departamento: registro.departamento,
                 fechaInicio: registro.fechaInicio,
@@ -88,7 +88,7 @@ function AddDocenteComponent() {
         if (id) {
             DocenteAdminService.getDocenteById(id).then(response => {
                 setDepartamento(response.data.departamento);
-                setTituloAcademico(response.data.tituloAcatemico);
+                setTituloAcademico(response.data.tituloAcademico);
                 setEspecialidad(response.data.especialidad);
                 setCursosImpartidos(response.data.cursosImpartidos);
                 setHistorialLaboral(response.data.historialLaboral);
@@ -252,7 +252,7 @@ function AddDocenteComponent() {
 
                 <div>
                     <label>Titulo Academico</label>
-                    <input type="text" placeholder="Ingrese el Titulo Academico" name="tituloAcatemico" value={tituloAcatemico} onChange={e => setTituloAcademico(e.target.value)} />
+                    <input type="text" placeholder="Ingrese el Titulo Academico" name="tituloAcademico" value={tituloAcademico} onChange={e => setTituloAcademico(e.target.value)} />
                 </div>
 
                 <div>

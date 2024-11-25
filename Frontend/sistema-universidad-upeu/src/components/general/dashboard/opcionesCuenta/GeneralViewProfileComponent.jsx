@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getInscripcionId } from "../../../../services/authServices/authService";
 import InscripcionService from "../../../../services/inscripcionServices/InscripcionService";
 import PersonaService from "../../../../services/personaServices/PersonaService";
+import CursoService from "../../../../services/cursoServices/CursoService"
 
 const GeneralViewProfileComponent = () => {
 
@@ -72,7 +73,7 @@ const GeneralViewProfileComponent = () => {
 
   //Datos de Docente
   const [departamentoDocente, setDepartamentoDocente] = useState("");
-  const [tituloAcatemico, setTituloAcademico] = useState("");
+  const [tituloAcademico, setTituloAcademico] = useState("");
   const [especialidad, setEspecialidad] = useState("");
 
   const [cursosImpartidos, setCursosImpartidos] = useState([]);
@@ -213,7 +214,7 @@ const GeneralViewProfileComponent = () => {
 
       } else if (response.data.rol.nombreRol === "DOCENTE") {
         setDepartamento(response.data.departamento);
-        setTituloAcademico(response.data.tituloAcatemico);
+        setTituloAcademico(response.data.tituloAcademico);
         setEspecialidad(response.data.especialidad);
         setCursosImpartidos(response.data.cursosImpartidos);
         setHistorialLaboral(response.data.historialLaboral);
@@ -290,9 +291,284 @@ const GeneralViewProfileComponent = () => {
 
   const mostrarAdministrativo = () => {
     return (
-      <div>
+      <div className="container">
+        <h4>Información del Administrativo</h4>
+        <p>
+          <strong>Registro de Pagos:</strong> {registroPagos}
+        </p>
+        <p>
+          <strong>Monto Total de Pagos:</strong> {montoTotalPagos}
+        </p>
+        <p>
+          <strong>Fecha de Último Pago:</strong> {fechaUltimoPago}
+        </p>
+        <p>
+          <strong>Gestión de Empleados:</strong> {gestionEmpleados}
+        </p>
+        <p>
+          <strong>Fecha de Contratación:</strong> {fechaContratacion}
+        </p>
+        <p>
+          <strong>Cargo de Empleado:</strong> {cargoEmpleado}
+        </p>
+        <p>
+          <strong>Solicitudes Pendientes:</strong> {solicitudesPendientes}
+        </p>
+        <p>
+          <strong>Fecha de Solicitud:</strong> {fechaSolicitud}
+        </p>
+      </div>
+    );
+  };
+
+  const estadosLaborales = ["ACTIVO",
+    "INACTIVO",
+    "LICENCIA",
+    "JUBILADO",
+    "BAJA_TEMPORAL",
+    "BAJA_PERMANENTE"]
+
+  const tiposDocentes = ["TIEMPO_COMPLETO",
+    "MEDIO_TIEMPO",
+    "VISITANTE",
+    "ADJUNTO",
+    "TITULAR",
+    "EMERITO"]
+
+  function listarCursos() {
+    CursoService.getAllCursos().then(response => {
+      setCursosService(response.data);
+      console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  function obtenerNombreCurso(idCurso) {
+    const cursoEncontrado = cursosService.find(cursoService => cursoService.idCurso === idCurso);
+    return cursoEncontrado ? cursoEncontrado.nombre : "Desconocido";
+  }
+
+  const mostrarDocente = () => {
+    return (
+      <div className="container">
+        <h4>Información del Docente</h4>
+        <div>
+          <strong>Departamento:</strong> {departamento}
+        </div>
+
+        <div>
+          <strong>Título Académico:</strong> {tituloAcademico}
+        </div>
+
+        <div>
+          <strong>Especialidad:</strong> {especialidad}
+        </div>
+
+        <div>
+          <strong>Cursos Impartidos:</strong>
+          <ul>
+            {cursosImpartidos.map((cursoImpartido, index) => (
+              <li key={index}>{cursoImpartido}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Historial Laboral:</strong>
+          <ul>
+            {historialLaboral.map((registro, index) => (
+              <li key={index}>
+                <strong>Puesto:</strong> {registro.puesto}, <strong>Departamento:</strong> {registro.departamento},
+                <strong> Fecha de Inicio:</strong> {registro.fechaInicio},
+                <strong> Fecha de Fin:</strong> {registro.fechaFin},
+                <strong> Descripción:</strong> {registro.descripcion}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Estado Laboral:</strong> {estadoLaboral}
+        </div>
+
+        <div>
+          <strong>Tipo de Docente:</strong> {tipoDocente}
+        </div>
+
+        <div>
+          <strong>Fecha de Contratación:</strong> {fechaContratacion}
+        </div>
+
+        <div>
+          <strong>Tipo de Contrato:</strong> {tipoContrato}
+        </div>
+
+        <div>
+          <strong>Salario:</strong> {salario}
+        </div>
+
+        <div>
+          <strong>Horario:</strong> {horarioDocente}
+        </div>
+
+        <div>
+          <strong>Publicaciones Académicas:</strong>
+          <ul>
+            {publicacionesAcademicas.map((publicacionAcademica, index) => (
+              <li key={index}>{publicacionAcademica}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Proyectos de Investigación:</strong>
+          <ul>
+            {proyectosInvestigacion.map((proyectoInvestigacion, index) => (
+              <li key={index}>{proyectoInvestigacion}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Número de Oficina:</strong> {numeroOficina}
+        </div>
+
+        <div>
+          <strong>Extensión Telefónica:</strong> {extensionTelefonica}
+        </div>
+
+        <div>
+          <strong>Supervisor:</strong> {supervisor}
+        </div>
+
+        <div>
+          <strong>Logros Académicos:</strong>
+          <ul>
+            {logrosAcademicos.map((logroAcademico, index) => (
+              <li key={index}>{logroAcademico}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Fecha de Jubilación:</strong> {fechaJubilacion}
+        </div>
+
+        <div>
+          <strong>Todos los Cursos:</strong>
+          <ul>
+            {cursosDocente.map((idCurso, index) => (
+              <li key={index}>{obtenerNombreCurso(Number(idCurso))}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     )
+  }
+
+  const mostrarEstudiante = () => {
+    return (
+      <div>
+        <div>
+          <strong>Matrícula:</strong> {matricula}
+        </div>
+
+        <div>
+          <strong>Ciclo Actual:</strong> {cicloActual}
+        </div>
+
+        <div>
+          <strong>Promedio General:</strong> {promedioGeneral}
+        </div>
+
+        <div>
+          <strong>Fecha de Ingreso:</strong> {fechaIngreso}
+        </div>
+
+        <div>
+          <strong>Estado:</strong> {estado}
+        </div>
+
+        <div>
+          <strong>Tipo de Estudiante:</strong> {tipoEstudiante}
+        </div>
+
+        <div>
+          <strong>Beca:</strong> {beca}
+        </div>
+
+        <div>
+          <strong>Número de Matrícula:</strong> {numeroMatricula}
+        </div>
+
+        <div>
+          <strong>Carreras Ingresadas:</strong>
+          <ul>
+            {carrerasIngresadas.map((carrera, index) => (
+              <li key={index}>{carrera}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Asignaturas Matriculadas:</strong>
+          <ul>
+            {asignaturasMatriculadas.map((asignatura, index) => (
+              <li key={index}>{asignatura}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Horario:</strong> {horarioEstudiante}
+        </div>
+
+        <div>
+          <strong>Consejero Académico:</strong> {consejeroAcademico}
+        </div>
+
+        <div>
+          <strong>Fecha de Graduación:</strong> {fechaGraduacion}
+        </div>
+
+        <div>
+          <strong>Prácticas Realizadas:</strong>
+          <ul>
+            {practicasRealizadas.map((practica, index) => (
+              <li key={index}>{practica}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong>Historial Académico:</strong>
+          <ul>
+            {historialAcademico.map((registro, index) => (
+              <li key={index}>
+                <strong>Curso:</strong> {registro.nombreCurso},
+                <strong> Calificación:</strong> {registro.calificacion},
+                <strong> Fecha de Finalización:</strong> {registro.fechaFinalizacion}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+
+    )
+  }
+
+  const mostrarDatosSegunRol = () => {
+    if(nombreRol === "ADMINISTRADOR"){
+      return mostrarAdministrador();
+    }else if(nombreRol === "ADMINISTRATIVO"){
+      return mostrarAdministrativo();
+    }else if(nombreRol === "DOCENTE"){
+      return mostrarDocente();
+    }else if(nombreRol === "ESTUDIANTE"){
+      return mostrarEstudiante();
+    }
   }
 
   const handleBack = () => {
@@ -301,6 +577,7 @@ const GeneralViewProfileComponent = () => {
 
   useEffect(() => {
     datosDelPerfil();
+    listarCursos();
   }, []);
 
   if (loading) {
@@ -431,10 +708,8 @@ const GeneralViewProfileComponent = () => {
             </p>
 
           </div>
-          {mostrarAdministrador()}
-          <h4>Información del Administrativo</h4>
-          <h4>Información del Docente</h4>
-          <h4>Información del Estudiante</h4>
+
+          {mostrarDatosSegunRol()}
 
         </div>
       </div>

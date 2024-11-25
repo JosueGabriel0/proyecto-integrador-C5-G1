@@ -96,3 +96,23 @@
     background-color: #0056b3;
     /* Color al pasar el mouse */
 }
+
+/* Aplica scroll vertical y horizontal si el contenido excede el tamaño */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    /* Scroll en ambos sentidos */
+}
+
+/* Hacer que el HTML ocupe el 100% de la pantalla */
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+/* Asegurarte de que los contenedores no rompan el diseño */
+* {
+    box-sizing: border-box;
+}

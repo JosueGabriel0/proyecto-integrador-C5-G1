@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { login } from '../../services/authServices/authService'; // Asegúrate de la ruta correcta
+import { getUserRole, login } from '../../services/authServices/authService'; // Asegúrate de la ruta correcta
 import { useNavigate, Link } from 'react-router-dom';
 
 const GeneralLoginComponent = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
     const navigate = useNavigate(); // Hook para redirección
+
+    const rolDelUsuario = getUserRole();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -21,7 +23,20 @@ const GeneralLoginComponent = () => {
         e.preventDefault();
         try {
             const token = await login(credentials); // Intenta iniciar sesión y obtiene el token
-            navigate('/dashboard-administrador'); // Redirige a dashboard-administrador tras login exitoso
+
+            // Redirige según el rol del usuario
+            console.log("Este es el Rol:" + rolDelUsuario)
+            if (rolDelUsuario === "ADMINISTRADOR") {
+                navigate('/dashboard-administrador');
+            } else if (rolDelUsuario === "ADMINISTRATIVO") {
+                navigate('/dashboard-administrativo');
+            } else if (rolDelUsuario === "DOCENTE"){
+                navigate('/dashboard-docente');
+            }else if (rolDelUsuario === "ESTUDIANTE"){
+                navigate('/dashboard-estudiante');
+            }else {
+                setError("Rol desconocido. Comuníquese con soporte.");
+            }
         } catch (error) {
             setError('El nombre de Usuario o la Contraseña son incorrectos'); // Manejo de errores
         }

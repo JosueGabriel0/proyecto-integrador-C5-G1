@@ -40,6 +40,9 @@ import AddInscripcionNuevoRolComponent from './components/administrador/Gestiona
 import ChatComponent from './components/realTimeChat/ChatComponent';
 import LoginComponent from './components/realTimeChat/LoginComponent';
 import GeneralViewProfileComponent from './components/general/dashboard/opcionesCuenta/GeneralViewProfileComponent';
+import AdministrativoDashboardComponent from './components/administrativo/AdministrativoDashboardComponent';
+import DocenteDashboardComponent from './components/docente/DocenteDashboardComponent';
+import EstudianteDashboardComponent from './components/estudiante/EstudianteDashboardComponent';
 
 const App = () => {
   return (
@@ -53,6 +56,46 @@ const App = () => {
           <Route path='/email' element={<GeneralEmailComponent />} />
           <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent />} />
           <Route path='/cambiar-contrasenia/:token' element={<GeneralCambiarContraseniaComponent />} />
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-administrador'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <AdministradorDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-administrativo'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRATIVO']}>
+                <AdministrativoDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-docente'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['DOCENTE']}>
+                <DocenteDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <EstudianteDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
 
           {/* Ruta protegida para el dashboard */}
           <Route

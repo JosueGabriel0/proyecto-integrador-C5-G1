@@ -19,13 +19,13 @@ const LogoutButton = () => {
   );
 };
 
-function AdministradorDashboardComponent() {
+function AdministrativoDashboardComponent() {
   return (
     <div className="container">
-      <GeneralDashboardComponent titulo="Dashboard Administrador"/>
+      <GeneralDashboardComponent titulo="Dashboard Administrativo"/>
     </div>
 
   );
 };
 
-export default AdministradorDashboardComponent;
+export default AdministrativoDashboardComponent;

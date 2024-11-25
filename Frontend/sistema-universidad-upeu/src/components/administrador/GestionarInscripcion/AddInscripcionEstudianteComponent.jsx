@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import CarreraAdminService from "../../../services/administradorServices/carrera/CarreraAdminService";
 import CursoAdminService from "../../../services/administradorServices/curso/CursoAdminService";
+import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
 
 function AddInscripcionEstudianteComponent() {
 
@@ -76,10 +77,7 @@ function AddInscripcionEstudianteComponent() {
     async function saveOrUpdateInscripcion(e) {
         e.preventDefault();
         const inscripcion = {
-            rol: {
-                nombreRol,
-                description
-            },
+            idRol: 3,
             usuario: {
                 username,
                 password,
@@ -174,14 +172,23 @@ function AddInscripcionEstudianteComponent() {
         }
     }
 
+    const datosEstudiante = () => {
+        RolAdminService.getRolById(3).then((response) => {
+            setNombreRol(response.data.nombreRol);
+            setDescription(response.data.description);
+            console.log("El nombre del Rol es: " + response.data.nombreRol);
+            console.log("La descripcion del Rol el: " + response.data.description);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         listarCarreras();
         listarCursos();
+        datosEstudiante();
         if (id) {
             InscripcionConRolAdminService.getInscripcionById(id).then(response => {
-                setNombreRol(response.data.rol.nombreRol);
-                setDescription(response.data.rol.description);
-
                 setUsername(response.data.usuario.username);
                 setPassword(response.data.usuario.password);
                 setEmailUsuario(response.data.usuario.email);
@@ -367,17 +374,14 @@ function AddInscripcionEstudianteComponent() {
         <div className="container">
             <h1>{title()}</h1>
             <form>
-                {/*Rol*/}
-                <div>
-                    <label>Nombre del Rol</label>
-                    <input required type="text" placeholder="Inserte el rol" name="nombreRol" value={nombreRol} onChange={(e) => setNombreRol(e.target.value)} />
-                </div>
 
-                <div>
-                    <label>Descripcion</label>
-                    <input required type="text" placeholder="Inserte la descripcion" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                </div>
-
+                <h4>Información del Rol</h4>
+                <p>
+                    <strong>Nombre del Rol:</strong> {nombreRol}
+                </p>
+                <p>
+                    <strong>Descripcion:</strong> {description}
+                </p>
 
                 {/*Usuario*/}
                 <div>
