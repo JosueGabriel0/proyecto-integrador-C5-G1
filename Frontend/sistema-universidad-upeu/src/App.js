@@ -39,6 +39,7 @@ import AddInscripcionNuevoRolComponent from './components/administrador/Gestiona
 
 import ChatComponent from './components/realTimeChat/ChatComponent';
 import LoginComponent from './components/realTimeChat/LoginComponent';
+import GeneralViewProfileComponent from './components/general/dashboard/opcionesCuenta/GeneralViewProfileComponent';
 
 const App = () => {
   return (
@@ -389,17 +390,25 @@ const App = () => {
           <Route
             path="/login-real-time-chat"
             element={
-                <LoginComponent />
+              <LoginComponent />
             }
           />
 
           <Route
             path="/chat-real-time-chat"
             element={
-                <ChatComponent />
+              <ChatComponent />
             }
           />
 
+          <Route
+            path='/ver-perfil'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+                <GeneralViewProfileComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
 
           <Route path='/unauthorized' element={<Unauthorized />} /> {/* Ruta para no autorizado */}
           <Route path='*' element={<h2>404 - Página no encontrada</h2>} />

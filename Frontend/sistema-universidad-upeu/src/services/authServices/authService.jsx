@@ -83,7 +83,7 @@ export const getShortLivedToken = async () => {
     }
 };
 
-// Esta función debería devolver el rol del usuario
+// Esta función devuelve el rol del usuario
 export const getUserRole = () => {
     const token = getToken();
     if (!token) return null;
@@ -100,7 +100,7 @@ export const getUserRole = () => {
     }
 };
 
-// Esta función debería devolver el id del usuario
+// Esta función devolvuelve el id del usuario
 export const getUserId = () => {
     const token = getToken();
     if (!token) return null;
@@ -109,8 +109,25 @@ export const getUserId = () => {
         // Decodificar el payload del JWT
         const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
         
-        console.log("Este es el id: " + payload.idUsuario); // Asegúrate de que el campo coincide con el id en el token
+        console.log("Este es el id del usuario: " + payload.idUsuario); // Asegúrate de que el campo coincide con el id en el token
         return payload.idUsuario; // Devuelve el id si está presente
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null; // Devuelve null si ocurre un error durante la decodificación
+    }
+};
+
+//Esta funcion devuelve una inscripcion con respecto al id del usuario
+export const getInscripcionId = () => {
+    const token = getToken();
+    if (!token) return null;
+
+    try {
+        // Decodificar el payload del JWT
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
+        
+        console.log("Este es el id de la inscripcion: " + payload.idInscripcion); // Asegúrate de que el campo coincide con el id en el token
+        return payload.idInscripcion; // Devuelve el id si está presente
     } catch (error) {
         console.error('Error decoding token:', error);
         return null; // Devuelve null si ocurre un error durante la decodificación

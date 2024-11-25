@@ -1,0 +1,32 @@
+.profile-card {
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente los elementos */
+    justify-content: space-between;
+    /* Coloca los elementos en los extremos */
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #6c757d;
+    max-width: 300px;
+    margin: auto;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Hace que el texto ocupe el espacio disponible */
+}
+
+.profile-image {
+    width: 50px;
+    /* Asegúrate de que la imagen tenga el tamaño correcto */
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    margin-left: 10px;
+    /* Puede ayudar a separar un poco la imagen del texto */
+}
