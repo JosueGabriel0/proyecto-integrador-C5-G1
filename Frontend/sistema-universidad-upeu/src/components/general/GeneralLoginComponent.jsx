@@ -30,11 +30,13 @@ const GeneralLoginComponent = () => {
                 navigate('/dashboard-administrador');
             } else if (rolDelUsuario === "ADMINISTRATIVO") {
                 navigate('/dashboard-administrativo');
-            } else if (rolDelUsuario === "DOCENTE"){
+            } else if (rolDelUsuario === "DOCENTE") {
+                console.log("Este es el rol al que esta entrando el Docente" + rolDelUsuario);
                 navigate('/dashboard-docente');
-            }else if (rolDelUsuario === "ESTUDIANTE"){
+            } else if (rolDelUsuario === "ESTUDIANTE") {
+                console.log("Este es el rol al que esta entrando el Estudiante" + rolDelUsuario);
                 navigate('/dashboard-estudiante');
-            }else {
+            } else {
                 setError("Rol desconocido. Comuníquese con soporte.");
             }
         } catch (error) {

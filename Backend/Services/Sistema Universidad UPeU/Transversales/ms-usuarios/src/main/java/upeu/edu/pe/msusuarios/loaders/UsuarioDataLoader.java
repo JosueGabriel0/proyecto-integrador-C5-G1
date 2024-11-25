@@ -42,14 +42,14 @@ public class UsuarioDataLoader {
                 usuarioDocente1.setPassword("passwordDocente1123"); // Asegúrate de cifrar la contraseña
                 usuarioDocente1.setEmail("docente@universidad.com");
                 usuarioDocente1.setEnabled(true);
-                usuarioDocente1.setIdRol(3L);
+                usuarioDocente1.setIdRol(4L);
 
                 Usuario usuarioEstudiante1 = new Usuario();
                 usuarioEstudiante1.setUsername("estudiante");
                 usuarioEstudiante1.setPassword("passwordEstudiante1123"); // Asegúrate de cifrar la contraseña
                 usuarioEstudiante1.setEmail("estudiante@universidad.com");
                 usuarioEstudiante1.setEnabled(true);
-                usuarioEstudiante1.setIdRol(4L);
+                usuarioEstudiante1.setIdRol(3L);
 
                 Usuario usuarioEstudiante2 = new Usuario();
                 usuarioEstudiante2.setUsername("estudiante2");
