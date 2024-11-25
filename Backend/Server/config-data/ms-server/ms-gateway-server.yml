@@ -37,16 +37,22 @@ spring:
           uri: lb://ms-usuarios-service
           predicates:
             - Path=/usuario/**
+          filters:
+            - AuthFilter
 
         - id: ms-roles-service
           uri: lb://ms-roles-service
           predicates:
             - Path=/rol/**
+          filters:
+            - AuthFilter
 
         - id: ms-inscripciones-service
           uri: lb://ms-inscripciones-service
           predicates:
             - Path=/inscripcion/**
+          filters:
+            - AuthFilter
 
         #- id: ms-realTimeChat-service
           #uri: lb://ms-realTimeChat-service
