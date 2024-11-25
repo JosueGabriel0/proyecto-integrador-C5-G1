@@ -19,7 +19,7 @@ const MessageListComponent = ({ messages }) => {
           {/* Mostrar mensaje de tipo JOIN/LEAVE */}
           {message.type !== "CHAT" ? (
             <p className="event-message-content">
-              {message.type === "JOIN" ? `${message.sender} joined!` : `${message.sender} left!`}
+              {message.type === "JOIN" ? `${message.sender} se unió al chat!` : `${message.sender} salió del chat!`}
             </p>
           ) : (
             <>

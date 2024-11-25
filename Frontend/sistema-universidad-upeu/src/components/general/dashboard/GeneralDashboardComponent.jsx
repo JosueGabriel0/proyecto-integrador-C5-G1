@@ -63,7 +63,8 @@ function GeneralDashboardComponent({titulo = "Dshboard"}) {
           <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
           <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
           <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
-          <Link to="/estudiantes">Estudiantes</Link>
+          <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
+          <Link to="/login-real-time-chat">Chat en linea</Link>
         </section>
       </div>
     </div>

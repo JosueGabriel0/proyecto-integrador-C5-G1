@@ -16,7 +16,7 @@ const MessageFormComponent = ({ onSendMessage }) => {
       <div className="input-group">
         <input
           type="text"
-          placeholder="Enter a message..."
+          placeholder="Introduce un mensaje..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />

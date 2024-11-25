@@ -19,7 +19,7 @@ import AddEstudianteComponent from './components/administrador/GestionarEstudian
 import GeneralInicioComponent from './components/general/GeneralInicioComponent';
 import GeneralLoginComponent from './components/general/GeneralLoginComponent';
 import AdministradorDashboardComponent from './components/administrador/AdministradorDashboardComponent';
-import { isAuthenticated } from './services/authServices/authService'; // Importa la función de verificación de autenticación
+import { getUserRole, isAuthenticated } from './services/authServices/authService'; // Importa la función de verificación de autenticación
 import GeneralEmailComponent from './components/general/GeneralEmailComponent';
 import GeneralRestablecerContraseniaComponent from './components/general/GeneralRestablecerContraseniaComponent';
 import GeneralCambiarContraseniaComponent from './components/general/GeneralCambiarContraseniaComponent';
@@ -45,6 +45,8 @@ import DocenteDashboardComponent from './components/docente/DocenteDashboardComp
 import EstudianteDashboardComponent from './components/estudiante/EstudianteDashboardComponent';
 
 const App = () => {
+  const nombreDelRol = getUserRole();
+  
   return (
     <BrowserRouter>
       <div className='container'>
@@ -447,7 +449,7 @@ const App = () => {
           <Route
             path='/ver-perfil'
             element={
-              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
+              <GeneralProtectedRouteComponent allowedRoles={[nombreDelRol]}>
                 <GeneralViewProfileComponent />
               </GeneralProtectedRouteComponent>
             }

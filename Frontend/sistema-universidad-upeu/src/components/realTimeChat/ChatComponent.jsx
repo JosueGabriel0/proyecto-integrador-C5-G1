@@ -60,7 +60,7 @@ const ChatComponent = () => {
     <div id="chat-page">
       <div className="chat-container">
         <div className="chat-header">
-          <h2>Welcome, {username}</h2>
+          <h2>Bienvenido, {username}</h2>
         </div>
         <MessageListComponent messages={messages} />
         <MessageFormComponent onSendMessage={sendMessage} />

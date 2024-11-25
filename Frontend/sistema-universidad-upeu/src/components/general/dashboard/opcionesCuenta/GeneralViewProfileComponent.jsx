@@ -5,6 +5,7 @@ import { getInscripcionId } from "../../../../services/authServices/authService"
 import InscripcionService from "../../../../services/inscripcionServices/InscripcionService";
 import PersonaService from "../../../../services/personaServices/PersonaService";
 import CursoService from "../../../../services/cursoServices/CursoService"
+import CarreraService from "../../../../services/carreraServices/CarreraService";
 
 const GeneralViewProfileComponent = () => {
 
@@ -213,43 +214,43 @@ const GeneralViewProfileComponent = () => {
         setFechaSolicitud(response.data.administrativo.fechaSolicitud);
 
       } else if (response.data.rol.nombreRol === "DOCENTE") {
-        setDepartamento(response.data.departamento);
-        setTituloAcademico(response.data.tituloAcademico);
-        setEspecialidad(response.data.especialidad);
-        setCursosImpartidos(response.data.cursosImpartidos);
-        setHistorialLaboral(response.data.historialLaboral);
-        setEstadoLaboral(response.data.estadoLaboral);
-        setTipoDocente(response.data.tipoDocente);
-        setFechaContratacion(response.data.fechaContratacion);
-        setTipoContrato(response.data.tipoContrato);
-        setSalario(response.data.salario);
-        setHorarioDocente(response.data.horario);
-        setPublicacionesAcademicas(response.data.publicacionesAcademicas);
-        setProyectosInvestigacion(response.data.proyectosInvestigacion);
-        setNumeroOficina(response.data.numeroOficina);
-        setExtensionTelefonica(response.data.extensionTelefonica);
-        setSupervisor(response.data.supervisor);
-        setLogrosAcademicos(response.data.logrosAcademicos);
-        setFechaJubilacion(response.data.fechaJubilacion);
-        setCursosDocente(response.data.cursos);
+        setDepartamento(response.data.docente.departamento);
+        setTituloAcademico(response.data.docente.tituloAcademico);
+        setEspecialidad(response.data.docente.especialidad);
+        setCursosImpartidos(response.data.docente.cursosImpartidos);
+        setHistorialLaboral(response.data.docente.historialLaboral);
+        setEstadoLaboral(response.data.docente.estadoLaboral);
+        setTipoDocente(response.data.docente.tipoDocente);
+        setFechaContratacion(response.data.docente.fechaContratacion);
+        setTipoContrato(response.data.docente.tipoContrato);
+        setSalario(response.data.docente.salario);
+        setHorarioDocente(response.data.docente.horario);
+        setPublicacionesAcademicas(response.data.docente.publicacionesAcademicas);
+        setProyectosInvestigacion(response.data.docente.proyectosInvestigacion);
+        setNumeroOficina(response.data.docente.numeroOficina);
+        setExtensionTelefonica(response.data.docente.extensionTelefonica);
+        setSupervisor(response.data.docente.supervisor);
+        setLogrosAcademicos(response.data.docente.logrosAcademicos);
+        setFechaJubilacion(response.data.docente.fechaJubilacion);
+        setCursosDocente(response.data.docente.cursos);
 
       } else if (response.data.rol.nombreRol === "ESTUDIANTE") {
 
-        setMatricula(response.data.matricula);
-        setCicloActual(response.data.cicloActual);
-        setPromedioGeneral(response.data.promedioGeneral);
-        setFechaIngreso(response.data.fechaIngreso);
-        setEstado(response.data.estado);
-        setTipoEstudiante(response.data.tipoEstudiante);
-        setBeca(response.data.beca);
-        setNumeroMatricula(response.data.numeroMatricula);
-        setCarrerasIngresadas(response.data.carrerasIngresadas);
-        setAsignaturasMatriculadas(response.data.asignaturasMatriculadas);
-        setHorarioEstudiante(response.data.horario);
-        setConsejeroAcademico(response.data.consejeroAcademico);
-        setFechaGraduacion(response.data.fechaGraduacion);
-        setPracticasRealizadas(response.data.practicasRealizadas);
-        setHistorialAcademico(response.data.historialAcademico);
+        setMatricula(response.data.estudiante.matricula);
+        setCicloActual(response.data.estudiante.cicloActual);
+        setPromedioGeneral(response.data.estudiante.promedioGeneral);
+        setFechaIngreso(response.data.estudiante.fechaIngreso);
+        setEstado(response.data.estudiante.estado);
+        setTipoEstudiante(response.data.estudiante.tipoEstudiante);
+        setBeca(response.data.estudiante.beca);
+        setNumeroMatricula(response.data.estudiante.numeroMatricula);
+        setCarrerasIngresadas(response.data.estudiante.carrerasIngresadas);
+        setAsignaturasMatriculadas(response.data.estudiante.asignaturasMatriculadas);
+        setHorarioEstudiante(response.data.estudiante.horario);
+        setConsejeroAcademico(response.data.estudiante.consejeroAcademico);
+        setFechaGraduacion(response.data.estudiante.fechaGraduacion);
+        setPracticasRealizadas(response.data.estudiante.practicasRealizadas);
+        setHistorialAcademico(response.data.estudiante.historialAcademico);
 
       }
 
@@ -335,9 +336,9 @@ const GeneralViewProfileComponent = () => {
     "TITULAR",
     "EMERITO"]
 
-  function listarCursos() {
+  function listarCursosDocente() {
     CursoService.getAllCursos().then(response => {
-      setCursosService(response.data);
+      setCursosDocente(response.data);
       console.log(response.data);
     }).catch(error => {
       console.log(error);
@@ -467,9 +468,32 @@ const GeneralViewProfileComponent = () => {
     )
   }
 
+  // Agregar una lista de estados posibles
+  const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO"]; // Correspondientes a tu enum
+
+  function listarCarreras() {
+    CarreraService.getAllCarreras().then(response => {
+      setCarreras(response.data);
+      console.log(response.data)
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  function listarCursosEstudiante() {
+    CursoService.getAllCursos().then(response => {
+      setCursosEstudiante(response.data);
+      console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+
   const mostrarEstudiante = () => {
     return (
       <div>
+        <h4>Información del Estudiante</h4>
         <div>
           <strong>Matrícula:</strong> {matricula}
         </div>
@@ -560,13 +584,13 @@ const GeneralViewProfileComponent = () => {
   }
 
   const mostrarDatosSegunRol = () => {
-    if(nombreRol === "ADMINISTRADOR"){
+    if (nombreRol === "ADMINISTRADOR") {
       return mostrarAdministrador();
-    }else if(nombreRol === "ADMINISTRATIVO"){
+    } else if (nombreRol === "ADMINISTRATIVO") {
       return mostrarAdministrativo();
-    }else if(nombreRol === "DOCENTE"){
+    } else if (nombreRol === "DOCENTE") {
       return mostrarDocente();
-    }else if(nombreRol === "ESTUDIANTE"){
+    } else if (nombreRol === "ESTUDIANTE") {
       return mostrarEstudiante();
     }
   }
@@ -577,7 +601,9 @@ const GeneralViewProfileComponent = () => {
 
   useEffect(() => {
     datosDelPerfil();
-    listarCursos();
+    listarCarreras();
+    listarCursosDocente();
+    listarCursosEstudiante();
   }, []);
 
   if (loading) {
@@ -587,7 +613,7 @@ const GeneralViewProfileComponent = () => {
   return (
     <div className="view-profile">
       <div className="view-profile-header">
-        <h2>Perfil de Usuario {nombreRol}</h2>
+        <h2>Perfil de Usuario</h2>
       </div>
       <div className="view-profile-content">
         {/* Sección de Foto*/}

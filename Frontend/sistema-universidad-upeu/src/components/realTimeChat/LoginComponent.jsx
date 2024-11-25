@@ -32,7 +32,7 @@ const LoginComponent = () => {
   return (
     <div className="username-page-container">
       <form onSubmit={handleLogin}>
-        <h1>Chat App</h1>
+        <h1>Chat en linea</h1>
         <div className="form-group">
           <input
             type="text"
@@ -42,7 +42,7 @@ const LoginComponent = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <button type="submit" className="primary">Join Chat</button>
+        <button type="submit" className="primary">Unirse al Chat</button>
       </form>
     </div>
   );
