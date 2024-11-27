@@ -37,8 +37,6 @@ spring:
           uri: lb://ms-usuarios-service
           predicates:
             - Path=/usuario/**
-          filters:
-            - AuthFilter
 
         - id: ms-roles-service
           uri: lb://ms-roles-service

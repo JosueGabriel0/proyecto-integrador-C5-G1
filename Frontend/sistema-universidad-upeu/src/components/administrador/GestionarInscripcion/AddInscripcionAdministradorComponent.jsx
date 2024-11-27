@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import InscripcionConRolAdminService from "../../../services/administradorServices/Inscripcion/InscripcionAdminService";
 import RolAdminService from "../../../services/administradorServices/rol/RolAdminService";
-import "../../../style-sheets/administrador/inscripcion/GestionarInscripcion/AddInscripcionAdministradorComponent.css"
 
 function AddInscripcionAdministradorComponent() {
 
@@ -265,38 +264,33 @@ function AddInscripcionAdministradorComponent() {
     }
 
     return (
-        <div className="form-container">
-            <h1 className="form-title">{title()}</h1>
-            <form className="form-content">
+        <div className="container">
+            <h1>{title()}</h1>
+            <form>
 
-                <h4 className="form-section-title">Información del Rol</h4>
-                <p className="form-field">
+                <h4>Información del Rol</h4>
+                <p>
                     <strong>Nombre del Rol:</strong> {nombreRol}
                 </p>
-                <p className="form-field">
+                <p>
                     <strong>Descripcion:</strong> {description}
                 </p>
-
-                {/* Usuario */}
-                <div className="form-group">
-                    <label className="form-label">Nombre de Usuario</label>
-                    <input
-                        className="form-input"
-                        required
-                        type="text"
-                        placeholder="Inserte el nombre de usuario"
-                        name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                
+                {/*Usuario*/}
+                <div>
+                    <label>Nombre de Usuario</label>
+                    <input required type="text" placeholder="Inserte el nombre de ususario" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                 </div>
 
+                {/*<div>
+                    <label>Contraseña</label>
+                    <input type="text" placeholder="Inserte la contraseña" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                </div>*/}
                 {PasswordInput()}
 
-                <div className="form-group">
-                    <label className="form-label">Email del Usuario</label>
+                <div>
+                    <label>Email del Usuario</label>
                     <input
-                        className="form-input"
                         type="email"
                         placeholder="Ingrese el email del Usuario"
                         name="emailUsuario"
@@ -304,78 +298,290 @@ function AddInscripcionAdministradorComponent() {
                         onChange={(e) => setEmailUsuario(e.target.value)}
                         required
                     />
-                    <span
-                        className="error-message"
-                        style={{
-                            display: emailUsuario && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailUsuario)
-                                ? 'block'
-                                : 'none',
-                        }}
-                    >
+                    {/* Mensaje de error opcional */}
+                    <span className="error-message" style={{ display: emailUsuario && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailUsuario) ? 'block' : 'none' }}>
                         Por favor, ingrese un correo electrónico válido.
                     </span>
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Disponible</label>
-                    <select
-                        className="form-select"
-                        required
-                        value={enabled}
-                        onChange={(e) => setEnabled(e.target.value === 'true')}
-                    >
+                <div>
+                    <label>Disponible</label>
+                    <select required value={enabled} onChange={(e) => setEnabled(e.target.value === 'true')}>
                         <option value={null}>Seleccione la Disponibilidad</option>
                         <option value={true}>Disponible</option>
                         <option value={false}>No disponible</option>
                     </select>
                 </div>
 
-                {/* Persona */}
-                <div className="form-group">
-                    <label className="form-label">Nombres</label>
+                {/*Persona*/}
+                <div>
+                    <label>Nombres</label>
+                    <input type="text" placeholder="Ingrese sus nombres" name="nombres" value={nombres} onChange={(e) => setNombres(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Apellido Paterno</label>
+                    <input type="text" placeholder="Ingrese su apellido paterno" name="apellido_paterno" value={apellido_paterno} onChange={(e) => setApellido_paterno(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Apellido Materno</label>
+                    <input type="text" placeholder="Ingrese su apellido materno" name="apellido_paterno" value={apellido_materno} onChange={(e) => setApellido_materno(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha de Nacimiento</label>
                     <input
-                        className="form-input"
-                        type="text"
-                        placeholder="Ingrese sus nombres"
-                        name="nombres"
-                        value={nombres}
-                        onChange={(e) => setNombres(e.target.value)}
+                        type="date"
+                        placeholder="Ingrese su fecha de nacimiento"
+                        name="fecha_nacimiento"
+                        value={fecha_nacimiento}
+                        onChange={(e) => setFecha_nacimiento(e.target.value)}
                     />
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Apellido Paterno</label>
+                <div>
+                    <label>Género</label>
+                    <select name="genero" value={genero} onChange={(e) => setGenero(e.target.value)}>
+                        <option value="">Seleccione su género</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Nacionalidad</label>
+                    <input type="text" placeholder="Ingrese su nacionalidad" name="nacionalidad" value={nacionalidad} onChange={(e) => setNacionalidad(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Tipo de Documento</label>
+                    <input type="text" placeholder="Ingrese su tipo de documento" name="tipoDocumento" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Número de Documento</label>
                     <input
-                        className="form-input"
-                        type="text"
-                        placeholder="Ingrese su apellido paterno"
-                        name="apellido_paterno"
-                        value={apellido_paterno}
-                        onChange={(e) => setApellido_paterno(e.target.value)}
+                        type="number"
+                        placeholder="Ingrese su número de documento"
+                        name="numeroDocumento"
+                        value={numeroDocumento}
+                        onChange={(e) => setNumeroDocumento(e.target.value)}
+                        min="0" // Asegura que no se puedan ingresar números negativos
                     />
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Apellido Materno</label>
+                <div>
+                    <label>Direccion</label>
+                    <input type="text" placeholder="Ingrese su direccion" name="direccion" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Ciudad</label>
+                    <input type="text" placeholder="Ingrese su ciudad" name="ciudad" value={ciudad} onChange={(e) => setCiudad(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Departamento</label>
+                    <input type="text" placeholder="Ingrese su departamento" name="departamento" value={departamento} onChange={(e) => setDepartamento(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>País</label>
+                    <input type="text" placeholder="Ingrese su pais" name="pais" value={pais} onChange={(e) => setPais(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Provincia</label>
+                    <input type="text" placeholder="Ingrese su provincia" name="provincia" value={provincia} onChange={(e) => setProvincia(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Teléfono</label>
                     <input
-                        className="form-input"
-                        type="text"
-                        placeholder="Ingrese su apellido materno"
-                        name="apellido_materno"
-                        value={apellido_materno}
-                        onChange={(e) => setApellido_materno(e.target.value)}
+                        type="text" // Se mantiene como tipo texto
+                        placeholder="Ingrese su teléfono"
+                        name="telefono"
+                        value={telefono}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            // Permitir solo números y limitar a 9 dígitos
+                            if (/^\d*$/.test(value) && value.length <= 9) {
+                                setTelefono(value);
+                            }
+                        }}
                     />
                 </div>
 
-                {/* Añade los demás campos aquí con las mismas clases */}
+                <div>
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        placeholder="Ingrese su email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    {/* Mensaje de error opcional */}
+                    <span className="error-message" style={{ display: email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ? 'block' : 'none' }}>
+                        Por favor, ingrese un correo electrónico válido.
+                    </span>
+                </div>
 
-                <div className="form-group">
-                    <button className="form-submit-button" type="submit">Enviar</button>
+                <div>
+                    <label>Estado Civil</label>
+                    <select
+                        name="estadoCivil"
+                        value={estadoCivil}
+                        onChange={(e) => setEstadoCivil(e.target.value)}
+                    >
+                        <option value="">Seleccione su estado civil</option>
+                        <option value="soltero">Soltero/a</option>
+                        <option value="casado">Casado/a</option>
+                        <option value="divorciado">Divorciado/a</option>
+                        <option value="viudo">Viudo/a</option>
+                        <option value="separado">Separado/a</option>
+                        <option value="union libre">Unión libre</option>
+                        <option value="concubinato">Concubinato</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="fotoPerfil">Foto de Perfil</label>
+                    <input
+                        type="file"
+                        name="fotoPerfil"
+                        id="fotoPerfil"
+                        accept="image/*"
+                        onChange={(e) => setFotoPerfil(e.target.files[0])}  // Obtener el archivo
+                    />
+                </div>
+
+                <div>
+                    <label>Tipo de Sangre</label>
+                    <select
+                        name="tipoSangre"
+                        value={tipoSangre}
+                        onChange={(e) => setTipoSangre(e.target.value)}
+                        required
+                    >
+                        <option value="">Seleccione su tipo de sangre</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Responsable Financiero</label>
+                    <input type="text" placeholder="Ingrese el Nombre del Responsable Financiero" name="responsableFinanciero" value={responsableFinanciero} onChange={(e) => setResponsableFinanciero(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Nombre del Contacto de Emergencia</label>
+                    <input type="text" placeholder="Ingrese el nombre del contacto de emergencia" name="contactoEmergenciaNombre" value={contactoEmergenciaNombre} onChange={(e) => setContactoEmergenciaNombre(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Telefono del Contacto de Emergencia</label>
+                    <input
+                        type="text" // Se mantiene como tipo texto
+                        placeholder="Ingrese el telefono del contacto de emergencia"
+                        name="contactoEmergenciaTelefono"
+                        value={contactoEmergenciaTelefono}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            // Permitir solo números y limitar a 9 dígitos
+                            if (/^\d*$/.test(value) && value.length <= 9) {
+                                setContactoEmergenciaTelefono(value);
+                            }
+                        }} />
+                </div>
+
+                <div>
+                    <label>Email del Contacto de Emergencia</label>
+                    <input
+                        type="email"
+                        placeholder="Ingrese el email del contacto de emergencia"
+                        name="contactoEmergenciaEmail"
+                        value={contactoEmergenciaEmail}
+                        onChange={(e) => setContactoEmergenciaEmail(e.target.value)}
+                        required
+                    />
+                    {/* Mensaje de error opcional para el contacto de emergencia */}
+                    <span className="error-message" style={{ display: contactoEmergenciaEmail && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(contactoEmergenciaEmail) ? 'block' : 'none' }}>
+                        Por favor, ingrese un correo electrónico válido.
+                    </span>
+                </div>
+
+                <div>
+                    <label>Direccion del Contacto de Emergencia</label>
+                    <input type="text" placeholder="Ingrese la direccion del contacto de emergencia" name="contactoEmergenciaDireccion" value={contactoEmergenciaDireccion} onChange={(e) => setContactoEmergenciaDireccion(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Ciudad del Contacto de Emergencia</label>
+                    <input type="text" placeholder="Ingrese la ciudad del contacto de emergencia" name="contactoEmergenciaCiudad" value={contactoEmergenciaCiudad} onChange={(e) => setContactoEmergenciaCiudad(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Parentesco del Contacto de Emergencia</label>
+                    <input type="text" placeholder="Ingrese el parentesco del contacto de emergencia" name="contactoEmergenciaParentesco" value={contactoEmergenciaParentesco} onChange={(e) => setContactoEmergenciaParentesco(e.target.value)} />
+                </div>
+
+
+                {/*Administrador*/}
+                <div>
+                    <label>Actividad Reciente</label>
+                    <input type="text" placeholder="Ingrese la actividad reciente" name="actividadReciente" value={actividadReciente} onChange={(e) => setActividadReciente(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha Actividad</label>
+                    <input type="date" placeholder="Ingrese la Fecha de Actividad" name="fechaActividad" value={fechaActividad} onChange={(e) => setFechaActividad(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Estado Sistema</label>
+                    <input type="text" placeholder="Ingrese el estado del Sistema" name="estadoSistema" value={estadoSistema} onChange={(e) => setEstadoSistema(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Fecha Ultima Revision</label>
+                    <input type="date" placeholder="Ingrese la Fecha de Ultima Revision" name="fechaUltimaRevision" value={fechaUltimaRevision} onChange={(e) => setFechaUltimaRevision(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Permisos Especiales</label>
+                    <input type="text" placeholder="Ingrese los Permisos Especiales" name="permisosEspeciales" value={permisosEspeciales} onChange={(e) => setPermisosEspeciales(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Logs de Accesos</label>
+                    <input type="text" placeholder="Ingrese los Logs de Accesos" name="logsAcceso" value={logsAcceso} onChange={(e) => setLogsAcceso(e.target.value)} />
+                </div>
+
+                <div>
+                    <label>Cambios de Configuracion</label>
+                    <input type="text" placeholder="Ingrese los cambios de Configuracion" name="cambiosConfiguracion" value={cambiosConfiguracion} onChange={(e) => setCambiosConfiguracion(e.target.value)} />
+                </div>
+
+                <div>
+                    <button onClick={(e) => saveOrUpdateInscripcion(e)}>{botonAgregarOActualizar()}</button>
+                    &nbsp;
+                    &nbsp;
+                    <Link to="/list-inscripcion-administrador">Cancelar</Link>
                 </div>
             </form>
         </div>
-    );
-
+    )
 }
 
 export default AddInscripcionAdministradorComponent;
