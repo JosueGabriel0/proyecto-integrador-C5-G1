@@ -10,6 +10,7 @@ const GeneralCambiarContraseniaComponent = () => {
     const [success, setSuccess] = useState(null);
     const [tokenValid, setTokenValid] = useState(false);
     const [timeLeft, setTimeLeft] = useState(120); // Tiempo de expiración en segundos (15 minutos)
+    const [showPassword, setShowPassword] = useState(false);
 
     // Validar el token cuando se carga el componente
     useEffect(() => {
@@ -80,11 +81,20 @@ const GeneralCambiarContraseniaComponent = () => {
                         <div>
                             <label>Nueva Contraseña:</label>
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Ingrese su contraseña"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
+                                autoComplete="off"
+                                minLength={8}
                                 required
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? "Ocultar" : "Mostrar"}
+                            </button>
                         </div>
                         <div>
                             <label>Confirmar Contraseña:</label>

@@ -1,53 +1,74 @@
 package upeu.edu.pe.mspagos.dto;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import upeu.edu.pe.msestudiante.dto.Persona;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Estudiante {
+@Entity
+@Data
 
+public class Estudiante {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEstudiante;
+
 
     private String matricula;
     private int cicloActual;
     private double promedioGeneral;
     private LocalDate fechaIngreso;
 
+    @Enumerated(EnumType.STRING)
     private EstadoEstudiante estado;
 
     private String tipoEstudiante;
     private String beca;
     private String numeroMatricula;
 
-    //Referencia a otro microservicio
-    private Long carreraId;
+    @ElementCollection
+    @CollectionTable(name = "carreras_ingresadas", joinColumns = @JoinColumn(name = "estudiante_id"))
+    @Column(name = "carreras")
+    private List<String> carrerasIngresadas = new ArrayList<String>();
 
+    @ElementCollection
+    @CollectionTable(name = "asignaturas_matriculadas", joinColumns = @JoinColumn(name = "estudiante_id"))
+    @Column(name = "asignaturas")
+    private List<String> asignaturasMatriculadas = new ArrayList<String>();
 
-    private List<String> asignaturasMatriculadas = new ArrayList<>();
-
-
+    @Lob
     private String horario;
 
     private String consejeroAcademico;
-    private String fechaGraduacion;
+    private LocalDate fechaGraduacion;
 
-
+    @ElementCollection
+    @CollectionTable(name = "practicas_realizadas", joinColumns = @JoinColumn(name = "estudiante_id"))
+    @Column(name = "practicas")
     private List<String> practicasRealizadas = new ArrayList<String>();
 
     // Historial Académico del Estudiante
-
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RegistroAcademico> historialAcademico;
 
-    private long idCurso;
-
-    private Curso curso;
-
     private long idPersona;
-
+    @Transient
     private Persona persona;
 
     private LocalDateTime fechaCreacionEstudiante;
     private LocalDateTime fechaModificacionEstudiante;
 
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionEstudiante = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        fechaModificacionEstudiante = LocalDateTime.now();
+    }
 }

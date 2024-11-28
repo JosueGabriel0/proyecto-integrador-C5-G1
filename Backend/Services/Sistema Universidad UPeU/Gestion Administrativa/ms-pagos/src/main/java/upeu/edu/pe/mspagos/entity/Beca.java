@@ -2,6 +2,7 @@ package upeu.edu.pe.mspagos.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 public class Beca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idBeca;
 
     private String tipoBeca; // Ejemplo: Beca completa, media beca
     private BigDecimal montoDescuento;

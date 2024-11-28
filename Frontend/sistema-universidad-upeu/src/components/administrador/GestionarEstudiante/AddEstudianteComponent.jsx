@@ -107,7 +107,7 @@ function AddEstudianteComponent() {
     }, [id])
 
     // Agregar una lista de estados posibles
-    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO"]; // Correspondientes a tu enum
+    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO", "MATRICULADO"]; // Correspondientes a tu enum
 
     function listarPersonas() {
         PersonaAdminService.getAllPersonas().then(response => {

@@ -43,11 +43,11 @@ public class RolController {
             rolService.eliminarRol(id);
 
             // Retornar código 200 OK con mensaje de éxito
-            return ResponseEntity.ok("Rol eliminada exitosamente.");
+            return ResponseEntity.ok("Rol eliminado exitosamente.");
         } catch (Exception e) {
             // En caso de error, retornar un código de error y mensaje apropiado
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al eliminar la Rol: " + e.getMessage());
+                    .body("Error al eliminar el Rol: " + e.getMessage());
         }
     }
 }

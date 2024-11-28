@@ -15,3 +15,6 @@ CREATE DATABASE `ms-usuarios`;
 CREATE DATABASE `ms-inscripciones`;
 CREATE DATABASE `ms-postulante`;
 CREATE DATABASE `ms-realTimeChat`;
+CREATE DATABASE `ms-matriculas`;
+CREATE DATABASE `ms-pagos`;
+CREATE DATABASE `ms-requisitosAcademicos`;

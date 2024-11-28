@@ -296,7 +296,7 @@ function AddInscripcionEstudianteComponent() {
     {/*Funciones para inputs de Estudiante*/ }
 
     // Agregar una lista de estados posibles
-    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO"]; // Correspondientes a tu enum
+    const estados = ["ACTIVO", "SUSPENDIDO", "GRADUADO", "RETIRADO", "MATRICULADO"]; // Correspondientes a tu enum
 
     function listarCarreras() {
         CarreraAdminService.getAllCarreras().then(response => {

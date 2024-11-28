@@ -2,6 +2,7 @@ package upeu.edu.pe.mspagos.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 public class Boleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idBoleta;
 
     @OneToOne
     @JoinColumn(name = "pago_id")
@@ -20,9 +21,14 @@ public class Boleta {
     private String numeroBoleta;
     private LocalDate fechaEmision;
     private String descripcion;
+    private BigDecimal impuestos;
+    private BigDecimal subtotal;
     private BigDecimal total;
     private String tipoDocumento; // DNI, RUC, etc.
-    private String datosCliente; // Información del estudiante
+
+    private Long idEstudiante;
+    @Transient
+    private Estudiante estudiante;
 
     // Getters y setters
 }

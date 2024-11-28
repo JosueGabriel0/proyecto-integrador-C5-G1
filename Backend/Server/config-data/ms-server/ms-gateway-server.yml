@@ -134,6 +134,27 @@ spring:
           filters:
             - AuthFilter
 
+        - id: ms-matriculas-service
+          uri: lb://ms-matriculas-service
+          predicates:
+            - Path=/matricula/**
+          filters:
+            - AuthFilter
+
+        - id: ms-pagos-service
+          uri: lb://ms-pagos-service
+          predicates:
+            - Path=/pago/**
+          filters:
+            - AuthFilter
+
+        - id: ms-requisitosAcademicos-service
+          uri: lb://ms-requisitosAcademicos-service
+          predicates:
+            - Path=/requisito/**
+          filters:
+            - AuthFilter
+
 logging:
   level:
     org.springframework.web: DEBUG

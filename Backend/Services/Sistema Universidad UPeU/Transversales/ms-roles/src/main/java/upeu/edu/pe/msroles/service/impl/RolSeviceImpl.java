@@ -37,5 +37,4 @@ public class RolSeviceImpl implements RolService {
     public void eliminarRol(Long id){
         rolRepository.deleteById(id);
     }
-
 }

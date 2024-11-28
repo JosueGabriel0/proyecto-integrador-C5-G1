@@ -1,0 +1,440 @@
+server:
+  #port: 8083
+  port: ${PORT:${SERVER_PORT:0}} #Local
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /matriculas/swagger-ui.html
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ms-matriculas
+    username: root
+    password: 1234
+
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://localhost:8090/eureka
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka} #Local
+
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+resilience4j.circuitbreaker:
+  instances:
+    #CIRCUITBREAKER CRUD ADMINISTRATIVO
+    crearAdministrativoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarAdministrativosCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarAdministrativoPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarAdministrativoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarAdministrativoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD DOCENTE
+    crearDocenteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarDocentesCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarDocentePorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarDocenteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarDocenteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD ESTUDIANTE
+    crearEstudianteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarEstudiantesCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarEstudiantePorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarEstudianteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarEstudianteCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD CALENDARIO ACADEMICO
+    crearCalendarioAcademicoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarCalendarioAcademicosCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarCalendarioAcademicoPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarCalendarioAcademicoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarCalendarioAcademicoCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD CARRERA
+    crearCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarCarrerasCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarCarreraPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD CURSO
+      crearCursoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarCursosCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      listarCursoPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      actualizarCursoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 6
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      eliminarCursoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD PAGO
+      crearPagoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarPagosCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      listarPagoPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      actualizarPagoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 6
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      eliminarPagoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD REQUISITOS ACADEMICOS
+      crearRequisitoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarRequisitosCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      listarRequisitoPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      actualizarRequisitoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 6
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      eliminarRequisitoCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
