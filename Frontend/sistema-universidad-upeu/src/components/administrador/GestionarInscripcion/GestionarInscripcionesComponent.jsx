@@ -18,7 +18,7 @@ function GestionarInscripcionesComponent(){
             <Link to="/list-inscripcion-Estudiante">Inscripcion de Estudiante</Link>
             &nbsp;
             &nbsp;
-            <Link to="/list-inscripcion-nuevo-rol">Inscripcion de Persona con un Nuevo Rol Asignando Permisos</Link>
+            {/*<Link to="/list-inscripcion-nuevo-rol">Inscripcion de Persona con un Nuevo Rol Asignando Permisos</Link>*/}
         </div>
     )
 }

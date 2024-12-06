@@ -99,11 +99,20 @@ const GeneralCambiarContraseniaComponent = () => {
                         <div>
                             <label>Confirmar Contraseña:</label>
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Ingrese su contraseña"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                autoComplete="off"
+                                minLength={8}
                                 required
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? "Ocultar" : "Mostrar"}
+                            </button>
                         </div>
                         <button type="submit">Cambiar Contraseña</button>
                         {error && <p style={{ color: 'red' }}>{error}</p>}

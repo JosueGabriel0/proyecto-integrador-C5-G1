@@ -2,7 +2,6 @@ package upeu.edu.pe.mspagos.dto;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.msestudiante.dto.Persona;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
