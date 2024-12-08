@@ -5,11 +5,9 @@ import { useNavigate, Link } from 'react-router-dom';
 const GeneralLoginComponent = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Hook para redirección
-
-    const rolDelUsuario = getUserRole();
-
+    const [userRole, setUserRole] = useState(null); // Estado para el rol del usuario
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate(); // Hook para redirección
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,18 +21,23 @@ const GeneralLoginComponent = () => {
         e.preventDefault();
         try {
             const token = await login(credentials); // Intenta iniciar sesión y obtiene el token
+            
+            // Obtén el rol del usuario después del inicio de sesión
+            const rolDelUsuario = await getUserRole(); 
+            setUserRole(rolDelUsuario); // Actualiza el estado con el rol
+
+            console.log("Este es el Rol:" + rolDelUsuario);
 
             // Redirige según el rol del usuario
-            console.log("Este es el Rol:" + rolDelUsuario)
             if (rolDelUsuario === "ADMINISTRADOR") {
                 navigate('/dashboard-administrador');
             } else if (rolDelUsuario === "ADMINISTRATIVO") {
                 navigate('/dashboard-administrativo');
             } else if (rolDelUsuario === "DOCENTE") {
-                console.log("Este es el rol al que esta entrando el Docente" + rolDelUsuario);
+                console.log("Este es el rol al que está entrando el Docente: " + rolDelUsuario);
                 navigate('/dashboard-docente');
             } else if (rolDelUsuario === "ESTUDIANTE") {
-                console.log("Este es el rol al que esta entrando el Estudiante" + rolDelUsuario);
+                console.log("Este es el rol al que está entrando el Estudiante: " + rolDelUsuario);
                 navigate('/dashboard-estudiante');
             } else {
                 setError("Rol desconocido. Comuníquese con soporte.");
@@ -52,11 +55,26 @@ const GeneralLoginComponent = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     <label>Nombre de Usuario:</label>
-                    <input type="text" placeholder="Ingrese su usuario" name="username" value={credentials.username} onChange={handleInputChange} />
+                    <input 
+                        type="text" 
+                        placeholder="Ingrese su usuario" 
+                        name="username" 
+                        value={credentials.username} 
+                        onChange={handleInputChange} 
+                    />
                 </div>
                 <div>
                     <label>Contraseña:</label>
-                    <input type={showPassword ? "text" : "password"} placeholder="Ingrese su contraseña" name="password" value={credentials.password} onChange={handleInputChange} autoComplete="off" minLength={8} required />
+                    <input 
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="Ingrese su contraseña" 
+                        name="password" 
+                        value={credentials.password} 
+                        onChange={handleInputChange} 
+                        autoComplete="off" 
+                        minLength={8} 
+                        required 
+                    />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
@@ -67,7 +85,7 @@ const GeneralLoginComponent = () => {
                 <button type="submit">Login</button>
             </form>
             <div>
-                <Link to="/restablecimiento-contrasenia">Olvide mi Contraseña</Link>
+                <Link to="/restablecimiento-contrasenia">Olvidé mi Contraseña</Link>
             </div>
         </div>
     );

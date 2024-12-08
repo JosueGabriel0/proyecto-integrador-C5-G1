@@ -2,6 +2,7 @@ package upeu.edu.pe.msrequisitosacademicos.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.msrequisitosacademicos.dto.Carrera;
 import upeu.edu.pe.msrequisitosacademicos.dto.Curso;
 
 @Entity
@@ -20,6 +21,10 @@ public class Requisito {
     private String cursoPrincipal;
 
     private String cursoRequisito;
+
+    private Long idCarrera;
+    @Transient
+    private Carrera carrera;
 
     @Column(nullable = false, length = 50)
     private String tipoRequisito; // Ejemplo: "Obligatorio", "Opcional"
