@@ -2,9 +2,79 @@ import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 import Spline from '@splinetool/react-spline';
-import GeneralProfileCardCompoent from './GeneralProfileCardComponent';
+import GeneralProfileCardComponent from './GeneralProfileCardComponent';
 
-function GeneralDashboardComponent({titulo = "Dshboard"}) {
+import { getUserRole } from '../../../services/authServices/authService';
+
+function GeneralDashboardComponent({ titulo = "Dshboard" }) {
+  const nombreRol = getUserRole();
+  function opcionesSegunRol() {
+    if (nombreRol === "ADMINISTRADOR") {
+      return (
+        <div>
+          <section style={{ marginTop: "20px" }}>
+            <h2>Acciones</h2>
+            <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
+            <Link to="/roles">Roles</Link>&nbsp;&nbsp;
+            <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
+            <Link to="/personas">Personas</Link>&nbsp;&nbsp;
+            <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
+            <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
+            <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
+            <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
+            <Link to="/login-real-time-chat">Chat en linea</Link>
+          </section>
+        </div>
+      )
+    } else if(nombreRol === "ADMINISTRATIVO"){
+      return(
+        <div>
+          <section style={{ marginTop: "20px" }}>
+            <h2>Acciones</h2>
+            <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
+            <Link to="/roles">Roles</Link>&nbsp;&nbsp;
+            <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
+            <Link to="/personas">Personas</Link>&nbsp;&nbsp;
+            <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
+            <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
+            <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
+            <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
+            <Link to="/login-real-time-chat">Chat en linea</Link>
+          </section>
+        </div>
+      )
+    }else if(nombreRol === "DOCENTE"){
+      return(
+        <div>
+          <section style={{ marginTop: "20px" }}>
+            <h2>Acciones</h2>
+            <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
+            <Link to="/roles">Roles</Link>&nbsp;&nbsp;
+            <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
+            <Link to="/personas">Personas</Link>&nbsp;&nbsp;
+            <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
+            <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
+            <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
+            <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
+            <Link to="/login-real-time-chat">Chat en linea</Link>
+          </section>
+        </div>
+      )
+    }else if(nombreRol === "ESTUDIANTE"){
+      return(
+        <div>
+          <section style={{ marginTop: "20px" }}>
+            <h2>Acciones</h2>
+            <Link to="/inscripciones">PORTAL DEL ESTUDIANTE</Link>&nbsp;&nbsp;
+            <Link to="/inicio-matricula-virtual-estudiante">MATRÍCULA</Link>&nbsp;&nbsp;
+            <Link to="/usuarios">BIENESTAR UNIV.</Link>&nbsp;&nbsp;
+            <Link to="/personas">B-LEARNING</Link>&nbsp;&nbsp;
+            <Link to="/administradores">LAMB LEARNING</Link>&nbsp;&nbsp;
+          </section>
+        </div>
+      )
+    }
+  }
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
       {/* Fondo Spline */}
@@ -41,7 +111,7 @@ function GeneralDashboardComponent({titulo = "Dshboard"}) {
         <h1>{titulo}</h1>
         <p>Bienvenido al panel principal de administración del sistema universitario UPeU.</p>
 
-        <GeneralProfileCardCompoent />
+        <GeneralProfileCardComponent />
 
         {/* Resumen rápido */}
         <section style={{ marginTop: "20px" }}>
@@ -54,18 +124,7 @@ function GeneralDashboardComponent({titulo = "Dshboard"}) {
         </section>
 
         {/* Acciones rápidas */}
-        <section style={{ marginTop: "20px" }}>
-          <h2>Acciones rápidas</h2>
-          <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
-          <Link to="/roles">Roles</Link>&nbsp;&nbsp;
-          <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
-          <Link to="/personas">Personas</Link>&nbsp;&nbsp;
-          <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
-          <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
-          <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
-          <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
-          <Link to="/login-real-time-chat">Chat en linea</Link>
-        </section>
+        {opcionesSegunRol()}
       </div>
     </div>
 

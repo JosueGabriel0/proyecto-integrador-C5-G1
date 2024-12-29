@@ -3,6 +3,7 @@ package upeu.edu.pe.msmatriculas.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import upeu.edu.pe.msmatriculas.dto.Inscripcion;
 import upeu.edu.pe.msmatriculas.dto.Pago;
 import upeu.edu.pe.msmatriculas.entity.EstadoMatricula;
 import upeu.edu.pe.msmatriculas.entity.Matricula;
@@ -36,6 +37,8 @@ public class MatriculaServiceImpl implements MatriculaService {
     private DocenteFeign docenteFeign;
     @Autowired
     private CursoFeign cursoFeign;
+    @Autowired
+    private InscripcionFeign inscripcionFeign;
 
     // Crear nueva matrícula con validaciones adicionales
     @Override
@@ -141,4 +144,17 @@ public class MatriculaServiceImpl implements MatriculaService {
     private interface FeignFunction<T, R> {
         R apply(T t);
     }
+
+    @Override
+    public boolean validarEstudiante(Long idInscripcion) {
+        Inscripcion inscripcionResponse = inscripcionFeign.listarInscripcionPorId(idInscripcion).getBody();
+
+        // Verificar nullabilidad
+        if (inscripcionResponse != null && inscripcionResponse.getRol() != null && "ESTUDIANTE".equals(inscripcionResponse.getRol().getNombreRol())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

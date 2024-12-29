@@ -438,3 +438,74 @@ resilience4j.circuitbreaker:
         waitDurationInOpenState: 7s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD INSCRIPIONES
+      crearInscripcionCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      crearPersonaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      actualizarInscripcionCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      eliminarDatosInscripcionCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      listarInscripcionesCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarInscripcionPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      buscarInscripcionPorIdUsuarioCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 20
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10

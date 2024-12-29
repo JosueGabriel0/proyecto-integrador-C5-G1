@@ -44,9 +44,13 @@ import AdministrativoDashboardComponent from './components/administrativo/Admini
 import DocenteDashboardComponent from './components/docente/DocenteDashboardComponent';
 import EstudianteDashboardComponent from './components/estudiante/EstudianteDashboardComponent';
 
+import InicioMatriculaComponent from './components/estudiante/matricula/InicioMatriculaComponent';
+
+import SelectNivEnsenianzaMatriculaComponent from './components/estudiante/matricula/SelectNivEnsenianzaMatriculaComponent';
+
 const App = () => {
   const nombreDelRol = getUserRole();
-  
+
   return (
     <BrowserRouter>
       <div className='container'>
@@ -59,42 +63,14 @@ const App = () => {
           <Route path='/restablecimiento-contrasenia' element={<GeneralRestablecerContraseniaComponent />} />
           <Route path='/cambiar-contrasenia/:token' element={<GeneralCambiarContraseniaComponent />} />
 
+          {/* RUTAS DEL ADMINISTRADOR*/}
+
           {/* Ruta protegida para el dashboard */}
           <Route
             path='/dashboard-administrador'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <AdministradorDashboardComponent />
-              </GeneralProtectedRouteComponent>
-            }
-          />
-
-          {/* Ruta protegida para el dashboard */}
-          <Route
-            path='/dashboard-administrativo'
-            element={
-              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRATIVO']}>
-                <AdministrativoDashboardComponent />
-              </GeneralProtectedRouteComponent>
-            }
-          />
-
-          {/* Ruta protegida para el dashboard */}
-          <Route
-            path='/dashboard-docente'
-            element={
-              <GeneralProtectedRouteComponent allowedRoles={['DOCENTE']}>
-                <DocenteDashboardComponent />
-              </GeneralProtectedRouteComponent>
-            }
-          />
-
-          {/* Ruta protegida para el dashboard */}
-          <Route
-            path='/dashboard-estudiante'
-            element={
-              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
-                <EstudianteDashboardComponent />
               </GeneralProtectedRouteComponent>
             }
           />
@@ -427,6 +403,64 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRADOR']}>
                 <AddInscripcionNuevoRolComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+
+          {/* RUTAS DEL ADMINISTRATIVO*/}
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-administrativo'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRATIVO']}>
+                <AdministrativoDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+
+          {/* RUTAS DEL DOCENTE*/}
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-docente'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['DOCENTE']}>
+                <DocenteDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+
+          {/* RUTAS DEL ESTUDIANTE*/}
+
+          {/* Ruta protegida para el dashboard */}
+          <Route
+            path='/dashboard-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <EstudianteDashboardComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          {/* Rutas protegidas para la matricula virtual */}
+          <Route
+            path='/inicio-matricula-virtual-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <InicioMatriculaComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/select-matricula-virtual-estudiante'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <SelectNivEnsenianzaMatriculaComponent />
               </GeneralProtectedRouteComponent>
             }
           />

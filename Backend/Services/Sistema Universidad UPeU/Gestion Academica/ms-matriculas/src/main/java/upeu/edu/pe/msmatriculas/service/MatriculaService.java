@@ -47,4 +47,6 @@ public interface MatriculaService {
      * @throws RuntimeException si la matrícula no está en estado PENDIENTE.
      */
     void eliminarMatricula(Long idMatricula);
+
+    public boolean validarEstudiante(Long idInscripcion);
 }

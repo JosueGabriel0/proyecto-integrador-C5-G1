@@ -1,15 +1,18 @@
 package upeu.edu.pe.msmatriculas.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.msmatriculas.dto.Estudiante;
 import upeu.edu.pe.msmatriculas.entity.Matricula;
 import upeu.edu.pe.msmatriculas.service.MatriculaService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/matriculas")
+@RequestMapping("/matricula")
 @RequiredArgsConstructor
 public class MatriculaController {
 
@@ -48,5 +51,18 @@ public class MatriculaController {
     public ResponseEntity<Void> eliminarMatricula(@PathVariable Long id) {
         matriculaService.eliminarMatricula(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Validar si es un estudiante
+    @GetMapping("/validarEstudiante/{idInscripcion}")
+    public ResponseEntity<?> validarEstudiante(@PathVariable Long idInscripcion) {
+        Boolean esEstudiante = matriculaService.validarEstudiante(idInscripcion);
+
+        if (esEstudiante) {
+            return ResponseEntity.ok(Map.of("mensaje", "Estudiante validado"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "Estudiante no encontrado"));
+        }
     }
 }
