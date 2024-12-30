@@ -39,6 +39,9 @@ public class PlanificacionAcademica {
     @Column(name = "profesor_id")
     private List<Long> profesoresIds;
 
+    @OneToMany(mappedBy = "planificacionAcademica", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ciclo> ciclos; // Lista de ciclos en la planificación académica
+
     // Lista de IDs de eventos importantes del calendario académico (referencia al microservicio de Calendario Académico)
     @ElementCollection
     @CollectionTable(name = "planificacion_calendario", joinColumns = @JoinColumn(name = "planificacion_academica_id"))

@@ -22,6 +22,8 @@ public class Curso {
     private String codigo;
     private String descripcion;
     private int creditos;
+    private int horasTeoricas;
+    private int horasPracticas;
     private String tipo;
     private String nivel;
 
@@ -29,9 +31,9 @@ public class Curso {
     @Transient
     private Carrera carrera;
 
-    private Long idDocente;
-    @Transient
-    private Docente docente;
+    private String preRequisito;
+
+    private String grupo;
 
     private LocalDateTime fechaCreacionCurso;
     private LocalDateTime fechaModificacionCurso;

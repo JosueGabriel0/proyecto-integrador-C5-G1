@@ -4,7 +4,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import upeu.edu.pe.msnivelesdeensenanza.dto.Carrera;
 import upeu.edu.pe.msnivelesdeensenanza.dto.PlanificacionAcademica;
 
 import java.util.ArrayList;

@@ -5,13 +5,15 @@ import lombok.Data;
 import upeu.edu.pe.msnivelesdeensenanza.dto.Carrera;
 import upeu.edu.pe.msnivelesdeensenanza.dto.PlanificacionAcademica;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "opcion_nivel")
 @Data
 public class OpcionNivel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idOpcionNivel;
 
     @ManyToOne
     @JoinColumn(name = "nivel_id")
@@ -31,6 +33,19 @@ public class OpcionNivel {
 
     private String modalidad;
     private String estado;
+
+    private LocalDateTime fechaCreacionOpcionNivel;
+    private LocalDateTime fechaModificacionOpcionNivel;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionOpcionNivel = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionOpcionNivel = java.time.LocalDateTime.now();
+    }
 
     // Getters y setters
 }

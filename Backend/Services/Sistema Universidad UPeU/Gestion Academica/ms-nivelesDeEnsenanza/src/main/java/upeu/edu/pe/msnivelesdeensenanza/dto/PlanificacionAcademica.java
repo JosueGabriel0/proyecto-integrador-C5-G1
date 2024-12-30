@@ -20,11 +20,12 @@ public class PlanificacionAcademica {
 
     private String descripcionGeneral;
 
-    // Lista de IDs de cursos programados (referencia al microservicio de Curso)
     private List<Long> cursosProgramadosIds;
 
     // Lista de IDs de profesores asignados (referencia al microservicio de Profesor)
     private List<Long> profesoresIds;
+
+    private List<Ciclo> ciclos; // Lista de ciclos en la planificación académica
 
     // Lista de IDs de eventos importantes del calendario académico (referencia al microservicio de Calendario Académico)
     private List<Long> calendarioAcademicoIds;

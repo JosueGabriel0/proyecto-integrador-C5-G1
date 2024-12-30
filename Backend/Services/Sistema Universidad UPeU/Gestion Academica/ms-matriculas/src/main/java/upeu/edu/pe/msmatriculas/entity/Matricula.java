@@ -24,6 +24,10 @@ public class Matricula {
     @Column(name = "id_matricula")
     private Long idMatricula;
 
+    private Long idNivelEnsenanza;
+    @Transient
+    private NivelEnsenanza nivelEnsenanza;
+
     private Long idEstudiante;
     @Transient
     private Estudiante estudiante;
