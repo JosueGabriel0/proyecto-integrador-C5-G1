@@ -1,0 +1,134 @@
+server:
+  #port: 8089
+  port: ${PORT:${SERVER_PORT:0}} #Local
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /nivelesDeEnsenanza/swagger-ui.html
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ms-nivelesDeEnsenanza
+    username: root
+    password: 1234
+
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://localhost:8090/eureka
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka} #Local
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+
+resilience4j.circuitbreaker:
+  instances:
+    #CIRCUITBREAKER CRUD CARRERA
+    crearCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarCarrerasCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarCarreraPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarCarreraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD CARRERA
+    crearPlanificacionAcademicaCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarPlanificacionesAcademicasCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarPlanificacionAcademicaPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarPlanificacionAcademicaCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarPlanificacionAcademicaCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
