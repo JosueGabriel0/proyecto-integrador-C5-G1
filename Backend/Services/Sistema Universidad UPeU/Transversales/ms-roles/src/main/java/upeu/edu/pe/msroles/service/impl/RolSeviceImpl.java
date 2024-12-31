@@ -9,7 +9,7 @@ import upeu.edu.pe.msroles.service.RolService;
 import java.util.List;
 
 @Service
-public class RolSeviceImpl implements RolService {
+public class    RolSeviceImpl implements RolService {
     @Autowired
     private RolRepository rolRepository;
 

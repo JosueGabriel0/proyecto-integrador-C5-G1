@@ -1,11 +1,13 @@
 package upeu.edu.pe.msmatriculas.dto;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 public class OpcionNivel {
+
     private Long idOpcionNivel;
 
     private NivelEnsenanza nivelEnsenanza;

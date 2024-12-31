@@ -29,7 +29,7 @@ public class RolController {
     public ResponseEntity<Rol> buscarRolPorIdResponseEntity(@PathVariable(required = true) Long id){
         return ResponseEntity.ok(rolService.buscarRolPorId(id));
     }
-
+    
     @PutMapping("/{id}")
     public ResponseEntity<Rol> editarRolResponseEntity(@PathVariable (required = true) Long id,@RequestBody Rol rol){
         rol.setIdRol(id);

@@ -509,3 +509,115 @@ resilience4j.circuitbreaker:
         waitDurationInOpenState: 7s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD NIVELENSENANZA
+      crearNivelEnsenanzaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarNivelesDeEnsenanzaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      listarNivelEnsenanzaPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      actualizarNivelEnsenanzaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 6
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      eliminarNivelEnsenanzaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      #CIRCUITBREAKER CRUD OPCIONNIVEL
+      listarOpcionesPorNivelCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      crearOpcionNivelCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+      listarOpcionesDeNivelCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 60
+        eventConsumerBufferSize: 10
+
+      listarOpcionNivelPorIdCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 8s
+        failureRateThreshold: 70
+        eventConsumerBufferSize: 20
+
+      actualizarOpcionNivelCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 6
+        waitDurationInOpenState: 12s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 15
+
+      eliminarOpcionNivelCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 7s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10

@@ -28,7 +28,7 @@ public class OpcionNivelServiceImpl implements OpcionNivelService {
 
     @Override
     public List<OpcionNivel> obtenerOpcionesPorNivel(Long nivelId) {
-        return opcionNivelRepository.findByNivelEnsenanzaId(nivelId);
+        return opcionNivelRepository.findByNivelEnsenanzaIdNivelEnsenanza(nivelId);
     }
 
     @Override

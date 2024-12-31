@@ -42,8 +42,8 @@ public class MatriculaController {
     // Actualizar matrícula
     @PutMapping("/{id}")
     public ResponseEntity<Matricula> actualizarMatricula(@PathVariable Long id, @RequestBody Matricula nuevaMatricula) {
-        Matricula matriculaActualizada = matriculaService.actualizarMatricula(id, nuevaMatricula);
-        return ResponseEntity.ok(matriculaActualizada);
+        nuevaMatricula.setIdMatricula(id);
+        return ResponseEntity.ok(matriculaService.actualizarMatricula(nuevaMatricula));
     }
 
     // Eliminar matrícula

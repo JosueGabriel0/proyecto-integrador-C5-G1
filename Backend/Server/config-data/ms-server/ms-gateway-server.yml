@@ -130,7 +130,7 @@ spring:
         - id: ms-planificacionAcademica-service
           uri: lb://ms-planificacionAcademica-service
           predicates:
-            - Path=/planificacionAcademica/**
+            - Path=/planificacionAcademica/**, /ciclo/**
           filters:
             - AuthFilter
 

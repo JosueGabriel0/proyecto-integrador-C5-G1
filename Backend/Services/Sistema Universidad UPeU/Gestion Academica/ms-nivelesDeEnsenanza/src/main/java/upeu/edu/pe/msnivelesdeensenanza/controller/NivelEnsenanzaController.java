@@ -36,7 +36,7 @@ public class NivelEnsenanzaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable(required = true) Long id) {
         nivelEnsenanzaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

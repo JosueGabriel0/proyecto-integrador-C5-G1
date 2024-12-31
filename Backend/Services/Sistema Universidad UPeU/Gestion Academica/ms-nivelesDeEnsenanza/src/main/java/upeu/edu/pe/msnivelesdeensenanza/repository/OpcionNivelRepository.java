@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OpcionNivelRepository extends JpaRepository<OpcionNivel, Long> {
-    List<OpcionNivel> findByNivelEnsenanzaId(Long nivelId);
+    List<OpcionNivel> findByNivelEnsenanzaIdNivelEnsenanza(Long nivelId);
 }
