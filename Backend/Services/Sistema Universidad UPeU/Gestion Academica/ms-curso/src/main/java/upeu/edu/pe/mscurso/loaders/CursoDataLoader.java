@@ -36,7 +36,7 @@ public class CursoDataLoader implements CommandLineRunner {
             curso1.setNivel("Básico");
             curso1.setIdCarrera(idCarreraIngenieriaSistemas);
             curso1.setPreRequisito(null);
-            curso1.setGrupo("G1");
+            curso1.setSilaboUrl("G1");
             curso1.setFechaCreacionCurso(LocalDateTime.now());
 
             Curso curso2 = new Curso();
@@ -50,7 +50,7 @@ public class CursoDataLoader implements CommandLineRunner {
             curso2.setNivel("Básico");
             curso2.setIdCarrera(idCarreraIngenieriaSistemas);
             curso2.setPreRequisito("MAT101"); // Requiere Matemáticas Básicas
-            curso2.setGrupo("G1");
+            curso2.setSilaboUrl("G1");
             curso2.setFechaCreacionCurso(LocalDateTime.now());
 
             Curso curso3 = new Curso();
@@ -64,7 +64,7 @@ public class CursoDataLoader implements CommandLineRunner {
             curso3.setNivel("Intermedio");
             curso3.setIdCarrera(idCarreraIngenieriaSistemas);
             curso3.setPreRequisito(null);
-            curso3.setGrupo("G1");
+            curso3.setSilaboUrl("G1");
             curso3.setFechaCreacionCurso(LocalDateTime.now());
 
             // Más cursos pueden agregarse siguiendo el mismo patrón...

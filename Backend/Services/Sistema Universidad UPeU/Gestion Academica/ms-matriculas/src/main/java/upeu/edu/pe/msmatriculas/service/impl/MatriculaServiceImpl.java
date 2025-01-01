@@ -43,10 +43,6 @@ public class MatriculaServiceImpl implements MatriculaService {
     private InscripcionFeign inscripcionFeign;
     @Autowired
     private NivelEnsenanzaFeign nivelEnsenanzaFeign;
-    @Autowired
-    private OpcionNivelFeign opcionNivelFeign;
-    @Autowired
-    private CicloFeign cicloFeign;
 
     // Crear nueva matrícula con validaciones adicionales
     @Override
@@ -75,7 +71,7 @@ public class MatriculaServiceImpl implements MatriculaService {
 
         try {
             // Obtener el Nivel de Ensenanza del usuario usando Feign
-            ResponseEntity<OpcionNivel> opcionNivelResponse = opcionNivelFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
+            ResponseEntity<OpcionNivel> opcionNivelResponse = nivelEnsenanzaFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
             if (opcionNivelResponse.getBody() == null) {
                 // Manejar el caso en el que el rol no existe
                 throw new ResourceNotFoundException("Opcion Nivel con ID " + matricula.getIdOpcionNivel() + " no existe");
@@ -151,7 +147,7 @@ public class MatriculaServiceImpl implements MatriculaService {
 
         try {
 
-            ResponseEntity<Ciclo> cicloResponse = cicloFeign.listarCicloDtoPorId(matricula.getIdCiclo());
+            ResponseEntity<Ciclo> cicloResponse = nivelEnsenanzaFeign.listarCicloDtoPorId(matricula.getIdCiclo());
             if (cicloResponse.getBody() == null) {
                 throw new ResourceNotFoundException("Ciclo con ID " + matricula.getIdCiclo() + " no existe");
             }
@@ -186,7 +182,7 @@ public class MatriculaServiceImpl implements MatriculaService {
         matriculas.forEach(matricula -> {
             try {
                 // Obtener el Nivel de Ensenanza del usuario usando Feign
-                ResponseEntity<OpcionNivel> opcionNivelResponse = opcionNivelFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
+                ResponseEntity<OpcionNivel> opcionNivelResponse = nivelEnsenanzaFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
                 if (opcionNivelResponse.getBody() == null) {
                     // Manejar el caso en el que el rol no existe
                     throw new ResourceNotFoundException("Opcion Nivel con ID " + matricula.getIdOpcionNivel() + " no existe");
@@ -276,7 +272,7 @@ public class MatriculaServiceImpl implements MatriculaService {
         matriculas.forEach(matricula -> {
             try {
 
-                ResponseEntity<Ciclo> cicloResponse = cicloFeign.listarCicloDtoPorId(matricula.getIdCiclo());
+                ResponseEntity<Ciclo> cicloResponse = nivelEnsenanzaFeign.listarCicloDtoPorId(matricula.getIdCiclo());
                 if (cicloResponse.getBody() == null) {
                     throw new ResourceNotFoundException("Ciclo con ID " + matricula.getIdCiclo() + " no existe");
                 }
