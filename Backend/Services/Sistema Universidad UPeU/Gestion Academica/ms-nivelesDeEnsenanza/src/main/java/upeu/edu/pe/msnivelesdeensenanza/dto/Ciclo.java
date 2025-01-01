@@ -2,6 +2,7 @@ package upeu.edu.pe.msnivelesdeensenanza.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -15,8 +16,9 @@ public class Ciclo {
 
     private PlanificacionAcademica planificacionAcademica;
 
+    // Lista de cursos asociados al ciclo
     private List<Long> cursosIds;
 
-    // Lista de docentes asociados al ciclo
-    private List<Long> docentesIds;
+    private LocalDateTime fechaCreacionCiclo;
+    private LocalDateTime fechaModificacionCiclo;
 }

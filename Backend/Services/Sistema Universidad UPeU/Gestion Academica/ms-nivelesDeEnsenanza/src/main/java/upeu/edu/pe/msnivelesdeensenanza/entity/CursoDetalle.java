@@ -1,0 +1,49 @@
+package upeu.edu.pe.msnivelesdeensenanza.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import upeu.edu.pe.msnivelesdeensenanza.dto.Curso;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "curso_detalle")
+@Data
+public class CursoDetalle {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCursoDetalle;
+
+    @ManyToOne
+    @JoinColumn(name = "ciclo_detalle_id")
+    private CicloDetalle cicloDetalle; // Relación: Uno a Muchos con CicloDetalle
+
+    private Long idCurso;
+    @Transient
+    private Curso curso;
+
+    private String grupo;
+
+    @ElementCollection
+    @CollectionTable(name = "docentes_ids", joinColumns = @JoinColumn(name = "entidad_id"))
+    @Column(name = "docente_id")
+    private List<Long> idsDocentes;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "horario_id", referencedColumnName = "idHorario")
+    private Horario horario;
+
+    private LocalDateTime fechaCreacionCursoDetalle;
+    private LocalDateTime fechaModificacionCursoDetalle;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionCursoDetalle = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionCursoDetalle = LocalDateTime.now();
+    }
+}

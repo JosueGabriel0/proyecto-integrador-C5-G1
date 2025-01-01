@@ -45,6 +45,8 @@ public class MatriculaServiceImpl implements MatriculaService {
     private NivelEnsenanzaFeign nivelEnsenanzaFeign;
     @Autowired
     private OpcionNivelFeign opcionNivelFeign;
+    @Autowired
+    private CicloFeign cicloFeign;
 
     // Crear nueva matrícula con validaciones adicionales
     @Override
@@ -69,6 +71,19 @@ public class MatriculaServiceImpl implements MatriculaService {
         } catch (FeignException e) {
             // Manejar el error en el servidor de OpenFeign para rol
             throw new RuntimeException("Error al obtener el Nivel de Ensenanza con ID " + matricula.getIdNivelEnsenanza(), e);
+        }
+
+        try {
+            // Obtener el Nivel de Ensenanza del usuario usando Feign
+            ResponseEntity<OpcionNivel> opcionNivelResponse = opcionNivelFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
+            if (opcionNivelResponse.getBody() == null) {
+                // Manejar el caso en el que el rol no existe
+                throw new ResourceNotFoundException("Opcion Nivel con ID " + matricula.getIdOpcionNivel() + " no existe");
+            }
+            matricula.setOpcionNivel(opcionNivelResponse.getBody());
+        } catch (FeignException e) {
+            // Manejar el error en el servidor de OpenFeign para rol
+            throw new RuntimeException("Error al obtener la Opcion Nivel con ID " + matricula.getIdOpcionNivel(), e);
         }
 
         try {
@@ -103,13 +118,46 @@ public class MatriculaServiceImpl implements MatriculaService {
 
         try {
 
-            ResponseEntity<Pago> rolResponse = rolFeign.listarRolDtoPorId(usuario.getIdRol());
-            if (rolResponse.getBody() == null) {
-                throw new ResourceNotFoundException("Rol con ID " + usuario.getIdRol() + " no existe");
+            ResponseEntity<Pago> pagoResponse = pagoFeign.listarPagoDtoPorId(matricula.getIdPago());
+            if (pagoResponse.getBody() == null) {
+                throw new ResourceNotFoundException("Pago con ID " + matricula.getIdPago() + " no existe");
             }
-            usuario.setRol(rolResponse.getBody());
+            matricula.setPago(pagoResponse.getBody());
         } catch (FeignException e) {
-            throw new RuntimeException("Error al obtener el Rol con ID " + usuario.getIdRol(), e);
+            throw new RuntimeException("Error al obtener el Pago con ID " + matricula.getIdPago(), e);
+        }
+
+        try {
+
+            ResponseEntity<Requisito> requisitoResponse = requisitoFeign.listarRequisitoDtoPorId(matricula.getIdRequisito());
+            if (requisitoResponse.getBody() == null) {
+                throw new ResourceNotFoundException("Requisito con ID " + matricula.getIdRequisito() + " no existe");
+            }
+            matricula.setRequisito(requisitoResponse.getBody());
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al obtener el Requisito con ID " + matricula.getIdRequisito(), e);
+        }
+
+        try {
+
+            ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.listarAdministrativoDtoPorId(matricula.getIdAdministrativo());
+            if (administrativoResponse.getBody() == null) {
+                throw new ResourceNotFoundException("Administrativo con ID " + matricula.getIdAdministrativo() + " no existe");
+            }
+            matricula.setAdministrativo(administrativoResponse.getBody());
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al obtener el Administrativo con ID " + matricula.getIdAdministrativo(), e);
+        }
+
+        try {
+
+            ResponseEntity<Ciclo> cicloResponse = cicloFeign.listarCicloDtoPorId(matricula.getIdCiclo());
+            if (cicloResponse.getBody() == null) {
+                throw new ResourceNotFoundException("Ciclo con ID " + matricula.getIdCiclo() + " no existe");
+            }
+            matricula.setCiclo(cicloResponse.getBody());
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al obtener el Ciclo con ID " + matricula.getIdCiclo(), e);
         }
 
         return matricula;
@@ -118,6 +166,126 @@ public class MatriculaServiceImpl implements MatriculaService {
     // Obtener todas las matrículas
     @Override
     public List<Matricula> obtenerMatriculas() {
+        List<Matricula> matriculas = matriculaRepository.findAll();
+
+        matriculas.forEach(matricula -> {
+            try {
+                // Obtener el Nivel de Ensenanza del usuario usando Feign
+                ResponseEntity<NivelEnsenanza> nivelEnsenanzaResponse = nivelEnsenanzaFeign.listarNivelDeEnsenanzaDtoPorId(matricula.getIdNivelEnsenanza());
+                if (nivelEnsenanzaResponse.getBody() == null) {
+                    // Manejar el caso en el que el rol no existe
+                    throw new ResourceNotFoundException("Nivel de Ensenanza con ID " + matricula.getIdNivelEnsenanza() + " no existe");
+                }
+                matricula.setNivelEnsenanza(nivelEnsenanzaResponse.getBody());
+            } catch (FeignException e) {
+                // Manejar el error en el servidor de OpenFeign para rol
+                throw new RuntimeException("Error al obtener el Nivel de Ensenanza con ID " + matricula.getIdNivelEnsenanza(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+                // Obtener el Nivel de Ensenanza del usuario usando Feign
+                ResponseEntity<OpcionNivel> opcionNivelResponse = opcionNivelFeign.listarOpcionNivelDtoPorId(matricula.getIdOpcionNivel());
+                if (opcionNivelResponse.getBody() == null) {
+                    // Manejar el caso en el que el rol no existe
+                    throw new ResourceNotFoundException("Opcion Nivel con ID " + matricula.getIdOpcionNivel() + " no existe");
+                }
+                matricula.setOpcionNivel(opcionNivelResponse.getBody());
+            } catch (FeignException e) {
+                // Manejar el error en el servidor de OpenFeign para rol
+                throw new RuntimeException("Error al obtener la Opcion Nivel con ID " + matricula.getIdOpcionNivel(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+                ResponseEntity<Estudiante> estudianteResponse = estudianteFeign.listarEstudianteDtoPorId(matricula.getIdEstudiante());
+                if (estudianteResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Estudiante con ID " + matricula.getIdEstudiante() + " no existe");
+                }
+                matricula.setEstudiante(estudianteResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Estudiante con ID " + matricula.getIdEstudiante(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+                ResponseEntity<Carrera> carreraResponse = carreraFeign.listarCarreraDtoPorId(matricula.getIdCarrera());
+                if (carreraResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Carrera con ID " + matricula.getIdCarrera() + " no existe");
+                }
+                matricula.setCarrera(carreraResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener la Carrera con ID " + matricula.getIdCarrera(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+                ResponseEntity<CalendarioAcademico> calendarioAcademicoResponse = calendarioAcademicoFeign.listarCalendarioAcademicoDtoPorId(matricula.getIdCalendarioAcademico());
+                if (calendarioAcademicoResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Rol con ID " + matricula.getIdCalendarioAcademico() + " no existe");
+                }
+                matricula.setCalendarioAcademico(calendarioAcademicoResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Rol con ID " + matricula.getIdCalendarioAcademico(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+
+                ResponseEntity<Pago> pagoResponse = pagoFeign.listarPagoDtoPorId(matricula.getIdPago());
+                if (pagoResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Pago con ID " + matricula.getIdPago() + " no existe");
+                }
+                matricula.setPago(pagoResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Pago con ID " + matricula.getIdPago(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+
+                ResponseEntity<Requisito> requisitoResponse = requisitoFeign.listarRequisitoDtoPorId(matricula.getIdRequisito());
+                if (requisitoResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Requisito con ID " + matricula.getIdRequisito() + " no existe");
+                }
+                matricula.setRequisito(requisitoResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Requisito con ID " + matricula.getIdRequisito(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+
+                ResponseEntity<Administrativo> administrativoResponse = administrativoFeign.listarAdministrativoDtoPorId(matricula.getIdAdministrativo());
+                if (administrativoResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Administrativo con ID " + matricula.getIdAdministrativo() + " no existe");
+                }
+                matricula.setAdministrativo(administrativoResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Administrativo con ID " + matricula.getIdAdministrativo(), e);
+            }
+        });
+
+        matriculas.forEach(matricula -> {
+            try {
+
+                ResponseEntity<Ciclo> cicloResponse = cicloFeign.listarCicloDtoPorId(matricula.getIdCiclo());
+                if (cicloResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Ciclo con ID " + matricula.getIdCiclo() + " no existe");
+                }
+                matricula.setCiclo(cicloResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener el Ciclo con ID " + matricula.getIdCiclo(), e);
+            }
+        });
+
         return matriculaRepository.findAll();
     }
 

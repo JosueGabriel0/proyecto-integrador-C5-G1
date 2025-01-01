@@ -2,6 +2,8 @@ package upeu.edu.pe.msestudiante.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.msestudiante.dto.CuentaFinanciera;
+import upeu.edu.pe.msestudiante.dto.MovimientoAcademico;
 import upeu.edu.pe.msestudiante.dto.Persona;
 
 import java.time.LocalDate;
@@ -29,6 +31,14 @@ public class Estudiante {
     private String tipoEstudiante;
     private String beca;
     private String numeroMatricula;
+
+    private Long idCuentaFinanciera;
+    @Transient
+    private CuentaFinanciera cuentaFinanciera;
+
+    private Long idMovimientoAcademico;
+    @Transient
+    private MovimientoAcademico movimientoAcademico;
 
     @ElementCollection
     @CollectionTable(name = "carreras_ingresadas", joinColumns = @JoinColumn(name = "estudiante_id"))

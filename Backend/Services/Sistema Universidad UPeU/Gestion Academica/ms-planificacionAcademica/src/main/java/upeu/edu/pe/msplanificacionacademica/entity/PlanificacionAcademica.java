@@ -33,12 +33,6 @@ public class PlanificacionAcademica {
     @Column(name = "curso_programado_id")
     private List<Long> cursosProgramadosIds;
 
-    // Lista de IDs de profesores asignados (referencia al microservicio de Profesor)
-    @ElementCollection
-    @CollectionTable(name = "planificacion_profesores", joinColumns = @JoinColumn(name = "planificacion_academica_id"))
-    @Column(name = "profesor_id")
-    private List<Long> profesoresIds;
-
     @OneToMany(mappedBy = "planificacionAcademica", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ciclo> ciclos; // Lista de ciclos en la planificación académica
 

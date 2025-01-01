@@ -24,6 +24,14 @@ public class Estudiante {
     private String beca;
     private String numeroMatricula;
 
+    private Long idCuentaFinanciera;
+    @Transient
+    private CuentaFinanciera cuentaFinanciera;
+
+    private Long idMovimientoAcademico;
+    @Transient
+    private MovimientoAcademico movimientoAcademico;
+
     private List<String> carrerasIngresadas = new ArrayList<String>();
 
     private List<String> asignaturasMatriculadas = new ArrayList<String>();

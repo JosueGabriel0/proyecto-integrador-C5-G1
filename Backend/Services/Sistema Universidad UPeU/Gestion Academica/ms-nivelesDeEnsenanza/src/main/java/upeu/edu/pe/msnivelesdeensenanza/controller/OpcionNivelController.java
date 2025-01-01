@@ -37,7 +37,8 @@ public class OpcionNivelController {
 
     @PutMapping("/{id}")
     public ResponseEntity<OpcionNivel> actualizar(@PathVariable Long id, @RequestBody OpcionNivel opcionNivel) {
-        return ResponseEntity.ok(opcionNivelService.actualizar(id, opcionNivel));
+        opcionNivel.setIdOpcionNivel(id);
+        return ResponseEntity.ok(opcionNivelService.actualizar(opcionNivel));
     }
 
     @DeleteMapping("/{id}")

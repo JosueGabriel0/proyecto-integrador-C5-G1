@@ -1,5 +1,6 @@
 package upeu.edu.pe.msnivelesdeensenanza.dto;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,10 +21,8 @@ public class PlanificacionAcademica {
 
     private String descripcionGeneral;
 
+    // Lista de IDs de cursos programados (referencia al microservicio de Curso)
     private List<Long> cursosProgramadosIds;
-
-    // Lista de IDs de profesores asignados (referencia al microservicio de Profesor)
-    private List<Long> profesoresIds;
 
     private List<Ciclo> ciclos; // Lista de ciclos en la planificación académica
 

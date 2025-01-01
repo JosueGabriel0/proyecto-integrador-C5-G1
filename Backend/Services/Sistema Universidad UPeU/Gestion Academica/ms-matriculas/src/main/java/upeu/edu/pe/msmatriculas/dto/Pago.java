@@ -12,6 +12,7 @@ public class Pago {
     private BigDecimal monto;
     private String moneda;
     private String metodoPago; // Ejemplo: Tarjeta, Efectivo, Transferencia
+    private String medioDePago; // Al contado o 5 cuotas
     private String descripcion;
     private String estado; // Pagado, Pendiente, Fallido, etc.
 

@@ -19,6 +19,7 @@ CREATE DATABASE `ms-matriculas`;
 CREATE DATABASE `ms-pagos`;
 CREATE DATABASE `ms-requisitosAcademicos`;
 CREATE DATABASE `ms-nivelesDeEnsenanza`;
+CREATE DATABASE `ms-cuentaFinancieraU`;
 
 SHOW VARIABLES LIKE 'max_connections';
 SET GLOBAL max_connections = 200; -- Aumenta según sea necesario

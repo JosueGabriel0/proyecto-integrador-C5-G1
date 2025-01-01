@@ -105,17 +105,8 @@ public class OpcionNivelServiceImpl implements OpcionNivelService {
     }
 
     @Override
-    public OpcionNivel actualizar(Long id, OpcionNivel opcionNivelActualizado) {
-        OpcionNivel opcionExistente = obtenerPorId(id);
-        opcionExistente.setTipoEstudio(opcionNivelActualizado.getTipoEstudio());
-        opcionExistente.setSemestre(opcionNivelActualizado.getSemestre());
-        opcionExistente.setCampus(opcionNivelActualizado.getCampus());
-        opcionExistente.setIdPLanificacionAcademica(opcionNivelActualizado.getIdPLanificacionAcademica());
-        opcionExistente.setIdCarrera(opcionNivelActualizado.getIdCarrera());
-        opcionExistente.setModalidad(opcionNivelActualizado.getModalidad());
-        opcionExistente.setEstado(opcionNivelActualizado.getEstado());
-        opcionExistente.setNivelEnsenanza(opcionNivelActualizado.getNivelEnsenanza());
-        return opcionNivelRepository.save(opcionExistente);
+    public OpcionNivel actualizar(OpcionNivel opcionNivel) {
+        return opcionNivelRepository.save(opcionNivel);
     }
 
     @Override

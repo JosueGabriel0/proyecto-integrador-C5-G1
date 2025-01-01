@@ -6,6 +6,7 @@ import upeu.edu.pe.msnivelesdeensenanza.dto.Carrera;
 import upeu.edu.pe.msnivelesdeensenanza.dto.PlanificacionAcademica;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "opcion_nivel")
@@ -33,6 +34,14 @@ public class OpcionNivel {
 
     private String modalidad;
     private String estado;
+
+    @OneToMany(mappedBy = "opcionNivel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CicloDetalle> cicloDetalle;
+
+    private double costoDeMatricula;
+    private double costoPorCredito;
+
+    private boolean consentimientoInformado;
 
     private LocalDateTime fechaCreacionOpcionNivel;
     private LocalDateTime fechaModificacionOpcionNivel;

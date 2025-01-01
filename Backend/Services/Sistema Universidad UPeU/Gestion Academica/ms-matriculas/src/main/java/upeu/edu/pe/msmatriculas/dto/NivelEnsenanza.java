@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class NivelEnsenanza {
-
     private Long idNivelEnsenanza;
 
     private String nombre;

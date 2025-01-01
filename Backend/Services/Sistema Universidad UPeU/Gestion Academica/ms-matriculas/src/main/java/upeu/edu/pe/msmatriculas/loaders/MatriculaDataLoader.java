@@ -25,14 +25,17 @@ public class MatriculaDataLoader implements CommandLineRunner {
         if (matriculaRepository.count() == 0) {
             Matricula matricula1 = new Matricula();
             matricula1.setIdNivelEnsenanza(1L);
+            matricula1.setIdOpcionNivel(1L);
             matricula1.setIdEstudiante(1L);
             matricula1.setIdCarrera(1L);
             matricula1.setIdCalendarioAcademico(1L);
             matricula1.setIdPago(1L);
             matricula1.setIdRequisito(1L);
             matricula1.setIdAdministrativo(1L);
-            matricula1.setIdDocente(1L);
-            matricula1.setCursos(Arrays.asList(1L, 2L, 3L));
+            matricula1.setTipoAlumno("Regular");
+            matricula1.setNumeroDeCreditos(22);
+            matricula1.setCostoTotal(3000);
+            matricula1.setCursosDetalleIds(Arrays.asList(1L, 2L, 3L));
             matricula1.setEstado(EstadoMatricula.PENDIENTE);
             matricula1.setFechaMatricula(LocalDateTime.now());
             matricula1.setObservaciones("Primera matrícula del estudiante.");
@@ -45,8 +48,10 @@ public class MatriculaDataLoader implements CommandLineRunner {
             matricula2.setIdPago(3002L);
             matricula2.setIdRequisito(4002L);
             matricula2.setIdAdministrativo(5002L);
-            matricula2.setIdDocente(6002L);
-            matricula2.setCursos(Arrays.asList(201L, 202L));
+            matricula1.setTipoAlumno("Regular");
+            matricula1.setNumeroDeCreditos(22);
+            matricula1.setCostoTotal(3000);
+            matricula1.setCursosDetalleIds(Arrays.asList(1L, 2L, 3L));
             matricula2.setEstado(EstadoMatricula.PAGADO);
             matricula2.setFechaMatricula(LocalDateTime.now());
             matricula2.setObservaciones("Pago confirmado.");
@@ -59,8 +64,10 @@ public class MatriculaDataLoader implements CommandLineRunner {
             matricula3.setIdPago(3003L);
             matricula3.setIdRequisito(4003L);
             matricula3.setIdAdministrativo(5003L);
-            matricula3.setIdDocente(6003L);
-            matricula3.setCursos(Arrays.asList(301L, 302L, 303L, 304L));
+            matricula1.setTipoAlumno("Regular");
+            matricula1.setNumeroDeCreditos(22);
+            matricula1.setCostoTotal(3000);
+            matricula1.setCursosDetalleIds(Arrays.asList(1L, 2L, 3L));
             matricula3.setEstado(EstadoMatricula.COMPLETADO);
             matricula3.setFechaMatricula(LocalDateTime.now());
             matricula3.setObservaciones("Matrícula completada exitosamente.");

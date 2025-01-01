@@ -17,8 +17,6 @@ public class Carrera {
 
     private List<Long> cursos = new ArrayList<>();
 
-    private List<Long> planificacionesAcademicas =  new ArrayList<>();
-
     private LocalDateTime fechaCreacionCarrera;
     private LocalDateTime fechaModificacionCarrera;
 }

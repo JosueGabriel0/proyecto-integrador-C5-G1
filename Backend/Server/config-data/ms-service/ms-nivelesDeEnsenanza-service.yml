@@ -82,7 +82,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 
-    #CIRCUITBREAKER CRUD CARRERA
+    #CIRCUITBREAKER CRUD PLANIFICACION ACADEMICA
     crearPlanificacionAcademicaCB:
       registerHealthIndicator: true
       slidingWindowSize: 10

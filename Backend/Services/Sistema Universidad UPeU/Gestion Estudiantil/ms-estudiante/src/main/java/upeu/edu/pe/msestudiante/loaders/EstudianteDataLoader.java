@@ -35,6 +35,8 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante1.setTipoEstudiante("Regular");
             estudiante1.setBeca("Beca 100%");
             estudiante1.setNumeroMatricula("123456");
+            estudiante1.setIdCuentaFinanciera(1L);
+            estudiante1.setIdMovimientoAcademico(1L);
             estudiante1.setCarrerasIngresadas(Arrays.asList("Ingeniería de Sistemas", "Administración"));
             estudiante1.setAsignaturasMatriculadas(Arrays.asList("Matemáticas", "Programación"));
             estudiante1.setHorario("Lunes a Viernes 8am - 2pm");
@@ -54,6 +56,8 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setTipoEstudiante("Regular");
             estudiante2.setBeca("Beca parcial");
             estudiante2.setNumeroMatricula("654321");
+            estudiante1.setIdCuentaFinanciera(1L);
+            estudiante1.setIdMovimientoAcademico(1L);
             estudiante2.setCarrerasIngresadas(Arrays.asList("Ingeniería de Sistemas"));
             estudiante2.setAsignaturasMatriculadas(Arrays.asList("Química", "Física"));
             estudiante2.setHorario("Lunes a Viernes 9am - 3pm");

@@ -158,7 +158,14 @@ spring:
         - id: ms-nivelesDeEnsenanza-service
           uri: lb://ms-nivelesDeEnsenanza-service
           predicates:
-            - Path=/niveles-ensenanza/**, /opciones-nivel/**
+            - Path=/niveles-ensenanza/**, /opciones-nivel/**, /cicloDetalle/**, /cursoDetalle/**, /horario/**, /horarioDetalle/**
+          filters:
+            - AuthFilter
+
+        - id: ms-cuentaFinancieraUniversitaria-service
+          uri: lb://ms-cuentaFinancieraUniversitaria-service
+          predicates:
+            - Path=/cuentaFinanciera/**, /movimientoAcademico/**
           filters:
             - AuthFilter
 

@@ -28,6 +28,10 @@ public class Matricula {
     @Transient
     private NivelEnsenanza nivelEnsenanza;
 
+    private Long idOpcionNivel;
+    @Transient
+    private OpcionNivel opcionNivel;
+
     private Long idEstudiante;
     @Transient
     private Estudiante estudiante;
@@ -52,14 +56,20 @@ public class Matricula {
     @Transient
     private Administrativo administrativo;
 
-    private Long idDocente;
+    private String tipoAlumno; //Regular o Irregular
+
+    private int numeroDeCreditos;
+
+    private double costoTotal;
+
+    private Long idCiclo;
     @Transient
-    private Docente docente;
+    private Ciclo ciclo;
 
     @ElementCollection
-    @CollectionTable(name = "cursos_Ids", joinColumns = @JoinColumn(name = "matricula_id"))
-    @Column(name = "cursosIds")
-    private List<Long> cursos = new ArrayList<>();
+    @CollectionTable(name = "cursosDetalles_Ids", joinColumns = @JoinColumn(name = "matricula_id"))
+    @Column(name = "cursosDetalleIds")
+    private List<Long> cursosDetalleIds = new ArrayList<>();
 
     // Estado de la matrícula (pendiente, pagado, completado, cancelado)
     @Enumerated(EnumType.STRING)

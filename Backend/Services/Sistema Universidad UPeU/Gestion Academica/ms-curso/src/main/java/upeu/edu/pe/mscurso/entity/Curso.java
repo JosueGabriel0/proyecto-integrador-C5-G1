@@ -33,7 +33,7 @@ public class Curso {
 
     private String preRequisito;
 
-    private String grupo;
+    private String silaboUrl;
 
     private LocalDateTime fechaCreacionCurso;
     private LocalDateTime fechaModificacionCurso;
