@@ -1,6 +1,5 @@
 package upeu.edu.pe.msmatriculas.dto;
 
-import jakarta.persistence.Transient;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -24,11 +23,9 @@ public class Estudiante {
     private String numeroMatricula;
 
     private Long idCuentaFinanciera;
-    @Transient
     private CuentaFinanciera cuentaFinanciera;
 
     private Long idMovimientoAcademico;
-    @Transient
     private MovimientoAcademico movimientoAcademico;
 
     private List<String> carrerasIngresadas = new ArrayList<String>();

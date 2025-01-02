@@ -31,8 +31,8 @@ eureka:
 
 resilience4j.circuitbreaker:
   instances:
-    #CIRCUITBREAKER CRUD ESTUDIANTE
-    crearEstudianteCB:
+    #CIRCUITBREAKER CRUD PAGO
+    crearPagoCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -42,7 +42,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 
-    listarEstudiantesCB:
+    listarPagosCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -52,7 +52,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 60
       eventConsumerBufferSize: 10
 
-    listarEstudiantePorIdCB:
+    listarPagoPorIdCB:
       registerHealthIndicator: true
       slidingWindowSize: 15
       permittedNumberOfCallsInHalfOpenState: 2
@@ -62,7 +62,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 70
       eventConsumerBufferSize: 20
 
-    actualizarEstudianteCB:
+    actualizarPagoCB:
       registerHealthIndicator: true
       slidingWindowSize: 20
       permittedNumberOfCallsInHalfOpenState: 2
@@ -72,7 +72,7 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 15
 
-    eliminarEstudianteCB:
+    eliminarPagoCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3

@@ -1,4 +1,4 @@
-package upeu.edu.pe.mspagos.dto;
+package upeu.edu.pe.mscuentafinancierauniversitaria.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 @Data
 public class EstudianteRequest {
 

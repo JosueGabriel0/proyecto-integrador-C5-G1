@@ -1,16 +1,11 @@
-package upeu.edu.pe.mscuentafinancierauniversitaria.entity;
+package upeu.edu.pe.mspagos.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@Entity
 @Data
 public class CuentaFinanciera {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCuentaFinanciera;
 
     private String entidad;
@@ -21,7 +16,4 @@ public class CuentaFinanciera {
     private double saldoFinalDebito;
     private double saldoFinalCredito;
     private double saldoAfavor;
-
-    @OneToMany(mappedBy = "cuentaFinanciera", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MovimientoAcademico> movimientosAcademicos;
 }

@@ -1,10 +1,8 @@
 package upeu.edu.pe.mscuentafinancierauniversitaria.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
 
 import java.time.LocalDate;
 
@@ -24,6 +22,11 @@ public class MovimientoAcademico {
     private String debito;
     private String credito;
 
-    private Long idBoleta;
-    private Long idFactura;
+    private Long idPago;
+    @Transient
+    private Pago pago;
+
+    @ManyToOne
+    @JoinColumn(name = "cuenta_financiera_id")
+    private CuentaFinanciera cuentaFinanciera;
 }

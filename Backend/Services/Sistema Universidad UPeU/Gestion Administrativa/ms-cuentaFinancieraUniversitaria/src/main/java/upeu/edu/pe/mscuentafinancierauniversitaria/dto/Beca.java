@@ -1,16 +1,12 @@
-package upeu.edu.pe.mspagos.entity;
+package upeu.edu.pe.mscuentafinancierauniversitaria.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
 @Data
 public class Beca {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBeca;
 
     private String tipoBeca; // Ejemplo: Beca completa, media beca
@@ -19,7 +15,6 @@ public class Beca {
     private LocalDate fechaFin;
 
     private Long idEstudiante;
-    @Transient
     private Estudiante estudiante;
     // Getters y setters
 }
