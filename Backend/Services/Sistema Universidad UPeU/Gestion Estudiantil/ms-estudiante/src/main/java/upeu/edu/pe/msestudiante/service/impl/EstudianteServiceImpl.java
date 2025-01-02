@@ -4,14 +4,17 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import upeu.edu.pe.msestudiante.dto.CuentaFinanciera;
 import upeu.edu.pe.msestudiante.dto.Persona;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
 import upeu.edu.pe.msestudiante.entity.RegistroAcademico;
 import upeu.edu.pe.msestudiante.exception.ResourceNotFoundException;
+import upeu.edu.pe.msestudiante.feign.CuentaFinancieraFeign;
 import upeu.edu.pe.msestudiante.feign.PersonaFeign;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import upeu.edu.pe.msestudiante.service.EstudianteService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,6 +27,9 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Autowired
     private PersonaFeign personaFeign;
 
+    @Autowired
+    private CuentaFinancieraFeign cuentaFinancieraFeign;
+
     @Override
     public Estudiante guardarEstudiante(Estudiante estudiante) {
         // Asigna el estudiante a cada registro académico en el historial
@@ -32,6 +38,18 @@ public class EstudianteServiceImpl implements EstudianteService {
                 registro.setEstudiante(estudiante);
             }
         }
+
+        CuentaFinanciera nuevaCuentaFinanciera = new CuentaFinanciera();
+        nuevaCuentaFinanciera.setEntidad("UPeU");
+        nuevaCuentaFinanciera.setDepartamento("FILIAL JULIACA");
+        nuevaCuentaFinanciera.setAnio(LocalDate.parse("2025-01-01"));
+        ResponseEntity<CuentaFinanciera> cuentaFinancieraCreada = cuentaFinancieraFeign.crearCuentaFinancieraDto(nuevaCuentaFinanciera);
+
+        System.out.println(cuentaFinancieraCreada.getBody().getIdCuentaFinanciera());
+        Long idCuentaFinancieraCreada = cuentaFinancieraCreada.getBody().getIdCuentaFinanciera();
+
+        estudiante.setIdCuentaFinanciera(idCuentaFinancieraCreada);
+
         // Guarda el estudiante con el historial académico ya enlazado
         return estudianteRepository.save(estudiante);
     }
@@ -50,6 +68,16 @@ public class EstudianteServiceImpl implements EstudianteService {
                 estudiante.setPersona(personaResponse.getBody());
             } catch (FeignException e) {
                 throw new RuntimeException("Error al obtener la persona con ID " + estudiante.getIdPersona(), e);
+            }
+
+            try {
+                ResponseEntity<CuentaFinanciera> cuentaFinancieraResponse = cuentaFinancieraFeign.listarCuentaFinancieraDtoPorId(estudiante.getIdCuentaFinanciera());
+                if (cuentaFinancieraResponse.getBody() == null) {
+                    throw new ResourceNotFoundException("Cuenta Financiera con ID " + estudiante.getIdCuentaFinanciera() + " no existe");
+                }
+                estudiante.setCuentaFinanciera(cuentaFinancieraResponse.getBody());
+            } catch (FeignException e) {
+                throw new RuntimeException("Error al obtener la Cuenta Financiera con ID " + estudiante.getIdCuentaFinanciera(), e);
             }
         });
 
@@ -73,6 +101,16 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         } catch (FeignException e) {
             throw new RuntimeException("Error al comunicarse con el servicio externo", e);
+        }
+
+        try {
+            ResponseEntity<CuentaFinanciera> cuentaFinancieraResponse = cuentaFinancieraFeign.listarCuentaFinancieraDtoPorId(estudiante.getIdCuentaFinanciera());
+            if (cuentaFinancieraResponse.getBody() == null) {
+                throw new ResourceNotFoundException("Cuenta Financiera con ID " + estudiante.getIdCuentaFinanciera() + " no existe");
+            }
+            estudiante.setCuentaFinanciera(cuentaFinancieraResponse.getBody());
+        } catch (FeignException e) {
+            throw new RuntimeException("Error al obtener la Cuenta Financiera con ID " + estudiante.getIdCuentaFinanciera(), e);
         }
 
         return estudiante;

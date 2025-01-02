@@ -1,21 +1,14 @@
-package upeu.edu.pe.mspagos.entity;
+package upeu.edu.pe.msestudiante.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
 @Data
 public class Factura {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFactura;
 
-    @OneToOne
-    @JoinColumn(name = "pago_id")
     private Pago pago; // Relación con el pago
 
     private String numeroFactura;
@@ -27,7 +20,6 @@ public class Factura {
     private String estadoFactura;
 
     private Long idEstudiante;
-    @Transient
     private Estudiante estudiante;
 
     // Getters y setters

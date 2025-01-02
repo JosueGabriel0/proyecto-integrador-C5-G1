@@ -1,5 +1,6 @@
 package upeu.edu.pe.mscuentafinancierauniversitaria.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,6 @@ public class CuentaFinanciera {
     private double saldoAfavor;
 
     @OneToMany(mappedBy = "cuentaFinanciera", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<MovimientoAcademico> movimientosAcademicos;
 }

@@ -2,6 +2,7 @@ package upeu.edu.pe.mspagos.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

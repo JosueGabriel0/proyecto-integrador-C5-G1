@@ -1,6 +1,5 @@
-package upeu.edu.pe.mscuentafinancierauniversitaria.dto;
+package upeu.edu.pe.msestudiante.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;

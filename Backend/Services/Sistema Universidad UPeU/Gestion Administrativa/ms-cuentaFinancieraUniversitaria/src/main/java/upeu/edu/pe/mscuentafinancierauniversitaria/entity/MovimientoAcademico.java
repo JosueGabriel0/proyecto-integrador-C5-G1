@@ -1,5 +1,6 @@
 package upeu.edu.pe.mscuentafinancierauniversitaria.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
@@ -28,5 +29,6 @@ public class MovimientoAcademico {
 
     @ManyToOne
     @JoinColumn(name = "cuenta_financiera_id")
+    @JsonBackReference
     private CuentaFinanciera cuentaFinanciera;
 }

@@ -1,4 +1,4 @@
-package upeu.edu.pe.mscuentafinancierauniversitaria.dto;
+package upeu.edu.pe.msestudiante.dto;
 
 import lombok.Data;
 

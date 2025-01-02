@@ -1,9 +1,8 @@
 package upeu.edu.pe.msestudiante.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
-import upeu.edu.pe.msestudiante.entity.EstadoEstudiante;
-import upeu.edu.pe.msestudiante.entity.RegistroAcademico;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

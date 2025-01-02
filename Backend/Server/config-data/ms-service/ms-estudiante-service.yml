@@ -131,3 +131,54 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 7s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+
+    #CIRCUITBREAKER CRUD CURSO
+    crearCuentaFinancieraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+    listarCuentasFinancierasCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+      eventConsumerBufferSize: 10
+
+    listarCuentaFinancieraPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 15
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 8s
+      failureRateThreshold: 70
+      eventConsumerBufferSize: 20
+
+    actualizarCuentaFinancieraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 20
+      permittedNumberOfCallsInHalfOpenState: 2
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 6
+      waitDurationInOpenState: 12s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 15
+
+    eliminarCuentaFinancieraCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 7s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
