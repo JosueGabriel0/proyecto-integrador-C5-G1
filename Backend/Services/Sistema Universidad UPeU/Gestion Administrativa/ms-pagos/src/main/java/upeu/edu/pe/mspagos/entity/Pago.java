@@ -1,5 +1,7 @@
 package upeu.edu.pe.mspagos.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.mspagos.dto.Estudiante;
@@ -14,27 +16,23 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPago;
 
-    private BigDecimal monto;
-    private String moneda;
-    private String metodoPago; // Ejemplo: Tarjeta, Efectivo, Transferencia
-    private String medioDePago; // Al contado o 5 cuotas
+    private BigDecimal montoTotal;
+    private String metodoDePago;
+    private String medioDePago;
+    private String estado;
     private String descripcion;
-    private String estado; // Pagado, Pendiente, Fallido, etc.
 
     private Long idEstudiante;
     @Transient
     private Estudiante estudiante;
 
-    private LocalDate fechaPago;
-
-    // Relación con factura si es necesario
     @OneToOne(mappedBy = "pago")
+    @JsonManagedReference
     private Factura factura;
 
-    // Relación con boleta
     @OneToOne(mappedBy = "pago")
+    @JsonManagedReference
     private Boleta boleta;
 
-
-    // Getters y setters
+    private LocalDate fechaPago;
 }

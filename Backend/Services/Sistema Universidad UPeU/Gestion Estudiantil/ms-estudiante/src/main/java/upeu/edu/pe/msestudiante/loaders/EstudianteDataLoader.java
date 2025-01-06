@@ -3,6 +3,7 @@ package upeu.edu.pe.msestudiante.loaders;
 import upeu.edu.pe.msestudiante.entity.EstadoEstudiante;
 import upeu.edu.pe.msestudiante.entity.Estudiante;
 import upeu.edu.pe.msestudiante.entity.RegistroAcademico;
+import upeu.edu.pe.msestudiante.entity.ResponsableFinanciero;
 import upeu.edu.pe.msestudiante.repository.EstudianteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
         if (estudianteRepository.count() == 0) {
             // Crear estudiante 1
             Estudiante estudiante1 = new Estudiante();
+            estudiante1.setCodigoUniversitario("202122864");
             estudiante1.setMatricula("2024-001");
             estudiante1.setCicloActual(1);
             estudiante1.setPromedioGeneral(15.5);
@@ -44,10 +46,12 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante1.setFechaGraduacion(LocalDate.of(2028, 12, 1));
             estudiante1.setPracticasRealizadas(Arrays.asList("Práctica 1", "Práctica 2"));
             estudiante1.setHistorialAcademico(createHistorialAcademico(estudiante1));
+            estudiante1.setResponsableFinanciero(createResponsableFinanciero(estudiante1));
             estudiante1.setIdPersona(4L);
 
             // Crear estudiante 2
             Estudiante estudiante2 = new Estudiante();
+            estudiante2.setCodigoUniversitario("202122864");
             estudiante2.setMatricula("2024-002");
             estudiante2.setCicloActual(2);
             estudiante2.setPromedioGeneral(14.0);
@@ -56,8 +60,8 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setTipoEstudiante("Regular");
             estudiante2.setBeca("Beca parcial");
             estudiante2.setNumeroMatricula("654321");
-            estudiante1.setIdCuentaFinanciera(1L);
-            estudiante1.setIdMovimientoAcademico(1L);
+            estudiante2.setIdCuentaFinanciera(1L);
+            estudiante2.setIdMovimientoAcademico(1L);
             estudiante2.setCarrerasIngresadas(Arrays.asList("Ingeniería de Sistemas"));
             estudiante2.setAsignaturasMatriculadas(Arrays.asList("Química", "Física"));
             estudiante2.setHorario("Lunes a Viernes 9am - 3pm");
@@ -65,6 +69,7 @@ public class EstudianteDataLoader implements CommandLineRunner {
             estudiante2.setFechaGraduacion(LocalDate.of(2028, 12, 1));
             estudiante2.setPracticasRealizadas(Arrays.asList("Práctica 3"));
             estudiante2.setHistorialAcademico(createHistorialAcademico(estudiante2));
+            estudiante2.setResponsableFinanciero(createResponsableFinanciero(estudiante2));
             estudiante2.setIdPersona(5L);
 
             // Guardar estudiantes en la base de datos
@@ -92,5 +97,22 @@ public class EstudianteDataLoader implements CommandLineRunner {
         registro2.setFechaFinalizacion(LocalDate.of(2024, 12, 15));
 
         return Arrays.asList(registro1, registro2);
+    }
+
+    private ResponsableFinanciero createResponsableFinanciero(Estudiante estudiante) {
+        ResponsableFinanciero responsableFinanciero1 = new ResponsableFinanciero();
+        responsableFinanciero1.setEstudiante(estudiante);
+        responsableFinanciero1.setNombres("Denis Favio");
+        responsableFinanciero1.setApellido_paterno("Gomez");
+        responsableFinanciero1.setApellido_materno("Flores");
+        responsableFinanciero1.setCorreoElectronico("denis@gmail.com");
+        responsableFinanciero1.setCelular("123456789");
+        responsableFinanciero1.setDireccion("Direccion Falsa");
+        responsableFinanciero1.setParentesco("Hermano");
+        responsableFinanciero1.setNacionalidad("Peruano");
+        responsableFinanciero1.setTipoDocumento("DNI");
+        responsableFinanciero1.setNumeroDocumento("12345678");
+
+        return responsableFinanciero1;
     }
 }

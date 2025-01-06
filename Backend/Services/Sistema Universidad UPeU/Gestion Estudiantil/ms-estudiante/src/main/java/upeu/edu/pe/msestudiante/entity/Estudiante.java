@@ -1,5 +1,6 @@
 package upeu.edu.pe.msestudiante.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.msestudiante.dto.CuentaFinanciera;
@@ -19,7 +20,7 @@ public class Estudiante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEstudiante;
 
-
+    private String codigoUniversitario;
     private String matricula;
     private int cicloActual;
     private double promedioGeneral;
@@ -63,7 +64,13 @@ public class Estudiante {
 
     // Historial Académico del Estudiante
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<RegistroAcademico> historialAcademico;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idResponsableFinanciero", referencedColumnName = "idResponsableFinanciero")
+    @JsonManagedReference
+    private ResponsableFinanciero responsableFinanciero;
 
     private long idPersona;
     @Transient

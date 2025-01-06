@@ -1,5 +1,7 @@
 package upeu.edu.pe.msnivelesdeensenanza.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.msnivelesdeensenanza.dto.Ciclo;
@@ -18,6 +20,7 @@ public class CicloDetalle {
 
     @ManyToOne
     @JoinColumn(name = "opcion_nivel_id")
+    @JsonBackReference
     private OpcionNivel opcionNivel; // Relación: Uno a Muchos con OpcionNivel
 
     private Long idCiclo;
@@ -27,6 +30,7 @@ public class CicloDetalle {
     private int numeroDeGrupos;
 
     @OneToMany(mappedBy = "cicloDetalle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CursoDetalle> cursoDetalles; // Relación: Uno a Muchos con CursoDetalle
 
     private LocalDateTime fechaCreacionCicloDetalle;

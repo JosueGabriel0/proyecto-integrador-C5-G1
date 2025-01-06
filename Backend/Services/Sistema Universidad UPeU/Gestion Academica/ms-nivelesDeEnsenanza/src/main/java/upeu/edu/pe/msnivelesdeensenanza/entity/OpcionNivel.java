@@ -1,5 +1,6 @@
 package upeu.edu.pe.msnivelesdeensenanza.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import upeu.edu.pe.msnivelesdeensenanza.dto.Carrera;
@@ -36,6 +37,7 @@ public class OpcionNivel {
     private String estado;
 
     @OneToMany(mappedBy = "opcionNivel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CicloDetalle> cicloDetalle;
 
     private double costoDeMatricula;

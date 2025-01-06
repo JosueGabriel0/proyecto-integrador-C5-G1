@@ -34,7 +34,6 @@ public class Persona {
     private String estadoCivil;
     private String fotoPerfil;
     private String tipoSangre;
-    private String responsableFinanciero;
     private String contactoEmergenciaNombre;
     private String contactoEmergenciaTelefono;
     private String contactoEmergenciaEmail;

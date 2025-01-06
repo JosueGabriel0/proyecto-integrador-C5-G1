@@ -1,5 +1,6 @@
 package upeu.edu.pe.msnivelesdeensenanza.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class HorarioDetalle {
     // Relación con Horario
     @ManyToOne
     @JoinColumn(name = "horario_id")
+    @JsonBackReference
     private Horario horario;
 
     // Día específico

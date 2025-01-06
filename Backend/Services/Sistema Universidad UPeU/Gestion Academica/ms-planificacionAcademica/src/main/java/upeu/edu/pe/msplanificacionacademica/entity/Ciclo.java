@@ -1,5 +1,6 @@
 package upeu.edu.pe.msplanificacionacademica.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class Ciclo {
 
     @ManyToOne
     @JoinColumn(name = "id_planificacion_academica")
+    @JsonBackReference
     private PlanificacionAcademica planificacionAcademica;
 
     // Lista de cursos asociados al ciclo

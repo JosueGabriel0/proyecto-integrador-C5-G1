@@ -1,5 +1,6 @@
 package upeu.edu.pe.msestudiante.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class RegistroAcademico {
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id")
-    @JsonIgnore
+    @JsonBackReference
     private Estudiante estudiante;
 
     @ElementCollection

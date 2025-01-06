@@ -76,7 +76,6 @@ function ListPersonaComponent() {
                     <th>Estado Civil</th>
                     <th>Foto de Perfil</th>
                     <th>Tipo de sangre</th>
-                    <th>Responsable Financiero</th>
                     <th>Nombre del contacto de emergencia</th>
                     <th>Telefono del contacto de emergencia</th>
                     <th>Email del contacto de emergencia</th>
@@ -118,7 +117,6 @@ function ListPersonaComponent() {
                                         )}
                                     </td>
                                     <td>{persona.tipoSangre}</td>
-                                    <td>{persona.responsableFinanciero}</td>
                                     <td>{persona.contactoEmergenciaNombre}</td>
                                     <td>{persona.contactoEmergenciaTelefono}</td>
                                     <td>{persona.contactoEmergenciaEmail}</td>

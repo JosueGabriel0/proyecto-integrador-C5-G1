@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import upeu.edu.pe.mspagos.entity.Boleta;
+import upeu.edu.pe.mspagos.entity.Factura;
 import upeu.edu.pe.mspagos.entity.Pago;
 import upeu.edu.pe.mspagos.service.PagoService;
+import upeu.edu.pe.mspagos.service.PdfService;
 
 import java.util.List;
 
@@ -14,6 +17,33 @@ import java.util.List;
 public class PagoController {
     @Autowired
     private PagoService pagoService;
+
+    @Autowired
+    private PdfService pdfService;
+
+    @PostMapping("/boleta")
+    public String crearPagoConBoleta(@RequestBody Boleta boleta) {
+        try {
+            pagoService.crearPagoConBoleta(boleta);
+            pdfService.generarPdfBoleta(boleta);
+            return "Boleta creada y PDF generado correctamente.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error al generar la boleta o el PDF.";
+        }
+    }
+
+    @PostMapping("/factura")
+    public String crearPagoConFactura(@RequestBody Factura factura) {
+        try {
+            pagoService.crearPagoConFactura(factura);
+            pdfService.generarPdfFactura(factura);
+            return "Factura creada y PDF generado correctamente.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error al generar la factura o el PDF.";
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Pago> guardarPagoResponseEntity(@RequestBody Pago pago){

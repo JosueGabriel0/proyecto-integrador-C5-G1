@@ -39,7 +39,6 @@ public class PersonaDataLoader {
                 persona1.setEstadoCivil("Soltero");
                 persona1.setFotoPerfil("Perfil.jpg");
                 persona1.setTipoSangre("O+");
-                persona1.setResponsableFinanciero("Juan");
                 persona1.setContactoEmergenciaNombre("María Pérez");
                 persona1.setContactoEmergenciaTelefono("912345678");
                 persona1.setContactoEmergenciaEmail("maria.perez@example.com");
@@ -67,7 +66,6 @@ public class PersonaDataLoader {
                 persona2.setEstadoCivil("Casada");
                 persona2.setFotoPerfil("Perfil.jpg");
                 persona2.setTipoSangre("A+");
-                persona2.setResponsableFinanciero("Juan");
                 persona2.setContactoEmergenciaNombre("José Lopez");
                 persona2.setContactoEmergenciaTelefono("987654321");
                 persona2.setContactoEmergenciaEmail("jose.lopez@example.com");
@@ -95,7 +93,6 @@ public class PersonaDataLoader {
                 persona3.setEstadoCivil("Soltero");
                 persona3.setFotoPerfil("Perfil.jpg");
                 persona3.setTipoSangre("B+");
-                persona3.setResponsableFinanciero("Juan");
                 persona3.setContactoEmergenciaNombre("Luisa Sánchez");
                 persona3.setContactoEmergenciaTelefono("965432109");
                 persona3.setContactoEmergenciaEmail("luisa.sanchez@example.com");
@@ -123,7 +120,6 @@ public class PersonaDataLoader {
                 persona4.setEstadoCivil("Divorciada");
                 persona4.setFotoPerfil("Perfil.jpg");
                 persona4.setTipoSangre("AB+");
-                persona4.setResponsableFinanciero("Juan");
                 persona4.setContactoEmergenciaNombre("Pedro Gómez");
                 persona4.setContactoEmergenciaTelefono("993322445");
                 persona4.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -151,7 +147,6 @@ public class PersonaDataLoader {
                 persona5.setEstadoCivil("Divorciada");
                 persona5.setFotoPerfil("Perfil.jpg");
                 persona5.setTipoSangre("AB+");
-                persona5.setResponsableFinanciero("Juan");
                 persona5.setContactoEmergenciaNombre("Pedro Gómez");
                 persona5.setContactoEmergenciaTelefono("993322445");
                 persona5.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -179,7 +174,6 @@ public class PersonaDataLoader {
                 persona6.setEstadoCivil("Divorciada");
                 persona6.setFotoPerfil("Perfil.jpg");
                 persona6.setTipoSangre("AB+");
-                persona6.setResponsableFinanciero("Juan");
                 persona6.setContactoEmergenciaNombre("Pedro Gómez");
                 persona6.setContactoEmergenciaTelefono("993322445");
                 persona6.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -207,7 +201,6 @@ public class PersonaDataLoader {
                 persona7.setEstadoCivil("Divorciada");
                 persona7.setFotoPerfil("Perfil.jpg");
                 persona7.setTipoSangre("AB+");
-                persona7.setResponsableFinanciero("Juan");
                 persona7.setContactoEmergenciaNombre("Pedro Gómez");
                 persona7.setContactoEmergenciaTelefono("993322445");
                 persona7.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -235,7 +228,6 @@ public class PersonaDataLoader {
                 persona8.setEstadoCivil("Divorciada");
                 persona8.setFotoPerfil("Perfil.jpg");
                 persona8.setTipoSangre("AB+");
-                persona8.setResponsableFinanciero("Juan");
                 persona8.setContactoEmergenciaNombre("Pedro Gómez");
                 persona8.setContactoEmergenciaTelefono("993322445");
                 persona8.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -263,7 +255,6 @@ public class PersonaDataLoader {
                 persona9.setEstadoCivil("Divorciada");
                 persona9.setFotoPerfil("Perfil.jpg");
                 persona9.setTipoSangre("AB+");
-                persona9.setResponsableFinanciero("Juan");
                 persona9.setContactoEmergenciaNombre("Pedro Gómez");
                 persona9.setContactoEmergenciaTelefono("993322445");
                 persona9.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -291,7 +282,6 @@ public class PersonaDataLoader {
                 persona10.setEstadoCivil("Divorciada");
                 persona10.setFotoPerfil("Perfil.jpg");
                 persona10.setTipoSangre("AB+");
-                persona10.setResponsableFinanciero("Juan");
                 persona10.setContactoEmergenciaNombre("Pedro Gómez");
                 persona10.setContactoEmergenciaTelefono("993322445");
                 persona10.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -319,7 +309,6 @@ public class PersonaDataLoader {
                 persona11.setEstadoCivil("Divorciada");
                 persona11.setFotoPerfil("Perfil.jpg");
                 persona11.setTipoSangre("AB+");
-                persona11.setResponsableFinanciero("Juan");
                 persona11.setContactoEmergenciaNombre("Pedro Gómez");
                 persona11.setContactoEmergenciaTelefono("993322445");
                 persona11.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -347,7 +336,6 @@ public class PersonaDataLoader {
                 persona12.setEstadoCivil("Divorciada");
                 persona12.setFotoPerfil("Perfil.jpg");
                 persona12.setTipoSangre("AB+");
-                persona12.setResponsableFinanciero("Juan");
                 persona12.setContactoEmergenciaNombre("Pedro Gómez");
                 persona12.setContactoEmergenciaTelefono("993322445");
                 persona12.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -375,7 +363,6 @@ public class PersonaDataLoader {
                 persona13.setEstadoCivil("Divorciada");
                 persona13.setFotoPerfil("Perfil.jpg");
                 persona13.setTipoSangre("AB+");
-                persona13.setResponsableFinanciero("Juan");
                 persona13.setContactoEmergenciaNombre("Pedro Gómez");
                 persona13.setContactoEmergenciaTelefono("993322445");
                 persona13.setContactoEmergenciaEmail("pedro.gomez@example.com");
@@ -403,7 +390,6 @@ public class PersonaDataLoader {
                 persona14.setEstadoCivil("Divorciada");
                 persona14.setFotoPerfil("Perfil.jpg");
                 persona14.setTipoSangre("AB+");
-                persona14.setResponsableFinanciero("Juan");
                 persona14.setContactoEmergenciaNombre("Pedro Gómez");
                 persona14.setContactoEmergenciaTelefono("993322445");
                 persona14.setContactoEmergenciaEmail("pedro.gomez@example.com");

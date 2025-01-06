@@ -65,7 +65,7 @@ function GeneralDashboardComponent({ titulo = "Dshboard" }) {
         <div>
           <section style={{ marginTop: "20px" }}>
             <h2>Acciones</h2>
-            <Link to="/inscripciones">PORTAL DEL ESTUDIANTE</Link>&nbsp;&nbsp;
+            <Link to="/portal-academico">PORTAL DEL ESTUDIANTE</Link>&nbsp;&nbsp;
             <Link to="/inicio-matricula-virtual-estudiante">MATRÍCULA</Link>&nbsp;&nbsp;
             <Link to="/usuarios">BIENESTAR UNIV.</Link>&nbsp;&nbsp;
             <Link to="/personas">B-LEARNING</Link>&nbsp;&nbsp;

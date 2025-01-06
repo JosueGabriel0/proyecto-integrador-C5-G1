@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import EstudianteAdminService from "../../../services/administradorServices/estudiante/EstudianteAdminService";
 import { Link } from "react-router-dom";
 import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
+import CuentaFinancieraService from "../../../services/cuentasfinancierasServices.jsx/CuentaFinancieraService";
 
 function ListEstudianteComponent() {
     const [estudiantes, setEstudiantes] = useState([]);
     const [personas, setPersonas] = useState([]);
+    const [cuentasFinancieras, setCuentasFinancieras] = useState([]);
 
     useEffect(() => {
+        listarCuentasFinancieras();
         listarPersonas();
         listarEstudiantes();
     }, [])
@@ -21,9 +24,23 @@ function ListEstudianteComponent() {
         })
     }
 
+    function listarCuentasFinancieras(){
+        CuentaFinancieraService.getAllCuentasFinancieras().then(response => {
+            setCuentasFinancieras(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     function obtenerNombrePersona(idPersona){
         const personaEncontrada = personas.find(persona => persona.id === idPersona);
         return personaEncontrada? personaEncontrada.nombres : "Desconocido";
+    }
+
+    function obtenerEntidadCuentaFinanciera(idCuentaFinanciera){
+        const cuentaFinancieraEncontrada = cuentasFinancieras.find(cuentaFinanciera => cuentaFinanciera.idCuentaFinanciera === idCuentaFinanciera);
+        return cuentaFinancieraEncontrada? cuentaFinancieraEncontrada.entidad : "Desconocido";
     }
 
     function listarEstudiantes() {
@@ -56,6 +73,7 @@ function ListEstudianteComponent() {
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Codigo Universitario</th>
                         <th>Matricula</th>
                         <th>Ciclo Actual</th>
                         <th>Promedio General</th>
@@ -71,6 +89,7 @@ function ListEstudianteComponent() {
                         <th>Fecha de Graduacion</th>
                         <th>Practicas Realizadas</th>
                         <th>Historial Academico</th>
+                        <th>Cuenta Financiera Universitaria</th>
                         <th>Nombre de la Persona</th>
                         <th>Fecha de creacion de Estudiante</th>
                         <th>Fecha de modificacion de Estudiante</th>
@@ -82,6 +101,7 @@ function ListEstudianteComponent() {
                         estudiantes.map(estudiante => (
                             <tr key={estudiante.idEstudiante}>
                                 <td>{estudiante.idEstudiante}</td>
+                                <td>{estudiante.codigoUniversitario}</td>
                                 <td>{estudiante.matricula}</td>
                                 <td>{estudiante.cicloActual}</td>
                                 <td>{estudiante.promedioGeneral}</td>
@@ -106,6 +126,7 @@ function ListEstudianteComponent() {
                                         ))}
                                     </ul>
                                 </td>
+                                <td>{obtenerEntidadCuentaFinanciera(estudiante.idCuentaFinanciera)}</td>
                                 <td>{obtenerNombrePersona(estudiante.idPersona)}</td>
                                 <td>{estudiante.fechaCreacionEstudiante}</td>
                                 <td>{estudiante.fechaModificacionEstudiante}</td>

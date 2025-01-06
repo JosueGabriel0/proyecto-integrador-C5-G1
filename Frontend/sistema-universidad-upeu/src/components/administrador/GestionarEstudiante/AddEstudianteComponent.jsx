@@ -6,6 +6,7 @@ import CarreraAdminService from "../../../services/administradorServices/carrera
 import CursoAdminService from "../../../services/administradorServices/curso/CursoAdminService";
 
 function AddEstudianteComponent() {
+    const [codigoUniversitario, setCodigoUniversitario] = useState("");
     const [matricula, setMatricula] = useState("");
     const [cicloActual, setCicloActual] = useState("");
     const [promedioGeneral, setPromedioGeneral] = useState("");
@@ -42,7 +43,7 @@ function AddEstudianteComponent() {
     function saveOrUpdateEstudiante(e) {
         e.preventDefault();
         const estudiante = {
-            matricula, cicloActual, promedioGeneral, fechaIngreso, estado, tipoEstudiante, beca, numeroMatricula, carrerasIngresadas, asignaturasMatriculadas, horario, consejeroAcademico, fechaGraduacion, practicasRealizadas, historialAcademico: historialAcademico.map(registro => ({
+            codigoUniversitario, matricula, cicloActual, promedioGeneral, fechaIngreso, estado, tipoEstudiante, beca, numeroMatricula, carrerasIngresadas, asignaturasMatriculadas, horario, consejeroAcademico, fechaGraduacion, practicasRealizadas, historialAcademico: historialAcademico.map(registro => ({
                 nombreCurso: registro.nombreCurso,
                 calificacion: parseFloat(registro.calificacion),
                 fechaFinalizacion: registro.fechaFinalizacion,
@@ -86,6 +87,7 @@ function AddEstudianteComponent() {
         listarCursos();
         if (id) {
             EstudianteAdminService.getEstudianteById(id).then(response => {
+                setCodigoUniversitario(response.data.codigoUniversitario);
                 setMatricula(response.data.matricula);
                 setCicloActual(response.data.cicloActual);
                 setPromedioGeneral(response.data.promedioGeneral);
@@ -195,6 +197,12 @@ function AddEstudianteComponent() {
         <div className="container">
             <h1>{title()}</h1>
             <form>
+                
+                <div>
+                    <label>Codigo Universitario</label>
+                    <input type="text" placeholder="Ingrese el codigo universitario" name="codigoUniversitario" value={codigoUniversitario} onChange={(e) => setCodigoUniversitario(e.target.value)} />
+                </div>
+
                 <div>
                     <label>Matricula</label>
                     <input type="text" placeholder="Ingrese la Matricula" name="matricula" value={matricula} onChange={(e) => setMatricula(e.target.value)} />

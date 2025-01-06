@@ -7,129 +7,105 @@ import upeu.edu.pe.mspagos.repository.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Component
 public class PagoDataLoader implements CommandLineRunner {
 
     private final PagoRepository pagoRepository;
-    private final BecaRepository becaRepository;
     private final BoletaRepository boletaRepository;
-    private final DeudaRepository deudaRepository;
     private final FacturaRepository facturaRepository;
-    private final PlanDePagoRepository planDePagoRepository;
-    private final TransaccionRepository transaccionRepository;
 
-    public PagoDataLoader(PagoRepository pagoRepository,
-                          BecaRepository becaRepository,
-                          BoletaRepository boletaRepository,
-                          DeudaRepository deudaRepository,
-                          FacturaRepository facturaRepository,
-                          PlanDePagoRepository planDePagoRepository,
-                          TransaccionRepository transaccionRepository) {
+    public PagoDataLoader(
+            PagoRepository pagoRepository,
+            BoletaRepository boletaRepository,
+            FacturaRepository facturaRepository) {
         this.pagoRepository = pagoRepository;
-        this.becaRepository = becaRepository;
         this.boletaRepository = boletaRepository;
-        this.deudaRepository = deudaRepository;
         this.facturaRepository = facturaRepository;
-        this.planDePagoRepository = planDePagoRepository;
-        this.transaccionRepository = transaccionRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         if (pagoRepository.count() == 0) {
-            // Cargar datos de ejemplo para las entidades relacionadas con pagos
-
-            // Crear datos de Beca
-            Beca beca = new Beca();
-            beca.setTipoBeca("Beca Completa");
-            beca.setMontoDescuento(BigDecimal.valueOf(5000));
-            beca.setFechaInicio(LocalDate.now().minusMonths(1));
-            beca.setFechaFin(LocalDate.now().plusMonths(11));
-            beca.setIdEstudiante(1L);
-            becaRepository.save(beca);
-
             // Crear datos de Pago
-            Pago pago = new Pago();
-            pago.setMonto(BigDecimal.valueOf(1500));
-            pago.setMoneda("PEN");
-            pago.setMetodoPago("Tarjeta");
-            pago.setDescripcion("Pago inicial de matrícula");
-            pago.setEstado("Pagado");
-            pago.setIdEstudiante(1L);
-            pago.setFechaPago(LocalDate.now());
-            pagoRepository.save(pago);
-
-            // Crear datos de Factura
-            Factura factura = new Factura();
-            factura.setPago(pago);
-            factura.setNumeroFactura("F123456");
-            factura.setFechaEmision(LocalDate.now());
-            factura.setDescripcion("Factura del pago inicial");
-            factura.setImpuestos(BigDecimal.valueOf(270));
-            factura.setSubtotal(BigDecimal.valueOf(1230));
-            factura.setTotal(BigDecimal.valueOf(1500));
-            factura.setEstadoFactura("Emitida");
-            factura.setIdEstudiante(1L);
-            facturaRepository.save(factura);
+            Pago pago1 = new Pago();
+            pago1.setMontoTotal(BigDecimal.valueOf(1200.00));
+            pago1.setMetodoDePago("Tarjeta");
+            pago1.setMedioDePago("Al contado");
+            pago1.setEstado("Pagado");
+            pago1.setDescripcion("Pago de matrícula");
+            pago1.setIdEstudiante(1L);
+            pago1.setFechaPago(LocalDate.now());
+            pagoRepository.save(pago1);
 
             // Crear datos de Boleta
-            Boleta boleta = new Boleta();
-            boleta.setPago(pago);
-            boleta.setNumeroBoleta("B789012");
-            boleta.setFechaEmision(LocalDate.now());
-            boleta.setDescripcion("Boleta del pago inicial");
-            boleta.setImpuestos(BigDecimal.valueOf(270));
-            boleta.setSubtotal(BigDecimal.valueOf(1230));
-            boleta.setTotal(BigDecimal.valueOf(1500));
-            boleta.setTipoDocumento("DNI");
-            boleta.setIdEstudiante(1L);
-            boletaRepository.save(boleta);
+            Boleta boleta1 = new Boleta();
+            boleta1.setPago(pago1);
+            boleta1.setNombreCliente("Juan Pérez");
+            boleta1.setDocumentoDeIdentidad("12345678");
+            boleta1.setDireccion("Av. Siempre Viva 742");
+            boleta1.setNumeroBoleta("B0001");
+            boleta1.setFechaEmision(LocalDate.now());
+            boleta1.setDescripcionBoleta("Pago de matrícula");
+            boleta1.setTipoDocumento("DNI");
+            boleta1.setSucursal("Sucursal Lima");
+            boleta1.setOrganizacionDeVentas("Universidad");
+            boleta1.setTipoMoneda("PEN");
 
-            // Crear datos de Deuda
-            Deuda deuda = new Deuda();
-            deuda.setIdEstudiante(2L);
-            deuda.setMontoPendiente(BigDecimal.valueOf(2000));
-            deuda.setFechaLimite(LocalDate.now().plusMonths(2));
-            deuda.setEstadoDeuda("Pendiente");
-            deudaRepository.save(deuda);
+            boleta1.setCodigoProductoServicio("MAT001");
+            boleta1.setDescripcionProductoServicio("Matrícula universitaria");
+            boleta1.setUnidadDeMedida("Servicio");
+            boleta1.setCantidad(BigDecimal.ONE);
+            boleta1.setValorUnitario(BigDecimal.valueOf(1000.00));
+            boleta1.setValorDescuento(BigDecimal.valueOf(0.00));
+            boleta1.setValorTotal(BigDecimal.valueOf(1000.00));
 
-            // Crear datos de PlanDePago
-            PlanDePago planDePago = new PlanDePago();
-            planDePago.setNombre("Plan de Cuotas Mensuales");
-            planDePago.setDescripcion("Pago fraccionado en 6 meses");
-            planDePago.setMontoTotal(BigDecimal.valueOf(6000));
-            planDePago.setNumeroCuotas(6);
-            planDePago.setMontoPorCuota(BigDecimal.valueOf(1000));
-            planDePago.setFechaInicio(LocalDate.now());
-            planDePago.setFechaFin(LocalDate.now().plusMonths(6));
+            boleta1.setOperacionGravada(BigDecimal.valueOf(1000.00));
+            boleta1.setOperacionInafecta(BigDecimal.ZERO);
+            boleta1.setOperacionExonerada(BigDecimal.ZERO);
+            boleta1.setOperacionGratuita(BigDecimal.ZERO);
+            boleta1.setDescuentosTotales(BigDecimal.valueOf(0.00));
+            boleta1.setIgv(BigDecimal.valueOf(200.00));
+            boleta1.setPrecioVentaTotal(BigDecimal.valueOf(1200.00));
+            boleta1.setBoletaUrl("http://localhost/boletas/B0001.pdf");
+            boletaRepository.save(boleta1);
 
-            // Crear Cuotas asociadas al PlanDePago
-            for (int i = 1; i <= 6; i++) {
-                Cuota cuota = new Cuota();
-                cuota.setPlanDePago(planDePago);
-                cuota.setNumeroCuota(i);
-                cuota.setMonto(BigDecimal.valueOf(1000));
-                cuota.setFechaVencimiento(LocalDate.now().plusMonths(i));
-                cuota.setEstadoCuota("Pendiente");
-                planDePago.getCuotas().add(cuota);
-            }
-            planDePagoRepository.save(planDePago);
+            // Crear datos de Factura
+            Factura factura1 = new Factura();
+            factura1.setPago(pago1);
+            factura1.setNombreCliente("Empresa XYZ");
+            factura1.setDocumentoDeIdentidad("20123456789");
+            factura1.setDireccion("Av. Empresarial 123");
+            factura1.setNumeroFactura("F0001");
+            factura1.setFechaEmision(LocalDate.now());
+            factura1.setDescripcionFactura("Pago de matrícula corporativa");
+            factura1.setTipoDocumento("RUC");
+            factura1.setSucursal("Sucursal Lima");
+            factura1.setOrganizacionDeVentas("Universidad");
+            factura1.setTipoMoneda("PEN");
+            factura1.setEstadoFactura("Emitida");
 
-            // Crear datos de Transaccion
-            Transaccion transaccion = new Transaccion();
-            transaccion.setPago(pago);
-            transaccion.setEstadoTransaccion("Completado");
-            transaccion.setFechaTransaccion(LocalDateTime.now());
-            transaccionRepository.save(transaccion);
+            factura1.setCodigoProductoServicio("MAT002");
+            factura1.setDescripcionProductoServicio("Matrícula corporativa");
+            factura1.setUnidadDeMedida("Servicio");
+            factura1.setCantidad(BigDecimal.ONE);
+            factura1.setValorUnitario(BigDecimal.valueOf(2000.00));
+            factura1.setValorDescuento(BigDecimal.valueOf(0.00));
+            factura1.setValorTotal(BigDecimal.valueOf(2000.00));
 
-            System.out.println("Datos de ejemplo para pagos cargados en la base de datos.");
+            factura1.setOperacionGravada(BigDecimal.valueOf(2000.00));
+            factura1.setOperacionInafecta(BigDecimal.ZERO);
+            factura1.setOperacionExonerada(BigDecimal.ZERO);
+            factura1.setOperacionGratuita(BigDecimal.ZERO);
+            factura1.setDescuentosTotales(BigDecimal.valueOf(0.00));
+            factura1.setIgv(BigDecimal.valueOf(360.00));
+            factura1.setPrecioVentaTotal(BigDecimal.valueOf(2360.00));
+            factura1.setFacturaUrl("http://localhost/facturas/F0001.pdf");
+            facturaRepository.save(factura1);
+
+            System.out.println("Datos de ejemplo para pagos, boletas y facturas cargados en la base de datos.");
         } else {
-            System.out.println("Los datos de pagos ya están cargados en la base de datos.");
+            System.out.println("Los datos de pagos, boletas y facturas ya están cargados en la base de datos.");
         }
     }
 }

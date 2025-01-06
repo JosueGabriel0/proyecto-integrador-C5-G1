@@ -1,5 +1,7 @@
 package upeu.edu.pe.msplanificacionacademica.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,6 +36,7 @@ public class PlanificacionAcademica {
     private List<Long> cursosProgramadosIds;
 
     @OneToMany(mappedBy = "planificacionAcademica", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Ciclo> ciclos; // Lista de ciclos en la planificación académica
 
     // Lista de IDs de eventos importantes del calendario académico (referencia al microservicio de Calendario Académico)

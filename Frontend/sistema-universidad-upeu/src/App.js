@@ -47,6 +47,9 @@ import EstudianteDashboardComponent from './components/estudiante/EstudianteDash
 import InicioMatriculaComponent from './components/estudiante/matricula/InicioMatriculaComponent';
 
 import SelectNivEnsenianzaMatriculaComponent from './components/estudiante/matricula/SelectNivEnsenianzaMatriculaComponent';
+import PortalDelEstudianteComponent from './components/estudiante/portalDelEstudiante/PortalDelEstudianteComponent';
+import PlanAcademicoComponent from './components/estudiante/portalDelEstudiante/opciones/PlanAcademicoComponent';
+import EstadoFinancieroComponent from './components/estudiante/portalDelEstudiante/opciones/EstadoFinancieroComponent';
 
 const App = () => {
   const nombreDelRol = getUserRole();
@@ -485,6 +488,33 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent allowedRoles={[nombreDelRol]}>
                 <GeneralViewProfileComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/portal-academico'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <PortalDelEstudianteComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/plan-academico'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <PlanAcademicoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/estado-financiero'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <EstadoFinancieroComponent />
               </GeneralProtectedRouteComponent>
             }
           />

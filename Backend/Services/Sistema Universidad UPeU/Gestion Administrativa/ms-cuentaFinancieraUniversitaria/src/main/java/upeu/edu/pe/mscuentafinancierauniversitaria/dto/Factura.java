@@ -11,16 +11,34 @@ public class Factura {
 
     private Pago pago; // Relación con el pago
 
+    private String nombreCliente;
+    private String documentoDeIdentidad;
+    private String direccion;
+
     private String numeroFactura;
     private LocalDate fechaEmision;
-    private String descripcion;
-    private BigDecimal impuestos;
-    private BigDecimal subtotal;
-    private BigDecimal total;
+    private String descripcionFactura;
+    private String tipoDocumento;
+    private String sucursal;
+    private String organizacionDeVentas;
+    private String tipoMoneda;
     private String estadoFactura;
 
-    private Long idEstudiante;
-    private Estudiante estudiante;
+    private String codigoProductoServicio;
+    private String descripcionProductoServicio;
+    private String unidadDeMedida;
+    private BigDecimal cantidad;
+    private BigDecimal valorUnitario;
+    private BigDecimal valorDescuento;
+    private BigDecimal valorTotal;
 
-    // Getters y setters
+    private BigDecimal operacionGravada;
+    private BigDecimal operacionInafecta;
+    private BigDecimal operacionExonerada;
+    private BigDecimal operacionGratuita;
+    private BigDecimal descuentosTotales;
+    private BigDecimal igv;
+    private BigDecimal precioVentaTotal;
+
+    private String facturaUrl;
 }

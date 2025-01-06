@@ -4,7 +4,6 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.MovimientoAcademico;
 import upeu.edu.pe.mscuentafinancierauniversitaria.exception.ResourceNotFoundException;
 import upeu.edu.pe.mscuentafinancierauniversitaria.feign.PagoFeign;
