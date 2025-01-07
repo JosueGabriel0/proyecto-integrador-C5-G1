@@ -31,15 +31,7 @@ function GeneralDashboardComponent({ titulo = "Dshboard" }) {
         <div>
           <section style={{ marginTop: "20px" }}>
             <h2>Acciones</h2>
-            <Link to="/inscripciones">Inscripciones</Link>&nbsp;&nbsp;
-            <Link to="/roles">Roles</Link>&nbsp;&nbsp;
-            <Link to="/usuarios">Usuarios</Link>&nbsp;&nbsp;
-            <Link to="/personas">Personas</Link>&nbsp;&nbsp;
-            <Link to="/administradores">Administradores</Link>&nbsp;&nbsp;
-            <Link to="/administrativos">Administrativos</Link>&nbsp;&nbsp;
-            <Link to="/docentes">Docentes</Link>&nbsp;&nbsp;
-            <Link to="/estudiantes">Estudiantes</Link>&nbsp;&nbsp;
-            <Link to="/login-real-time-chat">Chat en linea</Link>
+            <Link to="/validacion-pagos">Validar Pago a cuenta financiera universitaria</Link>
           </section>
         </div>
       )

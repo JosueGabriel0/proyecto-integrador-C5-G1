@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CuentaFinancieraService from "../../../../services/cuentasfinancierasServices.jsx/CuentaFinancieraService";
-import EstudianteService from "../../../../services/estudianteServices/estudiante/EstudianteService";
-import { getInscripcionId } from "../../../../services/authServices/authService";
-import InscripcionService from "../../../../services/inscripcionServices/InscripcionService";
-import PersonaService from "../../../../services/personaServices/PersonaService";
+import CuentaFinancieraService from "../../../../../services/cuentasfinancierasServices.jsx/CuentaFinancieraService";
+import EstudianteService from "../../../../../services/estudianteServices/estudiante/EstudianteService";
+import { getInscripcionId } from "../../../../../services/authServices/authService";
+import InscripcionService from "../../../../../services/inscripcionServices/InscripcionService";
+import PersonaService from "../../../../../services/personaServices/PersonaService";
+import { Link } from "react-router-dom";
 
 function EstadoFinancieroComponent() {
     const [imagendePersona, setImagenDePersona] = useState("")
@@ -209,8 +210,8 @@ function EstadoFinancieroComponent() {
 
             <div>
                 <h4>Depositar:</h4>
-                <button>DEPOSITE AQUI</button>
-                <button>VOUCHER DE DEPOSITO</button>
+                <Link to="/">DEPOSITE AQUI</Link>&nbsp;&nbsp;
+                <Link to="/list-vouchers">VOUCHER DE DEPOSITO</Link>
             </div>
 
             <div>

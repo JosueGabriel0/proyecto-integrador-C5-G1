@@ -6,6 +6,7 @@ import lombok.Data;
 import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -27,8 +28,21 @@ public class MovimientoAcademico {
     @Transient
     private Pago pago;
 
+    private LocalDateTime fechaCreacionMovimientoAcademico;
+    private LocalDateTime fechaModificacionMovimientoAcademico;
+
     @ManyToOne
     @JoinColumn(name = "cuenta_financiera_id")
     @JsonBackReference
     private CuentaFinanciera cuentaFinanciera;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionMovimientoAcademico = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionMovimientoAcademico = java.time.LocalDateTime.now();
+    }
 }

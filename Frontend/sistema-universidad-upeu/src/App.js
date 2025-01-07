@@ -49,7 +49,9 @@ import InicioMatriculaComponent from './components/estudiante/matricula/InicioMa
 import SelectNivEnsenianzaMatriculaComponent from './components/estudiante/matricula/SelectNivEnsenianzaMatriculaComponent';
 import PortalDelEstudianteComponent from './components/estudiante/portalDelEstudiante/PortalDelEstudianteComponent';
 import PlanAcademicoComponent from './components/estudiante/portalDelEstudiante/opciones/PlanAcademicoComponent';
-import EstadoFinancieroComponent from './components/estudiante/portalDelEstudiante/opciones/EstadoFinancieroComponent';
+import EstadoFinancieroComponent from './components/estudiante/portalDelEstudiante/opciones/estadoFinanciero/EstadoFinancieroComponent';
+import ValidarPagoComponent from './components/administrativo/validacionDePago/ValidarPagoComponent';
+import ListVouchersComponent from './components/estudiante/portalDelEstudiante/opciones/estadoFinanciero/ListVouchersComponent';
 
 const App = () => {
   const nombreDelRol = getUserRole();
@@ -423,6 +425,15 @@ const App = () => {
             }
           />
 
+          <Route
+            path='/validacion-pagos'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ADMINISTRATIVO']}>
+                <ValidarPagoComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
 
           {/* RUTAS DEL DOCENTE*/}
 
@@ -515,6 +526,15 @@ const App = () => {
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
                 <EstadoFinancieroComponent />
+              </GeneralProtectedRouteComponent>
+            }
+          />
+
+          <Route
+            path='/list-vouchers'
+            element={
+              <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
+                <ListVouchersComponent />
               </GeneralProtectedRouteComponent>
             }
           />

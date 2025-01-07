@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,24 @@ public class CuentaFinanciera {
     private double saldoFinalCredito;
     private double saldoAfavor;
 
+    private LocalDateTime fechaCreacionCuentaFinanciera;
+    private LocalDateTime fechaModificacionCuentaFinanciera;
+
     @OneToMany(mappedBy = "cuentaFinanciera", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<MovimientoAcademico> movimientosAcademicos;
+
+    @OneToMany(mappedBy = "cuentaFinanciera", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Voucher> vouchers;
+
+    @PrePersist
+    public void onCreate() {
+        fechaCreacionCuentaFinanciera = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        fechaModificacionCuentaFinanciera = java.time.LocalDateTime.now();
+    }
 }
