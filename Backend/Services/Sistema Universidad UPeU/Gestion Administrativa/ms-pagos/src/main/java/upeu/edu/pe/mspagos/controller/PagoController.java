@@ -34,11 +34,10 @@ public class PagoController {
     public String crearPagoConFactura(@RequestBody PagoFacturaRequest pagoFacturaRequest) {
         try {
             pagoService.crearPagoConFactura(pagoFacturaRequest);
-            pdfService.generarPdfFactura(pagoFacturaRequest.getFactura());
-            return "Factura creada y PDF generado correctamente.";
+            return "Pago con Factura creada y PDF generado correctamente.";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error al generar la factura o el PDF.";
+            return "Error al generar el pago con la factura o el PDF.";
         }
     }
 

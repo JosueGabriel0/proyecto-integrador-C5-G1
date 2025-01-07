@@ -21,7 +21,7 @@ public class PdfServiceImpl implements PdfService {
 
     @Override
     public void generarPdfBoleta(Boleta boleta) throws Exception {
-        String destino = "src/main/resources/static/files/boletas/boleta_" + boleta.getNumeroBoleta() + ".pdf";
+        String destino = "src/main/resources/static/boleta_" + boleta.getNumeroBoleta() + ".pdf";
         PdfWriter writer = new PdfWriter(new FileOutputStream(destino));
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
@@ -104,7 +104,7 @@ public class PdfServiceImpl implements PdfService {
     }
 
     public void generarPdfFactura(Factura factura) throws Exception {
-        String destino = "src/main/resources/static/files/factura_" + factura.getNumeroFactura() + ".pdf";
+        String destino = "src/main/resources/static/factura_" + factura.getNumeroFactura() + ".pdf";
         PdfWriter writer = new PdfWriter(new FileOutputStream(destino));
         Document document = new Document(new com.itextpdf.kernel.pdf.PdfDocument(writer));
 

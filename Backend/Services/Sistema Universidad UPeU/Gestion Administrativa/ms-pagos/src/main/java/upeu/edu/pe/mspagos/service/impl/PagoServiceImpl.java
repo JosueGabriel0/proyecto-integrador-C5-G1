@@ -56,9 +56,10 @@ public class PagoServiceImpl implements PagoService {
 
         // Guardar el pago y la boleta
         pagoRepository.save(pago);
+        boleta.setBoletaUrl("src/main/resources/static/boleta_" + boleta.getNumeroBoleta() + ".pdf");
+        boletaRepository.save(boleta);
 
         boleta.setPago(pago);
-        boletaRepository.save(boleta);
 
         // Generar el PDF de la boleta
         try {
@@ -76,6 +77,7 @@ public class PagoServiceImpl implements PagoService {
         pagoRepository.save(pago);
 
         factura.setPago(pago);
+        factura.setFacturaUrl("src/main/resources/static/factura_" + factura.getNumeroFactura() + ".pdf");
         facturaRepository.save(factura);
 
         // Generar el PDF de la factura
