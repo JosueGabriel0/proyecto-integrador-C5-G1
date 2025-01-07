@@ -1,8 +1,6 @@
 package upeu.edu.pe.mspagos.service;
 
-import upeu.edu.pe.mspagos.entity.Boleta;
-import upeu.edu.pe.mspagos.entity.Factura;
-import upeu.edu.pe.mspagos.entity.Pago;
+import upeu.edu.pe.mspagos.entity.*;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ public interface PagoService {
 
     public void eliminarPago(Long id);
 
-    public void crearPagoConBoleta(Boleta boleta);
+    public void crearPagoConBoleta(PagoBoletaRequest pagoBoletaRequest);
 
-    public void crearPagoConFactura(Factura factura);
+    public void crearPagoConFactura(PagoFacturaRequest pagoFacturaRequest);
 }

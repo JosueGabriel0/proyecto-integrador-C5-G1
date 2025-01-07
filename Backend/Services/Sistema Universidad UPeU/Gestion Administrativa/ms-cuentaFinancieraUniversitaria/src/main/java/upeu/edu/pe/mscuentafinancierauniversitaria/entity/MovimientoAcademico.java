@@ -3,6 +3,7 @@ package upeu.edu.pe.mscuentafinancierauniversitaria.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
 
 import java.time.LocalDate;
 

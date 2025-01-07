@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import upeu.edu.pe.mspagos.entity.Boleta;
-import upeu.edu.pe.mspagos.entity.Factura;
-import upeu.edu.pe.mspagos.entity.Pago;
+import upeu.edu.pe.mspagos.entity.*;
 import upeu.edu.pe.mspagos.service.PagoService;
 import upeu.edu.pe.mspagos.service.PdfService;
 
@@ -22,22 +20,21 @@ public class PagoController {
     private PdfService pdfService;
 
     @PostMapping("/boleta")
-    public String crearPagoConBoleta(@RequestBody Boleta boleta) {
+    public String crearPagoConBoleta(@RequestBody PagoBoletaRequest pagoBoletaRequest) {
         try {
-            pagoService.crearPagoConBoleta(boleta);
-            pdfService.generarPdfBoleta(boleta);
-            return "Boleta creada y PDF generado correctamente.";
+            pagoService.crearPagoConBoleta(pagoBoletaRequest);
+            return "Pago con Boleta creada y PDF generado correctamente.";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error al generar la boleta o el PDF.";
+            return "Error al generar el pago con boleta o el PDF.";
         }
     }
 
     @PostMapping("/factura")
-    public String crearPagoConFactura(@RequestBody Factura factura) {
+    public String crearPagoConFactura(@RequestBody PagoFacturaRequest pagoFacturaRequest) {
         try {
-            pagoService.crearPagoConFactura(factura);
-            pdfService.generarPdfFactura(factura);
+            pagoService.crearPagoConFactura(pagoFacturaRequest);
+            pdfService.generarPdfFactura(pagoFacturaRequest.getFactura());
             return "Factura creada y PDF generado correctamente.";
         } catch (Exception e) {
             e.printStackTrace();

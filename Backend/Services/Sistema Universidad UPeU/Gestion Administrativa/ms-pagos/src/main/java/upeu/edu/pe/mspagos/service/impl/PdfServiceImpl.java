@@ -3,6 +3,7 @@ import com.itextpdf.kernel.color.DeviceRgb;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
@@ -20,7 +21,7 @@ public class PdfServiceImpl implements PdfService {
 
     @Override
     public void generarPdfBoleta(Boleta boleta) throws Exception {
-        String destino = "src/main/resources/static/files/boleta_" + boleta.getNumeroBoleta() + ".pdf";
+        String destino = "src/main/resources/static/files/boletas/boleta_" + boleta.getNumeroBoleta() + ".pdf";
         PdfWriter writer = new PdfWriter(new FileOutputStream(destino));
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
@@ -59,6 +60,42 @@ public class PdfServiceImpl implements PdfService {
 
         // Agregar encabezado al documento
         document.add(encabezado);
+
+        // Crear tabla para la información del cliente
+        Table infoCliente = new Table(UnitValue.createPercentArray(new float[]{2, 3}));
+        infoCliente.setWidth(UnitValue.createPercentValue(100));
+
+        // Agregar filas con datos del cliente
+        infoCliente.addCell(new Cell().add("CLIENTE:").setBold());
+        System.out.println("Este es el cliente para el pdf: "+boleta.getNombreCliente());
+        infoCliente.addCell(new Cell().add(boleta.getNombreCliente()));
+
+        infoCliente.addCell(new Cell().add("DOC. IDENTIDAD:").setBold());
+        System.out.println("Este es el documento de identidad para el PDF: "+boleta.getDocumentoDeIdentidad());
+        infoCliente.addCell(new Cell().add(boleta.getDocumentoDeIdentidad()));
+
+        infoCliente.addCell(new Cell().add("DIRECCION:").setBold());
+        System.out.println("Esta es la direccion para el PDF: "+boleta.getDireccion());
+        infoCliente.addCell(new Cell().add(boleta.getDireccion()));
+
+        infoCliente.addCell(new Cell().add("SUCURSAL:").setBold());
+        System.out.println("Esta es la sucursal para el PDF: "+boleta.getSucursal());
+        infoCliente.addCell(new Cell().add(boleta.getSucursal()));
+
+        infoCliente.addCell(new Cell().add("FECHA DE EMISION:").setBold());
+        System.out.println("Esta es la fecha de emision para el PDF: "+boleta.getFechaEmision().toString());
+        infoCliente.addCell(new Cell().add(boleta.getFechaEmision().toString()));
+
+        infoCliente.addCell(new Cell().add("ORGANIZACIÓN DE VENTAS:").setBold());
+        System.out.println("Esta es la organizacion de ventas para el PDF: "+boleta.getOrganizacionDeVentas());
+        infoCliente.addCell(new Cell().add(boleta.getOrganizacionDeVentas()));
+
+        infoCliente.addCell(new Cell().add("TIPO DE MONEDA:").setBold());
+        System.out.println("Este es el tipo de moneda para el PDF: "+boleta.getTipoMoneda());
+        infoCliente.addCell(new Cell().add(boleta.getTipoMoneda()));
+
+        // Agregar tabla al documento
+        document.add(infoCliente);
 
         // Cerrar el documento
         document.close();
