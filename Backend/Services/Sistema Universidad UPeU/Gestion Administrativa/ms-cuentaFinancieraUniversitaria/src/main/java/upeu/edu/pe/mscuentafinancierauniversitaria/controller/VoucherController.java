@@ -71,7 +71,7 @@ public class VoucherController {
         return ResponseEntity.ok(voucherService.obtenerPorId(id));
     }
 
-    @PutMapping("/{id]")
+    @PutMapping("/{id}")
     public ResponseEntity<Voucher> actualizarVoucher(@PathVariable Long id, @RequestBody Voucher voucher) {
         voucher.setIdVoucher(id);
         return ResponseEntity.ok(voucherService.actualizar(voucher));

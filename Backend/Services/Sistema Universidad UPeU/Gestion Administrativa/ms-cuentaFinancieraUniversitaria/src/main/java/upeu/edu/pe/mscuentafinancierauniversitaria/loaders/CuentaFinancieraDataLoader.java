@@ -4,8 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.CuentaFinanciera;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.MovimientoAcademico;
+import upeu.edu.pe.mscuentafinancierauniversitaria.entity.Voucher;
 import upeu.edu.pe.mscuentafinancierauniversitaria.repository.CuentaFinancieraRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -57,7 +59,17 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             movimiento2.setIdPago(2L);
             movimiento2.setCuentaFinanciera(cuenta1);
 
+            Voucher voucher1 = new Voucher();
+            voucher1.setNombreBanco("Ninguno");
+            voucher1.setNumeroDeOperacion("12345");
+            voucher1.setFechaDeOperacion(LocalDate.of(2023, 12, 1));
+            voucher1.setImporte(BigDecimal.valueOf(1000.00));
+            voucher1.setVoucherURL("Voucher1.png");
+            voucher1.setCuentaFinanciera(cuenta1);
+
+
             cuenta1.setMovimientosAcademicos(List.of(movimiento1, movimiento2));
+            cuenta1.setVouchers(List.of(voucher1));
 
             // Crear CuentaFinanciera 2 con movimientos
             CuentaFinanciera cuenta2 = new CuentaFinanciera();
@@ -82,7 +94,16 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             movimiento3.setIdPago(3L);
             movimiento3.setCuentaFinanciera(cuenta2);
 
+            Voucher voucher2 = new Voucher();
+            voucher2.setNombreBanco("Ninguno");
+            voucher2.setNumeroDeOperacion("12345");
+            voucher2.setFechaDeOperacion(LocalDate.of(2023, 12, 1));
+            voucher2.setImporte(BigDecimal.valueOf(1000.00));
+            voucher2.setVoucherURL("Voucher1.png");
+            voucher2.setCuentaFinanciera(cuenta2);
+
             cuenta2.setMovimientosAcademicos(List.of(movimiento3));
+            cuenta2.setVouchers(List.of(voucher2));
 
             // Guardar en la base de datos
             cuentaFinancieraRepository.saveAll(List.of(cuenta1, cuenta2));
