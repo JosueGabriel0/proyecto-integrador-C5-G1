@@ -56,7 +56,7 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             movimiento2.setDescripcion("Pago por curso adicional");
             movimiento2.setDebito("0.00");
             movimiento2.setCredito("300.00");
-            movimiento2.setIdPago(2L);
+            movimiento2.setIdPago(1L);
             movimiento2.setCuentaFinanciera(cuenta1);
 
             Voucher voucher1 = new Voucher();
@@ -91,7 +91,7 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             movimiento3.setDescripcion("Pago por programa especial");
             movimiento3.setDebito("700.00");
             movimiento3.setCredito("0.00");
-            movimiento3.setIdPago(3L);
+            movimiento3.setIdPago(1L);
             movimiento3.setCuentaFinanciera(cuenta2);
 
             Voucher voucher2 = new Voucher();
