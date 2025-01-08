@@ -38,7 +38,7 @@ class CuentaFinancieraService {
     }
 
     deleteCuentaFinanciera(idCuentaFinanciera) {
-        return axios.delete(`${USUARIO_BASE_REST_API_URL}/${idCuentaFinanciera}`, {
+        return axios.delete(`${CUENTAFINANCIERA_BASE_REST_API_URL}/${idCuentaFinanciera}`, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }

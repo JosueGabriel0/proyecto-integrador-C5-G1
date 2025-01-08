@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import CuentaFinancieraService from "../../../../../services/cuentasfinancierasServices.jsx/CuentaFinancieraService";
+import CuentaFinancieraService from "../../../../../services/cuentaFinancieraServices/CuentaFinancieraService";
 import EstudianteService from "../../../../../services/estudianteServices/estudiante/EstudianteService";
 import { getInscripcionId } from "../../../../../services/authServices/authService";
 import InscripcionService from "../../../../../services/inscripcionServices/InscripcionService";
 import PersonaService from "../../../../../services/personaServices/PersonaService";
 import { Link } from "react-router-dom";
+import MovimientoAcademicoService from "../../../../../services/cuentaFinancieraServices/MovimientoAcademicoService";
 
 function EstadoFinancieroComponent() {
     const [imagendePersona, setImagenDePersona] = useState("")
-    const [cuentaFinanciera, setCuentaFinanciera] = useState(null)
 
+    //Datos de Cuenta financiera
+    const [idCuentaFinanciera, setIdCuentaFinanciera] = useState("");
     const [entidad, setEntidad] = useState("");
     const [departamento, setDepartamento] = useState("");
     const [anio, setAnio] = useState("");
@@ -19,16 +21,7 @@ function EstadoFinancieroComponent() {
     const [saldoFinalCredito, setSaldoFinalCredito] = useState("");
     const [saldoAfavor, setSaldoAfavor] = useState("");
 
-    const [fecha, setFecha] = useState("");
-    const [voucher, setVoucher] = useState("");
-    const [lote, setLote] = useState("");
-    const [documento, setDocumento] = useState("");
-    const [movimiento, setMovimiento] = useState("");
-    const [descripcion, setDescripcion] = useState("");
-    const [debito, setDebito] = useState("");
-    const [credito, setCredito] = useState("");
-    const [idPago, setIdPago] = useState("");
-
+    //Datos Personales
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [codigoUniversitario, setCodigoUniversitario] = useState("");
     const [email, setEmail] = useState("");
@@ -37,6 +30,13 @@ function EstadoFinancieroComponent() {
     const [responsableFinancieroTelefono, setResponsableFinancieroTelefono] = useState("");
     const [responsableFinancieroTipoDocumento, setResponsableFinancieroTipoDocumento] = useState("");
     const [responsableFinancieroNumeroDocumento, setResponsableFinancieroNumeroDocumento] = useState("");
+
+    //Datos Movimientos Academicos
+    const [movimientosAcademicos, setMovimientosAcademicosAcademicos] = useState([]);
+
+    const currentYear = new Date().getFullYear();
+    const [filtroAnio, setFiltroAnio] = useState(currentYear);
+    const [tempAnio, setTempAnio] = useState(currentYear); // Estado temporal para el valor del select
 
 
     const idInscripcion = getInscripcionId();
@@ -48,9 +48,66 @@ function EstadoFinancieroComponent() {
                 console.log("URL de la imagen de Persona:", imagenUrl);
                 setImagenDePersona(imagenUrl);
             } else {
-                console.warn("La Persona no tiene una foto de Perfil definida.")
+                console.warn("La Persona no tiene una foto de Perfil definida.");
             }
         })
+    }
+
+    function listarMovimientosAcademicos(idCuentaFinanciera, anio) {
+        MovimientoAcademicoService.getMovimientoAcademicoByCuentaYAnio(idCuentaFinanciera, anio).then((response) => {
+            setMovimientosAcademicosAcademicos(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    function YearFilter() {
+        const currentYear = new Date().getFullYear();
+        const years = Array.from({ length: currentYear - 2001 }, (_, i) => 2002 + i);
+
+        const handleFiltrar = async () => {
+            // Actualizamos filtroAnio
+            await new Promise((resolve) => {
+                setFiltroAnio(tempAnio);
+                resolve(); // Aseguramos que esto se ejecute antes de continuar
+            });
+
+            // Confirmamos los valores actualizados
+            console.log("Este es el id de la cuenta financiera1: " + idCuentaFinanciera + " y este es el anio1: " + tempAnio);
+
+            // Llamada a listarMovimientosAcademicos
+            try {
+                await listarMovimientosAcademicos(idCuentaFinanciera, tempAnio); // Si listarMovimientosAcademicos es async
+                console.log("Movimientos académicos filtrados correctamente.");
+            } catch (error) {
+                console.error("Error al listar movimientos académicos:", error);
+            }
+        };
+
+        return (
+            <div>
+                <label>Año:</label>
+                <select
+                    name="filtroAnio"
+                    value={tempAnio}
+                    onChange={(e) => {
+                        setTempAnio(e.target.value); // Actualiza solo el estado temporal
+                    }}
+                >
+                    {years.map((year) => (
+                        <option key={year} value={year}>
+                            {year}
+                        </option>
+                    ))}
+                </select>
+                <button onClick={handleFiltrar}>FILTRAR</button>
+
+                <div>
+                    <p>Año filtrado: {filtroAnio || "No se ha seleccionado ningún año"}</p>
+                </div>
+            </div>
+        );
     }
 
     useEffect(() => {
@@ -88,38 +145,18 @@ function EstadoFinancieroComponent() {
                 }
 
                 if (idCuentaFinanciera) {
-                    const response = await CuentaFinancieraService.getCuentaFinancieraById(idCuentaFinanciera);
-
-                    // Actualizamos los estados con los datos obtenidos
-                    if (response && response.data) {
-                        setCuentaFinanciera({
-                            ...response.data,
-                            movimientosAcademicos: response.data.movimientosAcademicos || [],
-                        });
-                        console.log("este es el response " + response)
-                    } else {
-                        console.error("Datos de la cuenta financiera no disponibles.");
-                    }
-                    
-                    setEntidad(response.data.entidad);
-                    setDepartamento(response.data.departamento);
-                    setAnio(response.data.anio);
-                    setSumasDebito(response.data.sumasDebito);
-                    setSumasCredito(response.data.sumasCredito);
-                    setSaldoFinalDebito(response.data.saldoFinalDebito);
-                    setSaldoFinalCredito(response.data.saldoFinalCredito);
-                    setSaldoAfavor(response.data.saldoAfavor);
-
-                    const movimientos = response.data.movimientosAcademicos || {};
-                    setFecha(movimientos.fecha);
-                    setVoucher(movimientos.voucher);
-                    setLote(movimientos.lote);
-                    setDocumento(movimientos.documento);
-                    setMovimiento(movimientos.movimiento);
-                    setDescripcion(movimientos.descripcion);
-                    setDebito(movimientos.debito);
-                    setCredito(movimientos.credito);
-                    setIdPago(movimientos.idPago);
+                    CuentaFinancieraService.getCuentaFinancieraById(idCuentaFinanciera).then((response) => {
+                        setEntidad(response.data.entidad);
+                        setDepartamento(response.data.departamento);
+                        setAnio(response.data.anio);
+                        setSumasDebito(response.data.sumasDebito);
+                        setSumasCredito(response.data.sumasCredito);
+                        setSaldoFinalDebito(response.data.saldoFinalDebito);
+                        setSaldoFinalCredito(response.data.saldoFinalCredito);
+                        setSaldoAfavor(response.data.saldoAfavor);
+                        console.log("Este es el id de la cuenta financiera: " + response.data.idCuentaFinanciera + " y este es el anio: " + filtroAnio);
+                        setIdCuentaFinanciera(response.data.idCuentaFinanciera);
+                    });
                 } else {
                     console.error("ID de cuenta financiera no disponible.");
                 }
@@ -130,6 +167,7 @@ function EstadoFinancieroComponent() {
 
         obtenerDatosCuentaFinanciera();
         obtenerFotoPersona();
+        listarMovimientosAcademicos(idCuentaFinanciera, filtroAnio);
     }, []);
 
     return (
@@ -157,15 +195,7 @@ function EstadoFinancieroComponent() {
                     </select>
                 </div>
 
-                <div>
-                    <label htmlFor="">Año:</label>
-                    <select name="anio" value={anio}>
-                        <option value="">Seleccione un año</option>
-                        <option value={anio}>{anio}</option>
-                    </select>
-                </div>
-
-                <button>Filtrar</button>
+                {YearFilter()}
 
                 <div>
                     <label htmlFor="">De:</label>
@@ -211,7 +241,7 @@ function EstadoFinancieroComponent() {
             <div>
                 <h4>Depositar:</h4>
                 <Link to="/">DEPOSITE AQUI</Link>&nbsp;&nbsp;
-                <Link to="/list-vouchers">VOUCHER DE DEPOSITO</Link>
+                <Link to={`/list-vouchers/${filtroAnio}`}>VOUCHER DE DEPOSITO</Link>
             </div>
 
             <div>
@@ -236,8 +266,8 @@ function EstadoFinancieroComponent() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cuentaFinanciera && cuentaFinanciera.movimientosAcademicos ? (
-                                cuentaFinanciera.movimientosAcademicos.map((movimiento) => (
+                            {movimientosAcademicos ? (
+                                movimientosAcademicos.map((movimiento) => (
                                     <tr key={movimiento.idMovimientoAcademico}>
                                         <td>{movimiento.idMovimientoAcademico}</td>
                                         <td>{movimiento.fecha}</td>

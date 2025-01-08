@@ -19,6 +19,7 @@ public class Voucher {
     private String numeroDeOperacion;
     private LocalDate fechaDeOperacion;
     private BigDecimal importe;
+    private String estado;
     private String voucherURL;
 
     @ManyToOne

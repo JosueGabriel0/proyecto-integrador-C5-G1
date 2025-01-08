@@ -10,4 +10,5 @@ public interface VoucherService {
     public Voucher crear(Voucher voucher);
     public Voucher actualizar(Voucher voucher);
     public void eliminar(Long id);
+    public List<Voucher> listarPorAnio(int anio);
 }

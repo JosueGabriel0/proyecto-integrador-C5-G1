@@ -61,6 +61,28 @@ public class VoucherController {
         return ResponseEntity.ok(nuevoVoucher);
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Voucher> actualizarVoucher(@PathVariable(required = true) Long id, @ModelAttribute Voucher voucher, @RequestParam("file") MultipartFile voucherURL) {
+        voucher.setIdVoucher(id);
+        if(!voucherURL.isEmpty()) {
+            Path directorioImagenes = Paths.get("src//main//resources//static/images");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImg = voucherURL.getBytes();
+                Path rutaCompleta = Paths.get("src//main//resources//static/images");
+                Files.write(rutaCompleta, bytesImg);
+
+                voucher.setVoucherURL(voucherURL.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Este es el voucher que se esta actualizando mediante el controller y el service: "+voucher);
+        Voucher voucherActualizado = voucherService.actualizar(voucher);
+        return ResponseEntity.ok(voucherActualizado);
+    }
+
     @GetMapping
     public ResponseEntity<List<Voucher>> listarVouchers() {
         return ResponseEntity.ok(voucherService.listarTodos());
@@ -71,15 +93,14 @@ public class VoucherController {
         return ResponseEntity.ok(voucherService.obtenerPorId(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Voucher> actualizarVoucher(@PathVariable Long id, @RequestBody Voucher voucher) {
-        voucher.setIdVoucher(id);
-        return ResponseEntity.ok(voucherService.actualizar(voucher));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrarVoucher(@PathVariable Long id) {
         voucherService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/anio/{anio}")
+    public ResponseEntity<List<Voucher>> listarPorAnio(@PathVariable int anio) {
+        return ResponseEntity.ok(voucherService.listarPorAnio(anio));
     }
 }

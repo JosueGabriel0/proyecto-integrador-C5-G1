@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import EstudianteAdminService from "../../../services/administradorServices/estudiante/EstudianteAdminService";
 import { Link } from "react-router-dom";
 import PersonaAdminService from "../../../services/administradorServices/persona/PersonaAdminService";
-import CuentaFinancieraService from "../../../services/cuentasfinancierasServices.jsx/CuentaFinancieraService";
+import CuentaFinancieraService from "../../../services/cuentaFinancieraServices/CuentaFinancieraService";
 
 function ListEstudianteComponent() {
     const [estudiantes, setEstudiantes] = useState([]);

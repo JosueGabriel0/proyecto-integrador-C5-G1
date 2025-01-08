@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.MovimientoAcademico;
+import upeu.edu.pe.mscuentafinancierauniversitaria.entity.Voucher;
 import upeu.edu.pe.mscuentafinancierauniversitaria.exception.ResourceNotFoundException;
 import upeu.edu.pe.mscuentafinancierauniversitaria.feign.PagoFeign;
 import upeu.edu.pe.mscuentafinancierauniversitaria.repository.MovimientoAcademicoRepository;
 import upeu.edu.pe.mscuentafinancierauniversitaria.service.MovimientoAcademicoService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -71,5 +73,17 @@ public class MovimientoAcademicoServiceImpl implements MovimientoAcademicoServic
     @Override
     public void eliminar(Long id) {
         movimientoAcademicoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MovimientoAcademico> obtenerPorCuentaFinanciera(Long idCuentaFinanciera){
+        return movimientoAcademicoRepository.findByCuentaFinancieraIdCuentaFinanciera(idCuentaFinanciera);
+    }
+
+    @Override
+    public List<MovimientoAcademico> buscarPorCuentaYAnio(Long idCuentaFinanciera, int anio){
+        LocalDate startDate = LocalDate.of(anio, 1, 1);
+        LocalDate endDate = LocalDate.of(anio, 12, 31);
+        return movimientoAcademicoRepository.findByCuentaFinancieraIdCuentaFinancieraAndFechaBetween(idCuentaFinanciera, startDate, endDate);
     }
 }

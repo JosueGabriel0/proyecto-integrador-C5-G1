@@ -40,4 +40,16 @@ public class MovimientoAcademicoController {
         movimientoAcademicoService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/porCuentaFinanciera/{idCuentaFinanciera}")
+    public ResponseEntity<List<MovimientoAcademico>> obtenerPorCuentaFinanciera(@PathVariable Long idCuentaFinanciera) {
+        return ResponseEntity.ok(movimientoAcademicoService.obtenerPorCuentaFinanciera(idCuentaFinanciera));
+    }
+
+    @GetMapping("/buscar/{idCuentaFinanciera}/{anio}")
+    public ResponseEntity<List<MovimientoAcademico>> buscarPorCuentaYAnio(
+            @PathVariable Long idCuentaFinanciera,
+            @PathVariable int anio) {
+        return ResponseEntity.ok(movimientoAcademicoService.buscarPorCuentaYAnio(idCuentaFinanciera, anio));
+    }
 }
