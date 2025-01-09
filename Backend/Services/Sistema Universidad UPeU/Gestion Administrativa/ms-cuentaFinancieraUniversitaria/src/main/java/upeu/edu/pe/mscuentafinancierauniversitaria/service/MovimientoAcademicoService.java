@@ -13,4 +13,5 @@ public interface MovimientoAcademicoService {
     public void eliminar(Long id);
     public List<MovimientoAcademico> obtenerPorCuentaFinanciera(Long idCuentaFinanciera);
     public List<MovimientoAcademico> buscarPorCuentaYAnio(Long idCuentaFinanciera, int anio);
+    public MovimientoAcademico crearMovimientoAcademicoParaCuentaFinanciera(Long idCuentaFinanciera, MovimientoAcademico movimientoAcademico);
 }

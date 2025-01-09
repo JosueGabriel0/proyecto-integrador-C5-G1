@@ -53,6 +53,7 @@ import EstadoFinancieroComponent from './components/estudiante/portalDelEstudian
 import ValidarPagoComponent from './components/administrativo/validacionDePago/ValidarPagoComponent';
 import ListVouchersComponent from './components/estudiante/portalDelEstudiante/opciones/estadoFinanciero/voucher/ListVouchersComponent';
 import AddVoucherComponent from './components/estudiante/portalDelEstudiante/opciones/estadoFinanciero/voucher/AddVoucherComponent';
+import VerVoucherComponent from './components/estudiante/portalDelEstudiante/opciones/estadoFinanciero/voucher/VerVoucherComponent';
 
 const App = () => {
   const nombreDelRol = getUserRole();
@@ -532,7 +533,7 @@ const App = () => {
           />
 
           <Route
-            path='/list-vouchers/:anioSeleccionado'
+            path='/list-vouchers/:idCuentaFinanciera/:anioSeleccionado'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
                 <ListVouchersComponent />
@@ -541,7 +542,7 @@ const App = () => {
           />
 
           <Route
-            path='/add-voucher'
+            path='/add-voucher/:idCuentaFinanciera/:anioSeleccionado'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
                 <AddVoucherComponent />
@@ -550,10 +551,10 @@ const App = () => {
           />
 
           <Route
-            path='/ver-voucher'
+            path='/ver-voucher/:voucherURL'
             element={
               <GeneralProtectedRouteComponent allowedRoles={['ESTUDIANTE']}>
-                <AddVoucherComponent />
+                <VerVoucherComponent />
               </GeneralProtectedRouteComponent>
             }
           />

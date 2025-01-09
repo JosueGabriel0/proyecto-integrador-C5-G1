@@ -9,5 +9,10 @@ import java.util.List;
 
 @Repository
 public interface VoucherRepository extends JpaRepository<Voucher, Long> {
-    List<Voucher> findByFechaDeOperacionBetween(LocalDate startDate, LocalDate endDate);
+    List<Voucher> findByCuentaFinancieraIdCuentaFinanciera(Long idCuentaFinanciera);
+
+    List<Voucher> findByCuentaFinancieraIdCuentaFinancieraAndFechaDeOperacionBetween(
+            Long idCuentaFinanciera, LocalDate startDate, LocalDate endDate);
+
+    List<Voucher> findByEstado(String estado);
 }

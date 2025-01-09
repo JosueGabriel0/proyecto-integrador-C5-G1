@@ -52,4 +52,13 @@ public class MovimientoAcademicoController {
             @PathVariable int anio) {
         return ResponseEntity.ok(movimientoAcademicoService.buscarPorCuentaYAnio(idCuentaFinanciera, anio));
     }
+
+    @PostMapping("/cuenta/{idCuentaFinanciera}")
+    public ResponseEntity<MovimientoAcademico> crearMovimientoAcademicoParaCuentaFinanciera(
+            @PathVariable Long idCuentaFinanciera,
+            @RequestBody MovimientoAcademico movimientoAcademico
+    ) {
+        MovimientoAcademico nuevoMovimientoAcademico = movimientoAcademicoService.crearMovimientoAcademicoParaCuentaFinanciera(idCuentaFinanciera, movimientoAcademico);
+        return ResponseEntity.ok(nuevoMovimientoAcademico);
+    }
 }

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 function ValidarPagoComponent() {
     // Estado para gestionar la selección entre boleta o factura
     const [seleccion, setSeleccion] = useState("");
+    const [estadoFiltrar, setEstadoFiltrar] = useState("");
 
     // Función que se ejecutará cuando el usuario cambie la selección
     const handleSelectChange = (e) => {
@@ -15,105 +16,109 @@ function ValidarPagoComponent() {
                 <h3>Datos de Boleta</h3>
                 <form action="">
                     <div>
-                        <label htmlFor="descripcion-boleta">Nombre del Cliente</label>
+                        <label>Nombre del Cliente</label>
                         <input id="descripcion-boleta" type="text" placeholder="Ingrese la descripción" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Tipo de documento</label>
+                        <label>Tipo de documento</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Documento de identidad</label>
+                        <label>Documento de identidad</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Direccion</label>
+                        <label>Direccion</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Numero de boleta</label>
+                        <label>Numero de boleta</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Fecha de Emision</label>
+                        <label>Fecha de Emision</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descripcion de Boleta</label>
+                        <label>Descripcion de Boleta</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Sucursal</label>
+                        <label>Sucursal</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Organizacion de ventas</label>
+                        <label>Organizacion de ventas</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Tipo de moneda</label>
+                        <label>Tipo de moneda</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Codigo del producto o servicio</label>
+                        <label>Codigo del producto o servicio</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descripcion del producto o servicio</label>
+                        <label>Descripcion del producto o servicio</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Unidad de medida</label>
+                        <label>Unidad de medida</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Cantidad</label>
+                        <label>Cantidad</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor Unitario</label>
+                        <label>Valor Unitario</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor de descuento</label>
+                        <label>Valor de descuento</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor Total</label>
+                        <label>Valor Total</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Gravada</label>
+                        <label>Operacion Gravada</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Inafecta</label>
+                        <label>Operacion Inafecta</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Exonerada</label>
+                        <label>Operacion Exonerada</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Gratuita</label>
+                        <label>Operacion Gratuita</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descuentos Totales</label>
+                        <label>Descuentos Totales</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">I.G.V</label>
+                        <label>I.G.V</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Precio de venta total</label>
+                        <label>Precio de venta total</label>
                         <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <h1>Boleta electronica Generada:</h1>
+                        <label>Boleta electronica Generada:</label>
+                        <img src="" alt="" />
                     </div>
-                    <button>Validar Pago con Boleta</button>
+
+                    <button>Validar voucher con boleta (Procesado)</button>
+                    <button>Validar Inicialmente (Verificado)</button>
+                    <button>Rechazar(Rechazado)</button>
                 </form>
             </div>
         );
@@ -125,127 +130,172 @@ function ValidarPagoComponent() {
                 <h3>Datos de Factura</h3>
                 <form action="">
                     <div>
-                        <label htmlFor="descripcion-boleta">Nombre del Cliente</label>
-                        <input id="descripcion-boleta" type="text" placeholder="Ingrese la descripción" />
+                        <label>Nombre del Cliente</label>
+                        <input type="text" placeholder="Ingrese el nombre del cliente" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Tipo de documento</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Tipo de documento</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Documento de identidad</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Documento de identidad</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Direccion</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Direccion</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Numero de Factura</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Numero de Factura</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Fecha de Emision</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Fecha de Emision</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descripcion de Factura</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Descripcion de Factura</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Sucursal</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Sucursal</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Organizacion de ventas</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Organizacion de ventas</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Tipo de moneda</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Tipo de moneda</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Estado de la Factura</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Estado de la Factura</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Codigo del producto o servicio</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Codigo del producto o servicio</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descripcion del producto o servicio</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Descripcion del producto o servicio</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Unidad de medida</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Unidad de medida</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Cantidad</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Cantidad</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor Unitario</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Valor Unitario</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor de descuento</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Valor de descuento</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Valor Total</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Valor Total</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Gravada</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Operacion Gravada</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Inafecta</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Operacion Inafecta</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Exonerada</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Operacion Exonerada</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Operacion Gratuita</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Operacion Gratuita</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Descuentos Totales</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Descuentos Totales</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">I.G.V</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>I.G.V</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <label htmlFor="monto-total-boleta">Precio de venta total</label>
-                        <input id="monto-total-boleta" type="number" placeholder="Ingrese el monto total" />
+                        <label>Precio de venta total</label>
+                        <input type="number" placeholder="Ingrese el monto total" />
                     </div>
                     <div>
-                        <h1>Factura electronica Generada:</h1>
+                        <label>Factura electronica Generada:</label>
+                        <img src="" alt="" />
                     </div>
-                    <button>Validar Pago con Factura</button>
+
+                    <button>Validar voucher con boleta (Procesado)</button>
+                    <button>Validar Inicialmente (Verificado)</button>
+                    <button>Rechazar(Rechazado)</button>
                 </form>
             </div>
         );
     }
 
+    async function handleFiltrar() {
+        await new Promise((resolve) => {
+        })
+    }
+
     return (
         <div>
-            <h2>Seleccione una solicitud pendiente</h2>
-            <select name="solicitud" id="solicitud">
-                <option value="">Seleccione una solicitud</option>
-            </select>
-            <h2>Solicitud seleccionada:</h2>
+            <div className="Filtrar">
+                <div>
+                    <label><b>Seleccione el estado de los vouchers:</b></label>
+                    <select name="estadoFiltrar" value={estadoFiltrar} onChange={(e) => { setEstadoFiltrar(e.target.value) }}>
+                        <option value="">Seleccione un estado</option>
+                        <option value="REGISTRADO">Registrados</option>
+                        <option value="VERIFICADO">Verificados</option>
+                        <option value="PROCESADO">Procesados</option>
+                        <option value="RECHAZADO">Rechazados</option>
+                    </select>
+                </div>
 
+                <div>
+                    <label><b>Seleccione un voucher</b></label>
+                    <select name="solicitud">
+                        <option value="">Seleccione un voucher</option>
+                        { }
+                    </select>
+                </div>
 
-            <button>Validar Inicialmente</button>
-            <button>Rechazar</button>
+                <button onClick={handleFiltrar()}>Filtrar</button>
+            </div>
 
-            <h2>Datos del Voucher para la validación del Pago a cuenta financiera universitaria</h2>
+            <h2>Proceso de validacion de voucher y creacion de pago</h2>
+            <h3>Voucher seleccionado:</h3>
+            <div>
+                <label>Nombre del Banco:&nbsp;<b></b></label>
+                &nbsp;
+                &nbsp;
+                <label>Numero de Operacion:&nbsp;<b></b></label>
+                &nbsp;
+                &nbsp;
+                <label>Fecha de Operacion:&nbsp;<b></b></label>
+                &nbsp;
+                &nbsp;
+                <label>Importe:&nbsp;<b></b></label>
+                &nbsp;
+                &nbsp;
+                <label>Estado:&nbsp;<b></b></label>
+                &nbsp;
+                &nbsp;
+                <label>Imagen del Voucher:</label>
+                &nbsp;
+                <img src="" alt="" />
+            </div>
+
+            <h3>Procesar datos</h3>
             <form action="">
                 <h3>Datos de Pago</h3>
                 <div>

@@ -99,8 +99,51 @@ public class VoucherController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/anio/{anio}")
-    public ResponseEntity<List<Voucher>> listarPorAnio(@PathVariable int anio) {
-        return ResponseEntity.ok(voucherService.listarPorAnio(anio));
+    @GetMapping("/porCuentaFinanciera/{idCuentaFinanciera}")
+    public ResponseEntity<List<Voucher>> obtenerPorCuentaFinanciera(@PathVariable Long idCuentaFinanciera) {
+        return ResponseEntity.ok(voucherService.obtenerPorCuentaFinanciera(idCuentaFinanciera));
+    }
+
+    @GetMapping("/buscar/{idCuentaFinanciera}/{anio}")
+    public ResponseEntity<List<Voucher>> buscarPorCuentaYAnio(
+            @PathVariable Long idCuentaFinanciera,
+            @PathVariable int anio) {
+        return ResponseEntity.ok(voucherService.buscarPorCuentaYAnio(idCuentaFinanciera, anio));
+    }
+
+    @PostMapping(value = "/cuenta/{idCuentaFinanciera}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Voucher> guardarVoucherParaCuentaFinanciera(
+            @PathVariable Long idCuentaFinanciera,
+            @ModelAttribute Voucher voucher,
+            @RequestParam("file") MultipartFile voucherURL
+    ) {
+        if (!voucherURL.isEmpty()) {
+            // Define el directorio donde se guardarán las imágenes
+            Path directorioImagenes = Paths.get("src//main//resources//static/images");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+            try {
+                // Guardar el archivo en la ruta especificada
+                byte[] bytesImg = voucherURL.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + voucherURL.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImg);
+
+                // Establecer la URL del archivo en el voucher
+                voucher.setVoucherURL(voucherURL.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.internalServerError().build();
+            }
+        }
+
+        // Asociar el voucher con la cuenta financiera y guardar
+        Voucher nuevoVoucher = voucherService.crearVoucherParaCuentaFinanciera(idCuentaFinanciera, voucher);
+
+        return ResponseEntity.ok(nuevoVoucher);
+    }
+
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<Voucher>> buscarPorEstado(@PathVariable String estado) {
+        return ResponseEntity.ok(voucherService.buscarPorEstado(estado));
     }
 }

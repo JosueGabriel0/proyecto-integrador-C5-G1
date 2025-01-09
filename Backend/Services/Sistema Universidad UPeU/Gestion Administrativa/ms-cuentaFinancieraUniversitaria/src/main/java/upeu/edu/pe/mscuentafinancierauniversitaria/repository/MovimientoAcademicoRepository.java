@@ -11,7 +11,6 @@ import java.util.List;
 public interface MovimientoAcademicoRepository extends JpaRepository<MovimientoAcademico, Long> {
     List<MovimientoAcademico> findByCuentaFinancieraIdCuentaFinanciera(Long idCuentaFinanciera);
 
-    // Alternativamente, puedes usar una consulta más precisa con un rango de fechas
     List<MovimientoAcademico> findByCuentaFinancieraIdCuentaFinancieraAndFechaBetween(
             Long idCuentaFinanciera, LocalDate startDate, LocalDate endDate);
 }

@@ -6,11 +6,12 @@ function ListVouchersComponent(){
 
     const [vouchers, setVouchers] = useState([]);
 
-    const { anioSeleccionado } = useParams();
+    const { idCuentaFinanciera, anioSeleccionado } = useParams();
 
-    function listarVouchersPorAnio(anio){
+    function listarVouchersPorCuentaYAnio(idCuentaFinanciera, anio){
+        console.log("Este es el idCuentaFinanciera: "+ idCuentaFinanciera)
         console.log("Este es el anio: " + anio);
-        VoucherService.getVoucherByYear(anio).then((response) => {
+        VoucherService.getVoucherByCuentaYAnio(idCuentaFinanciera, anio).then((response) => {
             setVouchers(response.data);
             console.log(response.data)
         }).catch((error) => {
@@ -19,13 +20,14 @@ function ListVouchersComponent(){
     }
 
     useEffect(() => {
-        listarVouchersPorAnio(anioSeleccionado);
+        listarVouchersPorCuentaYAnio(idCuentaFinanciera, anioSeleccionado);
     }, [])
 
     return(
         <div>
+            <Link to="/estado-financiero">Retroceder</Link>
             <h2>Mis voucher adjuntos: </h2>
-            <Link to="/add-voucher">Agregar Nuevo</Link>
+            <Link to={`/add-voucher/${idCuentaFinanciera}/${anioSeleccionado}`}>Agregar Nuevo</Link>
             <table>
                 <thead>
                     <tr>
@@ -48,7 +50,6 @@ function ListVouchersComponent(){
                         vouchers.map((voucher) => {
                             return(
                                 <tr key={voucher.idVoucher}>
-                                    <td>{voucher.idVoucher}</td>
                                     <td>{voucher.nombreBanco}</td>
                                     <td>{voucher.numeroDeOperacion}</td>
                                     <td>{voucher.fechaDeOperacion}</td>

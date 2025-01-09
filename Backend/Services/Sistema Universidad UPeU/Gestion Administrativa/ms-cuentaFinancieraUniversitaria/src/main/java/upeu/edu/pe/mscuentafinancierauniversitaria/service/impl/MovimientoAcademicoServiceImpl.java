@@ -5,19 +5,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.mscuentafinancierauniversitaria.dto.Pago;
+import upeu.edu.pe.mscuentafinancierauniversitaria.entity.CuentaFinanciera;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.MovimientoAcademico;
-import upeu.edu.pe.mscuentafinancierauniversitaria.entity.Voucher;
 import upeu.edu.pe.mscuentafinancierauniversitaria.exception.ResourceNotFoundException;
 import upeu.edu.pe.mscuentafinancierauniversitaria.feign.PagoFeign;
+import upeu.edu.pe.mscuentafinancierauniversitaria.repository.CuentaFinancieraRepository;
 import upeu.edu.pe.mscuentafinancierauniversitaria.repository.MovimientoAcademicoRepository;
 import upeu.edu.pe.mscuentafinancierauniversitaria.service.MovimientoAcademicoService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovimientoAcademicoServiceImpl implements MovimientoAcademicoService {
 
+    @Autowired
+    private CuentaFinancieraRepository cuentaFinancieraRepository;
     @Autowired
     private MovimientoAcademicoRepository movimientoAcademicoRepository;
 
@@ -85,5 +89,23 @@ public class MovimientoAcademicoServiceImpl implements MovimientoAcademicoServic
         LocalDate startDate = LocalDate.of(anio, 1, 1);
         LocalDate endDate = LocalDate.of(anio, 12, 31);
         return movimientoAcademicoRepository.findByCuentaFinancieraIdCuentaFinancieraAndFechaBetween(idCuentaFinanciera, startDate, endDate);
+    }
+
+    @Override
+    public MovimientoAcademico crearMovimientoAcademicoParaCuentaFinanciera(Long idCuentaFinanciera, MovimientoAcademico movimientoAcademico) {
+        // Buscar la cuenta financiera por ID
+        Optional<CuentaFinanciera> cuentaFinancieraOptional = cuentaFinancieraRepository.findById(idCuentaFinanciera);
+
+        if (cuentaFinancieraOptional.isPresent()) {
+            CuentaFinanciera cuentaFinanciera = cuentaFinancieraOptional.get();
+
+            // Asociar el voucher con la cuenta financiera
+            movimientoAcademico.setCuentaFinanciera(cuentaFinanciera);
+
+            // Guardar el movimiento academico
+            return movimientoAcademicoRepository.save(movimientoAcademico);
+        } else {
+            throw new RuntimeException("Movimiento Academico no encontrado con el ID: " + idCuentaFinanciera);
+        }
     }
 }

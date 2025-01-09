@@ -73,9 +73,29 @@ class VoucherService {
         );
     }
 
-    getVoucherByYear(anio){
+    getVoucherByCuentaFinanciera(idCuentaFinanciera){
         return(
-            axios.get(VOUCHER_DATABASE_REST_API_URL + "/anio/" + anio, {
+            axios.get(VOUCHER_DATABASE_REST_API_URL + "/porCuentaFinanciera/" + idCuentaFinanciera, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            })
+        );
+    }
+
+    getVoucherByCuentaYAnio(idCuentaFinanciera, anio){
+        return(
+            axios.get(VOUCHER_DATABASE_REST_API_URL + "/buscar/" + idCuentaFinanciera + "/" + anio, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            })
+        );
+    }
+
+    postVoucherToCuentaFinanciera(idCuentaFinanciera, voucher){
+        return(
+            axios.post(VOUCHER_DATABASE_REST_API_URL + "/cuenta/" + idCuentaFinanciera, voucher, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }

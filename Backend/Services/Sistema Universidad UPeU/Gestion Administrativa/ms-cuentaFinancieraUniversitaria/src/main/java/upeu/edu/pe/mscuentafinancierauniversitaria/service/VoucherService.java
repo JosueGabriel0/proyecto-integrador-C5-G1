@@ -10,5 +10,8 @@ public interface VoucherService {
     public Voucher crear(Voucher voucher);
     public Voucher actualizar(Voucher voucher);
     public void eliminar(Long id);
-    public List<Voucher> listarPorAnio(int anio);
+    public List<Voucher> obtenerPorCuentaFinanciera(Long idCuentaFinanciera);
+    public List<Voucher> buscarPorCuentaYAnio(Long idCuentaFinanciera, int anio);
+    public Voucher crearVoucherParaCuentaFinanciera(Long idCuentaFinanciera, Voucher voucher);
+    public List<Voucher> buscarPorEstado(String estado);
 }

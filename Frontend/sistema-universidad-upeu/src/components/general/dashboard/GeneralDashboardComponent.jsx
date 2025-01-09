@@ -31,7 +31,7 @@ function GeneralDashboardComponent({ titulo = "Dshboard" }) {
         <div>
           <section style={{ marginTop: "20px" }}>
             <h2>Acciones</h2>
-            <Link to="/validacion-pagos">Validar Pago a cuenta financiera universitaria</Link>
+            <Link to="/validacion-pagos">Validar Voucher a Pago</Link>
           </section>
         </div>
       )

@@ -241,7 +241,7 @@ function EstadoFinancieroComponent() {
             <div>
                 <h4>Depositar:</h4>
                 <Link to="/">DEPOSITE AQUI</Link>&nbsp;&nbsp;
-                <Link to={`/list-vouchers/${filtroAnio}`}>VOUCHER DE DEPOSITO</Link>
+                <Link to={`/list-vouchers/${idCuentaFinanciera}/${filtroAnio}`}>VOUCHER DE DEPOSITO</Link>
             </div>
 
             <div>
