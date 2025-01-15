@@ -44,6 +44,16 @@ class CuentaFinancieraService {
             }
         });
     }
+
+    getCuentaFinancieraByVoucher(idVoucher){
+        return(
+            axios.get(CUENTAFINANCIERA_BASE_REST_API_URL + "/porVoucher/" + idVoucher, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            })
+        )
+    }
 }
 
 export default new CuentaFinancieraService();

@@ -36,15 +36,15 @@ public class Boleta {
     private String codigoProductoServicio;
     private String descripcionProductoServicio;
     private String unidadDeMedida;
-    private BigDecimal cantidad;
+    private Integer cantidad;
     private BigDecimal valorUnitario;
     private BigDecimal valorDescuento;
     private BigDecimal valorTotal;
 
-    private BigDecimal operacionGravada;
-    private BigDecimal operacionInafecta;
-    private BigDecimal operacionExonerada;
-    private BigDecimal operacionGratuita;
+    private Boolean operacionGravada;
+    private Boolean operacionInafecta;
+    private Boolean operacionExonerada;
+    private Boolean operacionGratuita;
     private BigDecimal descuentosTotales;
     private BigDecimal igv;
     private BigDecimal precioVentaTotal;

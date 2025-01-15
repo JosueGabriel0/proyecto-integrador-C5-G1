@@ -37,4 +37,9 @@ public class CuentaFinancieraServiceImpl implements CuentaFinancieraService {
     public void eliminar(Long id) {
         cuentaFinancieraRepository.deleteById(id);
     }
+
+    @Override
+    public CuentaFinanciera buscarPorVoucher(Long id){
+        return cuentaFinancieraRepository.findByVouchersIdVoucher(id);
+    }
 }

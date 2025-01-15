@@ -6,4 +6,5 @@ import upeu.edu.pe.mscuentafinancierauniversitaria.entity.CuentaFinanciera;
 
 @Repository
 public interface CuentaFinancieraRepository extends JpaRepository<CuentaFinanciera, Long> {
+    CuentaFinanciera findByVouchersIdVoucher(Long idVoucher);
 }

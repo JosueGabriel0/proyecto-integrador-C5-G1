@@ -102,6 +102,16 @@ class VoucherService {
             })
         );
     }
+
+    getVoucherByEstado(estado){
+        return(
+            axios.get(VOUCHER_DATABASE_REST_API_URL + "/estado/" + estado, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            })
+        );
+    }
 }
 
 export default new VoucherService();

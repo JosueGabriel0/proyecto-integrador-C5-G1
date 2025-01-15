@@ -55,15 +55,15 @@ public class PagoDataLoader implements CommandLineRunner {
             boleta1.setCodigoProductoServicio("MAT001");
             boleta1.setDescripcionProductoServicio("Matrícula universitaria");
             boleta1.setUnidadDeMedida("Servicio");
-            boleta1.setCantidad(BigDecimal.ONE);
+            boleta1.setCantidad(1);
             boleta1.setValorUnitario(BigDecimal.valueOf(1000.00));
             boleta1.setValorDescuento(BigDecimal.valueOf(0.00));
             boleta1.setValorTotal(BigDecimal.valueOf(1000.00));
 
-            boleta1.setOperacionGravada(BigDecimal.valueOf(1000.00));
-            boleta1.setOperacionInafecta(BigDecimal.ZERO);
-            boleta1.setOperacionExonerada(BigDecimal.ZERO);
-            boleta1.setOperacionGratuita(BigDecimal.ZERO);
+            boleta1.setOperacionGravada(true);
+            boleta1.setOperacionInafecta(true);
+            boleta1.setOperacionExonerada(true);
+            boleta1.setOperacionGratuita(true);
             boleta1.setDescuentosTotales(BigDecimal.valueOf(0.00));
             boleta1.setIgv(BigDecimal.valueOf(200.00));
             boleta1.setPrecioVentaTotal(BigDecimal.valueOf(1200.00));
@@ -88,15 +88,15 @@ public class PagoDataLoader implements CommandLineRunner {
             factura1.setCodigoProductoServicio("MAT002");
             factura1.setDescripcionProductoServicio("Matrícula corporativa");
             factura1.setUnidadDeMedida("Servicio");
-            factura1.setCantidad(BigDecimal.ONE);
+            factura1.setCantidad(1);
             factura1.setValorUnitario(BigDecimal.valueOf(2000.00));
             factura1.setValorDescuento(BigDecimal.valueOf(0.00));
             factura1.setValorTotal(BigDecimal.valueOf(2000.00));
 
-            factura1.setOperacionGravada(BigDecimal.valueOf(2000.00));
-            factura1.setOperacionInafecta(BigDecimal.ZERO);
-            factura1.setOperacionExonerada(BigDecimal.ZERO);
-            factura1.setOperacionGratuita(BigDecimal.ZERO);
+            factura1.setOperacionGravada(true);
+            factura1.setOperacionInafecta(true);
+            factura1.setOperacionExonerada(true);
+            factura1.setOperacionGratuita(true);
             factura1.setDescuentosTotales(BigDecimal.valueOf(0.00));
             factura1.setIgv(BigDecimal.valueOf(360.00));
             factura1.setPrecioVentaTotal(BigDecimal.valueOf(2360.00));

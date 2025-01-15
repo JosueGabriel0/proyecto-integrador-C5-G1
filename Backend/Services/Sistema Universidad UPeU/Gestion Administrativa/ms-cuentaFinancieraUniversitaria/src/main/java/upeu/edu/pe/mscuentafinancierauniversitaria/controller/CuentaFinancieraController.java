@@ -41,4 +41,9 @@ public class CuentaFinancieraController {
         cuentaFinancieraService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/porVoucher/{idVoucher}")
+    public ResponseEntity<CuentaFinanciera> buscarPorVoucher(@PathVariable Long idVoucher) {
+        return ResponseEntity.ok(cuentaFinancieraService.buscarPorVoucher(idVoucher));
+    }
 }

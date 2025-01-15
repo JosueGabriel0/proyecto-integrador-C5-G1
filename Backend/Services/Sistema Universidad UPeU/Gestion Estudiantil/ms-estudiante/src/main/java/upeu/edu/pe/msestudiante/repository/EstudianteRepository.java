@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface EstudianteRepository extends JpaRepository<Estudiante, Long> {
     @Query("SELECT e FROM Estudiante e LEFT JOIN FETCH e.historialAcademico")
     List<Estudiante> findAllWithHistorial();
+    Estudiante findByIdCuentaFinanciera(Long idCuentaFinanciera);
 }

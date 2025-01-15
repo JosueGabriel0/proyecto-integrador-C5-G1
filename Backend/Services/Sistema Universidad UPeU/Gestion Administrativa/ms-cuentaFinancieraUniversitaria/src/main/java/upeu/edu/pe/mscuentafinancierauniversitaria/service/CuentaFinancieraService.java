@@ -10,4 +10,5 @@ public interface CuentaFinancieraService {
     public CuentaFinanciera crear(CuentaFinanciera cuentaFinanciera);
     public CuentaFinanciera actualizar(CuentaFinanciera cuentaFinanciera);
     public void eliminar(Long id);
+    public CuentaFinanciera buscarPorVoucher(Long id);
 }

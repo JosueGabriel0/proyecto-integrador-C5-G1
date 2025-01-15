@@ -15,4 +15,6 @@ public interface EstudianteService {
     public Estudiante editarEstudiante(Estudiante Estudiante);
 
     public void eliminarEstudiante(Long id);
+
+    public Estudiante buscarPorCuentaFinanciera(Long id);
 }

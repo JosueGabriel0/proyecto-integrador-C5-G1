@@ -43,6 +43,16 @@ class EstudianteService{
             }
         });
     }
+
+    getEstudianteByCuentaFinanciera(idCuentaFinanciera){
+        return(
+            axios.get(ESTUDIANTE_BASE_REST_API_URL + "/cuentaFinanciera/" + idCuentaFinanciera, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                }
+            })
+        );
+    }
 }
 
 export default new EstudianteService();

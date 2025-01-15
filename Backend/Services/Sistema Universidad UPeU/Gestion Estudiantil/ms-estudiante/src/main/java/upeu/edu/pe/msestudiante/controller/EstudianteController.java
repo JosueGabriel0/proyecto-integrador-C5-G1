@@ -75,4 +75,9 @@ public class EstudianteController {
         estudianteService.eliminarEstudiante(id);
         return "Estudiante eliminado";
     }
+
+    @GetMapping("/cuentaFinanciera/{idCuentaFinanciera}")
+    public ResponseEntity<Estudiante> buscarEstudiantePorCuentaFinanciera(@PathVariable( required = true) Long idCuentaFinanciera){
+        return ResponseEntity.ok(estudianteService.buscarPorCuentaFinanciera(idCuentaFinanciera));
+    }
 }

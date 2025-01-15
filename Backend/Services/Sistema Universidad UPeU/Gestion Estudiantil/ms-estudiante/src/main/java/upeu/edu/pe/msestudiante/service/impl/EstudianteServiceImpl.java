@@ -126,4 +126,9 @@ public class EstudianteServiceImpl implements EstudianteService {
     public void eliminarEstudiante(Long id) {
         estudianteRepository.deleteById(id);
     }
+
+    @Override
+    public Estudiante buscarPorCuentaFinanciera(Long id){
+        return estudianteRepository.findByIdCuentaFinanciera(id);
+    }
 }
