@@ -60,10 +60,10 @@ public class PagoDataLoader implements CommandLineRunner {
             boleta1.setValorDescuento(BigDecimal.valueOf(0.00));
             boleta1.setValorTotal(BigDecimal.valueOf(1000.00));
 
-            boleta1.setOperacionGravada(true);
-            boleta1.setOperacionInafecta(true);
-            boleta1.setOperacionExonerada(true);
-            boleta1.setOperacionGratuita(true);
+            boleta1.setOperacionGravada(BigDecimal.valueOf(1000.00));
+            boleta1.setOperacionInafecta(BigDecimal.valueOf(0.00));
+            boleta1.setOperacionExonerada(BigDecimal.valueOf(0.00));
+            boleta1.setOperacionGratuita(BigDecimal.valueOf(0.00));
             boleta1.setDescuentosTotales(BigDecimal.valueOf(0.00));
             boleta1.setIgv(BigDecimal.valueOf(200.00));
             boleta1.setPrecioVentaTotal(BigDecimal.valueOf(1200.00));
@@ -93,10 +93,10 @@ public class PagoDataLoader implements CommandLineRunner {
             factura1.setValorDescuento(BigDecimal.valueOf(0.00));
             factura1.setValorTotal(BigDecimal.valueOf(2000.00));
 
-            factura1.setOperacionGravada(true);
-            factura1.setOperacionInafecta(true);
-            factura1.setOperacionExonerada(true);
-            factura1.setOperacionGratuita(true);
+            factura1.setOperacionGravada(BigDecimal.valueOf(2000.00));
+            factura1.setOperacionInafecta(BigDecimal.valueOf(0.00));
+            factura1.setOperacionExonerada(BigDecimal.valueOf(0.00));
+            factura1.setOperacionGratuita(BigDecimal.valueOf(0.00));
             factura1.setDescuentosTotales(BigDecimal.valueOf(0.00));
             factura1.setIgv(BigDecimal.valueOf(360.00));
             factura1.setPrecioVentaTotal(BigDecimal.valueOf(2360.00));

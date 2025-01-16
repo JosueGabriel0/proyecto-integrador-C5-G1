@@ -42,10 +42,10 @@ public class Factura {
     private BigDecimal valorDescuento;
     private BigDecimal valorTotal;
 
-    private Boolean operacionGravada;
-    private Boolean operacionInafecta;
-    private Boolean operacionExonerada;
-    private Boolean operacionGratuita;
+    private BigDecimal operacionGravada;
+    private BigDecimal operacionInafecta;
+    private BigDecimal operacionExonerada;
+    private BigDecimal operacionGratuita;
     private BigDecimal descuentosTotales;
     private BigDecimal igv;
     private BigDecimal precioVentaTotal;

@@ -15,7 +15,11 @@ public interface PagoService {
 
     public void eliminarPago(Long id);
 
+    public boolean isOtherOperationsZeroBoleta(Boleta boleta);
+
     public void crearPagoConBoleta(PagoBoletaRequest pagoBoletaRequest);
+
+    public boolean isOtherOperationsZeroFactura(Factura factura);
 
     public void crearPagoConFactura(PagoFacturaRequest pagoFacturaRequest);
 }

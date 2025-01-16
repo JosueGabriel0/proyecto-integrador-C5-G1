@@ -1,5 +1,6 @@
 package upeu.edu.pe.mscuentafinancierauniversitaria.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.mscuentafinancierauniversitaria.entity.CuentaFinanciera;
@@ -77,6 +78,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    @Transactional
     public List<Voucher> buscarPorEstado(String estado){
         return voucherRepository.findByEstado(estado);
     }
