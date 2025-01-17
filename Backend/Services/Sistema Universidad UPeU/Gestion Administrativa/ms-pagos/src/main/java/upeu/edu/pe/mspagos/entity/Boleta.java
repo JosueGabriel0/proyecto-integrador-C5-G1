@@ -8,6 +8,7 @@ import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -50,4 +51,17 @@ public class Boleta {
     private BigDecimal precioVentaTotal;
 
     private String boletaUrl;
+
+    private LocalDateTime fechaCreacionBoleta;
+    private LocalDateTime fechaModificacionBoleta;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionBoleta = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionBoleta = java.time.LocalDateTime.now();
+    }
 }

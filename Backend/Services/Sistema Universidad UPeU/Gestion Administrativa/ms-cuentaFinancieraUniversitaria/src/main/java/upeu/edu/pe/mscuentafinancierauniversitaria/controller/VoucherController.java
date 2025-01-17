@@ -69,12 +69,13 @@ public class VoucherController {
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
             try {
                 byte[] bytesImg = voucherURL.getBytes();
-                Path rutaCompleta = Paths.get("src//main//resources//static/images");
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + voucherURL.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImg);
 
                 voucher.setVoucherURL(voucherURL.getOriginalFilename());
             } catch (IOException e) {
                 e.printStackTrace();
+                return ResponseEntity.internalServerError().build();
             }
         }
 

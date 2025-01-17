@@ -41,6 +41,20 @@ public class PagoController {
         }
     }
 
+    @PutMapping("/pagoConComprobante/{idPago}")
+    public ResponseEntity<String> actualizarPagoConComprobante(
+            @PathVariable Long idPago,
+            @RequestBody PagoRequest pagoRequest) {
+        try {
+            pagoService.actualizarPagoConComprobante(idPago, pagoRequest);
+            return ResponseEntity.ok("El pago y su comprobante fueron actualizados correctamente.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al actualizar el pago.");
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Pago> guardarPagoResponseEntity(@RequestBody Pago pago){
         return ResponseEntity.ok(pagoService.guardarPago(pago));

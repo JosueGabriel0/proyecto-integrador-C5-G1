@@ -8,6 +8,7 @@ import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -51,4 +52,17 @@ public class Factura {
     private BigDecimal precioVentaTotal;
 
     private String facturaUrl;
+
+    private LocalDateTime fechaCreacionFactura;
+    private LocalDateTime fechaModificacionFactura;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionFactura = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionFactura = java.time.LocalDateTime.now();
+    }
 }

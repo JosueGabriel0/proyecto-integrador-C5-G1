@@ -8,6 +8,7 @@ import upeu.edu.pe.mspagos.dto.Estudiante;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -35,4 +36,17 @@ public class Pago {
     private Boleta boleta;
 
     private LocalDate fechaPago;
+
+    private LocalDateTime fechaCreacionPago;
+    private LocalDateTime fechaModificacionPago;
+
+    @PrePersist
+    public void onCreate(){
+        fechaCreacionPago = java.time.LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        fechaModificacionPago = java.time.LocalDateTime.now();
+    }
 }

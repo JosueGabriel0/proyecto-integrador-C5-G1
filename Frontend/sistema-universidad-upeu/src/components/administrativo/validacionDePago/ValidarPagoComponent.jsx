@@ -3,6 +3,8 @@ import VoucherService from '../../../services/cuentaFinancieraServices/VoucherSe
 import EstudianteService from "../../../services/estudianteServices/estudiante/EstudianteService";
 import CuentaFinancieraService from "../../../services/cuentaFinancieraServices/CuentaFinancieraService";
 import PersonaService from "../../../services/personaServices/PersonaService";
+import PagoService from "../../../services/pagoServices/PagoService";
+import { useNavigate } from "react-router-dom";
 
 function ValidarPagoComponent() {
     // Estado para gestionar la selección entre boleta o factura
@@ -30,6 +32,8 @@ function ValidarPagoComponent() {
     const [descripcion, setDescripcion] = useState("");
     const [idEstudiante, setIdEstudiante] = useState("");
     const [estudiantePago, setEstudiantePago] = useState("");
+    const fechaActualParaPago = new Date().toISOString().split("T")[0];
+    const [fechaPago, setFechaPago] = useState(fechaActualParaPago);
 
     //Datos de Boleta
     const [nombreClienteBoleta, setNombreClienteBoleta] = useState("");
@@ -86,18 +90,157 @@ function ValidarPagoComponent() {
     const [precioVentaTotalFactura, setPrecioVentaTotalFactura] = useState("");
     const [facturaUrl, setFacturaUrl] = useState("");
 
+    //React Router Dom
+    const navigate = useNavigate();
+
     // Función que se ejecutará cuando el usuario cambie la selección
     const handleSelectChange = (e) => {
         setSeleccion(e.target.value);
     };
 
-    function voucherProcesadoConBoleta() {
+    async function cambiarDeEstadoVoucher(estadoVoucher) {
+        const formData = new FormData();
+
+        formData.append("nombreBanco", nombreBanco);
+        formData.append("numeroDeOperacion", numeroDeOperacion);
+        formData.append("fechaDeOperacion", fechaDeOperacion);
+        formData.append("importe", importe);
+        formData.append("estado", estadoVoucher);
+
+        try {
+            const objectURL = await VoucherService.getVoucherImagen(voucherURL);
+            // Obtener la imagen como Blob usando fetch
+            const response = await fetch(objectURL); // voucherURL ahora es un Object URL
+
+            // Convertir la respuesta en un Blob
+            const imagenBlob = await response.blob();
+
+            // Crear un archivo a partir del Blob
+            const imagenFile = new File([imagenBlob], "imagen-obtenida.jpg", {
+                type: imagenBlob.type, // Mantener el tipo MIME original
+            });
+
+            // Agregar el archivo al FormData
+            formData.append("file", imagenFile);
+        } catch (error) {
+            console.error("Error al obtener o procesar la imagen:", error);
+            return; // Salir si hubo un error
+        }
+
+        // Enviar el FormData al backend
+        try {
+            const result = await VoucherService.putVoucher(idVoucher, formData);
+            console.log(result.data);
+        } catch (error) {
+            console.error("Error al enviar el formulario:", error);
+        }
     }
 
-    function voucherInicialmenteProcesado() {
+    function voucherProcesadoConBoleta(e) {
+        e.preventDefault();
+
+        cambiarDeEstadoVoucher("PROCESADO");
+
+        const pagoConBoleta = {
+            pago: {
+                montoTotal,
+                metodoDePago,
+                medioDePago,
+                estado: estadoPago,
+                descripcion,
+                idEstudiante,
+                fechaPago
+            },
+            boleta: {
+                nombreCliente: nombreClienteBoleta,
+                documentoDeIdentidad: documentoDeIdentidadBoleta,
+                direccion: direccionBoleta,
+                numeroBoleta,
+                fechaEmision: fechaEmisionBoleta,
+                descripcionBoleta,
+                tipoDocumento: tipoDocumentoBoleta,
+                sucursal: sucursalBoleta,
+                organizacionDeVentas: organizacionDeVentasBoleta,
+                tipoMoneda: tipoMonedaBoleta,
+                codigoProductoServicio: codigoProductoServicioBoleta,
+                descripcionProductoServicio: descripcionProductoServicioBoleta,
+                unidadDeMedida: unidadDeMedidaBoleta,
+                cantidad: cantidadBoleta,
+                valorUnitario: valorUnitarioBoleta,
+                valorDescuento: valorDescuentoBoleta,
+                operacionGravada: operacionGravadaBoleta,
+                operacionInafecta: operacionInafectaBoleta,
+                operacionExonerada: operacionExoneradaBoleta,
+                operacionGratuita: operacionGratuitaBoleta
+            }
+        }
+
+        PagoService.postPagoConBoleta(pagoConBoleta).then((response) => {
+            console.log(response.data);
+            navigate("/validacion-pagos");
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
-    function voucherRechazado() {
+    function voucherProcesadoConFactura(e) {
+        e.preventDefault();
+
+        cambiarDeEstadoVoucher("PROCESADO");
+
+        const pagoConFactura = {
+            pago: {
+                montoTotal,
+                metodoDePago,
+                medioDePago,
+                estado: estadoPago,
+                descripcion,
+                idEstudiante,
+                fechaPago
+            },
+            factura: {
+                nombreCliente: nombreClienteFactura,
+                documentoDeIdentidad: documentoDeIdentidadFactura,
+                direccion: direccionFactura,
+                numeroFactura,
+                fechaEmision: fechaEmisionFactura,
+                descripcionFactura,
+                tipoDocumento: tipoDocumentoFactura,
+                sucursal: sucursalFactura,
+                organizacionDeVentas: organizacionDeVentasFactura,
+                tipoMoneda: tipoMonedaFactura,
+                estadoFactura,
+                codigoProductoServicio: codigoProductoServicioFactura,
+                descripcionProductoServicio: descripcionProductoServicioFactura,
+                unidadDeMedida: unidadDeMedidaFactura,
+                cantidad: cantidadFactura,
+                valorUnitario: valorUnitarioFactura,
+                valorDescuento: valorDescuentoFactura,
+                operacionGravada: operacionGravadaFactura,
+                operacionInafecta: operacionInafectaFactura,
+                operacionExonerada: operacionExoneradaFactura,
+                operacionGratuita: operacionGratuitaFactura
+            }
+        }
+
+        PagoService.postPagoConFactura(pagoConFactura).then((response) => {
+            console.log(response.data);
+            navigate("/validacion-pagos");
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    function voucherInicialmenteProcesado(e) {
+        e.preventDefault();
+        cambiarDeEstadoVoucher("VERIFICADO");
+        navigate("/validacion-pagos");
+    }
+
+    async function voucherRechazado(e) {
+        e.preventDefault();
+        await cambiarDeEstadoVoucher("RECHAZADO")
+        navigate("/validacion-pagos");
     }
 
     function boletaForm() {
@@ -207,9 +350,7 @@ function ValidarPagoComponent() {
                         <img src="" alt="" />
                     </div>
 
-                    <button>Validar voucher con boleta (Procesado)</button>
-                    <button>Validar Inicialmente (Verificado)</button>
-                    <button>Rechazar(Rechazado)</button>
+                    <button onClick={(e) => voucherProcesadoConBoleta(e)}>Validar voucher con boleta (Procesado)</button>
                 </form>
             </div>
         );
@@ -326,9 +467,7 @@ function ValidarPagoComponent() {
                         <img src="" alt="" />
                     </div>
 
-                    <button>Validar voucher con factura (Procesado)</button>
-                    <button>Validar Inicialmente (Verificado)</button>
-                    <button>Rechazar(Rechazado)</button>
+                    <button onClick={(e) => voucherProcesadoConFactura(e)}>Validar voucher con factura (Procesado)</button>
                 </form>
             </div>
         );
@@ -532,6 +671,9 @@ function ValidarPagoComponent() {
                         <option value="factura">Factura</option>
                     </select>
                 </div>
+
+                <button onClick={(e) => voucherInicialmenteProcesado(e)}>Validar Inicialmente (Verificado)</button>
+                <button onClick={(e) => voucherRechazado(e)}>Rechazar(Rechazado)</button>
             </form>
 
             {/* Renderizar el formulario según la selección */}

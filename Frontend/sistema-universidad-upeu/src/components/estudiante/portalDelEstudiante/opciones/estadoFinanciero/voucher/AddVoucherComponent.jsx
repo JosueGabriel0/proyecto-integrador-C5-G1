@@ -28,6 +28,8 @@ function AddVoucherComponent() {
         if(voucherURL){
             formData.append("file", voucherURL)
         }
+
+        
         VoucherService.postVoucherToCuentaFinanciera(idCuentaFinanciera, formData).then((response) => {
             console.log(response.data);
             navigate(`/list-vouchers/${idCuentaFinanciera}/${anioSeleccionado}`);
