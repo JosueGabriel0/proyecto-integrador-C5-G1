@@ -64,7 +64,7 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             voucher1.setNumeroDeOperacion("12345");
             voucher1.setFechaDeOperacion(LocalDate.of(2023, 12, 1));
             voucher1.setImporte(BigDecimal.valueOf(1000.00));
-            voucher1.setEstado("En proceso");
+            voucher1.setEstado("REGISTRADO");
             voucher1.setVoucherURL("Voucher1.png");
             voucher1.setCuentaFinanciera(cuenta1);
 
@@ -100,7 +100,7 @@ public class CuentaFinancieraDataLoader implements CommandLineRunner {
             voucher2.setNumeroDeOperacion("12345");
             voucher2.setFechaDeOperacion(LocalDate.of(2023, 12, 1));
             voucher2.setImporte(BigDecimal.valueOf(1000.00));
-            voucher2.setEstado("En proceso");
+            voucher2.setEstado("REGISTRADO");
             voucher2.setVoucherURL("Voucher1.png");
             voucher2.setCuentaFinanciera(cuenta2);
 

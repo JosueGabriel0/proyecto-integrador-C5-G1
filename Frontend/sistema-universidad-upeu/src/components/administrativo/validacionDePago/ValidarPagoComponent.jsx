@@ -116,7 +116,7 @@ function ValidarPagoComponent() {
             const imagenBlob = await response.blob();
 
             // Crear un archivo a partir del Blob
-            const imagenFile = new File([imagenBlob], "imagen-obtenida.jpg", {
+            const imagenFile = new File([imagenBlob], voucherURL, {
                 type: imagenBlob.type, // Mantener el tipo MIME original
             });
 
@@ -136,10 +136,10 @@ function ValidarPagoComponent() {
         }
     }
 
-    function voucherProcesadoConBoleta(e) {
+    async function voucherProcesadoConBoleta(e) {
         e.preventDefault();
 
-        cambiarDeEstadoVoucher("PROCESADO");
+        await cambiarDeEstadoVoucher("PROCESADO");
 
         const pagoConBoleta = {
             pago: {
@@ -175,18 +175,19 @@ function ValidarPagoComponent() {
             }
         }
 
-        PagoService.postPagoConBoleta(pagoConBoleta).then((response) => {
+        await PagoService.postPagoConBoleta(pagoConBoleta).then((response) => {
             console.log(response.data);
-            navigate("/validacion-pagos");
         }).catch((error) => {
             console.log(error);
         })
+
+        window.location.reload();
     }
 
-    function voucherProcesadoConFactura(e) {
+    async function voucherProcesadoConFactura(e) {
         e.preventDefault();
 
-        cambiarDeEstadoVoucher("PROCESADO");
+        await cambiarDeEstadoVoucher("PROCESADO");
 
         const pagoConFactura = {
             pago: {
@@ -223,24 +224,25 @@ function ValidarPagoComponent() {
             }
         }
 
-        PagoService.postPagoConFactura(pagoConFactura).then((response) => {
+        await PagoService.postPagoConFactura(pagoConFactura).then((response) => {
             console.log(response.data);
-            navigate("/validacion-pagos");
         }).catch((error) => {
             console.log(error);
         })
+
+        window.location.reload();
     }
 
-    function voucherInicialmenteProcesado(e) {
+    async function voucherInicialmenteProcesado(e) {
         e.preventDefault();
-        cambiarDeEstadoVoucher("VERIFICADO");
-        navigate("/validacion-pagos");
+        await cambiarDeEstadoVoucher("VERIFICADO");
+        window.location.reload();
     }
 
     async function voucherRechazado(e) {
         e.preventDefault();
         await cambiarDeEstadoVoucher("RECHAZADO")
-        navigate("/validacion-pagos");
+        window.location.reload();
     }
 
     function boletaForm() {
@@ -544,7 +546,9 @@ function ValidarPagoComponent() {
     }
 
     function buscarDatosDeLaPersona(idVoucher) {
+        console.log("Este es el id del Voucherr: " + idVoucher)
         CuentaFinancieraService.getCuentaFinancieraByVoucher(idVoucher).then((cuenta) => {
+            console.log("Este es el id de cuenta financiera: " + cuenta.data.idCuentaFinanciera)
             EstudianteService.getEstudianteByCuentaFinanciera(cuenta.data.idCuentaFinanciera).then((estudiante) => {
                 setIdEstudiante(estudiante.data.idEstudiante);
                 PersonaService.getPersonaById(estudiante.data.idPersona).then((persona) => {
